@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.ikki.tutortoise"
+    namespace = "com.tutortoise.tutortoise"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.ikki.tutortoise"
+        applicationId = "com.tutortoise.tutortoise"
         minSdk = 24
         targetSdk = 34
         versionCode = 1

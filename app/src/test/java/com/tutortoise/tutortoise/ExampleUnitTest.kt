@@ -1,4 +1,4 @@
-package com.ikki.tutortoise
+package com.tutortoise.tutortoise
 
 import org.junit.Test
 
