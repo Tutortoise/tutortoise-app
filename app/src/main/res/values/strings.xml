@@ -1,3 +1,21 @@
 <resources>
     <string name="app_name">Tutortoise</string>
+    <string name="logout">Log Out</string>
+
+    <!--    Onboarding-->
+    <string name="tutortoise">Tutortoise</string>
+    <string name="skip">Skip</string>
+    <string name="conti">Continue</string>
+
+    <string name="onboardingHeader1">Welcome to Tutortoise!</string>
+    <string name="onboardingText1">Learning\'s all about you! at your pace, in your style. Let\'s find the one that clicks with you!</string>
+    <string name="onboardingHeader2">Go with your own speed</string>
+    <string name="onboardingText2">We\'ve got tutors to teach at your own rhythm, around you! Slowly but surely you will meet your goals.</string>
+    <string name="onboardingHeader3">Only the best tutors for you</string>
+    <string name="onboardingText3">We\'ve got tutors who specialize in a range of subjects, teaching styles, and experience levels.</string>
+    <string name="onboardingHeader4">Join a Community of Learners!</string>
+    <string name="onboardingText4">You\'re not just finding a tutor\; you\'re joining a supportive community of lifelong learners. Let\'s take the first step together!</string>
+    <string name="loginRegisHeader">Let\'s get started!</string>
+    <string name="btnLogin">Login</string>
+    <string name="btnRegister">Register</string>
 </resources>

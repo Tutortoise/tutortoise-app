@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/onboardingFragment1">
+
+    <fragment
+        android:id="@+id/onboardingFragment1"
+        android:name="com.tutortoise.tutortoise.onboarding.OnboardingFragment1"
+        tools:layout="@layout/fragment_onboarding1">
+        <action
+            android:id="@+id/action_onboardingFragment1_to_onboardingFragment2"
+            app:destination="@id/onboardingFragment2" />
+        <action
+            android:id="@+id/action_onboardingFragment1_to_loginRegisterFragment"
+            app:destination="@id/loginRegisterFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/onboardingFragment2"
+        android:name="com.tutortoise.tutortoise.onboarding.OnboardingFragment2"
+        tools:layout="@layout/fragment_onboarding2">
+        <action
+            android:id="@+id/action_onboardingFragment2_to_onboardingFragment3"
+            app:destination="@id/onboardingFragment3" />
+        <action
+            android:id="@+id/action_onboardingFragment2_to_loginRegisterFragment"
+            app:destination="@id/loginRegisterFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/onboardingFragment3"
+        android:name="com.tutortoise.tutortoise.onboarding.OnboardingFragment3"
+        tools:layout="@layout/fragment_onboarding3">
+        <action
+            android:id="@+id/action_onboardingFragment3_to_onboardingFragment4"
+            app:destination="@id/onboardingFragment4" />
+        <action
+            android:id="@+id/action_onboardingFragment3_to_loginRegisterFragment"
+            app:destination="@id/loginRegisterFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/onboardingFragment4"
+        android:name="com.tutortoise.tutortoise.onboarding.OnboardingFragment4"
+        tools:layout="@layout/fragment_onboarding4">
+        <action
+            android:id="@+id/action_onboardingFragment4_to_loginRegisterFragment"
+            app:destination="@id/loginRegisterFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginRegisterFragment"
+        android:name="com.tutortoise.tutortoise.onboarding.LoginRegisterFragment"
+        tools:layout="@layout/fragment_login_register" />
+</navigation>
