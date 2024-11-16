@@ -1,8 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.Tutortoise" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-         <item name="colorPrimary">@color/darkgreen</item>
+        <!-- Primary brand color. -->
+        <item name="android:windowBackground">@color/white</item>
+        <item name="colorPrimary">@color/darkgreen</item>
+
+        <!-- Make status bar white -->
+        <item name="android:statusBarColor">@color/white</item>
+
+        <!-- Make status bar icons dark -->
+        <item name="android:windowLightStatusBar">true</item>
+
+        <!-- Enable AppCompat support -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="Theme.Tutortoise" parent="Base.Theme.Tutortoise" />

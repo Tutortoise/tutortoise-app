@@ -34,16 +34,26 @@ class OnboardingFragment4 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Set initial states
-        binding.appName.alpha = 0f
-        binding.appName.translationY = -50f
+        val previousDestination = findNavController().previousBackStackEntry?.destination?.id
 
-        // Start animations
-        animateTopBarComponents(true)
-        animateContentArea(true)
-
+        if (previousDestination == R.id.onboardingFragment3) {
+            // Only animate when coming from Fragment3
+            binding.appName.alpha = 0f
+            binding.appName.translationY = -50f
+            binding.contentLayout.alpha = 0f  // Set initial content opacity
+            animateTopBarComponents(true)
+            animateContentArea(true)
+        } else {
+            // Coming from loginRegisterFragment or initial load, set everything visible without animation
+            binding.appName.alpha = 1f
+            binding.appName.translationY = 0f
+            binding.contentLayout.alpha = 1f  // Make content immediately visible
+        }
 
         val sharedPref = requireActivity().getSharedPreferences("AppPreferences", AppCompatActivity.MODE_PRIVATE)
+
+        animateContentArea(true)
+
         val editor = sharedPref.edit()
         editor.putBoolean("isFirstRun", false)
         editor.apply()
@@ -73,11 +83,7 @@ class OnboardingFragment4 : Fragment() {
         indicators[3].animateIndicatorWidth(inactiveWidth, activeWidth)
 
         binding.continueButton.setOnClickListener {
-            indicators[3].animateIndicatorWidth(activeWidth, inactiveWidth)
-            animateTopBarComponents(false)
-            animateContentArea(false) {
-                findNavController().navigate(R.id.action_onboardingFragment4_to_loginRegisterFragment)
-            }
+            findNavController().navigate(R.id.action_onboardingFragment4_to_loginRegisterFragment)
         }
     }
 

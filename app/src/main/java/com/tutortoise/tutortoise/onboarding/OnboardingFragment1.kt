@@ -18,7 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.databinding.FragmentOnboarding1Binding
 
-class OnboardingFragment1 : Fragment() {
+class OnboardingFragment1 : BaseOnboardingFragment() {
 
     private var _binding: FragmentOnboarding1Binding? = null
     private val binding get() = _binding!!
@@ -53,7 +53,7 @@ class OnboardingFragment1 : Fragment() {
         indicators[0].animateIndicatorWidth(inactiveWidth, activeWidth)
 
         binding.skipButton.setOnClickListener {
-            animateContentArea(false) {
+            animateAndNavigateToLogin {
                 findNavController().navigate(R.id.action_onboardingFragment1_to_loginRegisterFragment)
             }
         }
