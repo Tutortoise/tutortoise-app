@@ -33,6 +33,24 @@ class OnboardingFragment3 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Get the previous destination to determine if animation is needed
+        val previousDestination = findNavController().previousBackStackEntry?.destination?.id
+
+        if (previousDestination == R.id.onboardingFragment4) {
+            // Coming back from Fragment4, animate the top bar
+            binding.appName.alpha = 0f
+            binding.appName.translationY = -50f
+            binding.skipButton.alpha = 0f
+            binding.skipButton.translationX = 50f
+            animateTopBarComponents(true)
+        } else {
+            // Coming from Fragment2, just set the components visible without animation
+            binding.appName.alpha = 1f
+            binding.appName.translationY = 0f
+            binding.skipButton.alpha = 1f
+            binding.skipButton.translationX = 0f
+        }
+
         animateContentArea(true)
 
         val indicators = binding.pageIndicator.let {
@@ -51,6 +69,7 @@ class OnboardingFragment3 : Fragment() {
         indicators[2].animateIndicatorWidth(inactiveWidth, activeWidth)
 
         binding.skipButton.setOnClickListener {
+            animateTopBarComponents(false)
             animateContentArea(false) {
                 findNavController().navigate(R.id.action_onboardingFragment3_to_loginRegisterFragment)
             }
@@ -58,6 +77,7 @@ class OnboardingFragment3 : Fragment() {
 
         binding.continueButton.setOnClickListener {
             indicators[2].animateIndicatorWidth(activeWidth, inactiveWidth)
+            animateTopBarComponents(false)
             animateContentArea(false) {
                 findNavController().navigate(R.id.action_onboardingFragment3_to_onboardingFragment4)
             }
@@ -67,6 +87,25 @@ class OnboardingFragment3 : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun animateTopBarComponents(entering: Boolean, onAnimationEnd: () -> Unit = {}) {
+        val appName = binding.appName
+        val skipButton = binding.skipButton // Note: OnboardingFragment4 doesn't have skipButton
+
+        // App name animation
+        appName.animate()
+            .alpha(if (entering) 1f else 0f)
+            .translationY(if (entering) 0f else -50f)
+            .setDuration(300)
+            .setInterpolator(FastOutSlowInInterpolator())
+            .start()
+
+        // Skip button animation (only for OnboardingFragment3)
+        skipButton.animate()?.alpha(if (entering) 1f else 0f)?.translationX(if (entering) 0f else 50f)
+            ?.setDuration(300)?.setInterpolator(FastOutSlowInInterpolator())?.withEndAction { onAnimationEnd() }
+            ?.start()
+            ?: onAnimationEnd()
     }
 
     private fun animateContentArea(entering: Boolean, onAnimationEnd: () -> Unit = {}) {

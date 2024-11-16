@@ -34,6 +34,12 @@ class OnboardingFragment4 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Set initial states
+        binding.appName.alpha = 0f
+        binding.appName.translationY = -50f
+
+        // Start animations
+        animateTopBarComponents(true)
         animateContentArea(true)
 
 
@@ -68,6 +74,7 @@ class OnboardingFragment4 : Fragment() {
 
         binding.continueButton.setOnClickListener {
             indicators[3].animateIndicatorWidth(activeWidth, inactiveWidth)
+            animateTopBarComponents(false)
             animateContentArea(false) {
                 findNavController().navigate(R.id.action_onboardingFragment4_to_loginRegisterFragment)
             }
@@ -77,6 +84,18 @@ class OnboardingFragment4 : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun animateTopBarComponents(entering: Boolean, onAnimationEnd: () -> Unit = {}) {
+        val appName = binding.appName
+
+        // App name animation
+        appName.animate()
+            .alpha(if (entering) 1f else 0f)
+            .translationY(if (entering) 0f else -50f)
+            .setDuration(300)
+            .setInterpolator(FastOutSlowInInterpolator())
+            .start()
     }
 
     private fun animateContentArea(entering: Boolean, onAnimationEnd: () -> Unit = {}) {
