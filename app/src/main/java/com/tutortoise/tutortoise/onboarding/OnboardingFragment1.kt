@@ -2,6 +2,7 @@ package com.tutortoise.tutortoise.onboarding
 
 import android.animation.Animator
 import android.animation.Animator.AnimatorListener
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.os.Bundle
@@ -33,12 +34,15 @@ class OnboardingFragment1 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Animate content area on entry
+        animateContentArea(true)
+
         val indicators = binding.pageIndicator.let {
             listOf<ImageView>(
-                it.getChildAt(0) as ImageView,  // First indicator (active)
-                it.getChildAt(1) as ImageView,  // Second indicator
-                it.getChildAt(2) as ImageView,  // Third indicator
-                it.getChildAt(3) as ImageView   // Fourth indicator
+                it.getChildAt(0) as ImageView,
+                it.getChildAt(1) as ImageView,
+                it.getChildAt(2) as ImageView,
+                it.getChildAt(3) as ImageView
             )
         }
 
@@ -49,13 +53,15 @@ class OnboardingFragment1 : Fragment() {
         indicators[0].animateIndicatorWidth(inactiveWidth, activeWidth)
 
         binding.skipButton.setOnClickListener {
-            findNavController().navigate(R.id.action_onboardingFragment1_to_loginRegisterFragment)
+            animateContentArea(false) {
+                findNavController().navigate(R.id.action_onboardingFragment1_to_loginRegisterFragment)
+            }
         }
 
         binding.continueButton.setOnClickListener {
-            // Animate current indicator back to dot
-            indicators[0].animateIndicatorWidth(activeWidth, inactiveWidth) {
-                // Navigate after animation completes
+            // Animate current indicator back to dot and content area out
+            indicators[0].animateIndicatorWidth(activeWidth, inactiveWidth)
+            animateContentArea(false) {
                 findNavController().navigate(R.id.action_onboardingFragment1_to_onboardingFragment2)
             }
         }
@@ -64,6 +70,19 @@ class OnboardingFragment1 : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun animateContentArea(entering: Boolean, onAnimationEnd: () -> Unit = {}) {
+        val contentLayout = binding.contentLayout
+
+        contentLayout.animate()
+            .alpha(if (entering) 1f else 0f)
+            .setDuration(300)
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .withEndAction {
+                onAnimationEnd()
+            }
+            .start()
     }
 
     private fun ImageView.animateIndicatorWidth(from: Int, to: Int, onEnd: () -> Unit = {}) {

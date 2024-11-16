@@ -33,6 +33,10 @@ class OnboardingFragment4 : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        animateContentArea(true)
+
+
         val sharedPref = requireActivity().getSharedPreferences("AppPreferences", AppCompatActivity.MODE_PRIVATE)
         val editor = sharedPref.edit()
         editor.putBoolean("isFirstRun", false)
@@ -63,9 +67,8 @@ class OnboardingFragment4 : Fragment() {
         indicators[3].animateIndicatorWidth(inactiveWidth, activeWidth)
 
         binding.continueButton.setOnClickListener {
-            // Animate current indicator back to dot
-            indicators[3].animateIndicatorWidth(activeWidth, inactiveWidth) {
-                // Navigate after animation completes
+            indicators[3].animateIndicatorWidth(activeWidth, inactiveWidth)
+            animateContentArea(false) {
                 findNavController().navigate(R.id.action_onboardingFragment4_to_loginRegisterFragment)
             }
         }
@@ -74,6 +77,19 @@ class OnboardingFragment4 : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun animateContentArea(entering: Boolean, onAnimationEnd: () -> Unit = {}) {
+        val contentLayout = binding.contentLayout
+
+        contentLayout.animate()
+            .alpha(if (entering) 1f else 0f)
+            .setDuration(300)
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .withEndAction {
+                onAnimationEnd()
+            }
+            .start()
     }
 
     private fun ImageView.animateIndicatorWidth(from: Int, to: Int, onEnd: () -> Unit = {}) {

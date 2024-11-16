@@ -33,6 +33,9 @@ class OnboardingFragment2 : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        animateContentArea(true)
+
+
         val indicators = binding.pageIndicator.let {
             listOf<ImageView>(
                 it.getChildAt(0) as ImageView,
@@ -49,13 +52,14 @@ class OnboardingFragment2 : Fragment() {
         indicators[1].animateIndicatorWidth(inactiveWidth, activeWidth)
 
         binding.skipButton.setOnClickListener {
-            findNavController().navigate(R.id.action_onboardingFragment2_to_loginRegisterFragment)
+            animateContentArea(false) {
+                findNavController().navigate(R.id.action_onboardingFragment2_to_loginRegisterFragment)
+            }
         }
 
         binding.continueButton.setOnClickListener {
-            // Animate current indicator back to dot
-            indicators[1].animateIndicatorWidth(activeWidth, inactiveWidth) {
-                // Navigate after animation completes
+            indicators[1].animateIndicatorWidth(activeWidth, inactiveWidth)
+            animateContentArea(false) {
                 findNavController().navigate(R.id.action_onboardingFragment2_to_onboardingFragment3)
             }
         }
@@ -64,6 +68,19 @@ class OnboardingFragment2 : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun animateContentArea(entering: Boolean, onAnimationEnd: () -> Unit = {}) {
+        val contentLayout = binding.contentLayout
+
+        contentLayout.animate()
+            .alpha(if (entering) 1f else 0f)
+            .setDuration(300)
+            .setInterpolator(AccelerateDecelerateInterpolator())
+            .withEndAction {
+                onAnimationEnd()
+            }
+            .start()
     }
 
     private fun ImageView.animateIndicatorWidth(from: Int, to: Int, onEnd: () -> Unit = {}) {
