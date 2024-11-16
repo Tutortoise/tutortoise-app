@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="indicator_width_active">20dp</dimen>
+    <dimen name="indicator_width_inactive">3dp</dimen>
+    <dimen name="indicator_height">12dp</dimen>
+</resources>

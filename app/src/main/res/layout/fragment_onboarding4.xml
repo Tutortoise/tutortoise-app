@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:text="@string/tutortoise"
         android:textSize="25sp"
+        android:layout_marginTop="10dp"
         android:textColor="@color/darkgreen"
         android:fontFamily="@font/montserrat_extra_bold"
         app:layout_constraintTop_toTopOf="parent"
@@ -89,27 +90,31 @@
 
             <!-- Inactive Indicators -->
             <ImageView
-                android:layout_width="3dp"
-                android:layout_height="3dp"
+                android:id="@+id/indicator1"
+                android:layout_width="@dimen/indicator_width_inactive"
+                android:layout_height="@dimen/indicator_height"
                 android:src="@drawable/ic_indicator_inactive"
                 android:layout_marginEnd="8dp" />
 
             <ImageView
-                android:layout_width="3dp"
-                android:layout_height="3dp"
+                android:id="@+id/indicator2"
+                android:layout_width="@dimen/indicator_width_inactive"
+                android:layout_height="@dimen/indicator_height"
                 android:src="@drawable/ic_indicator_inactive"
                 android:layout_marginEnd="8dp" />
 
             <ImageView
-                android:layout_width="3dp"
-                android:layout_height="3dp"
+                android:id="@+id/indicator3"
+                android:layout_width="@dimen/indicator_width_inactive"
+                android:layout_height="@dimen/indicator_height"
                 android:src="@drawable/ic_indicator_inactive"
                 android:layout_marginEnd="8dp" />
 
             <!-- Active Indicator -->
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="12dp"
+                android:id="@+id/indicator4"
+                android:layout_width="@dimen/indicator_width_active"
+                android:layout_height="@dimen/indicator_height"
                 android:src="@drawable/ic_indicator_active"/>
         </LinearLayout>
 

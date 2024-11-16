@@ -34,7 +34,12 @@
         tools:layout="@layout/fragment_onboarding3">
         <action
             android:id="@+id/action_onboardingFragment3_to_onboardingFragment4"
-            app:destination="@id/onboardingFragment4" />
+            app:destination="@id/onboardingFragment4">
+            <argument
+                android:name="transition"
+                app:argType="boolean"
+                android:defaultValue="true" />
+        </action>
         <action
             android:id="@+id/action_onboardingFragment3_to_loginRegisterFragment"
             app:destination="@id/loginRegisterFragment" />

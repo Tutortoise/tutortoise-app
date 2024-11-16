@@ -102,27 +102,31 @@
 
             <!-- Active Indicator -->
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="12dp"
+                android:id="@+id/indicator1"
+                android:layout_width="@dimen/indicator_width_active"
+                android:layout_height="@dimen/indicator_height"
                 android:src="@drawable/ic_indicator_active"
                 android:layout_marginEnd="8dp" />
 
             <!-- Inactive Indicators -->
             <ImageView
-                android:layout_width="3dp"
-                android:layout_height="3dp"
+                android:id="@+id/indicator2"
+                android:layout_width="@dimen/indicator_width_inactive"
+                android:layout_height="@dimen/indicator_height"
                 android:src="@drawable/ic_indicator_inactive"
                 android:layout_marginEnd="8dp" />
 
             <ImageView
-                android:layout_width="3dp"
-                android:layout_height="3dp"
+                android:id="@+id/indicator3"
+                android:layout_width="@dimen/indicator_width_inactive"
+                android:layout_height="@dimen/indicator_height"
                 android:src="@drawable/ic_indicator_inactive"
                 android:layout_marginEnd="8dp" />
 
             <ImageView
-                android:layout_width="3dp"
-                android:layout_height="3dp"
+                android:id="@+id/indicator4"
+                android:layout_width="@dimen/indicator_width_inactive"
+                android:layout_height="@dimen/indicator_height"
                 android:src="@drawable/ic_indicator_inactive" />
         </LinearLayout>
 
