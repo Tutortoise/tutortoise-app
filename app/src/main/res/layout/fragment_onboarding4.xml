@@ -40,7 +40,7 @@
             android:id="@+id/onboardingIllust4"
             android:layout_width="250dp"
             android:layout_height="350dp"
-            android:src="@drawable/ilustrasi4" />
+            android:src="@drawable/onboarding_ilustration_4" />
 
         <!-- Welcome Text Header -->
         <TextView
