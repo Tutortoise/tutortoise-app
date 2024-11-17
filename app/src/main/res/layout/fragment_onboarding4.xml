@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -12,28 +10,27 @@
         android:id="@+id/appName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/tutortoise"
-        android:textSize="28sp"
-        android:textColor="@color/darkgreen"
+        android:layout_marginTop="20dp"
         android:fontFamily="@font/montserrat_extra_bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/tutortoise"
+        android:textColor="@color/darkgreen"
+        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Content Area (Illustration, Header, and Description) -->
     <LinearLayout
         android:id="@+id/contentLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
+        android:layout_marginBottom="24dp"
         android:gravity="center_horizontal"
-        app:layout_constraintTop_toBottomOf="@id/appName"
+        android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@id/footerLayout"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appName">
 
         <!-- Onboarding Illustration -->
         <ImageView
@@ -47,12 +44,12 @@
             android:id="@+id/welcomeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/onboardingHeader4"
-            android:textSize="24sp"
-            android:textColor="@android:color/black"
-            android:fontFamily="@font/montserrat_bold"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/montserrat_semi_bold"
             android:gravity="center"
-            android:layout_marginTop="16dp" />
+            android:text="@string/onboardingHeader4"
+            android:textColor="@android:color/black"
+            android:textSize="24sp" />
 
         <!-- Description Text -->
         <TextView
@@ -73,49 +70,49 @@
         android:id="@+id/footerLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:gravity="center_horizontal"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <!-- Page Indicator -->
         <LinearLayout
             android:id="@+id/pageIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
             android:gravity="center"
-            android:layout_marginBottom="20dp">
+            android:orientation="horizontal">
 
             <!-- Inactive Indicators -->
             <ImageView
                 android:id="@+id/indicator1"
                 android:layout_width="@dimen/indicator_width_inactive"
                 android:layout_height="@dimen/indicator_height"
-                android:src="@drawable/ic_indicator_inactive"
-                android:layout_marginEnd="8dp" />
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_indicator_inactive" />
 
             <ImageView
                 android:id="@+id/indicator2"
                 android:layout_width="@dimen/indicator_width_inactive"
                 android:layout_height="@dimen/indicator_height"
-                android:src="@drawable/ic_indicator_inactive"
-                android:layout_marginEnd="8dp" />
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_indicator_inactive" />
 
             <ImageView
                 android:id="@+id/indicator3"
                 android:layout_width="@dimen/indicator_width_inactive"
                 android:layout_height="@dimen/indicator_height"
-                android:src="@drawable/ic_indicator_inactive"
-                android:layout_marginEnd="8dp" />
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_indicator_inactive" />
 
             <!-- Active Indicator -->
             <ImageView
                 android:id="@+id/indicator4"
                 android:layout_width="@dimen/indicator_width_active"
                 android:layout_height="@dimen/indicator_height"
-                android:src="@drawable/ic_indicator_active"/>
+                android:src="@drawable/ic_indicator_active" />
         </LinearLayout>
 
         <!-- Continue Button -->
@@ -123,11 +120,12 @@
             android:id="@+id/continueButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/conti"
-            android:backgroundTint="@color/darkgreen"
-            android:textColor="@android:color/white"
             android:layout_marginHorizontal="24dp"
-            android:layout_marginBottom="32dp" />
+            android:layout_marginBottom="32dp"
+            android:backgroundTint="@color/darkgreen"
+            android:fontFamily="@font/montserrat_semi_bold"
+            android:text="@string/cont"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

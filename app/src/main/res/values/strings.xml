@@ -5,7 +5,7 @@
     <!--    Onboarding-->
     <string name="tutortoise">Tutortoise</string>
     <string name="skip">Skip</string>
-    <string name="conti">Continue</string>
+    <string name="cont">Continue</string>
 
     <string name="onboardingHeader1">Welcome to Tutortoise!</string>
     <string name="onboardingText1">Learning\'s all about you! at your pace, in your style. Let\'s find the one that clicks with you!</string>
