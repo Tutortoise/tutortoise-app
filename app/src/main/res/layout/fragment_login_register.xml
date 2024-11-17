@@ -7,23 +7,21 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <!-- Top Bar (App Name) -->
+    <!-- App Name at the Top -->
     <TextView
         android:id="@+id/appName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tutortoise"
-        android:textSize="25sp"
-        android:paddingTop="15dp"
+        android:textSize="28sp"
         android:textColor="@color/darkgreen"
         android:fontFamily="@font/montserrat_extra_bold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="24dp"
-        />
+        android:layout_marginTop="20dp" />
 
-    <!-- Content Area (Illustration and Header) -->
+    <!-- Centered Content Area -->
     <LinearLayout
         android:id="@+id/contentLayout"
         android:layout_width="match_parent"
@@ -33,15 +31,15 @@
         app:layout_constraintTop_toBottomOf="@id/appName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp">
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp">
 
-        <!-- Login/Register Illustration -->
+        <!-- Illustration -->
         <ImageView
             android:id="@+id/onboardingIllust1"
-            android:layout_width="250dp"
-            android:layout_height="350dp"
-            android:src="@drawable/ilustrasi5" />
+            android:layout_width="220dp"
+            android:layout_height="300dp"
+            android:src="@drawable/ilustrasi5"/>
 
         <!-- Welcome Text Header -->
         <TextView
@@ -49,40 +47,38 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/loginRegisHeader"
-            android:textSize="24sp"
+            android:textSize="22sp"
             android:textColor="@android:color/black"
             android:fontFamily="@font/montserrat_bold"
             android:gravity="center"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="40dp"
-            />
-
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="32dp" />
 
         <!-- Login Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/continueButton"
             android:layout_width="match_parent"
-            android:layout_marginHorizontal="24dp"
             android:layout_height="wrap_content"
             android:text="@string/btnLogin"
             android:backgroundTint="@color/darkgreen"
             android:textColor="@android:color/white"
-            app:cornerRadius="50dp" />
+            android:layout_marginHorizontal="32dp"
+            android:textSize="14sp"
+            android:layout_marginBottom="10dp" />
 
         <!-- Register Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/registButton"
             android:layout_width="match_parent"
-            android:layout_marginHorizontal="24dp"
             android:layout_height="wrap_content"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:text="@string/btnRegister"
             android:textAllCaps="false"
             android:textColor="@color/darkgreen"
-            android:layout_marginTop="16dp"
             app:strokeColor="@color/darkgreen"
-            app:cornerRadius="50dp" />
+            app:cornerRadius="50dp"
+            android:textSize="14sp"
+            android:layout_marginHorizontal="32dp" />
     </LinearLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

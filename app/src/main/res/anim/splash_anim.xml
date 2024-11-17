@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/tutortoiselogosplash">
+
+    <target
+        android:name="logo"
+        android:animation="@animator/logo_animator" />
+
+    <target
+        android:name="text"
+        android:animation="@animator/text_animator" />
+</animated-vector>
