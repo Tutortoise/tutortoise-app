@@ -18,4 +18,17 @@
     <string name="loginRegisHeader">Let\'s get started!</string>
     <string name="btnLogin">Login</string>
     <string name="btnRegister">Register</string>
+
+    <string name="home">Home</string>
+    <string name="explore">Explore</string>
+    <string name="session">Sessions</string>
+    <string name="profile">Profile</string>
+    <string name="searchText">Search tutor, subject and others...</string>
+    <string name="popular">Popular Subjects</string>
+    <string name="seemore">See More</string>
+    <string name="top1">Number1</string>
+    <string name="top2">Number2</string>
+    <string name="top3">Number3</string>
+    <string name="recommended">Recommended Tutors</string>
+
 </resources>
