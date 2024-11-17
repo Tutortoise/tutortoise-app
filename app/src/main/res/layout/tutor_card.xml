@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/imageTutor"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/tutorImage"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <TextView
+            android:id="@+id/tutorName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tutorName"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/imageTutor"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tutorSubject"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/tutorSubject"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/imageTutor"
+            app:layout_constraintTop_toBottomOf="@id/tutorName"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tutorReviews"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/reviews"
+            android:textSize="12sp"
+            android:textColor="#808080"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/imageTutor"
+            app:layout_constraintTop_toBottomOf="@id/tutorSubject"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/tutorPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/price"
+            android:textSize="12sp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/imageTutor"
+            app:layout_constraintTop_toBottomOf="@+id/tutorReviews"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/tutorLocation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/location"
+            android:textSize="12sp"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@+id/imageTutor"
+            app:layout_constraintTop_toBottomOf="@id/tutorPrice"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
