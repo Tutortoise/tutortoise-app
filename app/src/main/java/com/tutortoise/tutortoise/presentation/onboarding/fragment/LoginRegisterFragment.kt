@@ -1,17 +1,14 @@
-package com.tutortoise.tutortoise.onboarding
+package com.tutortoise.tutortoise.presentation.onboarding.fragment
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
-import com.google.android.material.button.MaterialButton
-import com.tutortoise.tutortoise.MainActivity
-import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.presentation.main.MainActivity
 import com.tutortoise.tutortoise.databinding.FragmentLoginRegisterBinding
 
 class LoginRegisterFragment : Fragment() {

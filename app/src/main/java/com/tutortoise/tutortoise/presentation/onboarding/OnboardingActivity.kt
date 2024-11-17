@@ -1,15 +1,11 @@
-package com.tutortoise.tutortoise.onboarding
+package com.tutortoise.tutortoise.presentation.onboarding
 
 import android.os.Bundle
 import android.transition.Explode
-import androidx.activity.enableEdgeToEdge
+import android.transition.Transition
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.tutortoise.tutortoise.R
 
 class OnboardingActivity : AppCompatActivity() {

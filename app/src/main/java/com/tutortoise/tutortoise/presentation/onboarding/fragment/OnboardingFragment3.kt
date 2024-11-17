@@ -1,16 +1,13 @@
-package com.tutortoise.tutortoise.onboarding
+package com.tutortoise.tutortoise.presentation.onboarding.fragment
 
 import android.animation.Animator
 import android.animation.Animator.AnimatorListener
-import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.navigation.fragment.findNavController

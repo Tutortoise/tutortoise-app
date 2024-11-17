@@ -1,8 +1,12 @@
-package com.tutortoise.tutortoise.onboarding
+package com.tutortoise.tutortoise.presentation.onboarding.adapter
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
+import com.tutortoise.tutortoise.presentation.onboarding.fragment.OnboardingFragment1
+import com.tutortoise.tutortoise.presentation.onboarding.fragment.OnboardingFragment2
+import com.tutortoise.tutortoise.presentation.onboarding.fragment.OnboardingFragment3
+import com.tutortoise.tutortoise.presentation.onboarding.fragment.OnboardingFragment4
 
 class OnboardingAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activity) {
 

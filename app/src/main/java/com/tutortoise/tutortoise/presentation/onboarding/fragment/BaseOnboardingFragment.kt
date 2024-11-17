@@ -1,4 +1,4 @@
-package com.tutortoise.tutortoise.onboarding
+package com.tutortoise.tutortoise.presentation.onboarding.fragment
 
 import android.widget.LinearLayout
 import android.widget.TextView

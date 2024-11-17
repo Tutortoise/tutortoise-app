@@ -1,17 +1,17 @@
-package com.tutortoise.tutortoise
+package com.tutortoise.tutortoise.presentation.main
 
+import android.R
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
-import com.tutortoise.tutortoise.onboarding.OnboardingActivity
+import com.tutortoise.tutortoise.presentation.onboarding.OnboardingActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -66,8 +66,8 @@ class MainActivity : AppCompatActivity() {
         // Create custom transition animation
         val options = ActivityOptions.makeCustomAnimation(
             this,
-            android.R.anim.fade_in,
-            android.R.anim.fade_out
+            R.anim.fade_in,
+            R.anim.fade_out
         )
 
         startActivity(intent, options.toBundle())
