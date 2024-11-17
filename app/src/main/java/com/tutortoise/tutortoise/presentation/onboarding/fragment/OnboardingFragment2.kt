@@ -90,7 +90,10 @@ class OnboardingFragment2 : BaseOnboardingFragment() {
             }
             addListener(object : AnimatorListener {
                 override fun onAnimationStart(animation: Animator) {}
-                override fun onAnimationEnd(animation: Animator) { onEnd() }
+                override fun onAnimationEnd(animation: Animator) {
+                    onEnd()
+                }
+
                 override fun onAnimationCancel(animation: Animator) {}
                 override fun onAnimationRepeat(animation: Animator) {}
             })
