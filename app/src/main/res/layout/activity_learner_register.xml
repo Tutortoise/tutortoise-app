@@ -24,7 +24,7 @@
                 android:layout_gravity="start"
                 android:layout_marginTop="32dp"
                 android:contentDescription="Turtle mascot with chalkboard"
-                android:src="@drawable/ic_image_placeholder" />
+                android:src="@drawable/logo_register_learner" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -125,7 +125,8 @@
                 android:padding="12dp"
                 android:text="@string/signup"
                 android:textAllCaps="false"
-                android:fontFamily="@font/montserrat_semi_bold"/>
+                android:fontFamily="@font/montserrat_semi_bold"
+                app:cornerRadius="30dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
