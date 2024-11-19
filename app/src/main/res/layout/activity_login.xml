@@ -11,7 +11,7 @@
         android:id="@+id/ivLogo"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:src="@drawable/logologin"
+        android:src="@drawable/ic_image_placeholder"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

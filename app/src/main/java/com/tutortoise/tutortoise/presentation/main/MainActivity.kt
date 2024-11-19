@@ -1,6 +1,5 @@
 package com.tutortoise.tutortoise.presentation.main
 
-import android.R
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.ActivityOptions
@@ -11,13 +10,28 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.databinding.ActivityMainBinding
 import com.tutortoise.tutortoise.presentation.onboarding.OnboardingActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+
+    // Declare the binding object
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialize the binding object with the inflated layout
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Install splash screen
         val splashScreen = installSplashScreen()
@@ -26,11 +40,8 @@ class MainActivity : AppCompatActivity() {
         var keepSplashOnScreen = true
         splashScreen.setKeepOnScreenCondition { keepSplashOnScreen }
 
-//        setContentView(R.layout.activity_main)
-
         // Add custom exit animation
         splashScreen.setOnExitAnimationListener { splashScreenView ->
-            // Fade out animation
             val fadeOut = ObjectAnimator.ofFloat(
                 splashScreenView.view,
                 View.ALPHA,
@@ -40,14 +51,11 @@ class MainActivity : AppCompatActivity() {
                 duration = 500
             }
 
-            // Run animations together
             AnimatorSet().run {
-//                playTogether(slideUp, fadeOut)
                 play(fadeOut)
                 doOnEnd {
                     splashScreenView.remove()
-                    // Navigate to onboarding with animation
-                    startOnboarding()
+                    checkFirstRunAndNavigate()
                 }
                 start()
             }
@@ -58,6 +66,30 @@ class MainActivity : AppCompatActivity() {
             delay(2000) // 2 seconds
             keepSplashOnScreen = false
         }
+    }
+
+    private fun checkFirstRunAndNavigate() {
+        val sharedPref = getSharedPreferences("AppPreferences", MODE_PRIVATE)
+        val isFirstRun = sharedPref.getBoolean("isFirstRun", true)
+
+        if (isFirstRun) {
+            startOnboarding()
+        } else {
+            setupBottomNavigation()
+        }
+    }
+
+// TODO: Fix Bottom Navigation
+    private fun setupBottomNavigation() {
+        val bottomNav: BottomNavigationView = binding.bottomNav
+        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+        val appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.homeFragment, R.id.exploreFragment, R.id.sessionFragment, R.id.profileFragment
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        bottomNav.setupWithNavController(navController)
     }
 
     private fun startOnboarding() {
@@ -74,14 +106,3 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 }
-
-
-//        val sharedPref = getSharedPreferences("AppPreferences", MODE_PRIVATE)
-//        val isFirstRun = sharedPref.getBoolean("isFirstRun", true)
-//
-//        if (isFirstRun) {
-//            startActivity(Intent(this, OnboardingActivity::class.java))
-//            finish()
-//        } else {
-//            setContentView(R.layout.activity_main)
-//        }

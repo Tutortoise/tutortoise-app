@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "878030556840",
+    "firebase_url": "https://tutortoise-41122-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "tutortoise-41122",
+    "storage_bucket": "tutortoise-41122.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:878030556840:android:3f70906fff56b336f57c9d",
+        "android_client_info": {
+          "package_name": "com.tutortoise.tutortoise"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "878030556840-k3qdbt3d9v4iu66sms3am96jrkntptf6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVPd2UL9JDl-HjGRs8-fwL6b8vyPUdGTI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "878030556840-k3qdbt3d9v4iu66sms3am96jrkntptf6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

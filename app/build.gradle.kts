@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -51,6 +52,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -60,4 +62,7 @@ dependencies {
     implementation (libs.material)
     implementation (libs.androidx.viewpager2)
     implementation (libs.circleimageview)
+    implementation(libs.firebase.bom)
+    implementation(libs.firebase.analytics)
+    implementation (libs.google.firebase.analytics)
 }
