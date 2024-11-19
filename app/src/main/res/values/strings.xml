@@ -58,4 +58,28 @@
     <string name="logout">Log Out</string>
     <string name="logoutText">Securely log out of Account</string>
 
+    <string name="welcometotutortoise">Welcome to Tutortoise!</string>
+    <string name="howto">How would you like to join us?</string>
+    <string name="selectpath">Select an option from below</string>
+    <string name="aslearner">As a Learner</string>
+    <string name="astutor">As a Tutor</string>
+    <string name="alreadyhaveacc">Already have an account? </string>
+    <string name="linklogin">Login</string>
+
+    <string name="welcomeback">Welcome Back!</string>
+    <string name="accesstext">Access your personalized hub to continue your learning journey.</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="forgor">Forgot Password ?</string>
+    <string name="signin">Sign In</string>
+    <string name="or">Or</string>
+    <string name="continuewith">Continue with Google</string>
+    <string name="donthave">Don’t have an account ? </string>
+    <string name="signup">Sign Up</string>
+
+    <string name="create">Create Your Account!</string>
+    <string name="join">Join and start your learning journey with expert tutors</string>
+    <string name="name">Name</string>
+    <string name="confirmpw">Confirm Password</string>
+    <string name="tospp">By continuing, you agree to our Terms of Service and Privacy Policy</string>
 </resources>

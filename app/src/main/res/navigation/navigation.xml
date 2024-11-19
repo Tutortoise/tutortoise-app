@@ -57,5 +57,16 @@
     <fragment
         android:id="@+id/loginRegisterFragment"
         android:name="com.tutortoise.tutortoise.presentation.onboarding.fragment.LoginRegisterFragment"
-        tools:layout="@layout/fragment_login_register" />
+        tools:layout="@layout/fragment_login_register">
+        <action
+            android:id="@+id/action_loginRegisterFragment_to_registerAsFragment"
+            app:destination="@id/registerAsFragment"
+                />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerAsFragment"
+        android:name="com.tutortoise.tutortoise.presentation.onboarding.fragment.RegisterAsFragment"
+        tools:layout="@layout/fragment_register_as"
+        />
 </navigation>

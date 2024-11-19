@@ -8,8 +8,11 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.fragment.app.Fragment
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
+import androidx.navigation.fragment.findNavController
+import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.presentation.main.MainActivity
 import com.tutortoise.tutortoise.databinding.FragmentLoginRegisterBinding
+import com.tutortoise.tutortoise.presentation.login.LoginActivity
 
 class LoginRegisterFragment : Fragment() {
 
@@ -73,11 +76,13 @@ class LoginRegisterFragment : Fragment() {
             .start()
 
         binding.continueButton.setOnClickListener {
-            animateAndNavigate()
+            val intent = Intent(activity, LoginActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
         }
 
         binding.registButton.setOnClickListener {
-            animateAndNavigate()
+            findNavController().navigate(R.id.action_loginRegisterFragment_to_registerAsFragment)
         }
     }
 
@@ -109,16 +114,7 @@ class LoginRegisterFragment : Fragment() {
             .translationY(50f)
             .setDuration(300)
             .setInterpolator(AccelerateDecelerateInterpolator())
-            .withEndAction {
-                navigateToMainActivity()
-            }
             .start()
-    }
-
-    private fun navigateToMainActivity() {
-        val intent = Intent(activity, MainActivity::class.java)
-        startActivity(intent)
-        activity?.finish()
     }
 
     override fun onDestroyView() {
