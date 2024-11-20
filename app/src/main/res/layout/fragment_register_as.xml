@@ -3,106 +3,124 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:padding="24dp">
 
-    <LinearLayout
-        android:id="@+id/contentLayout"
-        android:layout_width="match_parent"
+    <!-- Header Section -->
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp"
+        android:fontFamily="@font/montserrat_semi_bold"
+        android:gravity="center"
+        android:text="@string/welcometotutortoise"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3">
+        app:layout_constraintVertical_bias="0.3" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/welcometotutortoise"
-            android:fontFamily="@font/montserrat_semi_bold"
-            android:textColor="@color/black"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tvHowTo"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_semi_bold"
+        android:gravity="center"
+        android:text="@string/howto"
+        android:textColor="@color/black"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/welcomeText" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/howto"
-            android:fontFamily="@font/montserrat_semi_bold"
-            android:textColor="@color/black"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tvSelectPath"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:gravity="center"
+        android:text="@string/selectpath"
+        android:textColor="@color/darkgreen"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvHowTo" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="@string/selectpath"
-            android:fontFamily="@font/montserrat_regular"
-            android:textColor="@color/darkgreen"
-            android:textSize="14sp" />
+    <!-- Buttons Section -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnLearner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/darkgreen"
+        android:fontFamily="@font/montserrat_semi_bold"
+        android:padding="12dp"
+        android:text="@string/aslearner"
+        android:textAllCaps="false"
+        app:cornerRadius="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvSelectPath" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLearner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:backgroundTint="@color/darkgreen"
-            android:padding="12dp"
-            android:text="@string/aslearner"
-            android:fontFamily="@font/montserrat_semi_bold"
-            android:textAllCaps="false"
-            app:cornerRadius="50dp"
-            />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnTutor"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#FFFFFF"
+        android:fontFamily="@font/montserrat_semi_bold"
+        android:padding="12dp"
+        android:text="@string/astutor"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        app:cornerRadius="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnLearner"
+        app:strokeColor="#CCCCCC"
+        app:strokeWidth="1dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnTutor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="#FFFFFF"
-            android:padding="12dp"
-            android:text="@string/astutor"
-            android:fontFamily="@font/montserrat_semi_bold"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            app:cornerRadius="50dp"
-            app:strokeColor="#CCCCCC"
-            app:strokeWidth="1dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
+    <!-- Bottom Login Section -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/loginLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
-        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
+            android:id="@+id/tvAlreadyHaveAccount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/alreadyhaveacc"
             android:fontFamily="@font/montserrat_regular"
+            android:text="@string/alreadyhaveacc"
             android:textColor="#666666"
-            android:textSize="14sp" />
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnLogin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/btnLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@font/montserrat_bold"
             android:text="@string/linklogin"
-            android:fontFamily="@font/montserrat_semi_bold"
             android:textColor="@color/darkgreen"
-            android:textSize="14sp" />
-    </LinearLayout>
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvAlreadyHaveAccount"
+            app:layout_constraintStart_toEndOf="@id/tvAlreadyHaveAccount"
+            app:layout_constraintTop_toTopOf="@id/tvAlreadyHaveAccount" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
