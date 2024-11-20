@@ -4,6 +4,7 @@ circleimageview = "3.1.0"
 coreSplashscreen = "1.0.0"
 firebaseAnalytics = "22.1.2"
 firebaseBom = "33.6.0"
+firebaseFirestore = "25.1.1"
 googleServices = "4.4.2"
 kotlin = "1.9.0"
 coreKtx = "1.15.0"
@@ -28,6 +29,7 @@ androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref =
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+firebase-firestore = { module = "com.google.firebase:firebase-firestore", version.ref = "firebaseFirestore" }
 google-firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebaseAnalytics" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

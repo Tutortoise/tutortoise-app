@@ -44,6 +44,10 @@ class TutorRegisterActivity : AppCompatActivity() {
                 createUser(email, password)
             }
         }
+        binding.tvSignIn.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun createUser(email: String, password: String) {

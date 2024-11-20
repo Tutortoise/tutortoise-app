@@ -79,16 +79,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-// TODO: Fix Bottom Navigation
     private fun setupBottomNavigation() {
         val bottomNav: BottomNavigationView = binding.bottomNav
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.homeFragment, R.id.exploreFragment, R.id.sessionFragment, R.id.profileFragment
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
+
         bottomNav.setupWithNavController(navController)
     }
 

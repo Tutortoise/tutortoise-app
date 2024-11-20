@@ -1,6 +1,7 @@
 package com.tutortoise.tutortoise.presentation.login
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -22,29 +23,39 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
 
-        binding.btnSignIn.setOnClickListener {
-            val email = binding.tilEmail.editText?.text.toString()
-            val password = binding.tilPassword.editText?.text.toString()
+        setupListeners()
+    }
 
-            if (email.isNotEmpty() && password.isNotEmpty()) {
+    private fun setupListeners() {
+        binding.btnSignIn.setOnClickListener {
+            val email = binding.tilEmail.editText?.text.toString().trim()
+            val password = binding.tilPassword.editText?.text.toString().trim()
+
+            if (validateInput(email, password)) {
                 signIn(email, password)
             } else {
-                Toast.makeText(this, "Please enter both email and password.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please enter both email and password.", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
         binding.btnSignUp.setOnClickListener {
-            val intent = Intent(this, RegisterAsFragment::class.java)
+            val intent = Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse("tutortoise://onboarding/register")
+                setClassName(
+                    this@LoginActivity,
+                    "com.tutortoise.tutortoise.presentation.onboarding.OnboardingActivity"
+                )
+            }
             startActivity(intent)
         }
     }
+
 
     override fun onStart() {
         super.onStart()
@@ -59,23 +70,26 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
-                    Toast.makeText(this, "Welcome ${user?.email}!", Toast.LENGTH_SHORT).show()
-                    updateUI(user)
+                    Toast.makeText(this, "Welcome back, ${user?.displayName ?: "User"}!", Toast.LENGTH_SHORT).show()
+                    navigateToMain()
                 } else {
-                    Toast.makeText(this, "Authentication failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                    updateUI(null)
+                    Toast.makeText(
+                        this,
+                        "Authentication failed: ${task.exception?.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
     }
 
-    private fun updateUI(user: FirebaseUser?) {
-        if (user != null) {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-        } else {
+    private fun validateInput(email: String, password: String): Boolean {
+        return email.isNotEmpty() && password.isNotEmpty()
+    }
 
-        }
+    private fun navigateToMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun reload() {

@@ -67,6 +67,8 @@
     <fragment
         android:id="@+id/registerAsFragment"
         android:name="com.tutortoise.tutortoise.presentation.onboarding.fragment.RegisterAsFragment"
-        tools:layout="@layout/fragment_register_as"
-        />
+        tools:layout="@layout/fragment_register_as">
+    <deepLink
+        app:uri="tutortoise://onboarding/register" />
+    </fragment>
 </navigation>

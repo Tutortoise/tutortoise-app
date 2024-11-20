@@ -16,19 +16,21 @@ import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.databinding.ActivityLearnerRegisterBinding
 import com.tutortoise.tutortoise.databinding.ActivityTutorRegisterBinding
 import com.tutortoise.tutortoise.presentation.login.LoginActivity
+import com.tutortoise.tutortoise.presentation.main.MainActivity
+import com.tutortoise.tutortoise.repository.FirebaseRepository
 
 class LearnerRegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLearnerRegisterBinding
-    private lateinit var auth: FirebaseAuth
+    private lateinit var firebaseRepository: FirebaseRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tutor_register)
+        setContentView(R.layout.activity_learner_register)
 
         binding = ActivityLearnerRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        auth = FirebaseAuth.getInstance()
+        firebaseRepository = FirebaseRepository()
 
         setupListeners()
     }
@@ -41,40 +43,27 @@ class LearnerRegisterActivity : AppCompatActivity() {
             val confirmPassword = binding.etConfirmPassword.text.toString()
 
             if (validateInput(name, email, password, confirmPassword)) {
-                createUser(email, password)
+                createUser(email, password, name)
             }
+        }
+        binding.tvSignIn.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
         }
     }
 
-    private fun createUser(email: String, password: String) {
+    private fun createUser(email: String, password: String, name: String) {
         binding.progressBar.visibility = View.VISIBLE
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
-                binding.progressBar.visibility = View.GONE
-                if (task.isSuccessful) {
-                    Log.d(TAG, "createUserWithEmail:success")
-                    val user = auth.currentUser
-                    updateUI(user)
-                } else {
-                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(
-                        baseContext,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                    updateUI(null)
-                }
+        firebaseRepository.createUser(email, password, name) { success, user ->
+            binding.progressBar.visibility = View.GONE
+            if (success) {
+                Toast.makeText(this, "Welcome, ${user?.displayName}!", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show()
             }
-    }
-
-    private fun updateUI(user: FirebaseUser?) {
-        if (user != null) {
-            Toast.makeText(this, "Welcome, ${user.email}!", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
-        } else {
-
         }
     }
 
