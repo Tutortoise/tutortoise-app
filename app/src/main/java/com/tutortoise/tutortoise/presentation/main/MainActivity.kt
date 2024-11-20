@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity() {
 
         // Initialize the binding object with the inflated layout
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
 
         // Install splash screen
         val splashScreen = installSplashScreen()
@@ -63,8 +62,32 @@ class MainActivity : AppCompatActivity() {
 
         // Simulate some loading work
         lifecycleScope.launch {
-            delay(2000) // 2 seconds
+            delay(1000) // Short delay for splash screen
             keepSplashOnScreen = false
+
+            // Check if it's first run
+            val sharedPref = getSharedPreferences("AppPreferences", MODE_PRIVATE)
+            val isFirstRun = sharedPref.getBoolean("isFirstRun", true)
+
+            if (isFirstRun) {
+                // First time - go to onboarding
+                startOnboarding()
+                finish() // Finish MainActivity
+                return@launch
+            }
+
+            // Check if user is logged in
+            val currentUser = FirebaseAuth.getInstance().currentUser
+            if (currentUser == null) {
+                // No user - go to login
+                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                finish() // Finish MainActivity
+                return@launch
+            }
+
+            // User is logged in - show main content
+            setContentView(binding.root)
+            setupBottomNavigation()
         }
     }
 
