@@ -28,6 +28,11 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
+        if (auth.currentUser != null) {
+            // If user is logged in, redirect to the MainActivity
+            navigateToMainActivity()
+        }
+
         setupListeners()
     }
 
@@ -71,7 +76,7 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val user = auth.currentUser
                     Toast.makeText(this, "Welcome back, ${user?.displayName ?: "User"}!", Toast.LENGTH_SHORT).show()
-                    navigateToMain()
+                    navigateToMainActivity()
                 } else {
                     Toast.makeText(
                         this,
@@ -82,14 +87,14 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    private fun validateInput(email: String, password: String): Boolean {
-        return email.isNotEmpty() && password.isNotEmpty()
-    }
-
-    private fun navigateToMain() {
+    private fun navigateToMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    private fun validateInput(email: String, password: String): Boolean {
+        return email.isNotEmpty() && password.isNotEmpty()
     }
 
     private fun reload() {
