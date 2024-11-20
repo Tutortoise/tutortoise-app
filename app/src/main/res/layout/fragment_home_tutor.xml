@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.menuTutor.home.HomeTutorFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gradient_background"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="42dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
+
+                <TextView
+                    android:id="@+id/appName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/montserrat_extra_bold" />
+
+                <ImageView
+                    android:id="@+id/notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/notifications"
+                    app:tint="@color/white"
+                    android:layout_toStartOf="@id/chat"
+                    android:layout_marginEnd="12dp" />
+
+                <ImageView
+                    android:id="@+id/chat"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/chat"
+                    app:tint="@color/white"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="12dp" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/hellotutor"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/yourschedule"
+            android:textColor="@color/darkgreen"
+            android:textSize="20sp"
+            android:fontFamily="@font/montserrat_bold"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="24dp" />
+
+        <CalendarView
+            android:id="@+id/calendar_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/date"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/montserrat_medium" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginTop="24dp">
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_empty_calendar"
+                android:layout_marginTop="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/noschedule"
+                android:textColor="@color/darkgreen"
+                android:textSize="16sp"
+                android:fontFamily="@font/montserrat_semi_bold"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

@@ -3,6 +3,7 @@ package com.tutortoise.tutortoise.presentation.login
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -71,13 +72,17 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun signIn(email: String, password: String) {
+        auth.signOut()
+        Log.d("LoginActivity", "Attempting to sign in with email: $email")
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     val user = auth.currentUser
+                    Log.d("LoginActivity", "Login successful for user: ${user?.email}")
                     Toast.makeText(this, "Welcome back, ${user?.displayName ?: "User"}!", Toast.LENGTH_SHORT).show()
                     navigateToMainActivity()
                 } else {
+                    Log.e("LoginActivity", "Authentication failed: ${task.exception?.message}")
                     Toast.makeText(
                         this,
                         "Authentication failed: ${task.exception?.message}",
@@ -89,6 +94,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun navigateToMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("startFragment", "home")
         startActivity(intent)
         finish()
     }

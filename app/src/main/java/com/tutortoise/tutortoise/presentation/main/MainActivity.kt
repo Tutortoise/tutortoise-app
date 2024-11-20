@@ -96,6 +96,10 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         bottomNav.setupWithNavController(navController)
 
+        val startFragment = intent.getStringExtra("startFragment")
+        if (startFragment == "home") {
+            navController.navigate(R.id.homeFragment)
+        }
     }
 
     private fun startOnboarding() {

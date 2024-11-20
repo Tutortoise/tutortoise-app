@@ -50,7 +50,7 @@ class LearnerRegisterActivity : AppCompatActivity() {
             binding.progressBar.visibility = View.GONE
             if (success) {
                 Toast.makeText(this, "Welcome, ${user?.displayName}!", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
             } else {

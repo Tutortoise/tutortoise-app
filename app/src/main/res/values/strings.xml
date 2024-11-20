@@ -82,4 +82,13 @@
     <string name="name">Name</string>
     <string name="confirmpw">Confirm Password</string>
     <string name="tospp">By continuing, you agree to our Terms of Service and Privacy Policy</string>
+
+    <string name="hellotutor">Hello Username,</string>
+    <string name="yourschedule">This is your schedule</string>
+    <string name="date">Date Today</string>
+    <string name="noschedule">No schedule</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
