@@ -11,12 +11,12 @@ import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.databinding.ActivityMainBinding
+import com.tutortoise.tutortoise.presentation.login.LoginActivity
 import com.tutortoise.tutortoise.presentation.onboarding.OnboardingActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -75,6 +75,18 @@ class MainActivity : AppCompatActivity() {
         if (isFirstRun) {
             startOnboarding()
         } else {
+            checkUserSession()
+        }
+    }
+
+    private fun checkUserSession() {
+        val currentUser = FirebaseAuth.getInstance().currentUser
+
+        if (currentUser == null) {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
             setupBottomNavigation()
         }
     }
@@ -82,8 +94,8 @@ class MainActivity : AppCompatActivity() {
     private fun setupBottomNavigation() {
         val bottomNav: BottomNavigationView = binding.bottomNav
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
-
         bottomNav.setupWithNavController(navController)
+
     }
 
     private fun startOnboarding() {

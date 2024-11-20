@@ -2,6 +2,7 @@ package com.tutortoise.tutortoise.repository
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
@@ -35,7 +36,11 @@ class FirebaseRepository {
                 }
             }
             .addOnFailureListener { exception ->
-                Log.e("FirebaseRepository", "Error creating user", exception)
+                if (exception is FirebaseAuthUserCollisionException) {
+                    Log.e("FirebaseRepository", "Email already in use", exception)
+                } else {
+                    Log.e("FirebaseRepository", "Error creating user", exception)
+                }
                 callback(false, null)
             }
     }
@@ -73,7 +78,7 @@ class FirebaseRepository {
                 callback(true)
             }
             .addOnFailureListener { e ->
-                Log.e("FirebaseRepository", "Error saving user data to Firestore", e)
+                Log.e("FirebaseRepository", "Error saving user data to Firestore: ${e.message}", e)
                 callback(false)
             }
     }

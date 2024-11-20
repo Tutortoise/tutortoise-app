@@ -1,20 +1,12 @@
 package com.tutortoise.tutortoise.presentation.register
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.databinding.ActivityLearnerRegisterBinding
-import com.tutortoise.tutortoise.databinding.ActivityTutorRegisterBinding
 import com.tutortoise.tutortoise.presentation.login.LoginActivity
 import com.tutortoise.tutortoise.presentation.main.MainActivity
 import com.tutortoise.tutortoise.repository.FirebaseRepository
@@ -74,12 +66,12 @@ class LearnerRegisterActivity : AppCompatActivity() {
             binding.etName.error = "Name is required"
             isValid = false
         }
-        if (email.isBlank()) {
-            binding.etEmail.error = "Email is required"
+        if (email.isBlank() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.etEmail.error = "Valid email is required"
             isValid = false
         }
-        if (password.isBlank()) {
-            binding.etPassword.error = "Password is required"
+        if (password.isBlank() || password.length < 8) {
+            binding.etPassword.error = "Password must be at least 8 characters"
             isValid = false
         }
         if (confirmPassword != password) {
