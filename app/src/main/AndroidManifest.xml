@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Tutortoise"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.subjects.SubjectsActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.chat.ChatListActivity"
             android:exported="false" />
         <activity
