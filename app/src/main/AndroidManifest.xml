@@ -17,6 +17,15 @@
         android:theme="@style/Theme.Tutortoise"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.menuUser.profile.general.MyActivityActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.menuUser.profile.general.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.menuUser.profile.general.EditProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.subjects.SubjectsActivity"
             android:exported="false" />
         <activity

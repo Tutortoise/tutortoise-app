@@ -92,6 +92,19 @@
     <string name="chat">Chat</string>
     <string name="subjects">Subjects</string>
 
+    <string-array name="gender_options">
+        <item>Gender</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string name="fullname">Full Name</string>
+    <string name="phone">Phone Number</string>
+    <string name="verify">Verify</string>
+    <string name="uselocation">Use Current Location</string>
+    <string name="edit">Edit</string>
+
+    <string name="changepw">Change Password</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

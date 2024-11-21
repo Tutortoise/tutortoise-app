@@ -122,6 +122,8 @@ class MainActivity : AppCompatActivity() {
         val startFragment = intent.getStringExtra("startFragment")
         if (startFragment == "home") {
             navController.navigate(R.id.homeFragment)
+        } else if (startFragment == "profile") {
+            navController.navigate(R.id.profileFragment)
         }
     }
 

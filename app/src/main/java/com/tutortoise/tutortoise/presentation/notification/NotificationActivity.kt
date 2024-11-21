@@ -13,7 +13,8 @@ class NotificationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_notification)
+        binding = ActivityNotificationBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         binding.btnBack.setOnClickListener {
             backToHome()
