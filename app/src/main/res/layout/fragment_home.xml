@@ -145,9 +145,12 @@
                     android:orientation="vertical"
                     android:gravity="center"
                     android:padding="8dp">
+
                     <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"/>
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/ic_image_placeholder" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -172,9 +175,12 @@
                     android:orientation="vertical"
                     android:gravity="center"
                     android:padding="8dp">
+
                     <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"/>
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/ic_image_placeholder" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -198,9 +204,12 @@
                     android:orientation="vertical"
                     android:gravity="center"
                     android:padding="8dp">
+
                     <ImageView
-                        android:layout_width="56dp"
-                        android:layout_height="56dp"/>
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:src="@drawable/ic_image_placeholder" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -229,9 +238,17 @@
                 android:layout_marginStart="10dp"
                 />
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recommendedTutorsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="8dp"
+            android:scrollbars="vertical" />
+
     </LinearLayout>
-    
-    
 
 </ScrollView>
 
