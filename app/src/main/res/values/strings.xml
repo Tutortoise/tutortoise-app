@@ -64,7 +64,7 @@
     <string name="aslearner">As a Learner</string>
     <string name="astutor">As a Tutor</string>
     <string name="alreadyhaveacc">Already have an account? </string>
-    <string name="linklogin">Login</string>
+    <string name="linklogin">Sign in</string>
 
     <string name="welcomeback">Welcome Back!</string>
     <string name="accesstext">Access your personalized hub to continue your learning journey.</string>
@@ -81,7 +81,7 @@
     <string name="join">Join and start your learning journey with expert tutors</string>
     <string name="name">Name</string>
     <string name="confirmpw">Confirm Password</string>
-    <string name="tospp">By continuing, you agree to our Terms of Service and Privacy Policy</string>
+    <string name="tospp">By continuing, you agree to our Terms of Service and\n Privacy Policy</string>
 
     <string name="hellotutor">Hello Username,</string>
     <string name="yourschedule">This is your schedule</string>
