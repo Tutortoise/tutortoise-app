@@ -68,4 +68,5 @@ dependencies {
     implementation(libs.firebase.firestore)
 
     implementation(libs.material.icons.extended)
+    implementation(libs.play.services.location)
 }
