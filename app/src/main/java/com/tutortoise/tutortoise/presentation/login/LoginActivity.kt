@@ -5,17 +5,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.tutortoise.tutortoise.R
-import com.tutortoise.tutortoise.databinding.ActivityLearnerRegisterBinding
 import com.tutortoise.tutortoise.databinding.ActivityLoginBinding
 import com.tutortoise.tutortoise.presentation.main.MainActivity
-import com.tutortoise.tutortoise.presentation.onboarding.fragment.RegisterAsFragment
 
 class LoginActivity : AppCompatActivity() {
 
@@ -62,15 +55,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-
-    override fun onStart() {
-        super.onStart()
-        val currentUser = auth.currentUser
-        if (currentUser != null) {
-            reload()
-        }
-    }
-
     private fun signIn(email: String, password: String) {
         auth.signOut()
         Log.d("LoginActivity", "Attempting to sign in with email: $email")
@@ -95,17 +79,12 @@ class LoginActivity : AppCompatActivity() {
     private fun navigateToMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("startFragment", "home")
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)
         finish()
     }
 
     private fun validateInput(email: String, password: String): Boolean {
         return email.isNotEmpty() && password.isNotEmpty()
-    }
-
-    private fun reload() {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
     }
 }
