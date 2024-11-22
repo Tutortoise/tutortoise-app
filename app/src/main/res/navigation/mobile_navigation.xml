@@ -14,7 +14,7 @@
         android:id="@+id/exploreFragment"
         android:name="com.tutortoise.tutortoise.presentation.menuLearner.explore.ExploreFragment"
         android:label="fragment_explore"
-        tools:layout="@layout/fragment_explore" />
+        tools:layout="@layout/fragment_learner_explore" />
     <fragment
         android:id="@+id/sessionFragment"
         android:name="com.tutortoise.tutortoise.presentation.menuLearner.session.SessionFragment"
