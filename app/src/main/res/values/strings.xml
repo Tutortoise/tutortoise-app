@@ -93,6 +93,7 @@
     <string name="notification">Notifications</string>
     <string name="chat">Chat</string>
     <string name="subjects">Subjects</string>
+    <string name="subjectname">Subject</string>
 
     <string-array name="gender_options">
         <item>Male</item>
@@ -104,7 +105,6 @@
     <string name="verify">Verify</string>
     <string name="uselocation">Use Current Location</string>
     <string name="edit">Edit</string>
-
     <string name="changepw">Change Password</string>
 
 
