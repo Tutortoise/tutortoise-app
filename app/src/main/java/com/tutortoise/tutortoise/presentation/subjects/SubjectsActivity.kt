@@ -16,7 +16,9 @@ class SubjectsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_subjects)
+        binding = ActivitySubjectsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
 
         binding.btnBack.setOnClickListener {
             backToHome()
