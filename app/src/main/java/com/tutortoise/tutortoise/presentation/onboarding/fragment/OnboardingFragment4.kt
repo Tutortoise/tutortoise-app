@@ -20,6 +20,8 @@ class OnboardingFragment4 : Fragment() {
 
     private var _binding: FragmentOnboarding4Binding? = null
     private val binding get() = _binding!!
+    private var isNavigating = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -81,6 +83,9 @@ class OnboardingFragment4 : Fragment() {
         indicators[3].animateIndicatorWidth(inactiveWidth, activeWidth)
 
         binding.continueButton.setOnClickListener {
+            if (isNavigating) return@setOnClickListener
+            isNavigating = true
+
             findNavController().navigate(R.id.action_onboardingFragment4_to_loginRegisterFragment)
         }
     }
@@ -111,6 +116,7 @@ class OnboardingFragment4 : Fragment() {
             .setInterpolator(AccelerateDecelerateInterpolator())
             .withEndAction {
                 onAnimationEnd()
+                isNavigating = false
             }
             .start()
     }

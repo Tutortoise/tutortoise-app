@@ -18,6 +18,8 @@ class OnboardingFragment3 : BaseOnboardingFragment() {
 
     private var _binding: FragmentOnboarding3Binding? = null
     private val binding get() = _binding!!
+    private var isNavigating = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,12 +68,18 @@ class OnboardingFragment3 : BaseOnboardingFragment() {
         indicators[2].animateIndicatorWidth(inactiveWidth, activeWidth)
 
         binding.skipButton.setOnClickListener {
+            if (isNavigating) return@setOnClickListener
+            isNavigating = true
+
             animateAndNavigateToLogin {
-                findNavController().navigate(R.id.action_onboardingFragment3_to_loginRegisterFragment)
+                findNavController().navigate(R.id.action_onboardingFragment1_to_loginRegisterFragment)
             }
         }
 
         binding.continueButton.setOnClickListener {
+            if (isNavigating) return@setOnClickListener
+            isNavigating = true
+
             indicators[2].animateIndicatorWidth(activeWidth, inactiveWidth)
             animateTopBarComponents(false)
             animateContentArea(false) {
@@ -113,6 +121,7 @@ class OnboardingFragment3 : BaseOnboardingFragment() {
             .setInterpolator(AccelerateDecelerateInterpolator())
             .withEndAction {
                 onAnimationEnd()
+                isNavigating = false
             }
             .start()
     }
