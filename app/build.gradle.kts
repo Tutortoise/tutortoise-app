@@ -69,4 +69,5 @@ dependencies {
 
     implementation(libs.material.icons.extended)
     implementation(libs.play.services.location)
+    implementation(libs.androidx.swiperefreshlayout)
 }

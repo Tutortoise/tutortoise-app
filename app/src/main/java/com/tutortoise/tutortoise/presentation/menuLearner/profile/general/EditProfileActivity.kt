@@ -4,15 +4,14 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
-import android.os.Build
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -67,37 +66,39 @@ class EditProfileActivity : AppCompatActivity() {
             .build()
 
         locationCallback = object : LocationCallback() {
-            // TODO: THIS PROBABLY FAILS ON SOME DEVICES
-            @RequiresApi(Build.VERSION_CODES.TIRAMISU)
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult.lastLocation?.let { location ->
                     val geocoder = Geocoder(this@EditProfileActivity)
                     try {
-                        geocoder.getFromLocation(
+                        val addresses = geocoder.getFromLocation(
                             location.latitude,
                             location.longitude,
-                            1,
-                            Geocoder.GeocodeListener { addresses ->
-                                addresses.firstOrNull()?.let { address ->
-                                    val locality = address.locality ?: ""
-                                    val city = address.adminArea ?: ""
-
-                                    val locationText =
-                                        if (locality.isNotEmpty() && city.isNotEmpty()) {
-                                            "$locality, $city"
-                                        } else {
-                                            locality.ifEmpty { city }
-                                        }
-
-                                    runOnUiThread {
-                                        binding.btnLocation.text =
-                                            locationText.ifEmpty { "Location not found" }
-                                    }
-                                }
-                            }
+                            1
                         )
+
+                        addresses?.firstOrNull()?.let { address ->
+                            val locality = address.locality ?: ""
+                            val city = address.adminArea ?: ""
+
+                            val locationText = if (locality.isNotEmpty() && city.isNotEmpty()) {
+                                "$locality, $city"
+                            } else {
+                                locality.ifEmpty { city }
+                            }
+
+                            runOnUiThread {
+                                hideLoadingState()
+                                binding.btnLocation.text = locationText.ifEmpty { "Location not found" }
+                            }
+                        } ?: run {
+                            runOnUiThread {
+                                hideLoadingState()
+                                binding.btnLocation.text = "Location not found"
+                            }
+                        }
                     } catch (e: Exception) {
                         runOnUiThread {
+                            hideLoadingState()
                             Toast.makeText(
                                 this@EditProfileActivity,
                                 "Error getting address: ${e.message}",
@@ -106,6 +107,7 @@ class EditProfileActivity : AppCompatActivity() {
                         }
                     }
                 }
+                fusedLocationClient.removeLocationUpdates(locationCallback)
             }
         }
 
@@ -128,17 +130,35 @@ class EditProfileActivity : AppCompatActivity() {
         spinnerGender.setAdapter(adapter)
     }
 
+    private fun showLoadingState() {
+        binding.btnLocation.apply {
+            isEnabled = false
+            icon = CircularProgressDrawable(this@EditProfileActivity).apply {
+                setStyle(CircularProgressDrawable.DEFAULT)
+                setColorSchemeColors(ContextCompat.getColor(this@EditProfileActivity, R.color.darkgreen))
+                start()
+            }
+            text = "Getting location..."
+        }
+    }
+
+    private fun hideLoadingState() {
+        binding.btnLocation.apply {
+            isEnabled = true
+            icon = ContextCompat.getDrawable(this@EditProfileActivity, R.drawable.ic_location)
+        }
+    }
+
     private fun checkLocationPermission() {
         when {
             ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED -> {
+                showLoadingState()
                 getCurrentLocation()
             }
-
             else -> {
-                // Request location permissions
                 locationPermissionRequest.launch(
                     arrayOf(
                         Manifest.permission.ACCESS_FINE_LOCATION,
@@ -157,7 +177,7 @@ class EditProfileActivity : AppCompatActivity() {
                 locationCallback,
                 null
             )
-        } catch (e: SecurityException) {
+        } catch (_: SecurityException) {
             Toast.makeText(
                 this,
                 "Location permission is required",
@@ -169,6 +189,7 @@ class EditProfileActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         fusedLocationClient.removeLocationUpdates(locationCallback)
+        hideLoadingState()
     }
 
     private fun backToProfile() {
