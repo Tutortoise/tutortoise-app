@@ -1,23 +1,18 @@
 package com.tutortoise.tutortoise.presentation.menuTutor.sessions
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.tutortoise.tutortoise.R
-import com.tutortoise.tutortoise.databinding.FragmentSessionBinding
-import com.tutortoise.tutortoise.databinding.FragmentSessionsTutorBinding
-import com.tutortoise.tutortoise.presentation.menuUser.session.CompletedSessionFragment
-import com.tutortoise.tutortoise.presentation.menuUser.session.PendingSessionFragment
-import com.tutortoise.tutortoise.presentation.menuUser.session.ScheduledSessionFragment
+import com.tutortoise.tutortoise.databinding.FragmentTutorSessionsBinding
 
 class SessionFragment : Fragment() {
-    private lateinit var binding: FragmentSessionsTutorBinding
+    private lateinit var binding: FragmentTutorSessionsBinding
     private lateinit var viewPager: ViewPager2
     private lateinit var tabLayout: TabLayout
 
@@ -26,7 +21,7 @@ class SessionFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSessionsTutorBinding.inflate(inflater, container, false)
+        binding = FragmentTutorSessionsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
