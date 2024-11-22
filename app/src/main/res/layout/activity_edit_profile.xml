@@ -12,138 +12,277 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:paddingHorizontal="24dp"
+        android:paddingTop="16dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:id="@+id/btnBack"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="8dp"
-                android:background="?android:attr/selectableItemBackground"
-                android:contentDescription="@string/back"
-                android:src="@drawable/ic_back"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/editprofile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/montserrat_semi_bold"
-                android:text="@string/editprofile"
-                android:textColor="@color/darkgreen"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <FrameLayout
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="24dp">
-
-            <ImageView
-                android:id="@+id/profileImage"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:contentDescription="Profile Picture"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_image_placeholder" />
-
-            <ImageButton
-                android:id="@+id/changeProfileButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="4dp"
-                android:contentDescription="Change Profile Picture"
-                android:scaleType="center"
-                android:src="@drawable/ic_image_placeholder" />
-        </FrameLayout>
-
-        <EditText
-            android:id="@+id/nameEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="@font/montserrat_regular"
-            android:hint="@string/fullname"
-            android:inputType="textPersonName"
-            android:padding="12dp" />
-
-        <Spinner
-            android:id="@+id/genderSpinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:padding="12dp" />
-
-        <EditText
-            android:id="@+id/emailEditText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:fontFamily="@font/montserrat_regular"
-            android:hint="@string/email"
-            android:inputType="textEmailAddress"
-            android:padding="12dp" />
-
+        <!-- Header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:orientation="horizontal">
+            android:layout_marginBottom="24dp"
+            android:gravity="center_vertical">
 
-            <EditText
-                android:id="@+id/phoneEditText"
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/back"
+                android:src="@drawable/ic_back"
+                app:tint="#1C1B1F" />
+
+            <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:fontFamily="@font/montserrat_regular"
-                android:hint="@string/phone"
-                android:inputType="phone"
-                android:padding="12dp" />
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Edit Profile"
+                android:textAlignment="center"
+                android:textColor="#1C1B1F"
+                android:textSize="16sp" />
 
-            <Button
-                android:id="@+id/verifyButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:fontFamily="@font/montserrat_regular"
-                android:padding="12dp"
-                android:text="@string/verify"
-                android:textColor="#FFFFFF" />
+            <Space
+                android:layout_width="24dp"
+                android:layout_height="24dp" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/locationButton"
+        <!-- Profile Image -->
+        <FrameLayout
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profileImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile"
+                app:shapeAppearanceOverlay="@style/CircleImageView" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/btnChangePhoto"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="end|bottom"
+                android:layout_marginEnd="-4dp"
+                android:layout_marginBottom="-4dp"
+                android:src="@drawable/baseline_camera_alt_24"
+                app:backgroundTint="#FFFFFF"
+                app:fabCustomSize="32dp"
+                app:fabSize="mini"
+                app:tint="@color/darkgreen" />
+        </FrameLayout>
+
+        <!-- Name Field -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/montserrat_semi_bold"
+            android:text="Name"
+            android:textColor="#1C1B1F"
+            android:textSize="14sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
-            android:backgroundTint="@color/darkgreen"
-            android:fontFamily="@font/montserrat_semi_bold"
-            android:padding="12dp"
-            android:text="@string/uselocation"
-            android:textColor="#FFFFFF" />
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeWidth="0.8dp"
+            app:hintEnabled="false">
 
-        <Button
-            android:id="@+id/editButton"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Full Name"
+                android:inputType="textPersonName"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Gender Field -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/montserrat_semi_bold"
+            android:text="Gender"
+            android:textColor="#1C1B1F"
+            android:textSize="14sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/darkgreen"
+            android:layout_marginBottom="16dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeWidth="0.8dp"
+            app:hintEnabled="false">
+
+            <AutoCompleteTextView
+                android:id="@+id/spinnerGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Select your gender"
+                android:inputType="none"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Email Field -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/montserrat_semi_bold"
-            android:padding="12dp"
-            android:text="@string/edit"
-            android:textColor="#FFFFFF" />
+            android:text="Email"
+            android:textColor="#1C1B1F"
+            android:textSize="14sp" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:boxCornerRadiusBottomEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeWidth="0.8dp"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="example@gmail.com"
+                android:inputType="textEmailAddress"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Phone Number Field -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/montserrat_semi_bold"
+            android:text="Phone Number"
+            android:textColor="#1C1B1F"
+            android:textSize="14sp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#FFFFFF"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="0dp"
+            app:strokeColor="#79747E"
+            app:strokeWidth="0.8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingVertical="8dp">
+
+                <!-- Phone input section -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:text="+62"
+                        android:textColor="#1C1B1F" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="25dp"
+                        android:layout_marginHorizontal="8dp"
+                        android:background="#E5E5E5" />
+
+                    <EditText
+                        android:id="@+id/edtPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@null"
+                        android:hint="812-3456-7890"
+                        android:inputType="phone"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <!-- Vertical divider -->
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="25dp"
+                    android:background="#E5E5E5" />
+
+                <!-- Verify button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnVerify"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="verify"
+                    android:textColor="@color/darkgreen"
+                    android:textSize="14sp"
+                    app:cornerRadius="0dp" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Location Field -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/montserrat_semi_bold"
+            android:text="Location"
+            android:textColor="#1C1B1F"
+            android:textSize="14sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnLocation"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="32dp"
+            android:text="Use Current Location"
+            android:textColor="#49454F"
+            app:cornerRadius="0dp"
+            app:icon="@drawable/ic_location"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            app:iconTint="#49454F"
+            app:strokeColor="#79747E" />
+
+        <!-- Save Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="24dp"
+            android:text="Edit"
+            android:textAllCaps="false"
+            app:backgroundTint="@color/darkgreen"
+            app:cornerRadius="100dp" />
+
     </LinearLayout>
 </ScrollView>

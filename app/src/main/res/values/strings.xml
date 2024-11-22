@@ -47,8 +47,10 @@
     <string name="profilesetting">Profile Settings</string>
     <string name="username">Username</string>
     <string name="emailuser">Email User</string>
-    <string name="general">General</string>
     <string name="editprofile">Edit Profile</string>
+    <string name="select_your_gender">Select your gender</string>
+    <string name="save">Save</string>
+    <string name="general">General</string>
     <string name="editprofileText">Change profile picture, location</string>
     <string name="changepassword">Change Password</string>
     <string name="changepasswordText">Update and strongthen account security</string>
@@ -93,9 +95,9 @@
     <string name="subjects">Subjects</string>
 
     <string-array name="gender_options">
-        <item>Gender</item>
         <item>Male</item>
         <item>Female</item>
+        <item>Prefer not to say</item>
     </string-array>
     <string name="fullname">Full Name</string>
     <string name="phone">Phone Number</string>

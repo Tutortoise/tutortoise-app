@@ -66,4 +66,6 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.google.firebase.analytics)
     implementation(libs.firebase.firestore)
+
+    implementation(libs.material.icons.extended)
 }

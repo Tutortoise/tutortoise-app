@@ -2,9 +2,13 @@ package com.tutortoise.tutortoise.presentation.menuLearner.profile.general
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.appcompat.app.AppCompatActivity
+import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.databinding.ActivityEditProfileBinding
 import com.tutortoise.tutortoise.presentation.main.MainActivity
+
 
 class EditProfileActivity : AppCompatActivity() {
 
@@ -19,6 +23,15 @@ class EditProfileActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener {
             backToProfile()
         }
+
+        val spinnerGender = findViewById<AutoCompleteTextView>(R.id.spinnerGender)
+        val adapter = ArrayAdapter.createFromResource(
+            this,
+            R.array.gender_options,
+            android.R.layout.simple_dropdown_item_1line
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
+        spinnerGender.setAdapter(adapter)
     }
 
     private fun backToProfile() {
