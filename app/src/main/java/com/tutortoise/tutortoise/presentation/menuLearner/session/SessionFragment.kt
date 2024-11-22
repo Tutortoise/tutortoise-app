@@ -1,4 +1,4 @@
-package com.tutortoise.tutortoise.presentation.menuUser.session
+package com.tutortoise.tutortoise.presentation.menuLearner.session
 
 import android.os.Bundle
 import android.view.LayoutInflater

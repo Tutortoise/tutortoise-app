@@ -1,21 +1,19 @@
-package com.tutortoise.tutortoise.presentation.menuUser.profile
+package com.tutortoise.tutortoise.presentation.menuLearner.profile
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.databinding.FragmentLearnerProfileBinding
 import com.tutortoise.tutortoise.presentation.login.LoginActivity
-import com.tutortoise.tutortoise.presentation.menuUser.profile.general.ChangePasswordActivity
-import com.tutortoise.tutortoise.presentation.menuUser.profile.general.EditProfileActivity
-import com.tutortoise.tutortoise.presentation.menuUser.profile.general.MyActivityActivity
+import com.tutortoise.tutortoise.presentation.menuLearner.profile.general.ChangePasswordActivity
+import com.tutortoise.tutortoise.presentation.menuLearner.profile.general.EditProfileActivity
+import com.tutortoise.tutortoise.presentation.menuLearner.profile.general.MyActivityActivity
 
 class ProfileFragment : Fragment() {
 

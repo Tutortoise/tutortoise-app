@@ -1,4 +1,4 @@
-package com.tutortoise.tutortoise.repository
+package com.tutortoise.tutortoise.data.repository
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
@@ -12,7 +12,12 @@ class FirebaseRepository {
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    fun createUser(email: String, password: String, name: String, callback: (Boolean, FirebaseUser?) -> Unit) {
+    fun createUser(
+        email: String,
+        password: String,
+        name: String,
+        callback: (Boolean, FirebaseUser?) -> Unit
+    ) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -45,7 +50,11 @@ class FirebaseRepository {
             }
     }
 
-    private fun updateUserDisplayName(user: FirebaseUser, name: String, callback: (Boolean) -> Unit) {
+    private fun updateUserDisplayName(
+        user: FirebaseUser,
+        name: String,
+        callback: (Boolean) -> Unit
+    ) {
         val profileUpdates = UserProfileChangeRequest.Builder()
             .setDisplayName(name)
             .build()

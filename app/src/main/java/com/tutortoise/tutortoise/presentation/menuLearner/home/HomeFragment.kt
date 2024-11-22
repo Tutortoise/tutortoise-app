@@ -1,4 +1,4 @@
-package com.tutortoise.tutortoise.presentation.menuUser.home
+package com.tutortoise.tutortoise.presentation.menuLearner.home
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.databinding.FragmentLearnerHomeBinding
 import com.tutortoise.tutortoise.presentation.chat.ChatListActivity
 import com.tutortoise.tutortoise.presentation.notification.NotificationActivity

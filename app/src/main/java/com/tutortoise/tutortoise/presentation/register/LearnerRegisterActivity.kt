@@ -6,10 +6,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.data.repository.FirebaseRepository
 import com.tutortoise.tutortoise.databinding.ActivityLearnerRegisterBinding
 import com.tutortoise.tutortoise.presentation.login.LoginActivity
-import com.tutortoise.tutortoise.presentation.main.MainActivity
-import com.tutortoise.tutortoise.repository.FirebaseRepository
 
 class LearnerRegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLearnerRegisterBinding
@@ -59,7 +58,12 @@ class LearnerRegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun validateInput(name: String, email: String, password: String, confirmPassword: String): Boolean {
+    private fun validateInput(
+        name: String,
+        email: String,
+        password: String,
+        confirmPassword: String
+    ): Boolean {
         var isValid = true
 
         if (name.isBlank()) {
