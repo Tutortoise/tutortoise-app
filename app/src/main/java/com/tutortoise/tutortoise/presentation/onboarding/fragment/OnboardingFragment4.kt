@@ -50,13 +50,8 @@ class OnboardingFragment4 : Fragment() {
             binding.contentLayout.alpha = 1f  // Make content immediately visible
         }
 
-        val sharedPref = requireActivity().getSharedPreferences("AppPreferences", AppCompatActivity.MODE_PRIVATE)
 
         animateContentArea(true)
-
-        val editor = sharedPref.edit()
-        editor.putBoolean("isFirstRun", false)
-        editor.apply()
 
         val indicators = binding.pageIndicator.let {
             listOf<ImageView>(

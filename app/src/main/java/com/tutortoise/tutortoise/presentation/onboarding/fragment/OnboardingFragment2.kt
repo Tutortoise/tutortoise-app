@@ -54,7 +54,7 @@ class OnboardingFragment2 : BaseOnboardingFragment() {
             isNavigating = true
 
             animateAndNavigateToLogin {
-                findNavController().navigate(R.id.action_onboardingFragment1_to_loginRegisterFragment)
+                findNavController().navigate(R.id.action_onboardingFragment2_to_loginRegisterFragment)
             }
         }
 

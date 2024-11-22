@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.navigation.fragment.findNavController
@@ -84,6 +85,11 @@ class LoginRegisterFragment : Fragment() {
         binding.registButton.setOnClickListener {
             findNavController().navigate(R.id.action_loginRegisterFragment_to_registerAsFragment)
         }
+
+        val sharedPref = requireActivity().getSharedPreferences("AppPreferences", AppCompatActivity.MODE_PRIVATE)
+        val editor = sharedPref.edit()
+        editor.putBoolean("isFirstRun", false)
+        editor.apply()
     }
 
     private fun animateAndNavigate() {
