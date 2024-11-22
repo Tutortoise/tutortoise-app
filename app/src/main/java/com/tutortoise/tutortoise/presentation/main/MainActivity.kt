@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity() {
     // Declare the binding object
     private lateinit var binding: ActivityMainBinding
 
+    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         // Install splash screen
         val splashScreen = installSplashScreen()
@@ -53,7 +55,6 @@ class MainActivity : AppCompatActivity() {
                 play(fadeOut)
                 doOnEnd {
                     splashScreenView.remove()
-                    checkFirstRunAndNavigate()
                 }
                 start()
             }
@@ -64,28 +65,7 @@ class MainActivity : AppCompatActivity() {
             delay(1000) // Short delay for splash screen
             keepSplashOnScreen = false
 
-            // Check if it's first run
-            val sharedPref = getSharedPreferences("AppPreferences", MODE_PRIVATE)
-            val isFirstRun = sharedPref.getBoolean("isFirstRun", true)
-
-            if (isFirstRun) {
-                // First time - go to onboarding
-                startOnboarding()
-                finish() // Finish MainActivity
-                return@launch
-            }
-
-            // Check if user is logged in
-            val currentUser = FirebaseAuth.getInstance().currentUser
-            if (currentUser == null) {
-                // No user - go to login
-                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
-                finish() // Finish MainActivity
-                return@launch
-            }
-
-            // User is logged in - show main content
-            setContentView(binding.root)
+            proceedAfterSplash()
         }
 
         val navHostFragment =
@@ -99,25 +79,31 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkFirstRunAndNavigate() {
-        val sharedPref = getSharedPreferences("AppPreferences", MODE_PRIVATE)
-        val isFirstRun = sharedPref.getBoolean("isFirstRun", true)
-
-        if (isFirstRun) {
+    private fun proceedAfterSplash() {
+        if (isFirstRun()) {
             startOnboarding()
+            return
+        }
+
+        if (isUserLoggedIn()) {
+            setContentView(binding.root)
         } else {
-            checkUserSession()
+            redirectToLogin()
         }
     }
 
-    private fun checkUserSession() {
-        val currentUser = FirebaseAuth.getInstance().currentUser
+    private fun isFirstRun(): Boolean {
+        val sharedPref = getSharedPreferences("AppPreferences", MODE_PRIVATE)
+        return sharedPref.getBoolean("isFirstRun", true)
+    }
 
-        if (currentUser == null) {
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
+    private fun isUserLoggedIn(): Boolean {
+        return firebaseAuth.currentUser != null
+    }
+
+    private fun redirectToLogin() {
+        startActivity(Intent(this, LoginActivity::class.java))
+        finish()
     }
 
     private fun startOnboarding() {
