@@ -26,13 +26,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Install splash screen
+        val splashScreen = installSplashScreen()
+
         super.onCreate(savedInstanceState)
 
         // Initialize the binding object with the inflated layout
         binding = ActivityMainBinding.inflate(layoutInflater)
-
-        // Install splash screen
-        val splashScreen = installSplashScreen()
 
         // Keep splash screen visible for longer
         var keepSplashOnScreen = true
