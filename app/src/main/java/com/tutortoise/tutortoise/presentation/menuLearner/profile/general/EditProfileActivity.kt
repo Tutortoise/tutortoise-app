@@ -28,9 +28,9 @@ class EditProfileActivity : AppCompatActivity() {
         val adapter = ArrayAdapter.createFromResource(
             this,
             R.array.gender_options,
-            android.R.layout.simple_dropdown_item_1line
+            R.layout.dropdown_item
         )
-        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
+        adapter.setDropDownViewResource(R.layout.dropdown_item)
         spinnerGender.setAdapter(adapter)
     }
 

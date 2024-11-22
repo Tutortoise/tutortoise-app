@@ -24,10 +24,11 @@
 
             <ImageButton
                 android:id="@+id/btnBack"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/back"
+                android:scaleType="fitXY"
                 android:src="@drawable/ic_back"
                 app:tint="#1C1B1F" />
 
@@ -122,20 +123,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
+            app:boxBackgroundColor="#FFFFFF"
             app:boxCornerRadiusBottomEnd="12dp"
             app:boxCornerRadiusBottomStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
             app:boxCornerRadiusTopStart="12dp"
             app:boxStrokeWidth="0.8dp"
+            app:endIconTint="@color/darkgreen"
             app:hintEnabled="false">
 
             <AutoCompleteTextView
                 android:id="@+id/spinnerGender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:dropDownVerticalOffset="3dp"
+                android:fontFamily="@font/montserrat_medium"
                 android:hint="Select your gender"
                 android:inputType="none"
-                android:textSize="14sp" />
+                android:popupBackground="#FFFFFF"
+                android:textSize="12sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Email Field -->
