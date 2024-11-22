@@ -10,9 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.databinding.ActivityMainBinding
@@ -87,7 +86,16 @@ class MainActivity : AppCompatActivity() {
 
             // User is logged in - show main content
             setContentView(binding.root)
-            setupBottomNavigation()
+        }
+
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        val navController = navHostFragment.navController
+        binding.bottomNav.setupWithNavController(navController)
+
+        val startFragment = intent.getStringExtra("startFragment")
+        if (startFragment == "profile") {
+            binding.bottomNav.selectedItemId = R.id.profileFragment
         }
     }
 
@@ -109,21 +117,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
             finish()
-        } else {
-            setupBottomNavigation()
-        }
-    }
-
-    private fun setupBottomNavigation() {
-        val bottomNav: BottomNavigationView = binding.bottomNav
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-        bottomNav.setupWithNavController(navController)
-
-        val startFragment = intent.getStringExtra("startFragment")
-        if (startFragment == "home") {
-            navController.navigate(R.id.homeFragment)
-        } else if (startFragment == "profile") {
-            navController.navigate(R.id.profileFragment)
         }
     }
 

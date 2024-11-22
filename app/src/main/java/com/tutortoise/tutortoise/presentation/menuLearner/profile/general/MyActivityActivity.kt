@@ -21,8 +21,10 @@ class MyActivityActivity : AppCompatActivity() {
     }
 
     private fun backToProfile() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("startFragment", "profile")
+        val intent = Intent(this, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            putExtra("startFragment", "profile")
+        }
         startActivity(intent)
         finish()
     }

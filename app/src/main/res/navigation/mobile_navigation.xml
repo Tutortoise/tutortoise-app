@@ -8,21 +8,24 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.tutortoise.tutortoise.presentation.menuLearner.home.HomeFragment"
-        android:label="fragment_home"
+        android:label="HomeFragment"
         tools:layout="@layout/fragment_learner_home" />
+
     <fragment
         android:id="@+id/exploreFragment"
         android:name="com.tutortoise.tutortoise.presentation.menuLearner.explore.ExploreFragment"
-        android:label="fragment_explore"
+        android:label="ExploreFragment"
         tools:layout="@layout/fragment_learner_explore" />
+
     <fragment
         android:id="@+id/sessionFragment"
         android:name="com.tutortoise.tutortoise.presentation.menuLearner.session.SessionFragment"
-        android:label="fragment_session"
+        android:label="SessionFragment"
         tools:layout="@layout/fragment_learner_session" />
+
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.tutortoise.tutortoise.presentation.menuLearner.profile.ProfileFragment"
-        android:label="fragment_profile"
+        android:label="ProfileFragment"
         tools:layout="@layout/fragment_learner_profile" />
 </navigation>
