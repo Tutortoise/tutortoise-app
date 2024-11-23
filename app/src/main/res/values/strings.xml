@@ -107,6 +107,8 @@
     <string name="edit">Edit</string>
     <string name="changepw">Change Password</string>
     <string name="tutordetail">Tutor Detail</string>
+    <string name="notimessage">Notification Messages Received Goes Here</string>
+    <string name="notidate">Date/Time</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
