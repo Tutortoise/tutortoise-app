@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/tvTitle"
@@ -13,8 +14,8 @@
         android:layout_marginTop="16dp"
         android:text="@string/profilesetting"
         android:textColor="@color/black"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:textSize="18sp"
+        android:fontFamily="@font/montserrat_semi_bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,8 +49,8 @@
                 android:layout_marginStart="12dp"
                 android:text="@string/username"
                 android:textColor="@color/black"
+                android:fontFamily="@font/montserrat_semi_bold"
                 android:textSize="16sp"
-                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@id/ivProfile"
                 app:layout_constraintTop_toTopOf="@id/ivProfile" />
 
@@ -59,12 +60,26 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:text="@string/emailuser"
-                android:textColor="#666666"
-                android:textSize="14sp"
+                android:fontFamily="@font/montserrat_regular"
+                android:textColor="@color/black"
+                android:textSize="12sp"
                 app:layout_constraintStart_toEndOf="@id/ivProfile"
                 app:layout_constraintTop_toBottomOf="@id/tvName" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/tvGeneralSection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="General"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="#C1BDBD"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardProfile"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardGeneral"
@@ -74,7 +89,7 @@
         android:layout_marginTop="8dp"
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp"
-        app:layout_constraintTop_toBottomOf="@id/cardProfile">
+        app:layout_constraintTop_toBottomOf="@id/tvGeneralSection">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -107,7 +122,8 @@
                     android:layout_marginStart="12dp"
                     android:text="@string/editprofile"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:fontFamily="@font/montserrat_semi_bold"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toStartOf="@+id/ivEditProfileArrow"
                     app:layout_constraintStart_toEndOf="@+id/ivEditProfile"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -116,8 +132,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/editprofileText"
-                    android:textColor="#666666"
-                    android:textSize="14sp"
+                    android:textColor="#66000000"
+                    android:textSize="12sp"
                     app:layout_constraintEnd_toStartOf="@+id/ivEditProfileArrow"
                     app:layout_constraintStart_toStartOf="@+id/tvEditProfileTitle"
                     app:layout_constraintTop_toBottomOf="@+id/tvEditProfileTitle" />
@@ -126,6 +142,7 @@
                     android:id="@+id/ivEditProfileArrow"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:layout_marginTop="8dp"
                     android:src="@drawable/ic_arrow_right"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -164,8 +181,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
                     android:text="@string/changepassword"
+                    android:fontFamily="@font/montserrat_semi_bold"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toStartOf="@+id/ivPasswordArrow"
                     app:layout_constraintStart_toEndOf="@+id/ivPassword"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -174,8 +192,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/changepasswordText"
-                    android:textColor="#666666"
-                    android:textSize="14sp"
+                    android:textColor="#66000000"
+                    android:textSize="12sp"
                     app:layout_constraintEnd_toStartOf="@+id/ivPasswordArrow"
                     app:layout_constraintStart_toStartOf="@+id/tvPasswordTitle"
                     app:layout_constraintTop_toBottomOf="@+id/tvPasswordTitle" />
@@ -184,6 +202,7 @@
                     android:id="@+id/ivPasswordArrow"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:layout_marginTop="8dp"
                     android:src="@drawable/ic_arrow_right"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -223,7 +242,8 @@
                     android:layout_marginStart="12dp"
                     android:text="@string/myactivity"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:fontFamily="@font/montserrat_semi_bold"
+                    android:textSize="14sp"
                     app:layout_constraintEnd_toStartOf="@+id/ivActivityArrow"
                     app:layout_constraintStart_toEndOf="@+id/ivActivity"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -232,8 +252,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="@string/myactivityText"
-                    android:textColor="#666666"
-                    android:textSize="14sp"
+                    android:textColor="#66000000"
+                    android:textSize="12sp"
                     app:layout_constraintEnd_toStartOf="@+id/ivActivityArrow"
                     app:layout_constraintStart_toStartOf="@+id/tvActivityTitle"
                     app:layout_constraintTop_toBottomOf="@+id/tvActivityTitle" />
@@ -242,6 +262,8 @@
                     android:id="@+id/ivActivityArrow"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:layout_marginTop="8dp"
+                    android:foregroundGravity="center_vertical"
                     android:src="@drawable/ic_arrow_right"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -256,7 +278,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="@string/preferences"
-        android:textColor="#999999"
+        android:fontFamily="@font/montserrat_bold"
+        android:textColor="#C1BDBD"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardGeneral" />
@@ -287,7 +310,7 @@
                 android:src="@drawable/ic_logout"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="#FF0000" />
+                app:tint="#FB0000" />
 
             <TextView
                 android:id="@+id/tvLogoutTitle"
@@ -295,8 +318,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
                 android:text="@string/logout"
-                android:textColor="#FF0000"
-                android:textSize="16sp"
+                android:textColor="#FB0000"
+                android:fontFamily="@font/montserrat_semi_bold"
+                android:textSize="14sp"
                 app:layout_constraintEnd_toStartOf="@+id/ivLogoutArrow"
                 app:layout_constraintStart_toEndOf="@+id/ivLogout"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -305,8 +329,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/logoutText"
-                android:textColor="#666666"
-                android:textSize="14sp"
+                android:textColor="#66000000"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/ivLogoutArrow"
                 app:layout_constraintStart_toStartOf="@+id/tvLogoutTitle"
                 app:layout_constraintTop_toBottomOf="@+id/tvLogoutTitle" />
@@ -315,6 +339,7 @@
                 android:id="@+id/ivLogoutArrow"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:layout_marginTop="8dp"
                 android:src="@drawable/ic_arrow_right"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
