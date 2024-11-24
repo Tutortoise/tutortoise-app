@@ -18,9 +18,11 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="My Tutories"
+                android:text="@string/mytutories"
                 android:textSize="24sp"
                 android:textStyle="bold"
+                android:textColor="@color/darkgreen"
+                android:fontFamily="@font/montserrat_semi_bold"
                 android:layout_weight="1" />
 
             <ImageButton

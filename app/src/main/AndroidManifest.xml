@@ -25,6 +25,15 @@
         android:theme="@style/Theme.Tutortoise"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.menuTutor.tutories.EditServiceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.menuTutor.tutories.SetScheduleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.menuTutor.tutories.CreateServiceActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.menuLearner.detail.DetailTutorActivity"
             android:exported="false" />
         <activity

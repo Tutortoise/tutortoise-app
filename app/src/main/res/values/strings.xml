@@ -111,6 +111,21 @@
     <string name="notidate">Date/Time</string>
     <string name="tutorrsvp">Tutor Reservation</string>
 
+    <string name="mytutories">My Tutories</string>
+    <string name="whichsubject">Which Subjects do you teach?</string>
+    <string name="aboutyou">About you in this subject</string>
+    <string name="aboutyoutext">Reassure your student about your professionalism, inspire confidence and etablish your legtimacy as a tutor</string>
+    <string name="method">Teaching Methodology</string>
+    <string name="methodtext">It’s time to convince your future students why they should take lessons with you!</string>
+    <string name="rateperhour">Rate per hour</string>
+    <string name="rateperhourinfo">Info: The average rate for mathematics lessons in Samarindais Rp. 50000</string>
+    <string name="rateperhournominal">50000</string>
+    <string name="typelessons">Type Lessons</string>
+    <string name="online">Online</string>
+    <string name="facetoface">Face to Face</string>
+    <string name="confirm">Confirm</string>
+
+    <string name="setschedule">Set Tutor Schedule</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
