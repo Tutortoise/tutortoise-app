@@ -21,20 +21,14 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-
-    // Declare the binding object
-    private lateinit var binding: ActivityMainBinding
-
+    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Install splash screen
         val splashScreen = installSplashScreen()
-
         super.onCreate(savedInstanceState)
-
-        // Initialize the binding object with the inflated layout
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root) // Set content view first
 
         // Keep splash screen visible for longer
         var keepSplashOnScreen = true
@@ -62,12 +56,15 @@ class MainActivity : AppCompatActivity() {
 
         // Simulate some loading work
         lifecycleScope.launch {
-            delay(1000) // Short delay for splash screen
+            delay(1000)
             keepSplashOnScreen = false
-
             proceedAfterSplash()
         }
 
+        setupNavigation()
+    }
+
+    private fun setupNavigation() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
         val navController = navHostFragment.navController
@@ -85,9 +82,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        if (isUserLoggedIn()) {
-            setContentView(binding.root)
-        } else {
+        if (!isUserLoggedIn()) {
             redirectToLogin()
         }
     }
@@ -115,7 +110,6 @@ class MainActivity : AppCompatActivity() {
             R.anim.fade_in,
             R.anim.fade_out
         )
-
         startActivity(intent, options.toBundle())
         finish()
     }

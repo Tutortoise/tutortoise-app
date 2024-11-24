@@ -12,15 +12,18 @@ import com.tutortoise.tutortoise.presentation.notification.NotificationActivity
 import com.tutortoise.tutortoise.presentation.subjects.SubjectsActivity
 
 class HomeFragment : Fragment() {
-
     private var _binding: FragmentLearnerHomeBinding? = null
     private val binding get() = _binding!!
+
+    private val notificationIntent by lazy { Intent(requireContext(), NotificationActivity::class.java) }
+    private val chatIntent by lazy { Intent(requireContext(), ChatListActivity::class.java) }
+    private val subjectsIntent by lazy { Intent(requireContext(), SubjectsActivity::class.java) }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentLearnerHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -29,18 +32,15 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.notification.setOnClickListener {
-            val intent = Intent(requireContext(), NotificationActivity::class.java)
-            startActivity(intent)
+            startActivity(notificationIntent)
         }
 
         binding.chat.setOnClickListener {
-            val intent = Intent(requireContext(), ChatListActivity::class.java)
-            startActivity(intent)
+            startActivity(chatIntent)
         }
 
         binding.seemore.setOnClickListener {
-            val intent = Intent(requireContext(), SubjectsActivity::class.java)
-            startActivity(intent)
+            startActivity(subjectsIntent)
         }
     }
 
