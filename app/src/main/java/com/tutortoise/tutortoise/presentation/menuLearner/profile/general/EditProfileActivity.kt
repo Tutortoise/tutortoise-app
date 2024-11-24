@@ -5,6 +5,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.os.Bundle
+import android.view.View
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
@@ -27,6 +30,32 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
+
+    private fun setupWebView() {
+        binding.mapView.settings.apply {
+            javaScriptEnabled = true
+            domStorageEnabled = true
+        }
+    }
+
+    private fun loadMap(latitude: Double, longitude: Double) {
+        // Calculate offset coordinates for privacy (showing approximate location)
+        val offsetLat = (latitude * 100).toInt() / 100.0
+        val offsetLng = (longitude * 100).toInt() / 100.0
+
+        binding.mapView.visibility = View.VISIBLE
+        binding.mapView.loadUrl("file:///android_asset/map.html")
+
+        binding.mapView.webViewClient = object : WebViewClient() {
+            override fun onPageFinished(view: WebView?, url: String?) {
+                // Initialize map with offset coordinates
+                binding.mapView.evaluateJavascript(
+                    "initMap($offsetLat, $offsetLng)",
+                    null
+                )
+            }
+        }
+    }
 
     private val locationPermissionRequest = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -56,6 +85,8 @@ class EditProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setupWebView()
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -89,6 +120,8 @@ class EditProfileActivity : AppCompatActivity() {
                             runOnUiThread {
                                 hideLoadingState()
                                 binding.btnLocation.text = locationText.ifEmpty { "Location not found" }
+                                // Load the OpenStreetMap
+                                loadMap(location.latitude, location.longitude)
                             }
                         } ?: run {
                             runOnUiThread {
@@ -199,5 +232,10 @@ class EditProfileActivity : AppCompatActivity() {
         }
         startActivity(intent)
         finish()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.mapView.loadUrl("about:blank")
     }
 }

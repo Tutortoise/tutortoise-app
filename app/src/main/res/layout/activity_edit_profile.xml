@@ -265,20 +265,33 @@
             android:textColor="@color/black"
             android:textSize="14sp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLocation"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="36dp"
-            android:text="Use Current Location"
-            android:textColor="#49454F"
-            app:cornerRadius="12dp"
-            app:icon="@drawable/ic_location"
-            app:iconGravity="textStart"
-            app:iconPadding="8dp"
-            app:iconTint="#49454F"
-            app:strokeColor="#79747E" />
+            android:orientation="vertical">
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLocation"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+
+                android:text="Use Current Location"
+                android:textColor="#49454F"
+                app:cornerRadius="12dp"
+                app:icon="@drawable/ic_location"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconTint="#49454F"
+                app:strokeColor="#79747E" />
+
+            <WebView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:visibility="gone" />
+        </LinearLayout>
+
 
         <!-- Save Button -->
         <com.google.android.material.button.MaterialButton
@@ -291,6 +304,7 @@
             android:textColor="@color/purewhite"
             android:textAllCaps="false"
             app:backgroundTint="@color/darkgreen"
+            android:layout_marginBottom="36dp"
             app:cornerRadius="30dp"/>
 
     </LinearLayout>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #map {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+        }
+        .custom-marker {
+            background-color: #008148;
+            border-radius: 50%;
+            border: 2px solid white;
+            width: 24px !important;
+            height: 24px !important;
+            display: block;
+            left: -12px;
+            top: -12px;
+            position: relative;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .custom-marker::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: white;
+            border-radius: 50%;
+            top: 8px;
+            left: 8px;
+        }
+        .leaflet-container {
+            font-family: 'Arial', sans-serif;
+        }
+    </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+    function initMap(lat, lng) {
+        var customIcon = L.divIcon({
+            className: 'custom-marker',
+            iconSize: [24, 24]
+        });
+
+        var map = L.map('map', {
+            zoomControl: false,
+            dragging: false,
+            touchZoom: false,
+            doubleClickZoom: false,
+            scrollWheelZoom: false,
+            attributionControl: false
+        }).setView([lat, lng], 13);
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            maxZoom: 19,
+            subdomains: 'abcd'
+        }).addTo(map);
+
+        L.marker([lat, lng], {icon: customIcon}).addTo(map);
+
+        L.rectangle([[90, -180], [-90, 180]], {
+            color: 'transparent',
+            fillColor: '#ffffff',
+            fillOpacity: 0.1
+        }).addTo(map);
+    }
+</script>
+</body>
+</html>
