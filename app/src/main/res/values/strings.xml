@@ -139,6 +139,13 @@
     <string name="subject">Subject</string>
     <string name="priceperhour">Price per hour</string>
 
+    <string name="tutortime">Tutoring Time</string>
+    <string name="tutordate">Tutoring Date</string>
+    <string name="awaiting">Awaiting Payment</string>
+    <string name="awaitingconfirm">Awaiting Confirmation</string>
+    <string name="rejected">Rejected</string>
+    <string name="completed">Completed</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
