@@ -135,6 +135,10 @@
     <string name="visual">Visual</string>
     <string name="auditory">Auditory</string>
     <string name="kinesthetic">Kinesthetic</string>
+    
+    <string name="subject">Subject</string>
+    <string name="priceperhour">Price per hour</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
