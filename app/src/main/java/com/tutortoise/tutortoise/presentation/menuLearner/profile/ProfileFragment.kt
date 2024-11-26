@@ -1,5 +1,6 @@
 package com.tutortoise.tutortoise.presentation.menuLearner.profile
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerProfileBinding
 import com.tutortoise.tutortoise.presentation.login.LoginActivity
 import com.tutortoise.tutortoise.presentation.menuLearner.profile.general.ChangePasswordActivity
@@ -19,7 +21,8 @@ class ProfileFragment : Fragment() {
 
     private var _binding: FragmentLearnerProfileBinding? = null
     private val binding get() = _binding!!
-    private lateinit var auth: FirebaseAuth
+//    private lateinit var auth: FirebaseAuth
+    private lateinit var AuthRepository: AuthRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,11 +30,10 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLearnerProfileBinding.inflate(inflater, container, false)
-        auth = FirebaseAuth.getInstance()
+        AuthRepository = AuthRepository(requireContext())
 
         // Display user details
-        val user = auth.currentUser
-        displayUserInfo(user)
+        displayUserInfo()
 
         // Handle logout
         setupClickListeners()
@@ -39,9 +41,13 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
-    private fun displayUserInfo(user: FirebaseUser?) {
-        binding.tvName.text = user?.displayName ?: "Anonymous"
-        binding.tvEmail.text = user?.email ?: "No email available"
+    private fun displayUserInfo() {
+        val sharedPreferences = requireContext().getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
+        val userName = sharedPreferences.getString("user_name", "Anonymous")
+        val userEmail = sharedPreferences.getString("user_email", "No email available")
+
+        binding.tvName.text = userName
+        binding.tvEmail.text = userEmail
     }
 
     private fun setupClickListeners() {
@@ -72,14 +78,26 @@ class ProfileFragment : Fragment() {
             .setTitle("Log Out")
             .setMessage("Are you sure you want to log out?")
             .setPositiveButton("Log Out") { _, _ ->
-                auth.signOut()
-                val intent = Intent(requireContext(), LoginActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
+                logoutUser()
+//                auth.signOut()
+//                val intent = Intent(requireContext(), LoginActivity::class.java)
+//                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                startActivity(intent)
             }
             .setNegativeButton("Cancel", null)
             .show()
     }
+
+    private fun logoutUser() {
+        // Clear the authentication token
+        AuthRepository.clearToken()
+
+        // Redirect to LoginActivity
+        val intent = Intent(requireContext(), LoginActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+    }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

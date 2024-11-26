@@ -70,4 +70,13 @@ dependencies {
     implementation(libs.material.icons.extended)
     implementation(libs.play.services.location)
     implementation(libs.androidx.swiperefreshlayout)
+
+    implementation (libs.retrofit)
+    implementation (libs.converter.gson)
+    implementation (libs.logging.interceptor)
+    implementation (libs.gson)
+    implementation (libs.kotlinx.coroutines.android)
+    implementation (libs.androidx.lifecycle.runtime.ktx)
+    implementation (libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.androidx.security.crypto)
 }
