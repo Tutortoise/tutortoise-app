@@ -5,9 +5,10 @@ import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 import com.tutortoise.tutortoise.data.pref.ApiConfig
-import com.tutortoise.tutortoise.data.pref.AuthResponse
+import com.tutortoise.tutortoise.data.pref.ApiResponse
 import com.tutortoise.tutortoise.data.pref.ErrorResponse
 import com.tutortoise.tutortoise.data.pref.LoginRequest
+import com.tutortoise.tutortoise.data.pref.RegisterData
 import com.tutortoise.tutortoise.data.pref.RegisterRequest
 import com.tutortoise.tutortoise.data.pref.UserResponse
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +26,9 @@ class AuthRepository(private val context: Context) {
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
 
-    suspend fun register(name: String, email: String, password: String, role: String): Result<AuthResponse> = withContext(Dispatchers.IO) {
+    fun getSharedPreferences() = sharedPreferences
+
+    suspend fun register(name: String, email: String, password: String, role: String): Result<ApiResponse<RegisterData>> = withContext(Dispatchers.IO) {
         return@withContext try {
             Log.d("AuthRepository", "Registering user with email: $email as $role")
             val response = apiService.register(RegisterRequest(
@@ -47,23 +50,22 @@ class AuthRepository(private val context: Context) {
     suspend fun login(email: String, password: String): Boolean = withContext(Dispatchers.IO) {
         return@withContext try {
             val response = apiService.login(LoginRequest(email, password))
-            if (response.status == "success") {
-                val token = response.data.token
-                Log.d("AuthRepository", "Received token: $token")
-                if (token != null) {
-                    saveToken(token)
-                    val userDetails = fetchUserDetails(token)
-                    userDetails?.let {
-                        saveUserInfo(it.name, it.email)
-                    }
-                    true
-                } else {
-                    Log.d("AuthRepository", "Token is null in login response.")
-                    false
-                }
-            } else {
-                false
+            if (response.status != "success") {
+                Log.d("AuthRepository", "Login failed ${response.message}")
+                return@withContext false
             }
+
+            val token = response.data!!.token
+            Log.d("AuthRepository", "Received token: $token")
+
+            saveToken(token)
+
+            val userDetails = fetchUserDetails()
+            userDetails?.data?.let { data ->
+                saveUserInfo(data.name, data.email, data.role)
+            }
+
+            true
         } catch (e: Exception) {
             Log.e("AuthRepository", "Login failed", e)
             false
@@ -75,10 +77,11 @@ class AuthRepository(private val context: Context) {
         sharedPreferences.edit().putString("auth_token", token).apply()
     }
 
-    private fun saveUserInfo(name: String, email: String) {
+    private fun saveUserInfo(name: String, email: String, role: String) {
         sharedPreferences.edit()
             .putString("user_name", name)
             .putString("user_email", email)
+            .putString("user_role", role)
             .apply()
     }
 
@@ -90,9 +93,9 @@ class AuthRepository(private val context: Context) {
         sharedPreferences.edit().clear().apply()
     }
 
-    suspend fun fetchUserDetails(token: String): UserResponse? {
+    suspend fun fetchUserDetails(): ApiResponse<UserResponse>? {
         return try {
-            val response = apiService.getUserDetail("Bearer $token")
+            val response = apiService.getAuthenticatedUser()
             if (response.isSuccessful) {
                 response.body()
             } else {

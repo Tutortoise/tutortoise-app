@@ -3,8 +3,13 @@ package com.tutortoise.tutortoise.data.pref
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.POST
+
+data class ApiResponse<T>(
+    val status: String,         // "error" | "fail" | "success"
+    val message: String?,       // Optional message
+    val data: T?                // Generic payload
+)
 
 data class RegisterRequest(
     val name: String,
@@ -14,14 +19,12 @@ data class RegisterRequest(
 )
 
 data class LoginRequest(val email: String, val password: String)
-data class AuthResponse(
-    val status: String,
-    val message: String,
-    val data: AuthData
+
+data class RegisterData(
+    val userId: String
 )
 
-data class AuthData(
-    val userId: String,
+data class LoginData(
     val token: String
 )
 
@@ -36,22 +39,53 @@ data class ValidationError(
     val message: String
 )
 
-data class UserResponse(
+data class UserResponse (
     val id: String,
     val name: String,
     val email: String,
-    val role: String
+    val role: String,
 )
+
+data class LearnerData(
+    val id: String,
+    val name: String,
+    val email: String,
+    val learningStyle: String,
+    val gender: String,
+    val phoneNumber: String,
+    val city: String,
+    val district: String,
+    val createdAt: String
+)
+
+data class TutorData(
+    val id: String,
+    val name: String,
+    val email: String,
+    val gender: String,
+    val phoneNumber: String,
+    val city: String,
+    val district: String,
+    val createdAt: String
+)
+
 
 interface ApiService {
     @POST("auth/register")
-    suspend fun register(@Body request: RegisterRequest): AuthResponse
+    suspend fun register(@Body request: RegisterRequest): ApiResponse<RegisterData>
 
     @POST("auth/login")
-    suspend fun login(@Body request: LoginRequest): AuthResponse
+    suspend fun login(@Body request: LoginRequest): ApiResponse<LoginData>
 
-    @GET("auth/user")
-    suspend fun getUserDetail(
-        @Header("Authorization") token: String
-    ) : Response<UserResponse>
+    @GET("auth/me")
+    suspend fun getAuthenticatedUser(
+    ) : Response<ApiResponse<UserResponse>>
+
+    @GET("learners/profile")
+    suspend fun getLearnerProfile(
+    ): Response<ApiResponse<LearnerData>>
+
+    @GET("tutors/profile")
+    suspend fun getTutorProfile(
+    ): Response<ApiResponse<TutorData>>
 }

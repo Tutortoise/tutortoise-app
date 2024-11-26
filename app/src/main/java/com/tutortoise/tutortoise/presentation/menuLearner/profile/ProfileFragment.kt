@@ -1,6 +1,5 @@
 package com.tutortoise.tutortoise.presentation.menuLearner.profile
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -23,8 +22,8 @@ class ProfileFragment : Fragment() {
 
     private var _binding: FragmentLearnerProfileBinding? = null
     private val binding get() = _binding!!
-//    private lateinit var auth: FirebaseAuth
-    private lateinit var AuthRepository: AuthRepository
+    // private lateinit var auth: FirebaseAuth
+    private lateinit var authRepository: AuthRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +31,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLearnerProfileBinding.inflate(inflater, container, false)
-        AuthRepository = AuthRepository(requireContext())
+        authRepository = AuthRepository(requireContext())
 
         // Display user details
         displayUserInfo()
@@ -48,33 +47,25 @@ class ProfileFragment : Fragment() {
             try {
                 // Get the token from EncryptedSharedPreferences
                 val token = AuthRepository(requireContext()).getToken()
-
-                if (token != null) {
-                    // Fetch user details by passing the token
-                    val userDetails = AuthRepository(requireContext()).fetchUserDetails(token)
-                    userDetails?.let {
-                        if (it.name.isNotEmpty() && it.email.isNotEmpty()) {
-                            Log.d("UserDetails", "Name: ${it.name}, Email: ${it.email}")
-                            binding.tvName.text = it.name
-                            binding.tvEmail.text = it.email
-
-                            // Save user details into EncryptedSharedPreferences
-                            val sharedPreferences = requireContext().getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
-                            with(sharedPreferences.edit()) {
-                                putString("user_name", it.name)
-                                putString("user_email", it.email)
-                                apply()
-                            }
-                        } else {
-                            Log.d("UserDetails", "User details are empty!")
-                        }
-                    }
-                } else {
+                if (token == null) {
                     Log.d("UserDetails", "Token is null!")
                     Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show()
+                    return@launch
                 }
+
+                val sharedPreferences = authRepository.getSharedPreferences()
+                val role = sharedPreferences.getString("user_role", null)
+                if (role == null) {
+                    Log.e("UserDetails", "Role is null!")
+                }
+
+                val name = sharedPreferences.getString("user_name", null)
+                val email = sharedPreferences.getString("user_email", null)
+                binding.tvName.text = name
+                binding.tvEmail.text = email
+
             } catch (e: Exception) {
-                Log.e("Error", "Failed to fetch user details", e)
+                Log.e("UserDetails", "Failed to fetch user details", e)
                 Toast.makeText(requireContext(), "Failed to fetch user details: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
@@ -120,7 +111,7 @@ class ProfileFragment : Fragment() {
 
     private fun logoutUser() {
         // Clear the authentication token
-        AuthRepository.clearToken()
+        authRepository.clearToken()
 
         // Redirect to LoginActivity
         val intent = Intent(requireContext(), LoginActivity::class.java)
