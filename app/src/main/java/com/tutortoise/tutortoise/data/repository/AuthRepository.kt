@@ -9,6 +9,7 @@ import com.tutortoise.tutortoise.data.pref.AuthResponse
 import com.tutortoise.tutortoise.data.pref.ErrorResponse
 import com.tutortoise.tutortoise.data.pref.LoginRequest
 import com.tutortoise.tutortoise.data.pref.RegisterRequest
+import com.tutortoise.tutortoise.data.pref.UserResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
@@ -47,8 +48,19 @@ class AuthRepository(private val context: Context) {
         return@withContext try {
             val response = apiService.login(LoginRequest(email, password))
             if (response.status == "success") {
-                saveToken(response.data.token)
-                true
+                val token = response.data.token
+                Log.d("AuthRepository", "Received token: $token")
+                if (token != null) {
+                    saveToken(token)
+                    val userDetails = fetchUserDetails(token)
+                    userDetails?.let {
+                        saveUserInfo(it.name, it.email)
+                    }
+                    true
+                } else {
+                    Log.d("AuthRepository", "Token is null in login response.")
+                    false
+                }
             } else {
                 false
             }
@@ -59,6 +71,7 @@ class AuthRepository(private val context: Context) {
     }
 
     private fun saveToken(token: String) {
+        Log.d("AuthRepository", "Saving token: $token")
         sharedPreferences.edit().putString("auth_token", token).apply()
     }
 
@@ -75,6 +88,20 @@ class AuthRepository(private val context: Context) {
 
     fun clearToken() {
         sharedPreferences.edit().clear().apply()
+    }
+
+    suspend fun fetchUserDetails(token: String): UserResponse? {
+        return try {
+            val response = apiService.getUserDetail("Bearer $token")
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("AuthRepository", "Failed to fetch user details", e)
+            null
+        }
     }
 }
 

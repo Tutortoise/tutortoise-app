@@ -3,19 +3,21 @@ package com.tutortoise.tutortoise.presentation.menuLearner.profile
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
+import androidx.lifecycle.lifecycleScope
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerProfileBinding
 import com.tutortoise.tutortoise.presentation.login.LoginActivity
 import com.tutortoise.tutortoise.presentation.menuLearner.profile.general.ChangePasswordActivity
 import com.tutortoise.tutortoise.presentation.menuLearner.profile.general.EditProfileActivity
 import com.tutortoise.tutortoise.presentation.menuLearner.profile.general.MyActivityActivity
+import kotlinx.coroutines.launch
 
 class ProfileFragment : Fragment() {
 
@@ -42,12 +44,40 @@ class ProfileFragment : Fragment() {
     }
 
     private fun displayUserInfo() {
-        val sharedPreferences = requireContext().getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
-        val userName = sharedPreferences.getString("user_name", "Anonymous")
-        val userEmail = sharedPreferences.getString("user_email", "No email available")
+        lifecycleScope.launch {
+            try {
+                // Get the token from EncryptedSharedPreferences
+                val token = AuthRepository(requireContext()).getToken()
 
-        binding.tvName.text = userName
-        binding.tvEmail.text = userEmail
+                if (token != null) {
+                    // Fetch user details by passing the token
+                    val userDetails = AuthRepository(requireContext()).fetchUserDetails(token)
+                    userDetails?.let {
+                        if (it.name.isNotEmpty() && it.email.isNotEmpty()) {
+                            Log.d("UserDetails", "Name: ${it.name}, Email: ${it.email}")
+                            binding.tvName.text = it.name
+                            binding.tvEmail.text = it.email
+
+                            // Save user details into EncryptedSharedPreferences
+                            val sharedPreferences = requireContext().getSharedPreferences("auth_prefs", Context.MODE_PRIVATE)
+                            with(sharedPreferences.edit()) {
+                                putString("user_name", it.name)
+                                putString("user_email", it.email)
+                                apply()
+                            }
+                        } else {
+                            Log.d("UserDetails", "User details are empty!")
+                        }
+                    }
+                } else {
+                    Log.d("UserDetails", "Token is null!")
+                    Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Log.e("Error", "Failed to fetch user details", e)
+                Toast.makeText(requireContext(), "Failed to fetch user details: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun setupClickListeners() {
