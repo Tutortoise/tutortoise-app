@@ -72,6 +72,10 @@ class TutorRegisterActivity : AppCompatActivity() {
                     onFailure = { throwable ->
                         when (throwable) {
                             is ApiException -> {
+                                binding.tilName.error = null
+                                binding.tilEmail.error = null
+                                binding.tilPassword.error = null
+
                                 // Handle validation errors
                                 throwable.errorResponse?.errors?.forEach { error ->
                                     when (error.field) {
