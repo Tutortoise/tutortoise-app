@@ -173,7 +173,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
                 android:backgroundTint="#6B8E6D"
-                android:text="@string/facetoface"
+                android:text="@string/onsite"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textColor="#FFFFFF" />
         </LinearLayout>
