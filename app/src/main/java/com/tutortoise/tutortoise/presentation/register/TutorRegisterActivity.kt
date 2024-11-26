@@ -1,35 +1,28 @@
 package com.tutortoise.tutortoise.presentation.register
 
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.tutortoise.tutortoise.R
+import androidx.lifecycle.lifecycleScope
+import com.tutortoise.tutortoise.data.repository.ApiException
 import com.tutortoise.tutortoise.databinding.ActivityTutorRegisterBinding
+import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.presentation.login.LoginActivity
+import kotlinx.coroutines.launch
 
 class TutorRegisterActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityTutorRegisterBinding
-    private lateinit var auth: FirebaseAuth
+    private lateinit var authRepository: AuthRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_tutor_register)
-
         binding = ActivityTutorRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        auth = FirebaseAuth.getInstance()
-
+        authRepository = AuthRepository(applicationContext)
         setupListeners()
     }
 
@@ -41,44 +34,83 @@ class TutorRegisterActivity : AppCompatActivity() {
             val confirmPassword = binding.etConfirmPassword.text.toString()
 
             if (validateInput(name, email, password, confirmPassword)) {
-                createUser(email, password)
+                registerUser(name, email, password)
             }
         }
+
         binding.tvSignIn.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
     }
 
-    private fun createUser(email: String, password: String) {
+    private fun registerUser(name: String, email: String, password: String) {
+        // Clear any previous errors
+        binding.tilEmail.error = null
+        binding.tilName.error = null
+        binding.tilPassword.error = null
+        binding.tilConfirmPassword.error = null
+
         binding.progressBar.visibility = View.VISIBLE
-        auth.createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener(this) { task ->
+        lifecycleScope.launch {
+            try {
+                val result = authRepository.register(
+                    name = name,
+                    email = email,
+                    password = password,
+                    role = "tutor"
+                )
+
+                result.fold(
+                    onSuccess = { response ->
+                        Log.d("TutorRegisterActivity", "Registration successful")
+                        Toast.makeText(this@TutorRegisterActivity, "Registration successful!", Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this@TutorRegisterActivity, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    },
+                    onFailure = { throwable ->
+                        when (throwable) {
+                            is ApiException -> {
+                                // Handle validation errors
+                                throwable.errorResponse?.errors?.forEach { error ->
+                                    when (error.field) {
+                                        "body.email" -> binding.tilEmail.error = error.message
+                                        "body.name" -> binding.tilName.error = error.message
+                                        "body.password" -> binding.tilPassword.error = error.message
+                                        else -> Toast.makeText(
+                                            this@TutorRegisterActivity,
+                                            error.message,
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                } ?: Toast.makeText(
+                                    this@TutorRegisterActivity,
+                                    throwable.message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                            else -> {
+                                Log.e("TutorRegisterActivity", "Registration error", throwable)
+                                Toast.makeText(
+                                    this@TutorRegisterActivity,
+                                    "Registration failed: ${throwable.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                )
+            } catch (e: Exception) {
+                Log.e("TutorRegisterActivity", "Error during registration", e)
+                Toast.makeText(
+                    this@TutorRegisterActivity,
+                    "Error: ${e.localizedMessage}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } finally {
                 binding.progressBar.visibility = View.GONE
-                if (task.isSuccessful) {
-                    Log.d(TAG, "createUserWithEmail:success")
-                    val user = auth.currentUser
-                    updateUI(user)
-                } else {
-                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
-                    Toast.makeText(
-                        baseContext,
-                        "Authentication failed.",
-                        Toast.LENGTH_SHORT,
-                    ).show()
-                    updateUI(null)
-                }
             }
-    }
-
-    private fun updateUI(user: FirebaseUser?) {
-        if (user != null) {
-            Toast.makeText(this, "Welcome, ${user.email}!", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
-        } else {
-
         }
     }
 
@@ -89,14 +121,17 @@ class TutorRegisterActivity : AppCompatActivity() {
             binding.etName.error = "Name is required"
             isValid = false
         }
-        if (email.isBlank()) {
-            binding.etEmail.error = "Email is required"
+
+        if (email.isBlank() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.etEmail.error = "Valid email is required"
             isValid = false
         }
-        if (password.isBlank()) {
-            binding.etPassword.error = "Password is required"
+
+        if (password.isBlank() || password.length < 8) {
+            binding.etPassword.error = "Password must be at least 8 characters"
             isValid = false
         }
+
         if (confirmPassword != password) {
             binding.etConfirmPassword.error = "Passwords do not match"
             isValid = false
@@ -104,6 +139,4 @@ class TutorRegisterActivity : AppCompatActivity() {
 
         return isValid
     }
-
-
 }

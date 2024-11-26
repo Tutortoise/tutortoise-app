@@ -14,6 +14,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.firebase.auth.FirebaseAuth
 import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.databinding.ActivityMainBinding
 import com.tutortoise.tutortoise.presentation.login.LoginActivity
 import com.tutortoise.tutortoise.presentation.onboarding.OnboardingActivity
@@ -93,7 +94,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isUserLoggedIn(): Boolean {
-        return firebaseAuth.currentUser != null
+        val authRepository = AuthRepository(applicationContext)
+        return authRepository.getToken() != null
     }
 
     private fun redirectToLogin() {
