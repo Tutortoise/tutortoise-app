@@ -24,7 +24,7 @@
     <string name="profile">Profile</string>
     <string name="searchText">Search tutor, subject and others...</string>
     <string name="popular">Popular Subjects</string>
-    <string name="seemore">See More</string>
+    <string name="viewall">View All</string>
     <string name="top1">Number1</string>
     <string name="top2">Number2</string>
     <string name="top3">Number3</string>
@@ -122,7 +122,7 @@
     <string name="rateperhournominal">50000</string>
     <string name="typelessons">Type Lessons</string>
     <string name="online">Online</string>
-    <string name="facetoface">Face to Face</string>
+    <string name="onsite">On-site</string>
     <string name="confirm">Confirm</string>
 
     <string name="setschedule">Set Tutor Schedule</string>
@@ -131,6 +131,7 @@
     <string name="messageCount">1</string>
 
     <string name="questionone">Question 1 of 2</string>
+    <string name="questiontwo">Question 2 of 2</string>
     <string name="learningstyle">What is your learning style ?</string>
     <string name="visual">Visual</string>
     <string name="auditory">Auditory</string>

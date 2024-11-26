@@ -17,9 +17,9 @@
             android:layout_height="wrap_content"
             android:text="@string/tutortoise"
             android:textColor="@color/darkgreen"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textStyle="bold"
-            android:fontFamily="@font/montserrat_semi_bold"
+            android:fontFamily="@font/montserrat_extra_bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,13 +28,13 @@
             android:id="@+id/txtQuestionCounter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="36dp"
+            android:fontFamily="@font/montserrat_semi_bold"
             android:text="@string/questionone"
             android:textColor="@color/darkgreen"
-            android:fontFamily="@font/montserrat_semi_bold"
-            android:textSize="24sp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="18sp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtTutorTitle" />
 
         <!-- Question Text -->
@@ -46,8 +46,7 @@
             android:text="@string/learningstyle"
             android:textColor="@android:color/black"
             android:fontFamily="@font/montserrat_semi_bold"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txtQuestionCounter" />
@@ -55,13 +54,14 @@
         <!-- Visual Button -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/btnVisual"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:layout_marginTop="32dp"
             android:clickable="true"
             android:focusable="true"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/purewhite"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,9 +76,9 @@
                 android:padding="24dp">
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/ic_image_placeholder" />
+                    android:layout_width="107dp"
+                    android:layout_height="55dp"
+                    android:src="@drawable/learning_style_visual_ilustration" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -95,13 +95,14 @@
         <!-- Auditory Button -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/btnAuditory"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:layout_marginTop="24dp"
             android:clickable="true"
             android:focusable="true"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/purewhite"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -116,9 +117,9 @@
                 android:padding="24dp">
 
                 <ImageView
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:src="@drawable/ic_image_placeholder" />
+                    android:layout_width="71dp"
+                    android:layout_height="71dp"
+                    android:src="@drawable/learning_style_auditory_ilustration" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -135,19 +136,19 @@
         <!-- Kinesthetic Button -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/btnKinesthetic"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="16dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:layout_marginTop="24dp"
             android:layout_marginBottom="16dp"
             android:clickable="true"
             android:focusable="true"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="@color/purewhite"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/btnAuditory"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintWidth_percent="0.8">
 
             <LinearLayout
@@ -160,7 +161,7 @@
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:src="@drawable/ic_image_placeholder" />
+                    android:src="@drawable/learning_style_kinesthetic_ilustration" />
 
                 <TextView
                     android:layout_width="wrap_content"

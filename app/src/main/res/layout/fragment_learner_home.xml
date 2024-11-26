@@ -22,8 +22,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:layout_marginBottom="42dp"
-                android:layout_marginStart="18dp"
-                android:layout_marginEnd="18dp">
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp">
 
                 <TextView
                     android:id="@+id/appName"
@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="18dp"
+                android:layout_marginEnd="16dp"
                 android:layout_marginBottom="18dp"
                 android:elevation="4dp"
                 app:cardCornerRadius="10dp">
@@ -95,34 +95,32 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="18dp">
+            android:paddingHorizontal="16dp">
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="377dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginEnd="16dp">
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_semi_bold"
                     android:text="@string/popular"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:fontFamily="@font/montserrat_semi_bold"
-                    />
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/seemore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/seemore"
-                    android:textColor="@color/darkgreen"
-                    android:textSize="14sp"
                     android:layout_alignParentEnd="true"
-                    android:fontFamily="@font/montserrat_regular" />
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="@string/viewall"
+                    android:textColor="@color/darkgreen"
+                    android:textSize="14sp" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -131,8 +129,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginTop="0dp"
-            android:layout_marginStart="14dp"
-            android:layout_marginEnd="14dp">
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
@@ -237,7 +235,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="18dp"
+                android:layout_marginStart="16dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:text="@string/recommended"
                 android:textColor="@color/black"
@@ -248,8 +246,8 @@
             android:id="@+id/recommendedTutorsRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="18dp"
-            android:layout_marginEnd="18dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
             android:scrollbars="vertical" />
 

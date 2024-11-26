@@ -23,6 +23,6 @@
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Hello, my name is Muhammad Dony Mulya. Nice to meet you Faidil,I hope you can enjoy your learning." />
+        tools:text="Hello, my name is Muhammad Dony Mulya. Nice to meet you Faidil, I hope you can enjoy your learning." />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

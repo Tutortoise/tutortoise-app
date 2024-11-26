@@ -5,6 +5,9 @@
     <color name="white">#F8F8F8</color>
     <color name="darkgreen">#6F947D</color>
     <color name="lightgreen">#EDFFDE</color>
+    <color name="darkblue">#4C74A2</color>
+    <color name="yellow">#E4D52B</color>
+    <color name="green">#56C580</color>
 
     <color name="colorActive">#000000</color>
     <color name="colorInactive">#888888</color>
