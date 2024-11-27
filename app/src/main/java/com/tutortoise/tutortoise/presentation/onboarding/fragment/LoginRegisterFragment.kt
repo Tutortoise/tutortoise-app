@@ -11,9 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.navigation.fragment.findNavController
 import com.tutortoise.tutortoise.R
-import com.tutortoise.tutortoise.presentation.main.MainActivity
 import com.tutortoise.tutortoise.databinding.FragmentLoginRegisterBinding
-import com.tutortoise.tutortoise.presentation.login.LoginActivity
+import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
 
 class LoginRegisterFragment : Fragment() {
 

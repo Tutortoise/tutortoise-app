@@ -6,11 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.databinding.FragmentRegisterAsBinding
-import com.tutortoise.tutortoise.presentation.login.LoginActivity
-import com.tutortoise.tutortoise.presentation.register.LearnerRegisterActivity
-import com.tutortoise.tutortoise.presentation.register.TutorRegisterActivity
+import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
+import com.tutortoise.tutortoise.presentation.auth.register.LearnerRegisterActivity
+import com.tutortoise.tutortoise.presentation.auth.register.TutorRegisterActivity
 
 
 class RegisterAsFragment : Fragment() {

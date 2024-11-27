@@ -16,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.databinding.ActivityMainBinding
-import com.tutortoise.tutortoise.presentation.login.LoginActivity
+import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
 import com.tutortoise.tutortoise.presentation.onboarding.OnboardingActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
