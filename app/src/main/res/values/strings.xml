@@ -143,8 +143,7 @@
 
     <string name="tutortime">Tutoring Time</string>
     <string name="tutordate">Tutoring Date</string>
-    <string name="awaiting">Awaiting Payment</string>
-    <string name="awaitingconfirm">Awaiting Confirmation</string>
+    <string name="awaitingconfirm">Awaiting\nConfirmation</string>
     <string name="rejected">Rejected</string>
     <string name="completed">Completed</string>
 

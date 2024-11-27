@@ -60,21 +60,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                android:src="@drawable/profile"
+                android:src="@drawable/ic_indicator_inactive"
                 app:shapeAppearanceOverlay="@style/CircleImageView" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/btnChangePhoto"
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_gravity="end|bottom"
-                android:layout_marginEnd="-4dp"
                 android:layout_marginBottom="-4dp"
-                android:src="@drawable/baseline_camera_alt_24"
-                app:backgroundTint="#FFFFFF"
-                app:fabCustomSize="32dp"
+                android:src="@drawable/ic_camera"
+                app:backgroundTint="@color/darkgreen"
+                app:fabCustomSize="30dp"
                 app:fabSize="mini"
-                app:tint="@color/darkgreen" />
+                app:tint="@color/purewhite"
+                app:rippleColor="@color/white" />
         </FrameLayout>
 
         <!-- Name Field -->

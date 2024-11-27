@@ -4,16 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp">
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="20dp"
+    >
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageProfile"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:scaleType="centerCrop"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        tools:src="@tools:sample/avatars"
+        app:shapeAppearanceOverlay="@style/CircleImageView"/>
 
     <TextView
         android:id="@+id/textName"
@@ -21,44 +25,42 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginEnd="8dp"
+        android:fontFamily="@font/montserrat_medium"
         android:textColor="@android:color/black"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@id/textTime"
         app:layout_constraintStart_toEndOf="@id/imageProfile"
         app:layout_constraintTop_toTopOf="@id/imageProfile"
-        android:text="@string/username"
-        android:fontFamily="@font/montserrat_semi_bold"/>
+        android:text="@string/username" />
+        />
 
     <TextView
         android:id="@+id/textMessage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:layout_marginEnd="8dp"
         android:textColor="@android:color/darker_gray"
-        android:textSize="14sp"
+        android:fontFamily="@font/montserrat_light"
+        android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@id/textMessageCount"
         app:layout_constraintStart_toStartOf="@id/textName"
         app:layout_constraintTop_toBottomOf="@id/textName"
-        android:text="@string/messageText"
-        android:fontFamily="@font/montserrat_light"/>
+        android:text="@string/messageText" />
 
     <TextView
         android:id="@+id/textTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/darker_gray"
+        android:fontFamily="@font/montserrat_regular"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/textName"
-        android:text="@string/timesent"
-        android:fontFamily="@font/montserrat_regular"/>
+        android:text="@string/timesent" />
 
     <TextView
         android:id="@+id/textMessageCount"
-        android:layout_width="36sp"
-        android:layout_height="24dp"
+        android:layout_width="32sp"
+        android:layout_height="20dp"
         android:minWidth="24dp"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"

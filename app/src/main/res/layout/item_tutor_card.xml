@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="124dp"
+    android:layout_height="wrap_content"
     android:layout_marginTop="15dp"
     android:layout_marginStart="16dp"
     android:layout_marginEnd="16dp"
@@ -12,7 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="124dp"
+        android:layout_height="wrap_content"
         android:paddingHorizontal="15dp"
         android:paddingVertical="8dp"
         android:layout_gravity="center">
@@ -21,13 +21,13 @@
             android:id="@+id/imageTutor"
             android:layout_width="95dp"
             android:layout_height="108dp"
-            android:src="@drawable/ic_image_placeholder"
             android:contentDescription="@string/tutorImage"
             android:scaleType="centerCrop"
+            android:src="@drawable/ic_image_placeholder"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            app:layout_constraintVertical_bias="0.48" />
 
         <TextView
             android:id="@+id/tutorName"
@@ -46,6 +46,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/tutorSubject"
+            android:layout_marginTop="4dp"
             android:fontFamily="@font/montserrat_medium"
             android:textSize="12sp"
             android:layout_marginStart="15dp"
@@ -59,7 +60,8 @@
             android:layout_height="wrap_content"
             android:text="@string/reviews"
             android:fontFamily="@font/montserrat_medium"
-            android:textSize="10sp"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
             android:textColor="#808080"
             android:layout_marginStart="15dp"
             app:layout_constraintStart_toEndOf="@id/imageTutor"
@@ -72,7 +74,8 @@
             android:layout_height="wrap_content"
             android:text="@string/price"
             android:fontFamily="@font/montserrat_medium"
-            android:textSize="10sp"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
             android:layout_marginStart="15dp"
             app:layout_constraintStart_toEndOf="@id/imageTutor"
             app:layout_constraintTop_toBottomOf="@+id/tutorReviews"
@@ -85,7 +88,8 @@
             android:layout_height="wrap_content"
             android:text="@string/location"
             android:fontFamily="@font/montserrat_regular"
-            android:textSize="10sp"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
             android:layout_marginStart="15dp"
             app:layout_constraintStart_toEndOf="@+id/imageTutor"
             app:layout_constraintTop_toBottomOf="@id/tutorPrice"
@@ -95,7 +99,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="4dp"
             app:layout_constraintStart_toStartOf="@+id/tutorLocation"
             app:layout_constraintTop_toBottomOf="@+id/tutorLocation">
 

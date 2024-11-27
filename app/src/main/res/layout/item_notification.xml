@@ -16,8 +16,8 @@
 
     <ImageView
         android:id="@+id/indicatorIcon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginTop="12dp"
         android:background="@drawable/ic_image_placeholder"
         android:contentDescription="Notification indicator"
@@ -32,8 +32,8 @@
         android:layout_marginEnd="8dp"
         android:text="@string/notimessage"
         android:textColor="@color/black"
-        android:fontFamily="@font/montserrat_semi_bold"
-        android:textSize="16sp"
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/indicatorIcon"
         app:layout_constraintTop_toTopOf="@id/indicatorIcon" />
@@ -46,7 +46,7 @@
         android:text="@string/notidate"
         android:fontFamily="@font/montserrat_regular"
         android:textColor="@color/black"
-        android:textSize="14sp"
+        android:textSize="12sp"
         app:layout_constraintStart_toStartOf="@id/notificationText"
         app:layout_constraintTop_toBottomOf="@id/notificationText" />
 

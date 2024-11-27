@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
-    android:layout_marginTop="8dp"
+    android:layout_marginTop="10dp"
     android:layout_marginEnd="16dp"
-    android:layout_marginBottom="8dp"
-    app:cardCornerRadius="8dp"
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="20dp"
     app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,10 +17,12 @@
 
         <ImageView
             android:id="@+id/ivProfilePicture"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="8dp"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_image_placeholder"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,8 +33,7 @@
             android:layout_marginStart="16dp"
             android:text="@string/username"
             android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            android:textSize="14sp"
             android:fontFamily="@font/montserrat_semi_bold"
             app:layout_constraintEnd_toStartOf="@+id/tvStatus"
             app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
@@ -46,7 +47,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:textColor="@android:color/black"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:fontFamily="@font/montserrat_regular"
             app:layout_constraintEnd_toStartOf="@+id/tvStatus"
             app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
@@ -56,11 +57,11 @@
             android:id="@+id/tvDate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/tutortime"
+            android:text="@string/tutordate"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:textColor="@android:color/black"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:fontFamily="@font/montserrat_regular"
             app:layout_constraintEnd_toStartOf="@+id/tvStatus"
             app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
@@ -70,11 +71,11 @@
             android:id="@+id/tvTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/tutordate"
+            android:text="@string/tutortime"
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
             android:textColor="@android:color/black"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:fontFamily="@font/montserrat_regular"
             app:layout_constraintEnd_toStartOf="@+id/tvStatus"
             app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
@@ -82,17 +83,18 @@
 
         <TextView
             android:id="@+id/tvStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_dark_green"
+            android:layout_width="86dp"
+            android:layout_height="20dp"
+            android:background="@drawable/bg_green_status_complated"
             android:paddingStart="8dp"
-            android:paddingTop="4dp"
             android:paddingEnd="8dp"
             android:paddingBottom="4dp"
+            android:textAlignment="center"
+            android:paddingTop="2dp"
             android:text="@string/completed"
             android:textColor="@android:color/white"
-            android:textSize="12sp"
-            android:fontFamily="@font/montserrat_regular"
+            android:textSize="10sp"
+            android:fontFamily="@font/montserrat_semi_bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -100,13 +102,13 @@
             android:id="@+id/tvPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
             android:text="@string/priceperhour"
             android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:fontFamily="@font/montserrat_medium"
+            android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
