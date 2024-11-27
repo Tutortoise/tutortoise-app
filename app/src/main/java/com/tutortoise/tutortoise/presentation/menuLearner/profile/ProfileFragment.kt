@@ -16,13 +16,14 @@ import com.tutortoise.tutortoise.presentation.login.LoginActivity
 import com.tutortoise.tutortoise.presentation.menuLearner.profile.general.ChangePasswordActivity
 import com.tutortoise.tutortoise.presentation.menuLearner.profile.general.EditProfileActivity
 import com.tutortoise.tutortoise.presentation.menuLearner.profile.general.MyActivityActivity
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentLearnerProfileBinding? = null
     private val binding get() = _binding!!
-    // private lateinit var auth: FirebaseAuth
     private lateinit var authRepository: AuthRepository
 
     override fun onCreateView(
@@ -34,41 +35,33 @@ class ProfileFragment : Fragment() {
         authRepository = AuthRepository(requireContext())
 
         // Display user details
-        displayUserInfo()
+        lifecycleScope.launch {
+            displayUserInfo()
+        }
 
-        // Handle logout
         setupClickListeners()
 
         return binding.root
     }
 
-    private fun displayUserInfo() {
-        lifecycleScope.launch {
-            try {
-                // Get the token from EncryptedSharedPreferences
-                val token = AuthRepository(requireContext()).getToken()
-                if (token == null) {
-                    Log.d("UserDetails", "Token is null!")
-                    Toast.makeText(requireContext(), "User not logged in", Toast.LENGTH_SHORT).show()
-                    return@launch
-                }
-
+    private suspend fun displayUserInfo() {
+        try {
+            withContext(Dispatchers.Main) {
                 val sharedPreferences = authRepository.getSharedPreferences()
-                val role = sharedPreferences.getString("user_role", null)
-                if (role == null) {
-                    Log.e("UserDetails", "Role is null!")
-                }
-
                 val name = sharedPreferences.getString("user_name", null)
                 val email = sharedPreferences.getString("user_email", null)
                 binding.tvName.text = name
                 binding.tvEmail.text = email
-
-            } catch (e: Exception) {
-                Log.e("UserDetails", "Failed to fetch user details", e)
-                Toast.makeText(requireContext(), "Failed to fetch user details: ${e.message}", Toast.LENGTH_SHORT).show()
             }
+        } catch (e: Exception) {
+            Log.e("UserDetails", "Failed to fetch user details", e)
+            Toast.makeText(
+                requireContext(),
+                "Failed to fetch user details: ${e.message}",
+                Toast.LENGTH_SHORT
+            ).show()
         }
+
     }
 
     private fun setupClickListeners() {

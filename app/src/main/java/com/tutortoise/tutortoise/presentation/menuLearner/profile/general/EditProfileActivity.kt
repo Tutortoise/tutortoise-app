@@ -27,6 +27,7 @@ import com.google.android.gms.location.Priority
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.pref.ProfileData
 import com.tutortoise.tutortoise.data.pref.UpdateLearnerProfileRequest
+import com.tutortoise.tutortoise.data.pref.UpdateTutorProfileRequest
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.data.repository.LearnerRepository
 import com.tutortoise.tutortoise.data.repository.TutorRepository
@@ -235,6 +236,24 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateSharedPreferences(
+        name: String?,
+        email: String?
+    ) {
+        val sharedPreferences = authRepository.getSharedPreferences()
+        val editor = sharedPreferences.edit()
+
+        if (name != null) {
+            editor.putString("user_name", name)
+        }
+        if (email != null) {
+            editor.putString("user_email", email)
+        }
+
+        editor.apply()
+    }
+
+
     private fun fillProfileData() {
         val sharedPreferences = authRepository.getSharedPreferences()
         val role = sharedPreferences.getString("user_role", null)
@@ -267,33 +286,70 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
+    private fun updateLearnerProfile(newData: UpdateLearnerProfileRequest) {
+        lifecycleScope.launch {
+            try {
+                learnerRepository.updateLearnerProfile(newData)
+                updateSharedPreferences(newData.name, newData.email)
+            } catch (e: Exception) {
+                Log.e("EditProfileActivity", "Failed to update learner profile", e)
+            }
+        }
+    }
+
+
+    private fun updateTutorProfile(newData: UpdateTutorProfileRequest) {
+        lifecycleScope.launch {
+            try {
+                tutorRepository.updateTutorProfile(newData)
+                updateSharedPreferences(newData.name, newData.email)
+            } catch (e: Exception) {
+                Log.e("EditProfileActivity", "Failed to update tutor profile", e)
+            }
+        }
+    }
+
     private fun updateProfile() {
         val sharedPreferences = authRepository.getSharedPreferences()
         val role = sharedPreferences.getString("user_role", null)
 
-        lifecycleScope.launch {
-            // Learner
-            if (role == "learner") {
-                // TODO: update profile for tutor
-                val response = learnerRepository.updateLearnerProfile(
-                    UpdateLearnerProfileRequest(
-                        name = binding.edtName.text.toString(),
-                        email = null,
-                        phoneNumber = binding.edtPhone.text.toString().takeIf { it.isNotEmpty() },
-                        gender = binding.spinnerGender.text.toString()
-                            .replaceFirstChar { it.lowercase() },
-                        city = null,
-                        district = null,
-                        learningStyle = null,
-                        interests = null
-                    )
+        val name = binding.edtName.text.toString()
+        val oldEmail = sharedPreferences.getString("user_email", null)
+        val newEmail = binding.edtEmail.text.toString()
+        val email = if (oldEmail != newEmail) newEmail else null
+        val phoneNumber = binding.edtPhone.text.toString().takeIf { it.isNotEmpty() }
+        val gender = binding.spinnerGender.text.toString()
+            .replaceFirstChar { it.lowercase() }
+
+        // TODO: set city and district
+        val city = null
+        val district = null
+
+        if (role == "learner") {
+            updateLearnerProfile(
+                UpdateLearnerProfileRequest(
+                    name = name,
+                    email = email,
+                    phoneNumber = phoneNumber,
+                    gender = gender,
+                    city = city,
+                    district = district,
+                    learningStyle = null,
+                    interests = null,
                 )
-            } else {
-                // TODO: update profile for tutor
-            }
-
+            )
+        } else {
+            updateTutorProfile(
+                UpdateTutorProfileRequest(
+                    name = name,
+                    email = email,
+                    phoneNumber = phoneNumber,
+                    gender = gender,
+                    city = city,
+                    district = district
+                )
+            )
         }
-
     }
 
     @SuppressWarnings("MissingPermission")

@@ -130,4 +130,9 @@ interface ApiService {
     suspend fun getTutorProfile(
     ): Response<ApiResponse<TutorData>>
 
+    @PATCH("tutors/profile")
+    suspend fun updateTutorProfile(
+        @Body request: UpdateTutorProfileRequest
+    ): Response<MessageResponse>
+
 }
