@@ -1,5 +1,6 @@
 package com.tutortoise.tutortoise.presentation.main.tutor.tutories
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,9 @@ class TutoriesTutorFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.btnAddTutory.setOnClickListener {
+            startActivity(Intent(requireContext(), CreateServiceActivity::class.java))
+        }
     }
 
     override fun onDestroyView() {
