@@ -3,28 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/homeLearnerFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/homeLearnerFragment"
         android:name="com.tutortoise.tutortoise.presentation.main.learner.home.HomeLearnerFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_learner_home" />
 
     <fragment
-        android:id="@+id/exploreFragment"
+        android:id="@+id/exploreLearnerFragment"
         android:name="com.tutortoise.tutortoise.presentation.main.learner.explore.ExploreLearnerFragment"
         android:label="ExploreFragment"
         tools:layout="@layout/fragment_learner_explore" />
 
     <fragment
-        android:id="@+id/sessionFragment"
+        android:id="@+id/sessionLearnerFragment"
         android:name="com.tutortoise.tutortoise.presentation.main.learner.session.SessionFragment"
         android:label="SessionFragment"
         tools:layout="@layout/fragment_learner_session" />
 
     <fragment
-        android:id="@+id/profileFragment"
+        android:id="@+id/profileLearnerFragment"
         android:name="com.tutortoise.tutortoise.presentation.main.learner.profile.ProfileLearnerFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_learner_profile" />

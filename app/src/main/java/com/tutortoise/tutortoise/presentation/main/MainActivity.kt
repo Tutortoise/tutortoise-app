@@ -10,9 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-import com.google.firebase.auth.FirebaseAuth
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.databinding.ActivityMainBinding
@@ -23,13 +23,16 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
-    private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    private lateinit var authRepository: AuthRepository
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Install splash screen
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(binding.root) // Set content view first
+
+        authRepository = AuthRepository(this)
 
         // Keep splash screen visible for longer
         var keepSplashOnScreen = true
@@ -68,12 +71,39 @@ class MainActivity : AppCompatActivity() {
     private fun setupNavigation() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
-        val navController = navHostFragment.navController
+        navController = navHostFragment.navController
+
+        // Get user role
+        val userRole = authRepository.getUserRole()
+
+        // Set appropriate navigation graph based on role
+        val navGraph = if (userRole == "tutor") {
+            R.navigation.mobile_tutor_navigation // tutor navigation
+        } else {
+            R.navigation.mobile_learner_navigation // learner navigation
+        }
+
+        // Set the navigation graph
+        val graphInflater = navController.navInflater
+        val graph = graphInflater.inflate(navGraph)
+        navController.graph = graph
+
+        // Set appropriate menu based on role
+        binding.bottomNav.menu.clear()
+        binding.bottomNav.inflateMenu(
+            if (userRole == "tutor") {
+                R.menu.bottom_nav_menu_tutor
+            } else {
+                R.menu.bottom_nav_menu_learner
+            }
+        )
+
         binding.bottomNav.setupWithNavController(navController)
 
+        // Handle deep linking or specific fragment start
         val startFragment = intent.getStringExtra("startFragment")
         if (startFragment == "profile") {
-            binding.bottomNav.selectedItemId = R.id.profileFragment
+            binding.bottomNav.selectedItemId = R.id.profileLearnerFragment
         }
     }
 

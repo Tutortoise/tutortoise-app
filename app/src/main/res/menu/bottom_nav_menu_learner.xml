@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/homeTutorFragment"
+        android:id="@+id/homeLearnerFragment"
         android:icon="@drawable/ic_home_nav_logo"
         android:title="@string/home" />
     <item
-        android:id="@+id/sessionTutorFragment"
+        android:id="@+id/exploreLearnerFragment"
+        android:icon="@drawable/ic_explore_nav_logo"
+        android:title="@string/explore" />
+    <item
+        android:id="@+id/sessionLearnerFragment"
         android:icon="@drawable/ic_session_nav_logo"
         android:title="@string/session" />
     <item
-        android:id="@+id/tutoriesTutorFragment"
-        android:icon="@drawable/ic_explore_nav_logo"
-        android:title="@string/tutories" />
-    <item
-        android:id="@+id/profileTutorFragment"
+        android:id="@+id/profileLearnerFragment"
         android:icon="@drawable/ic_profile_nav_logo"
-        android:title="@string/profile"
-        />
+        android:title="@string/profile" />
 </menu>
