@@ -2,19 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/homeTutorFragment"
-        android:icon="@drawable/ic_home_nav_logo"
+        android:icon="@drawable/ic_nav_home"
         android:title="@string/home" />
     <item
         android:id="@+id/sessionTutorFragment"
-        android:icon="@drawable/ic_session_nav_logo"
+        android:icon="@drawable/ic_nav_session"
         android:title="@string/session" />
     <item
         android:id="@+id/tutoriesTutorFragment"
-        android:icon="@drawable/ic_explore_nav_logo"
+        android:icon="@drawable/ic_nav_tutories"
         android:title="@string/tutories" />
     <item
         android:id="@+id/profileTutorFragment"
-        android:icon="@drawable/ic_profile_nav_logo"
-        android:title="@string/profile"
-        />
+        android:icon="@drawable/ic_nav_profile"
+        android:title="@string/profile" />
 </menu>

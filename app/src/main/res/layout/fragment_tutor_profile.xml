@@ -41,7 +41,7 @@
                     android:id="@+id/ivProfile"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:src="@drawable/ic_profile_nav_logo"
+                    android:src="@drawable/ic_nav_profile"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -113,7 +113,7 @@
                         android:id="@+id/ivEditProfile"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_profile_nav_logo"
+                        android:src="@drawable/ic_nav_profile"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:tint="@color/darkgreen" />
