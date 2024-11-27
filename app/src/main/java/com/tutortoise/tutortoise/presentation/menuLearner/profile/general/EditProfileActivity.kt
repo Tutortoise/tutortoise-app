@@ -40,12 +40,18 @@ import kotlinx.coroutines.launch
 class EditProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditProfileBinding
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
 
     private lateinit var authRepository: AuthRepository
     private lateinit var learnerRepository: LearnerRepository
     private lateinit var tutorRepository: TutorRepository
+
+    private data class LocationData(
+        var city: String? = null,
+        var district: String? = null
+    )
+
+    private val locationData = LocationData()
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun setupWebView() {
@@ -60,17 +66,83 @@ class EditProfileActivity : AppCompatActivity() {
         val offsetLat = (latitude * 100).toInt() / 100.0
         val offsetLng = (longitude * 100).toInt() / 100.0
 
-        binding.mapView.visibility = View.VISIBLE
-        binding.mapView.loadUrl("file:///android_asset/map.html")
+        binding.mapView.apply {
+            visibility = View.VISIBLE
+            loadUrl("file:///android_asset/map.html")
 
-        binding.mapView.webViewClient = object : WebViewClient() {
-            override fun onPageFinished(view: WebView?, url: String?) {
-                // Initialize map with offset coordinates
-                binding.mapView.evaluateJavascript(
-                    "initMap($offsetLat, $offsetLng)",
-                    null
-                )
+            webViewClient = object : WebViewClient() {
+                override fun onPageFinished(view: WebView?, url: String?) {
+                    // Create location text from city and district
+                    val locationText = listOfNotNull(locationData.city, locationData.district)
+                        .joinToString(", ")
+                        .takeIf { it.isNotEmpty() } ?: "Your location"
+
+                    // Initialize map with offset coordinates and location name
+                    evaluateJavascript(
+                        "initMap($offsetLat, $offsetLng, '$locationText')",
+                        null
+                    )
+                }
             }
+        }
+    }
+
+    private val locationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            locationResult.lastLocation?.let { location ->
+                val geocoder = Geocoder(this@EditProfileActivity)
+                try {
+                    val addresses = geocoder.getFromLocation(
+                        location.latitude,
+                        location.longitude,
+                        1
+                    )
+
+                    addresses?.firstOrNull()?.let { address ->
+                        val locality = address.locality ?: ""  // City
+                        val adminArea = address.adminArea ?: ""  // District
+
+                        // Update location data
+                        locationData.city = locality
+                        locationData.district = adminArea
+
+                        val locationText = if (locality.isNotEmpty() && adminArea.isNotEmpty()) {
+                            "$locality, $adminArea"
+                        } else {
+                            locality.ifEmpty { adminArea }
+                        }
+
+                        runOnUiThread {
+                            hideLoadingState()
+                            binding.btnLocation.text = locationText.ifEmpty { "Location not found" }
+
+                            // Only show map if we have valid location data
+                            if (locality.isNotEmpty() || adminArea.isNotEmpty()) {
+                                loadMap(location.latitude, location.longitude)
+                            } else {
+                                binding.mapView.visibility = View.GONE
+                            }
+                        }
+                    } ?: run {
+                        runOnUiThread {
+                            hideLoadingState()
+                            binding.btnLocation.text = "Location not found"
+                            binding.mapView.visibility = View.GONE
+                        }
+                    }
+                } catch (e: Exception) {
+                    runOnUiThread {
+                        hideLoadingState()
+                        Toast.makeText(
+                            this@EditProfileActivity,
+                            "Error getting address: ${e.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        binding.mapView.visibility = View.GONE
+                    }
+                }
+            }
+            fusedLocationClient.removeLocationUpdates(this)
         }
     }
 
@@ -116,55 +188,6 @@ class EditProfileActivity : AppCompatActivity() {
             .setMinUpdateIntervalMillis(3000)
             .setMaxUpdateDelayMillis(10000)
             .build()
-
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                locationResult.lastLocation?.let { location ->
-                    val geocoder = Geocoder(this@EditProfileActivity)
-                    try {
-                        val addresses = geocoder.getFromLocation(
-                            location.latitude,
-                            location.longitude,
-                            1
-                        )
-
-                        addresses?.firstOrNull()?.let { address ->
-                            val locality = address.locality ?: ""
-                            val city = address.adminArea ?: ""
-
-                            val locationText = if (locality.isNotEmpty() && city.isNotEmpty()) {
-                                "$locality, $city"
-                            } else {
-                                locality.ifEmpty { city }
-                            }
-
-                            runOnUiThread {
-                                hideLoadingState()
-                                binding.btnLocation.text =
-                                    locationText.ifEmpty { "Location not found" }
-                                // Load the OpenStreetMap
-                                loadMap(location.latitude, location.longitude)
-                            }
-                        } ?: run {
-                            runOnUiThread {
-                                hideLoadingState()
-                                binding.btnLocation.text = "Location not found"
-                            }
-                        }
-                    } catch (e: Exception) {
-                        runOnUiThread {
-                            hideLoadingState()
-                            Toast.makeText(
-                                this@EditProfileActivity,
-                                "Error getting address: ${e.message}",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                }
-                fusedLocationClient.removeLocationUpdates(locationCallback)
-            }
-        }
 
         binding.btnLocation.setOnClickListener {
             checkLocationPermission()
@@ -273,6 +296,10 @@ class EditProfileActivity : AppCompatActivity() {
                     data.name, data.gender, data.email, data.phoneNumber
                 )
 
+                // Set city and district from existing profile data
+                locationData.city = data.city
+                locationData.district = data.district
+
                 // Remove +62
                 phoneNumber?.removePrefix("+62")
                 binding.edtName.setText(name)
@@ -280,11 +307,37 @@ class EditProfileActivity : AppCompatActivity() {
                 binding.edtPhone.setText(phoneNumber)
 
                 // Set gender
-                val options =
-                    resources.getStringArray(R.array.gender_options)
+                val options = resources.getStringArray(R.array.gender_options)
                 val selectedOption = options.find { it.equals(gender, ignoreCase = true) }
-                binding.spinnerGender.setText(selectedOption, false) // Set the selected value
+                binding.spinnerGender.setText(selectedOption, false)
+
+                // Update location button text and map if location exists
+                if (!locationData.city.isNullOrEmpty() || !locationData.district.isNullOrEmpty()) {
+                    val locationText = listOfNotNull(locationData.city, locationData.district).joinToString(", ")
+                    binding.btnLocation.text = locationText
+
+                    // Get approximate coordinates for the city/district and show map
+                    getCoordinatesForLocation("${locationData.city} ${locationData.district}")
+                } else {
+                    binding.mapView.visibility = View.GONE
+                }
             } ?: Log.e("EditProfileActivity", "Profile data is null")
+        }
+    }
+
+    private fun getCoordinatesForLocation(address: String) {
+        try {
+            val geocoder = Geocoder(this)
+            val locations = geocoder.getFromLocationName(address, 1)
+
+            locations?.firstOrNull()?.let { location ->
+                loadMap(location.latitude, location.longitude)
+            } ?: run {
+                binding.mapView.visibility = View.GONE
+            }
+        } catch (e: Exception) {
+            Log.e("EditProfileActivity", "Error getting coordinates: ${e.message}")
+            binding.mapView.visibility = View.GONE
         }
     }
 
@@ -328,10 +381,6 @@ class EditProfileActivity : AppCompatActivity() {
         val gender = binding.spinnerGender.text.toString()
             .replaceFirstChar { it.lowercase() }
 
-        // TODO: set city and district
-        val city = null
-        val district = null
-
         if (role == "learner") {
             updateLearnerProfile(
                 UpdateLearnerProfileRequest(
@@ -339,8 +388,8 @@ class EditProfileActivity : AppCompatActivity() {
                     email = email,
                     phoneNumber = phoneNumber,
                     gender = gender,
-                    city = city,
-                    district = district,
+                    city = locationData.city,
+                    district = locationData.district,
                     learningStyle = null,
                     interests = null,
                 )
@@ -352,12 +401,13 @@ class EditProfileActivity : AppCompatActivity() {
                     email = email,
                     phoneNumber = phoneNumber,
                     gender = gender,
-                    city = city,
-                    district = district
+                    city = locationData.city,
+                    district = locationData.district
                 )
             )
         }
     }
+
 
     @SuppressWarnings("MissingPermission")
     private fun getCurrentLocation() {
