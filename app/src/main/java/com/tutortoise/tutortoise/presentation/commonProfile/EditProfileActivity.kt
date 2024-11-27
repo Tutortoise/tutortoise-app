@@ -313,7 +313,8 @@ class EditProfileActivity : AppCompatActivity() {
 
                 // Update location button text and map if location exists
                 if (!locationData.city.isNullOrEmpty() || !locationData.district.isNullOrEmpty()) {
-                    val locationText = listOfNotNull(locationData.city, locationData.district).joinToString(", ")
+                    val locationText =
+                        listOfNotNull(locationData.city, locationData.district).joinToString(", ")
                     binding.btnLocation.text = locationText
 
                     // Get approximate coordinates for the city/district and show map
