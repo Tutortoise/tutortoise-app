@@ -136,7 +136,7 @@
     <string name="visual">Visual</string>
     <string name="auditory">Auditory</string>
     <string name="kinesthetic">Kinesthetic</string>
-    
+
     <string name="subject">Subject</string>
     <string name="priceperhour">Price per hour</string>
 
@@ -146,6 +146,17 @@
     <string name="awaitingconfirm">Awaiting Confirmation</string>
     <string name="rejected">Rejected</string>
     <string name="completed">Completed</string>
+
+
+    <!-- Change Password Errors -->
+    <string name="error_current_password_required">Current password is required</string>
+    <string name="error_new_password_required">New password is required</string>
+    <string name="error_confirm_password_required">Confirm password is required</string>
+    <string name="error_password_too_short">Password must be at least 8 characters long</string>
+    <string name="error_passwords_dont_match">Passwords do not match</string>
+    <string name="error_incorrect_current_password">Current password is incorrect</string>
+    <string name="error_change_password_failed">Failed to change password. Please try again.</string>
+    <string name="success_password_changed">Password changed successfully</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

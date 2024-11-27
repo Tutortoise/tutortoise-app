@@ -28,15 +28,22 @@ class AuthRepository(private val context: Context) {
 
     fun getSharedPreferences() = sharedPreferences
 
-    suspend fun register(name: String, email: String, password: String, role: String): Result<ApiResponse<RegisterData>> = withContext(Dispatchers.IO) {
+    suspend fun register(
+        name: String,
+        email: String,
+        password: String,
+        role: String
+    ): Result<ApiResponse<RegisterData>> = withContext(Dispatchers.IO) {
         return@withContext try {
             Log.d("AuthRepository", "Registering user with email: $email as $role")
-            val response = apiService.register(RegisterRequest(
-                name = name,
-                email = email,
-                password = password,
-                role = role
-            ))
+            val response = apiService.register(
+                RegisterRequest(
+                    name = name,
+                    email = email,
+                    password = password,
+                    role = role
+                )
+            )
             Result.success(response)
         } catch (e: HttpException) {
             val errorBody = ApiConfig.parseError(e.response()!!)
@@ -105,6 +112,10 @@ class AuthRepository(private val context: Context) {
             Log.e("AuthRepository", "Failed to fetch user details", e)
             null
         }
+    }
+
+    fun getUserRole(): String? {
+        return sharedPreferences.getString("user_role", null)
     }
 }
 

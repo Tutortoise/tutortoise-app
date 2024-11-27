@@ -5,6 +5,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.PATCH
 import retrofit2.http.POST
+import retrofit2.http.PUT
 
 data class ApiResponse<T>(
     val status: String,         // "error" | "fail" | "success"
@@ -25,6 +26,11 @@ data class RegisterRequest(
 )
 
 data class LoginRequest(val email: String, val password: String)
+data class ChangePasswordRequest(
+    val currentPassword: String,
+    val newPassword: String,
+    val confirmPassword: String
+)
 
 data class RegisterData(
     val userId: String
@@ -135,4 +141,10 @@ interface ApiService {
         @Body request: UpdateTutorProfileRequest
     ): Response<MessageResponse>
 
+
+    @PUT("/api/v1/learners/password")
+    suspend fun changeLearnerPassword(@Body request: ChangePasswordRequest): Response<MessageResponse>
+
+    @PUT("/api/v1/tutors/password")
+    suspend fun changeTutorPassword(@Body request: ChangePasswordRequest): Response<MessageResponse>
 }
