@@ -8,11 +8,12 @@ import com.tutortoise.tutortoise.presentation.onboarding.fragment.OnboardingFrag
 import com.tutortoise.tutortoise.presentation.onboarding.fragment.OnboardingFragment3
 import com.tutortoise.tutortoise.presentation.onboarding.fragment.OnboardingFragment4
 
-class OnboardingAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activity) {
+class ggOnboardingAdapter(activity: AppCompatActivity) : FragmentStateAdapter(activity) {
 
     override fun getItemCount(): Int {
         return 4
     }
+
     override fun createFragment(position: Int): Fragment {
         return when (position) {
             0 -> OnboardingFragment1()

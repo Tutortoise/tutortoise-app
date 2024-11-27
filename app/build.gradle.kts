@@ -23,7 +23,11 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "BASE_URL", "\"${localProperties.getProperty("base.url", "https://default-url.com/")}\"")
+        buildConfigField(
+            "String",
+            "BASE_URL",
+            "\"${localProperties.getProperty("base.url", "https://default-url.com/")}\""
+        )
     }
 
     buildTypes {
@@ -85,12 +89,13 @@ dependencies {
     implementation(libs.play.services.location)
     implementation(libs.androidx.swiperefreshlayout)
 
-    implementation (libs.retrofit)
-    implementation (libs.converter.gson)
-    implementation (libs.logging.interceptor)
-    implementation (libs.gson)
-    implementation (libs.kotlinx.coroutines.android)
-    implementation (libs.androidx.lifecycle.runtime.ktx)
-    implementation (libs.androidx.lifecycle.viewmodel.ktx)
-    implementation (libs.androidx.security.crypto)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.logging.interceptor)
+    implementation(libs.gson)
+    implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.security.crypto)
+    implementation(libs.glide)
 }

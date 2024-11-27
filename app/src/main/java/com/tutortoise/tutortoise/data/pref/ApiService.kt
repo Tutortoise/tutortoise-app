@@ -51,6 +51,12 @@ data class ValidationError(
     val message: String
 )
 
+data class SubjectResponse(
+    val id: String,
+    val name: String,
+    val iconUrl: String
+)
+
 data class UserResponse(
     val id: String,
     val name: String,
@@ -122,6 +128,11 @@ interface ApiService {
     @GET("auth/me")
     suspend fun getAuthenticatedUser(
     ): Response<ApiResponse<UserResponse>>
+
+    @GET("subjects")
+    suspend fun getSubjects(
+
+    ): Response<ApiResponse<List<SubjectResponse>>>
 
     @GET("learners/profile")
     suspend fun getLearnerProfile(

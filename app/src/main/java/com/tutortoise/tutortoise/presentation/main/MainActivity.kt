@@ -15,6 +15,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.AuthRepository
+import com.tutortoise.tutortoise.data.repository.SubjectRepository
 import com.tutortoise.tutortoise.databinding.ActivityMainBinding
 import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
 import com.tutortoise.tutortoise.presentation.onboarding.OnboardingActivity
