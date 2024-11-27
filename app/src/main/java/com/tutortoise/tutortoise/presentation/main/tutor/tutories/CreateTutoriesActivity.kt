@@ -6,14 +6,14 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.tutortoise.tutortoise.R
-import com.tutortoise.tutortoise.databinding.ActivityCreateServiceBinding
+import com.tutortoise.tutortoise.databinding.ActivityCreateTutoriesBinding
 
-class CreateServiceActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityCreateServiceBinding
+class CreateTutoriesActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityCreateTutoriesBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityCreateServiceBinding.inflate(layoutInflater)
+        binding = ActivityCreateTutoriesBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setupViews()
@@ -21,7 +21,7 @@ class CreateServiceActivity : AppCompatActivity() {
     }
 
 
-    data class ServiceModel(
+    data class TutoriesModel(
         val subject: String,
         val about: String,
         val methodology: String,
@@ -62,7 +62,7 @@ class CreateServiceActivity : AppCompatActivity() {
         // Confirm button
         binding.btnConfirm.setOnClickListener {
             if (validateInputs()) {
-                createService()
+                createTutories()
             }
         }
     }
@@ -113,9 +113,9 @@ class CreateServiceActivity : AppCompatActivity() {
         return true
     }
 
-    private fun createService() {
-        // Create service object
-        val service = ServiceModel(
+    private fun createTutories() {
+        // Create tutories object
+        val tutories = TutoriesModel(
             subject = binding.spinnerSubject.selectedItem.toString(),
             about = binding.editAbout.text.toString(),
             methodology = binding.editMethodology.text.toString(),
@@ -124,10 +124,10 @@ class CreateServiceActivity : AppCompatActivity() {
             isFaceToFace = binding.btnFaceToFace.isSelected
         )
 
-        // TODO: Save service to backend/database
+        // TODO: Save tutories to backend/database
 
         // Show success message and finish activity
-        Toast.makeText(this, "Service created successfully", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this, "Tutories created successfully", Toast.LENGTH_SHORT).show()
         finish()
     }
 

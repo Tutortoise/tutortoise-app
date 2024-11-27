@@ -24,7 +24,7 @@ class TutoriesTutorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnAddTutory.setOnClickListener {
-            startActivity(Intent(requireContext(), CreateServiceActivity::class.java))
+            startActivity(Intent(requireContext(), CreateTutoriesActivity::class.java))
         }
     }
 

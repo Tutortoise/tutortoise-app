@@ -18,11 +18,11 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:hardwareAccelerated="true"
         android:theme="@style/Theme.Tutortoise"
         tools:targetApi="31">
         <activity
@@ -32,7 +32,7 @@
             android:name=".presentation.main.tutor.tutories.SetScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.main.tutor.tutories.CreateServiceActivity"
+            android:name=".presentation.main.tutor.tutories.CreateTutoriesActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.main.learner.detail.DetailTutorActivity"
