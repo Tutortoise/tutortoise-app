@@ -1,10 +1,12 @@
 package com.tutortoise.tutortoise.presentation.menuLearner.profile.general
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -14,6 +16,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
@@ -22,8 +25,14 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.data.pref.ProfileData
+import com.tutortoise.tutortoise.data.pref.UpdateLearnerProfileRequest
+import com.tutortoise.tutortoise.data.repository.AuthRepository
+import com.tutortoise.tutortoise.data.repository.LearnerRepository
+import com.tutortoise.tutortoise.data.repository.TutorRepository
 import com.tutortoise.tutortoise.databinding.ActivityEditProfileBinding
 import com.tutortoise.tutortoise.presentation.main.MainActivity
+import kotlinx.coroutines.launch
 
 class EditProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditProfileBinding
@@ -31,6 +40,11 @@ class EditProfileActivity : AppCompatActivity() {
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
 
+    private lateinit var authRepository: AuthRepository
+    private lateinit var learnerRepository: LearnerRepository
+    private lateinit var tutorRepository: TutorRepository
+
+    @SuppressLint("SetJavaScriptEnabled")
     private fun setupWebView() {
         binding.mapView.settings.apply {
             javaScriptEnabled = true
@@ -86,6 +100,10 @@ class EditProfileActivity : AppCompatActivity() {
         binding = ActivityEditProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        authRepository = AuthRepository(applicationContext)
+        learnerRepository = LearnerRepository(applicationContext)
+        tutorRepository = TutorRepository(applicationContext)
+
         setupWebView()
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -119,7 +137,8 @@ class EditProfileActivity : AppCompatActivity() {
 
                             runOnUiThread {
                                 hideLoadingState()
-                                binding.btnLocation.text = locationText.ifEmpty { "Location not found" }
+                                binding.btnLocation.text =
+                                    locationText.ifEmpty { "Location not found" }
                                 // Load the OpenStreetMap
                                 loadMap(location.latitude, location.longitude)
                             }
@@ -153,6 +172,11 @@ class EditProfileActivity : AppCompatActivity() {
             backToProfile()
         }
 
+        binding.btnSave.setOnClickListener {
+            updateProfile()
+            backToProfile()
+        }
+
         val spinnerGender = findViewById<AutoCompleteTextView>(R.id.spinnerGender)
         val adapter = ArrayAdapter.createFromResource(
             this,
@@ -161,6 +185,9 @@ class EditProfileActivity : AppCompatActivity() {
         )
         adapter.setDropDownViewResource(R.layout.dropdown_item)
         spinnerGender.setAdapter(adapter)
+
+        // Fill profile data
+        fillProfileData()
     }
 
     private fun showLoadingState() {
@@ -168,7 +195,12 @@ class EditProfileActivity : AppCompatActivity() {
             isEnabled = false
             icon = CircularProgressDrawable(this@EditProfileActivity).apply {
                 setStyle(CircularProgressDrawable.DEFAULT)
-                setColorSchemeColors(ContextCompat.getColor(this@EditProfileActivity, R.color.darkgreen))
+                setColorSchemeColors(
+                    ContextCompat.getColor(
+                        this@EditProfileActivity,
+                        R.color.darkgreen
+                    )
+                )
                 start()
             }
             text = "Getting location..."
@@ -191,6 +223,7 @@ class EditProfileActivity : AppCompatActivity() {
                 showLoadingState()
                 getCurrentLocation()
             }
+
             else -> {
                 locationPermissionRequest.launch(
                     arrayOf(
@@ -200,6 +233,67 @@ class EditProfileActivity : AppCompatActivity() {
                 )
             }
         }
+    }
+
+    private fun fillProfileData() {
+        val sharedPreferences = authRepository.getSharedPreferences()
+        val role = sharedPreferences.getString("user_role", null)
+
+        Log.d("EditProfileActivity", "Setting user role to $role")
+        lifecycleScope.launch {
+            val profileData: ProfileData? = if (role == "learner") {
+                learnerRepository.fetchLearnerProfile()?.data
+            } else {
+                tutorRepository.fetchTutorProfile()?.data
+            }
+
+            profileData?.let { data ->
+                val (name, gender, email, phoneNumber) = listOf(
+                    data.name, data.gender, data.email, data.phoneNumber
+                )
+
+                // Remove +62
+                phoneNumber?.removePrefix("+62")
+                binding.edtName.setText(name)
+                binding.edtEmail.setText(email)
+                binding.edtPhone.setText(phoneNumber)
+
+                // Set gender
+                val options =
+                    resources.getStringArray(R.array.gender_options)
+                val selectedOption = options.find { it.equals(gender, ignoreCase = true) }
+                binding.spinnerGender.setText(selectedOption, false) // Set the selected value
+            } ?: Log.e("EditProfileActivity", "Profile data is null")
+        }
+    }
+
+    private fun updateProfile() {
+        val sharedPreferences = authRepository.getSharedPreferences()
+        val role = sharedPreferences.getString("user_role", null)
+
+        lifecycleScope.launch {
+            // Learner
+            if (role == "learner") {
+                // TODO: update profile for tutor
+                val response = learnerRepository.updateLearnerProfile(
+                    UpdateLearnerProfileRequest(
+                        name = binding.edtName.text.toString(),
+                        email = null,
+                        phoneNumber = binding.edtPhone.text.toString().takeIf { it.isNotEmpty() },
+                        gender = binding.spinnerGender.text.toString()
+                            .replaceFirstChar { it.lowercase() },
+                        city = null,
+                        district = null,
+                        learningStyle = null,
+                        interests = null
+                    )
+                )
+            } else {
+                // TODO: update profile for tutor
+            }
+
+        }
+
     }
 
     @SuppressWarnings("MissingPermission")

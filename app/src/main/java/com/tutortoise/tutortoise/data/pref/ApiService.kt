@@ -3,12 +3,18 @@ package com.tutortoise.tutortoise.data.pref
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 
 data class ApiResponse<T>(
     val status: String,         // "error" | "fail" | "success"
     val message: String?,       // Optional message
     val data: T?                // Generic payload
+)
+
+data class MessageResponse(
+    val status: String,
+    val message: String
 )
 
 data class RegisterRequest(
@@ -39,34 +45,64 @@ data class ValidationError(
     val message: String
 )
 
-data class UserResponse (
+data class UserResponse(
     val id: String,
     val name: String,
     val email: String,
     val role: String,
 )
 
+interface ProfileData {
+    val name: String
+    val email: String
+    val gender: String?
+    val phoneNumber: String?
+    val city: String?
+    val district: String?
+    val createdAt: String
+}
+
 data class LearnerData(
     val id: String,
-    val name: String,
-    val email: String,
-    val learningStyle: String,
-    val gender: String,
-    val phoneNumber: String,
-    val city: String,
-    val district: String,
-    val createdAt: String
-)
+    override val name: String,
+    override val email: String,
+    val learningStyle: String?,
+    override val gender: String?,
+    override val phoneNumber: String?,
+    override val city: String?,
+    override val district: String?,
+    override val createdAt: String
+) : ProfileData
 
 data class TutorData(
     val id: String,
-    val name: String,
-    val email: String,
-    val gender: String,
-    val phoneNumber: String,
-    val city: String,
-    val district: String,
-    val createdAt: String
+    override val name: String,
+    override val email: String,
+    override val gender: String?,
+    override val phoneNumber: String?,
+    override val city: String?,
+    override val district: String?,
+    override val createdAt: String
+) : ProfileData
+
+data class UpdateLearnerProfileRequest(
+    val name: String?,
+    val phoneNumber: String?,
+    val email: String?,
+    val gender: String?,
+    val city: String?,
+    val district: String?,
+    val learningStyle: String?,
+    val interests: List<String>?
+)
+
+data class UpdateTutorProfileRequest(
+    val name: String?,
+    val phoneNumber: String?,
+    val email: String?,
+    val gender: String?,
+    val city: String?,
+    val district: String?,
 )
 
 
@@ -79,13 +115,19 @@ interface ApiService {
 
     @GET("auth/me")
     suspend fun getAuthenticatedUser(
-    ) : Response<ApiResponse<UserResponse>>
+    ): Response<ApiResponse<UserResponse>>
 
     @GET("learners/profile")
     suspend fun getLearnerProfile(
     ): Response<ApiResponse<LearnerData>>
 
+    @PATCH("learners/profile")
+    suspend fun updateLearnerProfile(
+        @Body request: UpdateLearnerProfileRequest
+    ): Response<MessageResponse>
+
     @GET("tutors/profile")
     suspend fun getTutorProfile(
     ): Response<ApiResponse<TutorData>>
+
 }
