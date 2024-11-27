@@ -33,6 +33,8 @@ import com.tutortoise.tutortoise.data.repository.LearnerRepository
 import com.tutortoise.tutortoise.data.repository.TutorRepository
 import com.tutortoise.tutortoise.databinding.ActivityEditProfileBinding
 import com.tutortoise.tutortoise.presentation.main.MainActivity
+import com.tutortoise.tutortoise.utils.EventBus
+import com.tutortoise.tutortoise.utils.ProfileUpdateEvent
 import kotlinx.coroutines.launch
 
 class EditProfileActivity : AppCompatActivity() {
@@ -286,11 +288,14 @@ class EditProfileActivity : AppCompatActivity() {
         }
     }
 
+
     private fun updateLearnerProfile(newData: UpdateLearnerProfileRequest) {
         lifecycleScope.launch {
             try {
                 learnerRepository.updateLearnerProfile(newData)
                 updateSharedPreferences(newData.name, newData.email)
+                // Publish event after successful update
+                EventBus.publish(ProfileUpdateEvent(newData.name, newData.email))
             } catch (e: Exception) {
                 Log.e("EditProfileActivity", "Failed to update learner profile", e)
             }
@@ -303,6 +308,8 @@ class EditProfileActivity : AppCompatActivity() {
             try {
                 tutorRepository.updateTutorProfile(newData)
                 updateSharedPreferences(newData.name, newData.email)
+                // Publish event after successful update
+                EventBus.publish(ProfileUpdateEvent(newData.name, newData.email))
             } catch (e: Exception) {
                 Log.e("EditProfileActivity", "Failed to update tutor profile", e)
             }

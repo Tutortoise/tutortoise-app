@@ -16,6 +16,8 @@ import com.tutortoise.tutortoise.presentation.login.LoginActivity
 import com.tutortoise.tutortoise.presentation.menuLearner.profile.general.ChangePasswordActivity
 import com.tutortoise.tutortoise.presentation.menuLearner.profile.general.EditProfileActivity
 import com.tutortoise.tutortoise.presentation.menuLearner.profile.general.MyActivityActivity
+import com.tutortoise.tutortoise.utils.EventBus
+import com.tutortoise.tutortoise.utils.ProfileUpdateEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -25,6 +27,23 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentLearnerProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var authRepository: AuthRepository
+    private var profileUpdateListener: ((Any) -> Unit)? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // Create listener
+        profileUpdateListener = { event ->
+            if (event is ProfileUpdateEvent) {
+                lifecycleScope.launch {
+                    displayUserInfo()
+                }
+            }
+        }
+
+        // Subscribe to events
+        EventBus.subscribe(ProfileUpdateEvent::class.java, profileUpdateListener!!)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -115,6 +134,10 @@ class ProfileFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        profileUpdateListener?.let { listener ->
+            EventBus.unsubscribe(ProfileUpdateEvent::class.java, listener)
+        }
+
         _binding = null
     }
 }
