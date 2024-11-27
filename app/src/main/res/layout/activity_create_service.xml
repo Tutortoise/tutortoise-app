@@ -18,22 +18,25 @@
 
             <ImageButton
                 android:id="@+id/btnBack"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
+                android:layout_width="26dp"
+                android:layout_height="24dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/back"
-                android:src="@drawable/ic_back" />
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_back"
+                app:tint="@color/darkgreen" />
 
             <TextView
+                android:id="@+id/myTutories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:text="@string/mytutories"
                 android:fontFamily="@font/montserrat_semi_bold"
-                android:textColor="@color/darkgreen"
-                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textSize="18sp"
                 android:textStyle="bold" />
         </RelativeLayout>
 
@@ -42,7 +45,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="@string/whichsubject"
-            android:fontFamily="@font/montserrat_medium"/>
+            android:textSize="14sp"
+            android:fontFamily="@font/montserrat_semi_bold"/>
 
         <Spinner
             android:id="@+id/spinnerSubject"
@@ -58,7 +62,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="@string/aboutyou"
-            android:fontFamily="@font/montserrat_medium"/>
+            android:textSize="14sp"
+            android:fontFamily="@font/montserrat_semi_bold"/>
 
         <EditText
             android:id="@+id/editAbout"
@@ -78,7 +83,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="@string/method"
-            android:fontFamily="@font/montserrat_medium"/>
+            android:textSize="14sp"
+            android:fontFamily="@font/montserrat_semi_bold"/>
 
         <EditText
             android:id="@+id/editMethodology"
@@ -98,15 +104,18 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="@string/rateperhour"
-            android:fontFamily="@font/montserrat_medium"/>
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="@string/rateperhourinfo"
-            android:fontFamily="@font/montserrat_regular"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@color/black"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -118,28 +127,34 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
                 android:text="Rp."
                 android:fontFamily="@font/montserrat_medium"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:textColor="@color/black"/>
 
             <EditText
                 android:id="@+id/editRate"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:layout_weight="1"
-                android:background="@drawable/edit_text_background"
                 android:inputType="number"
-                android:padding="12dp"
+                android:paddingStart="16dp"
+                android:gravity="left|center"
+                android:background="@drawable/edit_text_background"
                 android:text="@string/rateperhournominal"
-                android:fontFamily="@font/montserrat_light"/>
+                android:textSize="16sp"
+                android:textColor="#60000000"
+                android:fontFamily="@font/montserrat_regular"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="/Hour"
-                android:fontFamily="@font/montserrat_medium"
-                android:textSize="16sp" />
+                android:text="/ Hour"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:fontFamily="@font/montserrat_medium"/>
         </LinearLayout>
 
         <TextView
@@ -147,7 +162,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:text="@string/typelessons"
-            android:fontFamily="@font/montserrat_medium"/>
+            android:fontFamily="@font/montserrat_medium"
+            android:textColor="@color/black"
+            android:textSize="14sp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -155,24 +172,28 @@
             android:layout_marginBottom="24dp"
             android:orientation="horizontal">
 
+            <!--button before click-->
             <Button
                 android:id="@+id/btnOnline"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_height="39dp"
                 android:layout_weight="1"
-                android:backgroundTint="#FFFFFF"
-                android:text="@string/online"
+                android:layout_marginEnd="8dp"
+                android:layout_marginTop="2dp"
+                android:background="@drawable/button_outline"
+                android:backgroundTint="@color/purewhite"
                 android:fontFamily="@font/montserrat_semi_bold"
-                android:textColor="@color/black" />
+                android:text="@string/online"
+                android:textColor="@color/darkgreen" />
 
+            <!--button after click-->
             <Button
                 android:id="@+id/btnFaceToFace"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:backgroundTint="#6B8E6D"
+                android:backgroundTint="@color/darkgreen"
                 android:text="@string/onsite"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textColor="#FFFFFF" />
@@ -183,11 +204,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#6B8E6D"
             android:padding="12dp"
             android:text="@string/confirm"
             android:fontFamily="@font/montserrat_semi_bold"
-            android:textColor="#FFFFFF" />
+            android:textColor="@color/purewhite"
+            android:backgroundTint="@color/darkgreen"/>
 
     </LinearLayout>
 </ScrollView>

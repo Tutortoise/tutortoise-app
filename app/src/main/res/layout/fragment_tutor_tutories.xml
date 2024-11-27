@@ -16,12 +16,13 @@
             android:padding="16dp">
 
             <TextView
+                android:id="@+id/tvTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/mytutories"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/darkgreen"
+                android:textColor="@color/black"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:layout_weight="1" />
 
@@ -33,7 +34,5 @@
                 android:background="?attr/selectableItemBackgroundBorderless" />
 
         </LinearLayout>
-
     </LinearLayout>
-
 </ScrollView>

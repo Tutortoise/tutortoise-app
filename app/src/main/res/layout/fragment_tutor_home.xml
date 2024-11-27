@@ -30,10 +30,10 @@
                     android:id="@+id/appName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_extra_bold"
                     android:text="@string/app_name"
                     android:textColor="@color/white"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/montserrat_extra_bold" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/notification"
@@ -87,7 +87,7 @@
             android:layout_height="wrap_content"
             android:text="@string/date"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:layout_marginStart="16dp"
             android:fontFamily="@font/montserrat_medium" />
 
@@ -96,13 +96,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="center"
-            android:layout_marginTop="24dp">
-
+            android:layout_marginTop="16dp">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_empty_calendar"
+                android:layout_width="103dp"
+                android:layout_height="97dp"
+                android:src="@drawable/no_schedule_ilustration"
                 android:layout_marginTop="8dp" />
 
             <TextView
@@ -116,5 +115,4 @@
 
         </LinearLayout>
     </LinearLayout>
-
 </ScrollView>

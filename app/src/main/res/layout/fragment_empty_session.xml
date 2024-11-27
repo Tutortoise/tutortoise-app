@@ -6,14 +6,14 @@
 
     <ImageView
         android:id="@+id/ivEmptyCalendar"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_empty_calendar"
+        android:layout_width="167dp"
+        android:layout_height="157dp"
+        android:src="@drawable/no_schedule_ilustration"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/darkgreen" />
+        app:layout_constraintVertical_bias="0.407" />
 
     <TextView
         android:id="@+id/tvNoSessions"

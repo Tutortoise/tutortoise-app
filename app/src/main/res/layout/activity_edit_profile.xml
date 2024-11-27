@@ -39,7 +39,7 @@
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:text="Edit Profile"
                 android:textAlignment="center"
-                android:textColor="#1C1B1F"
+                android:textColor="@color/black"
                 android:textSize="18sp" />
 
             <Space
@@ -97,7 +97,8 @@
             app:boxCornerRadiusTopEnd="12dp"
             app:boxCornerRadiusTopStart="12dp"
             app:boxStrokeWidth="0.8dp"
-            app:hintEnabled="false">
+            app:hintEnabled="false"
+            app:boxStrokeColor="#50000000">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtName"
@@ -130,7 +131,8 @@
             app:boxCornerRadiusTopStart="12dp"
             app:boxStrokeWidth="0.8dp"
             app:endIconTint="@color/darkgreen"
-            app:hintEnabled="false">
+            app:hintEnabled="false"
+            app:boxStrokeColor="#50000000">
 
             <AutoCompleteTextView
                 android:id="@+id/spinnerGender"
@@ -164,7 +166,8 @@
             app:boxCornerRadiusTopEnd="12dp"
             app:boxCornerRadiusTopStart="12dp"
             app:boxStrokeWidth="0.8dp"
-            app:hintEnabled="false">
+            app:hintEnabled="false"
+            app:boxStrokeColor="#50000000">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtEmail"
@@ -195,7 +198,8 @@
             app:cardCornerRadius="12dp"
             app:cardElevation="0dp"
             app:strokeColor="#79747E"
-            app:strokeWidth="0.8dp">
+            app:strokeWidth="0.8dp"
+            app:boxStrokeColor="#50000000">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -269,7 +273,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="36dp"
+            android:layout_marginBottom="24dp"
             android:orientation="vertical">
 
             <com.google.android.material.button.MaterialButton
@@ -284,8 +288,8 @@
                 app:icon="@drawable/ic_location"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"
-                app:iconTint="#49454F"
-                app:strokeColor="#79747E" />
+                app:iconTint="@color/darkgreen"
+                app:boxStrokeColor="#50000000"/>
 
             <WebView
                 android:id="@+id/mapView"
@@ -300,7 +304,7 @@
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginBottom="36dp"
+            android:layout_marginBottom="24dp"
             android:fontFamily="@font/montserrat_semi_bold"
             android:text="Edit"
             android:textAllCaps="false"

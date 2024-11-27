@@ -119,7 +119,7 @@
     <string name="method">Teaching Methodology</string>
     <string name="methodtext">It’s time to convince your future students why they should take lessons with you!</string>
     <string name="rateperhour">Rate per hour</string>
-    <string name="rateperhourinfo">Info: The average rate for mathematics lessons in Samarindais Rp. 50000</string>
+    <string name="rateperhourinfo"><b>Info</b>: The average rate for mathematics lessons in Samarinda is <b>Rp.50000</b></string>
     <string name="rateperhournominal">50000</string>
     <string name="typelessons">Type Lessons</string>
     <string name="online">Online</string>
