@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_tutor_navigation"
+    app:startDestination="@id/homeTutorFragment">
+
+    <fragment
+        android:id="@+id/homeTutorFragment"
+        android:name="com.tutortoise.tutortoise.presentation.main.tutor.home.HomeTutorFragment"
+        android:label="HomeTutorFragment"
+        tools:layout="@layout/fragment_tutor_home" />
+    <fragment
+        android:id="@+id/sessionTutorFragment"
+        android:name="com.tutortoise.tutortoise.presentation.main.tutor.sessions.SessionFragment"
+        android:label="SessionTutorFragment"
+        tools:layout="@layout/fragment_tutor_sessions" />
+    <fragment
+        android:id="@+id/tutoriesTutorFragment"
+        android:name="com.tutortoise.tutortoise.presentation.main.tutor.tutories.TutoriesTutorFragment"
+        android:label="TutoriesTutorFragment"
+        tools:layout="@layout/fragment_tutor_tutories"/>
+    <fragment
+        android:id="@+id/profileTutorFragment"
+        android:name="com.tutortoise.tutortoise.presentation.main.tutor.profile.ProfileTutorFragment"
+        android:label="ProfileTutorFragment"
+        tools:layout="@layout/fragment_tutor_profile"/>
+
+</navigation>

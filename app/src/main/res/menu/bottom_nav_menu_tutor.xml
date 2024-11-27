@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/homeTutorFragment"
+        android:icon="@drawable/home"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/sessionTutorFragment"
+        android:icon="@drawable/session"
+        android:title="@string/session" />
+    <item
+        android:id="@+id/tutoriesTutorFragment"
+        android:icon="@drawable/explore"
+        android:title="@string/tutories" />
+    <item
+        android:id="@+id/profileTutorFragment"
+        android:icon="@drawable/profile"
+        android:title="@string/profile"
+        />
+</menu>
