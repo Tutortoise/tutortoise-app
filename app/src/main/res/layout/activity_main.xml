@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/purewhite"
+        android:paddingHorizontal="4dp"
         app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
         app:itemIconSize="24dp"
         app:itemIconTint="@color/bottom_nav_selector"
