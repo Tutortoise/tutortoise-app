@@ -98,4 +98,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.security.crypto)
     implementation(libs.glide)
+    implementation (libs.glide)
+
 }

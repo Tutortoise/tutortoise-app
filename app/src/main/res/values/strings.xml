@@ -148,6 +148,12 @@
     <string name="awaitingconfirm">Awaiting\nConfirmation</string>
     <string name="rejected">Rejected</string>
     <string name="completed">Completed</string>
+    
+    <string name="editpr">Edit Profile</string>
+    <string name="gender">Gender</string>
+    <string name="exampleemail">example@gmail.com</string>
+    <string name="num">+62</string>
+    <string name="numexample">812-3456-7890</string>
 
 
     <!-- Change Password Errors -->
