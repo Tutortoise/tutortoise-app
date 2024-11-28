@@ -2,11 +2,12 @@ package com.tutortoise.tutortoise.data.pref
 
 import android.content.Context
 import com.tutortoise.tutortoise.BuildConfig
+import com.tutortoise.tutortoise.data.model.ErrorResponse
 import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiConfig {
     private val BASE_URL = BuildConfig.BASE_URL
@@ -52,3 +53,9 @@ object ApiConfig {
         }
     }
 }
+
+
+class ApiException(
+    override val message: String,
+    val errorResponse: ErrorResponse?
+) : Exception(message)

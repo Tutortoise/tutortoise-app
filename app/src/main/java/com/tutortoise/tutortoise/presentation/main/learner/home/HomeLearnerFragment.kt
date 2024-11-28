@@ -73,7 +73,7 @@ class HomeLearnerFragment : Fragment() {
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         lifecycleScope.launch {
-            val subjects = subjectRepository.fetchSubjects() // Replace with your API call
+            val subjects = subjectRepository.fetchPopularSubjects()
             recyclerView.adapter = subjects?.data?.let { SubjectsAdapter(it) }
         }
     }

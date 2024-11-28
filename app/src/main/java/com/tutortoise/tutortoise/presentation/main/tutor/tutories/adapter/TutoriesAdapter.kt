@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.tutortoise.tutortoise.data.pref.TutoriesServiceModel
+import com.tutortoise.tutortoise.data.model.TutoriesServiceModel
 import com.tutortoise.tutortoise.databinding.ItemTutoriesBinding
 
 class TutoriesAdapter : RecyclerView.Adapter<TutoriesAdapter.TutoriesViewHolder>() {

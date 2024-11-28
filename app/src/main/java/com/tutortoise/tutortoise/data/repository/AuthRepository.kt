@@ -4,16 +4,19 @@ import android.content.Context
 import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.tutortoise.tutortoise.data.model.ApiResponse
+import com.tutortoise.tutortoise.data.model.ChangePasswordRequest
+import com.tutortoise.tutortoise.data.model.LoginRequest
+import com.tutortoise.tutortoise.data.model.MessageResponse
+import com.tutortoise.tutortoise.data.model.RegisterData
+import com.tutortoise.tutortoise.data.model.RegisterRequest
+import com.tutortoise.tutortoise.data.model.UserResponse
 import com.tutortoise.tutortoise.data.pref.ApiConfig
-import com.tutortoise.tutortoise.data.pref.ApiResponse
-import com.tutortoise.tutortoise.data.pref.ErrorResponse
-import com.tutortoise.tutortoise.data.pref.LoginRequest
-import com.tutortoise.tutortoise.data.pref.RegisterData
-import com.tutortoise.tutortoise.data.pref.RegisterRequest
-import com.tutortoise.tutortoise.data.pref.UserResponse
+import com.tutortoise.tutortoise.data.pref.ApiException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
+
 
 class AuthRepository(private val context: Context) {
     private val apiService = ApiConfig.getApiService(context)
@@ -79,6 +82,42 @@ class AuthRepository(private val context: Context) {
         }
     }
 
+    suspend fun changePassword(
+        currentPassword: String,
+        newPassword: String,
+        confirmPassword: String
+    ): Result<MessageResponse> {
+        return try {
+            val request = ChangePasswordRequest(
+                currentPassword = currentPassword,
+                newPassword = newPassword,
+                confirmPassword = confirmPassword
+            )
+
+            val response = when (getUserRole()) {
+                "learner" -> apiService.changeLearnerPassword(request)
+                else -> apiService.changeTutorPassword(request)
+            }
+
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Result.success(it)
+                } ?: Result.failure(Exception("Empty response body"))
+            } else {
+                val error = ApiConfig.parseError(response)
+                Result.failure(
+                    ApiException(
+                        error?.message ?: "Failed to change password",
+                        error
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            Log.e("AuthRepository", "Failed to change password", e)
+            Result.failure(e)
+        }
+    }
+
     private fun saveToken(token: String) {
         Log.d("AuthRepository", "Saving token: $token")
         sharedPreferences.edit().putString("auth_token", token).apply()
@@ -125,9 +164,3 @@ class AuthRepository(private val context: Context) {
         }
     }
 }
-
-
-class ApiException(
-    override val message: String,
-    val errorResponse: ErrorResponse?
-) : Exception(message)

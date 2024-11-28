@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.tutortoise.tutortoise.data.repository.ApiException
+import com.tutortoise.tutortoise.data.pref.ApiException
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.databinding.ActivityLearnerRegisterBinding
 import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
@@ -57,7 +57,11 @@ class LearnerRegisterActivity : AppCompatActivity() {
 
                 result.fold(
                     onSuccess = { response ->
-                        Toast.makeText(this@LearnerRegisterActivity, "Registration successful!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@LearnerRegisterActivity,
+                            "Registration successful!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         val intent = Intent(this@LearnerRegisterActivity, LoginActivity::class.java)
                         startActivity(intent)
                         finish()
@@ -88,6 +92,7 @@ class LearnerRegisterActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
+
                             else -> Toast.makeText(
                                 this@LearnerRegisterActivity,
                                 "Registration failed: ${throwable.message}",
@@ -108,7 +113,12 @@ class LearnerRegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun validateInput(name: String, email: String, password: String, confirmPassword: String): Boolean {
+    private fun validateInput(
+        name: String,
+        email: String,
+        password: String,
+        confirmPassword: String
+    ): Boolean {
         var isValid = true
 
         if (name.isBlank()) {

@@ -14,7 +14,6 @@ import com.tutortoise.tutortoise.presentation.subjects.adapter.SubjectsAdapter
 import kotlinx.coroutines.launch
 
 class SubjectsActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivitySubjectsBinding
     private lateinit var subjectRepository: SubjectRepository
 
@@ -25,20 +24,29 @@ class SubjectsActivity : AppCompatActivity() {
 
         subjectRepository = SubjectRepository(this)
 
-        // Fetch subjects
-        fetchSubjects()
+        // Fetch popular subjects
+        fetchPopularSubjects()
 
         binding.btnBack.setOnClickListener {
             backToHome()
         }
     }
 
-    private fun fetchSubjects() {
+    private fun fetchPopularSubjects() {
         val recyclerView: RecyclerView = findViewById(R.id.rvSubjects)
-        recyclerView.layoutManager = GridLayoutManager(this, 3) //
+        recyclerView.layoutManager = GridLayoutManager(this, 3)
+
         lifecycleScope.launch {
-            val subjects = subjectRepository.fetchSubjects() // Replace with your API call
-            recyclerView.adapter = subjects?.data?.let { SubjectsAdapter(it) }
+            // Try to fetch popular subjects first
+            val popularSubjects = subjectRepository.fetchPopularSubjects()
+
+            if (popularSubjects?.data != null) {
+                recyclerView.adapter = SubjectsAdapter(popularSubjects.data)
+            } else {
+                // Fallback to regular subjects if popular subjects fetch fails
+                val subjects = subjectRepository.fetchSubjects()
+                recyclerView.adapter = subjects?.data?.let { SubjectsAdapter(it) }
+            }
         }
     }
 
@@ -47,6 +55,5 @@ class SubjectsActivity : AppCompatActivity() {
         intent.putExtra("startFragment", "home")
         startActivity(intent)
         finish()
-
     }
 }

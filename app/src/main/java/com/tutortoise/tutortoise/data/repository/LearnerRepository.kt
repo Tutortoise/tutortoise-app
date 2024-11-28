@@ -2,13 +2,15 @@ package com.tutortoise.tutortoise.data.repository
 
 import android.content.Context
 import android.util.Log
+import com.tutortoise.tutortoise.data.model.ApiResponse
+import com.tutortoise.tutortoise.data.model.LearnerData
+import com.tutortoise.tutortoise.data.model.MessageResponse
+import com.tutortoise.tutortoise.data.model.UpdateLearnerProfileRequest
 import com.tutortoise.tutortoise.data.pref.ApiConfig
-import com.tutortoise.tutortoise.data.pref.ApiResponse
-import com.tutortoise.tutortoise.data.pref.LearnerData
-import com.tutortoise.tutortoise.data.pref.MessageResponse
-import com.tutortoise.tutortoise.data.pref.UpdateLearnerProfileRequest
+import com.tutortoise.tutortoise.data.pref.ApiException
 import okhttp3.MultipartBody
 import retrofit2.HttpException
+
 
 class LearnerRepository(context: Context) {
     private val apiService = ApiConfig.getApiService(context)

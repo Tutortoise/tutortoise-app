@@ -34,9 +34,9 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.tutortoise.tutortoise.R
-import com.tutortoise.tutortoise.data.pref.ProfileData
-import com.tutortoise.tutortoise.data.pref.UpdateLearnerProfileRequest
-import com.tutortoise.tutortoise.data.pref.UpdateTutorProfileRequest
+import com.tutortoise.tutortoise.data.model.ProfileData
+import com.tutortoise.tutortoise.data.model.UpdateLearnerProfileRequest
+import com.tutortoise.tutortoise.data.model.UpdateTutorProfileRequest
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.data.repository.LearnerRepository
 import com.tutortoise.tutortoise.data.repository.TutorRepository

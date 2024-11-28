@@ -6,25 +6,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.tutortoise.tutortoise.R
-import com.tutortoise.tutortoise.data.pref.ApiConfig
-import com.tutortoise.tutortoise.data.pref.ApiService
-import com.tutortoise.tutortoise.data.pref.ChangePasswordRequest
+import com.tutortoise.tutortoise.data.pref.ApiException
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.databinding.ActivityChangePasswordBinding
 import com.tutortoise.tutortoise.presentation.main.MainActivity
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class ChangePasswordActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityChangePasswordBinding
-    private lateinit var apiService: ApiService
+    private lateinit var authRepository: AuthRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChangePasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        apiService = ApiConfig.getApiService(this)
+        authRepository = AuthRepository(this)
 
         binding.btnBack.setOnClickListener {
             backToProfile()
@@ -95,55 +93,68 @@ class ChangePasswordActivity : AppCompatActivity() {
         return isValid
     }
 
+    private fun setupInputValidation() {
+        // Clear errors on focus
+        binding.apply {
+            etCurrentPassword.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) tilCurrentPassword.error = null
+            }
+            etNewPassword.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) tilNewPassword.error = null
+            }
+            etConfirmPassword.setOnFocusChangeListener { _, hasFocus ->
+                if (hasFocus) tilConfirmPassword.error = null
+            }
+        }
+    }
+
     private fun changePassword() {
-        // Show loading state
         setLoadingState(true)
 
         lifecycleScope.launch {
             try {
-                val request = ChangePasswordRequest(
+                val result = authRepository.changePassword(
                     currentPassword = binding.etCurrentPassword.text.toString(),
                     newPassword = binding.etNewPassword.text.toString(),
                     confirmPassword = binding.etConfirmPassword.text.toString()
                 )
 
-                val response =
-                    if (AuthRepository(this@ChangePasswordActivity).getUserRole() == "learner") {
-                        apiService.changeLearnerPassword(request)
-                    } else {
-                        apiService.changeTutorPassword(request)
-                    }
+                result.fold(
+                    onSuccess = {
+                        Snackbar.make(
+                            binding.root,
+                            getString(R.string.success_password_changed),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
 
-                if (response.isSuccessful) {
-                    Snackbar.make(
-                        binding.root,
-                        getString(R.string.success_password_changed),
-                        Snackbar.LENGTH_SHORT
-                    ).show()
+                        delay(1000)
+                        backToProfile()
+                    },
+                    onFailure = { error ->
+                        when {
+                            error is ApiException &&
+                                    error.message.contains(
+                                        "current password",
+                                        ignoreCase = true
+                                    ) -> {
+                                binding.tilCurrentPassword.error =
+                                    getString(R.string.error_incorrect_current_password)
+                            }
 
-                    // Delay a bit to show the success message
-                    kotlinx.coroutines.delay(1000)
-                    backToProfile()
-                } else {
-                    val error = ApiConfig.parseError(response)
-                    when {
-                        error?.message?.contains("current password", ignoreCase = true) == true -> {
-                            binding.tilCurrentPassword.error =
-                                getString(R.string.error_incorrect_current_password)
+                            else -> {
+                                showErrorSnackbar(
+                                    error.message
+                                        ?: getString(R.string.error_change_password_failed)
+                                )
+                            }
                         }
-
-                        else -> {
-                            showErrorSnackbar(
-                                error?.message ?: getString(R.string.error_change_password_failed)
-                            )
-                        }
                     }
-                }
+                )
             } catch (e: Exception) {
                 showErrorSnackbar(getString(R.string.error_change_password_failed))
+            } finally {
+                setLoadingState(false)
             }
-
-            setLoadingState(false)
         }
     }
 

@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tutortoise.tutortoise.R
-import com.tutortoise.tutortoise.data.pref.SubjectResponse
+import com.tutortoise.tutortoise.data.model.SubjectResponse
 
 class SubjectsAdapter(private val subjects: List<SubjectResponse>) :
     RecyclerView.Adapter<SubjectsAdapter.SubjectViewHolder>() {

@@ -8,9 +8,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.tutortoise.tutortoise.data.repository.ApiException
-import com.tutortoise.tutortoise.databinding.ActivityTutorRegisterBinding
+import com.tutortoise.tutortoise.data.pref.ApiException
 import com.tutortoise.tutortoise.data.repository.AuthRepository
+import com.tutortoise.tutortoise.databinding.ActivityTutorRegisterBinding
 import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
 import kotlinx.coroutines.launch
 
@@ -65,7 +65,11 @@ class TutorRegisterActivity : AppCompatActivity() {
                 result.fold(
                     onSuccess = { response ->
                         Log.d("TutorRegisterActivity", "Registration successful")
-                        Toast.makeText(this@TutorRegisterActivity, "Registration successful!", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this@TutorRegisterActivity,
+                            "Registration successful!",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         val intent = Intent(this@TutorRegisterActivity, LoginActivity::class.java)
                         startActivity(intent)
                         finish()
@@ -95,6 +99,7 @@ class TutorRegisterActivity : AppCompatActivity() {
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
+
                             else -> {
                                 Log.e("TutorRegisterActivity", "Registration error", throwable)
                                 Toast.makeText(
@@ -119,7 +124,12 @@ class TutorRegisterActivity : AppCompatActivity() {
         }
     }
 
-    private fun validateInput(name: String, email: String, password: String, confirmPassword: String): Boolean {
+    private fun validateInput(
+        name: String,
+        email: String,
+        password: String,
+        confirmPassword: String
+    ): Boolean {
         var isValid = true
 
         if (name.isBlank()) {
