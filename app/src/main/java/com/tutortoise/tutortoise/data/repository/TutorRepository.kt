@@ -7,8 +7,10 @@ import com.tutortoise.tutortoise.data.pref.ApiResponse
 import com.tutortoise.tutortoise.data.pref.MessageResponse
 import com.tutortoise.tutortoise.data.pref.TutorData
 import com.tutortoise.tutortoise.data.pref.UpdateTutorProfileRequest
+import okhttp3.MultipartBody
+import retrofit2.HttpException
 
-class TutorRepository(private val context: Context) {
+class TutorRepository(context: Context) {
     private val apiService = ApiConfig.getApiService(context)
 
     suspend fun fetchTutorProfile(): ApiResponse<TutorData>? {
@@ -39,4 +41,23 @@ class TutorRepository(private val context: Context) {
         }
     }
 
+    suspend fun updateProfilePicture(picture: MultipartBody.Part): Result<MessageResponse> {
+        return try {
+            val response =
+                apiService.updateTutorProfilePicture(picture)
+
+            Result.success(response)
+        } catch (e: HttpException) {
+            val errorBody = ApiConfig.parseError(e.response()!!)
+            Result.failure(
+                ApiException(
+                    errorBody?.message ?: "Updating profile picture failed",
+                    errorBody
+                )
+            )
+        } catch (e: Exception) {
+            Log.e("TutorRepository", "Updating profile picture failed", e)
+            Result.failure(e)
+        }
+    }
 }

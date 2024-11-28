@@ -1,11 +1,14 @@
 package com.tutortoise.tutortoise.data.pref
 
+import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 
 data class ApiResponse<T>(
     val status: String,         // "error" | "fail" | "success"
@@ -65,6 +68,7 @@ data class UserResponse(
 )
 
 interface ProfileData {
+    val id: String
     val name: String
     val email: String
     val gender: String?
@@ -75,7 +79,7 @@ interface ProfileData {
 }
 
 data class LearnerData(
-    val id: String,
+    override val id: String,
     override val name: String,
     override val email: String,
     val learningStyle: String?,
@@ -87,7 +91,7 @@ data class LearnerData(
 ) : ProfileData
 
 data class TutorData(
-    val id: String,
+    override val id: String,
     override val name: String,
     override val email: String,
     override val gender: String?,
@@ -117,7 +121,6 @@ data class UpdateTutorProfileRequest(
     val district: String?,
 )
 
-
 interface ApiService {
     @POST("auth/register")
     suspend fun register(@Body request: RegisterRequest): ApiResponse<RegisterData>
@@ -143,6 +146,12 @@ interface ApiService {
         @Body request: UpdateLearnerProfileRequest
     ): Response<MessageResponse>
 
+    @Multipart
+    @PUT("learners/profile/picture")
+    suspend fun updateLearnerProfilePicture(
+        @Part picture: MultipartBody.Part
+    ): MessageResponse
+
     @GET("tutors/profile")
     suspend fun getTutorProfile(
     ): Response<ApiResponse<TutorData>>
@@ -152,6 +161,11 @@ interface ApiService {
         @Body request: UpdateTutorProfileRequest
     ): Response<MessageResponse>
 
+    @Multipart
+    @PUT("tutors/profile/picture")
+    suspend fun updateTutorProfilePicture(
+        @Part picture: MultipartBody.Part
+    ): MessageResponse
 
     @PUT("/api/v1/learners/password")
     suspend fun changeLearnerPassword(@Body request: ChangePasswordRequest): Response<MessageResponse>

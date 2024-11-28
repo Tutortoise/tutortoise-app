@@ -10,12 +10,14 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerProfileBinding
 import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
 import com.tutortoise.tutortoise.presentation.commonProfile.ChangePasswordActivity
 import com.tutortoise.tutortoise.presentation.commonProfile.EditProfileActivity
 import com.tutortoise.tutortoise.presentation.commonProfile.MyActivityActivity
+import com.tutortoise.tutortoise.utils.Constants
 import com.tutortoise.tutortoise.utils.EventBus
 import com.tutortoise.tutortoise.utils.ProfileUpdateEvent
 import kotlinx.coroutines.Dispatchers
@@ -67,10 +69,14 @@ class ProfileLearnerFragment : Fragment() {
         try {
             withContext(Dispatchers.Main) {
                 val sharedPreferences = authRepository.getSharedPreferences()
+                val id = authRepository.getUserId()
                 val name = sharedPreferences.getString("user_name", null)
                 val email = sharedPreferences.getString("user_email", null)
                 binding.tvName.text = name
                 binding.tvEmail.text = email
+                Glide.with(this@ProfileLearnerFragment)
+                    .load(Constants.getProfilePictureUrl(id!!))
+                    .into(binding.ivProfile)
             }
         } catch (e: Exception) {
             Log.e("UserDetails", "Failed to fetch user details", e)

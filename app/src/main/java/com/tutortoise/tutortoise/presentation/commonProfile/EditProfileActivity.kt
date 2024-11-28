@@ -2,12 +2,15 @@ package com.tutortoise.tutortoise.presentation.commonProfile
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.webkit.WebSettings
@@ -16,11 +19,13 @@ import android.webkit.WebViewClient
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -36,14 +41,21 @@ import com.tutortoise.tutortoise.data.repository.LearnerRepository
 import com.tutortoise.tutortoise.data.repository.TutorRepository
 import com.tutortoise.tutortoise.databinding.ActivityEditProfileBinding
 import com.tutortoise.tutortoise.presentation.main.MainActivity
+import com.tutortoise.tutortoise.utils.Constants
 import com.tutortoise.tutortoise.utils.EventBus
 import com.tutortoise.tutortoise.utils.ProfileUpdateEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.InputStream
 
 class EditProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditProfileBinding
+    private lateinit var getImageLauncher: ActivityResultLauncher<Intent>
     private lateinit var authRepository: AuthRepository
     private lateinit var learnerRepository: LearnerRepository
     private lateinit var tutorRepository: TutorRepository
@@ -104,6 +116,8 @@ class EditProfileActivity : AppCompatActivity() {
         learnerRepository = LearnerRepository(applicationContext)
         tutorRepository = TutorRepository(applicationContext)
 
+        initializeImagePickerLauncher()
+
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 handleLocationResult(locationResult)
@@ -147,6 +161,10 @@ class EditProfileActivity : AppCompatActivity() {
             btnLocation.setOnClickListener {
                 initializeWebViewIfNeeded()
                 checkLocationPermission()
+            }
+
+            btnChangePhoto.setOnClickListener {
+                handleChangePicture()
             }
         }
 
@@ -357,6 +375,10 @@ class EditProfileActivity : AppCompatActivity() {
             edtEmail.setText(profileData.email)
             edtPhone.setText(profileData.phoneNumber?.removePrefix("+62"))
             updateGenderSpinner(profileData.gender)
+            // Load image
+            Glide.with(profileImage.context)
+                .load(Constants.getProfilePictureUrl(profileData.id))
+                .into(profileImage)
         }
     }
 
@@ -455,6 +477,85 @@ class EditProfileActivity : AppCompatActivity() {
         } catch (e: SecurityException) {
             showLocationPermissionError()
         }
+    }
+
+    private fun uriToRequestBody(uri: Uri): RequestBody {
+        val inputStream: InputStream? = contentResolver.openInputStream(uri)
+        val byteArray = inputStream?.readBytes() ?: byteArrayOf()
+        return byteArray.toRequestBody("image/jpeg".toMediaTypeOrNull())
+    }
+
+    private fun initializeImagePickerLauncher() {
+        getImageLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                if (result.resultCode == Activity.RESULT_OK) {
+                    val imageUri = result.data?.data
+                    imageUri?.let {
+                        val requestBody = uriToRequestBody(it)
+                        val imagePart = MultipartBody.Part.createFormData(
+                            "picture",
+                            it.lastPathSegment,
+                            requestBody
+                        )
+
+                        updateProfilePicture(imagePart)
+                    }
+                }
+            }
+    }
+
+    private suspend fun reloadProfilePicture() {
+        val userId = authRepository.getUserId()
+        withContext(Dispatchers.Main) {
+            // Reload the image
+            Glide.with(this@EditProfileActivity)
+                .load(Constants.getProfilePictureUrl(userId!!))
+                .into(binding.profileImage)
+        }
+    }
+
+    private fun updateProfilePicture(picture: MultipartBody.Part) {
+        val userRole = authRepository.getUserRole()
+        lifecycleScope.launch {
+            try {
+                val result = when (userRole) {
+                    "learner" -> learnerRepository.updateProfilePicture(picture)
+                    else -> tutorRepository.updateProfilePicture(picture)
+                }
+
+                result.fold(
+                    onSuccess = {
+                        Toast.makeText(
+                            this@EditProfileActivity,
+                            it.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        reloadProfilePicture()
+                    },
+                    onFailure = {
+                        Toast.makeText(
+                            this@EditProfileActivity,
+                            it.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                )
+            } catch (e: Exception) {
+                Log.e("EditProfileActivity", "Failed to request updating profile picture", e)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        this@EditProfileActivity,
+                        e.message,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
+    private fun handleChangePicture() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        getImageLauncher.launch(intent)
     }
 
     private fun navigateBackToProfile() {
