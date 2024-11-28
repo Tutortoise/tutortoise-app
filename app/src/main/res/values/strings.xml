@@ -60,7 +60,7 @@
     <string name="myactivityText">Check your previous activity</string>
     <string name="myscheduleText">Set your tutoring schedule</string>
     <string name="preferences">Preferences</string>
-    <string name="logout">Log Out</string>
+    <string name="logout">Logout</string>
     <string name="logoutText">Securely log out of Account</string>
 
     <string name="welcometotutortoise">Welcome to Tutortoise!</string>
