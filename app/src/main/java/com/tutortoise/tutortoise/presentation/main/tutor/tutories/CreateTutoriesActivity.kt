@@ -5,8 +5,12 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.data.pref.ApiConfig
+import com.tutortoise.tutortoise.data.pref.TutoriesServiceModel
 import com.tutortoise.tutortoise.databinding.ActivityCreateTutoriesBinding
+import kotlinx.coroutines.launch
 
 class CreateTutoriesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateTutoriesBinding
@@ -19,16 +23,6 @@ class CreateTutoriesActivity : AppCompatActivity() {
         setupViews()
         setupListeners()
     }
-
-
-    data class TutoriesModel(
-        val subject: String,
-        val about: String,
-        val methodology: String,
-        val ratePerHour: Int,
-        val isOnline: Boolean,
-        val isFaceToFace: Boolean
-    )
 
     private fun setupViews() {
         // TODO: Set up spinner for subject selection
@@ -113,9 +107,11 @@ class CreateTutoriesActivity : AppCompatActivity() {
         return true
     }
 
+//    TODO: Fix Post Service
     private fun createTutories() {
         // Create tutories object
-        val tutories = TutoriesModel(
+        val tutories = TutoriesServiceModel(
+            id = "",
             subject = binding.spinnerSubject.selectedItem.toString(),
             about = binding.editAbout.text.toString(),
             methodology = binding.editMethodology.text.toString(),
@@ -124,11 +120,28 @@ class CreateTutoriesActivity : AppCompatActivity() {
             isFaceToFace = binding.btnFaceToFace.isSelected
         )
 
-        // TODO: Save tutories to backend/database
+        lifecycleScope.launch {
+            try {
+                // Get the ApiService instance
+                val apiService = ApiConfig.getApiService(this@CreateTutoriesActivity)
 
-        // Show success message and finish activity
-        Toast.makeText(this, "Tutories created successfully", Toast.LENGTH_SHORT).show()
-        finish()
+                // Call the API to create the tutor class
+                val response = apiService.createTutories(tutories)
+
+                if (response.isSuccessful) {
+                    // Handle the successful response
+                    Toast.makeText(this@CreateTutoriesActivity, "Tutories created successfully", Toast.LENGTH_SHORT).show()
+                    finish() // Close the activity or navigate as needed
+                } else {
+                    // Handle API error
+                    val errorMessage = response.body()?.message ?: "Unknown error"
+                    showError(errorMessage)
+                }
+            } catch (e: Exception) {
+                // Handle network errors or exceptions
+                showError("An error occurred: ${e.message}")
+            }
+        }
     }
 
     private fun showError(message: String) {

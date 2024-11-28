@@ -155,6 +155,8 @@
     <string name="num">+62</string>
     <string name="numexample">812-3456-7890</string>
 
+    <string name="addtutory">Add new tutory</string>
+
 
     <!-- Change Password Errors -->
     <string name="error_current_password_required">Current password is required</string>

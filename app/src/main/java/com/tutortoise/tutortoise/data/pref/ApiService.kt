@@ -121,6 +121,16 @@ data class UpdateTutorProfileRequest(
     val district: String?,
 )
 
+data class TutoriesServiceModel(
+    val id: String,
+    val subject: String,
+    val about: String,
+    val methodology: String,
+    val ratePerHour: Int,
+    val isOnline: Boolean,
+    val isFaceToFace: Boolean
+)
+
 interface ApiService {
     @POST("auth/register")
     suspend fun register(@Body request: RegisterRequest): ApiResponse<RegisterData>
@@ -128,14 +138,21 @@ interface ApiService {
     @POST("auth/login")
     suspend fun login(@Body request: LoginRequest): ApiResponse<LoginData>
 
+    @POST("tutors/services")
+    suspend fun createTutories(@Body tutories: TutoriesServiceModel
+    ): Response<ApiResponse<TutoriesServiceModel>>
+
     @GET("auth/me")
     suspend fun getAuthenticatedUser(
     ): Response<ApiResponse<UserResponse>>
 
     @GET("subjects")
     suspend fun getSubjects(
-
     ): Response<ApiResponse<List<SubjectResponse>>>
+
+    @GET("tutors/services/me")
+    suspend fun getMyTutories(
+    ): Response<ApiResponse<List<TutoriesServiceModel>>>
 
     @GET("learners/profile")
     suspend fun getLearnerProfile(
