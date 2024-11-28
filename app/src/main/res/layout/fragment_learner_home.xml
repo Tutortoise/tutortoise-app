@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -21,37 +20,37 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="42dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp">
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="42dp">
 
                 <TextView
                     android:id="@+id/appName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_extra_bold"
                     android:text="@string/app_name"
                     android:textColor="@color/white"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/montserrat_extra_bold" />
+                    android:textSize="20sp" />
 
                 <ImageView
                     android:id="@+id/notification"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/notifications"
-                    android:layout_toStartOf="@id/chat"
                     android:layout_marginEnd="12dp"
-                    app:tint="@color/white"/>
+                    android:layout_toStartOf="@id/chat"
+                    android:src="@drawable/notifications"
+                    app:tint="@color/white" />
 
                 <ImageView
                     android:id="@+id/chat"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/chat"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="12dp"
-                    app:tint="@color/white"/>
+                    android:src="@drawable/chat"
+                    app:tint="@color/white" />
             </RelativeLayout>
 
             <androidx.cardview.widget.CardView
@@ -71,8 +70,8 @@
                         android:id="@+id/ivSearchIcon"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:layout_marginTop="13dp"
                         android:layout_marginStart="16dp"
+                        android:layout_marginTop="13dp"
                         android:src="@drawable/search"
                         app:tint="#50000000" />
 
@@ -84,7 +83,7 @@
                         android:layout_toEndOf="@id/ivSearchIcon"
                         android:background="@android:color/transparent"
                         android:fontFamily="@font/montserrat_regular"
-                        android:hint="@string/searchText"
+                        android:hint="@string/search_text"
                         android:inputType="text"
                         android:textColorHint="#50000000"
                         android:textSize="16sp" />
@@ -120,7 +119,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:fontFamily="@font/montserrat_medium"
-                    android:text="@string/viewall"
+                    android:text="@string/view_all"
                     android:textColor="@color/darkgreen"
                     android:textSize="14sp" />
             </RelativeLayout>
@@ -130,11 +129,11 @@
             android:id="@+id/rvHomeSubjects"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
             android:layout_marginStart="12dp"
+            android:layout_marginTop="0dp"
             android:layout_marginEnd="12dp"
             android:clipToPadding="false"
-            app:flow_horizontalGap="20dp"/>
+            app:flow_horizontalGap="20dp" />
 
 
         <LinearLayout
@@ -156,8 +155,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
             android:scrollbars="vertical" />
 
     </LinearLayout>

@@ -64,7 +64,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/montserrat_medium"
-            android:text="@string/hellotutor"
+            android:text="@string/greeting_tutor"
             android:textColor="@color/black"
             android:textSize="15sp" />
 
@@ -74,7 +74,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginBottom="24dp"
             android:fontFamily="@font/montserrat_bold"
-            android:text="@string/yourschedule"
+            android:text="@string/your_schedule"
             android:textColor="@color/darkgreen"
             android:textSize="20sp" />
 
@@ -127,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/montserrat_semi_bold"
-                android:text="@string/noschedule"
+                android:text="@string/no_schedule"
                 android:textColor="@color/darkgreen"
                 android:textSize="16sp" />
         </LinearLayout>

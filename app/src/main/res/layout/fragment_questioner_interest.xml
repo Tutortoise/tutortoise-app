@@ -10,46 +10,46 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-    <!-- Title -->
-    <TextView
-        android:id="@+id/txtTutorTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tutortoise"
-        android:textColor="@color/darkgreen"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:fontFamily="@font/montserrat_extra_bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <!-- Title -->
+        <TextView
+            android:id="@+id/txtTutorTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_extra_bold"
+            android:text="@string/tutortoise"
+            android:textColor="@color/darkgreen"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Question Counter -->
-    <TextView
-        android:id="@+id/txtQuestionCounter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:fontFamily="@font/montserrat_semi_bold"
-        android:text="@string/questiontwo"
-        android:textColor="@color/darkgreen"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtTutorTitle" />
+        <!-- Question Counter -->
+        <TextView
+            android:id="@+id/txtQuestionCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:fontFamily="@font/montserrat_semi_bold"
+            android:text="@string/question_two"
+            android:textColor="@color/darkgreen"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtTutorTitle" />
 
-    <!-- Question Text -->
-    <TextView
-        android:id="@+id/txtQuestion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/learningstyle"
-        android:textColor="@android:color/black"
-        android:fontFamily="@font/montserrat_semi_bold"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtQuestionCounter" />
+        <!-- Question Text -->
+        <TextView
+            android:id="@+id/txtQuestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat_semi_bold"
+            android:text="@string/learning_style"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtQuestionCounter" />
 
 
         <TextView
@@ -57,12 +57,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserrat_regular"
             android:text="Choose up to 3 options"
             android:textColor="@android:color/black"
-            android:fontFamily="@font/montserrat_regular"
             android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtQuestion" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

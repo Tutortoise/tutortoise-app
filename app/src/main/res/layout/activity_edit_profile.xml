@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop="16dp"
-        android:paddingHorizontal="24dp">
+        android:paddingHorizontal="24dp"
+        android:paddingTop="16dp">
 
         <!-- Header -->
         <LinearLayout
@@ -27,21 +26,21 @@
                 android:id="@+id/btnBack"
                 android:layout_width="26dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_back"
-                android:contentDescription="@string/back"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/back"
                 android:scaleType="fitXY"
+                android:src="@drawable/ic_back"
                 app:tint="@color/darkgreen" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/editpr"
                 android:fontFamily="@font/montserrat_semi_bold"
-                android:textSize="18sp"
+                android:text="@string/editpr"
+                android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textAlignment="center" />
+                android:textSize="18sp" />
 
             <Space
                 android:layout_width="24dp"
@@ -52,9 +51,9 @@
         <FrameLayout
             android:layout_width="110dp"
             android:layout_height="110dp"
+            android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp"
-            android:layout_gravity="center">
+            android:layout_marginBottom="16dp">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profileImage"
@@ -72,13 +71,13 @@
                 android:layout_height="30dp"
                 android:layout_gravity="end|bottom"
                 android:layout_marginBottom="-4dp"
-                android:src="@drawable/ic_camera"
                 android:contentDescription="@string/editpr"
+                android:src="@drawable/ic_camera"
                 app:backgroundTint="@color/darkgreen"
                 app:fabCustomSize="30dp"
                 app:fabSize="mini"
-                app:tint="@color/purewhite"
-                app:rippleColor="@color/white" />
+                app:rippleColor="@color/white"
+                app:tint="@color/purewhite" />
         </FrameLayout>
 
         <!-- Name Field -->
@@ -86,10 +85,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="@string/name"
             android:fontFamily="@font/montserrat_semi_bold"
-            android:textSize="14sp"
-            android:textColor="@color/black"/>
+            android:text="@string/name"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -100,16 +99,16 @@
             app:boxCornerRadiusBottomStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
             app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="#50000000"
             app:boxStrokeWidth="0.8dp"
-            app:hintEnabled="false"
-            app:boxStrokeColor="#50000000">
+            app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/full_name"
                 android:inputType="textPersonName"
-                android:hint="@string/fullname"
                 android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -118,10 +117,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="@string/gender"
             android:fontFamily="@font/montserrat_semi_bold"
-            android:textSize="14sp"
-            android:textColor="@color/black" />
+            android:text="@string/gender"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -133,21 +132,21 @@
             app:boxCornerRadiusBottomStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
             app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="#50000000"
             app:boxStrokeWidth="0.8dp"
             app:endIconTint="@color/darkgreen"
-            app:hintEnabled="false"
-            app:boxStrokeColor="#50000000">
+            app:hintEnabled="false">
 
             <AutoCompleteTextView
                 android:id="@+id/spinnerGender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none"
-                android:hint="@string/select_your_gender"
-                android:fontFamily="@font/montserrat_medium"
-                android:textSize="12sp"
                 android:dropDownVerticalOffset="3dp"
-                android:popupBackground="@color/white"/>
+                android:fontFamily="@font/montserrat_medium"
+                android:hint="@string/select_your_gender"
+                android:inputType="none"
+                android:popupBackground="@color/white"
+                android:textSize="12sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Email Field -->
@@ -155,10 +154,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="@string/email"
             android:fontFamily="@font/montserrat_semi_bold"
-            android:textSize="14sp"
-            android:textColor="@color/black"/>
+            android:text="@string/email"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
@@ -169,18 +168,18 @@
             app:boxCornerRadiusBottomStart="12dp"
             app:boxCornerRadiusTopEnd="12dp"
             app:boxCornerRadiusTopStart="12dp"
+            app:boxStrokeColor="#50000000"
             app:boxStrokeWidth="0.8dp"
-            app:hintEnabled="false"
-            app:boxStrokeColor="#50000000">
+            app:hintEnabled="false">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edtEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:enabled="false"
+                android:hint="@string/example_email"
                 android:inputType="textEmailAddress"
-                android:hint="@string/exampleemail"
-                android:textSize="14sp"
-                android:enabled="false"/>
+                android:textSize="14sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Phone Number Field -->
@@ -188,10 +187,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="@string/phone"
             android:fontFamily="@font/montserrat_semi_bold"
-            android:textSize="14sp"
-            android:textColor="@color/black" />
+            android:text="@string/phone"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
@@ -199,11 +198,11 @@
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="16dp"
             android:backgroundTint="#FFFFFF"
+            app:boxStrokeColor="#50000000"
             app:cardCornerRadius="12dp"
             app:cardElevation="0dp"
             app:strokeColor="#79747E"
-            app:strokeWidth="0.8dp"
-            app:boxStrokeColor="#50000000">
+            app:strokeWidth="0.8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -237,10 +236,10 @@
                         android:id="@+id/edtPhone"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:background="@null"
+                        android:hint="@string/num_example"
                         android:inputType="phone"
-                        android:hint="@string/numexample"
-                        android:textSize="14sp"
-                        android:background="@null"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <!-- Vertical divider -->
@@ -255,10 +254,10 @@
                     style="@style/Widget.Material3.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/verify"
                     android:fontFamily="@font/montserrat_regular"
-                    android:textSize="14sp"
+                    android:text="@string/verify"
                     android:textColor="@color/darkgreen"
+                    android:textSize="14sp"
                     app:cornerRadius="0dp" />
 
             </LinearLayout>
@@ -269,31 +268,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:text="@string/location"
             android:fontFamily="@font/montserrat_semi_bold"
-            android:textSize="14sp"
-            android:textColor="@color/black" />
+            android:text="@string/location"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginBottom="24dp">
+            android:layout_marginBottom="24dp"
+            android:orientation="vertical">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLocation"
                 style="@style/Widget.Material3.Button.OutlinedButton"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="@string/uselocation"
                 android:fontFamily="@font/montserrat_semi_bold"
+                android:text="@string/use_location"
                 android:textColor="#49454F"
+                app:boxStrokeColor="#50000000"
                 app:cornerRadius="12dp"
                 app:icon="@drawable/ic_location"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"
-                app:iconTint="@color/darkgreen"
-                app:boxStrokeColor="#50000000"/>
+                app:iconTint="@color/darkgreen" />
 
             <WebView
                 android:id="@+id/mapView"
@@ -308,11 +307,11 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginBottom="24dp"
-            android:text="@string/edit"
             android:fontFamily="@font/montserrat_semi_bold"
-            android:textSize="14sp"
-            android:textColor="@color/purewhite"
+            android:text="@string/edit"
             android:textAllCaps="false"
+            android:textColor="@color/purewhite"
+            android:textSize="14sp"
             app:backgroundTint="@color/darkgreen"
             app:cornerRadius="30dp" />
 

@@ -63,7 +63,7 @@
             android:layout_marginTop="16dp"
             android:fontFamily="@font/montserrat_semi_bold"
             android:gravity="center"
-            android:text="@string/onboardingHeader1"
+            android:text="@string/onboarding_header_1"
             android:textColor="@android:color/black"
             android:textSize="24sp" />
 
@@ -76,7 +76,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/montserrat_light"
             android:gravity="center"
-            android:text="@string/onboardingText1"
+            android:text="@string/onboarding_text_1"
             android:textColor="@android:color/black"
             android:textSize="12sp" />
     </LinearLayout>

@@ -6,34 +6,34 @@
     <string name="skip">Skip</string>
     <string name="cont">Continue</string>
 
-    <string name="onboardingHeader1">Welcome to Tutortoise!</string>
-    <string name="onboardingText1">Learning\'s all about you! at your pace, in your style. Let\'s find the one that clicks with you!</string>
-    <string name="onboardingHeader2">Go with your own speed</string>
-    <string name="onboardingText2">We\'ve got tutors to teach at your own rhythm, around you! Slowly but surely you will meet your goals.</string>
-    <string name="onboardingHeader3">Only the best tutors for you</string>
-    <string name="onboardingText3">We\'ve got tutors who specialize in a range of subjects, teaching styles, and experience levels.</string>
-    <string name="onboardingHeader4">Join a Community of Learners!</string>
-    <string name="onboardingText4">You\'re not just finding a tutor\; you\'re joining a supportive community of lifelong learners. Let\'s take the first step together!</string>
-    <string name="loginRegisHeader">Let\'s get started!</string>
-    <string name="btnLogin">Login</string>
-    <string name="btnRegister">Register</string>
+    <string name="onboarding_header_1">Welcome to Tutortoise!</string>
+    <string name="onboarding_text_1">Learning\'s all about you! at your pace, in your style. Let\'s find the one that clicks with you!</string>
+    <string name="onboarding_header_2">Go with your own speed</string>
+    <string name="onboarding_text_2">We\'ve got tutors to teach at your own rhythm, around you! Slowly but surely you will meet your goals.</string>
+    <string name="onboarding_header_3">Only the best tutors for you</string>
+    <string name="onboarding_text_3">We\'ve got tutors who specialize in a range of subjects, teaching styles, and experience levels.</string>
+    <string name="onboarding_header_4">Join a Community of Learners!</string>
+    <string name="onboarding_text_4">You\'re not just finding a tutor\; you\'re joining a supportive community of lifelong learners. Let\'s take the first step together!</string>
+    <string name="login_regist_header">Let\'s get started!</string>
+    <string name="login_btn">Login</string>
+    <string name="register_btn">Register</string>
 
     <string name="home">Home</string>
     <string name="explore">Explore</string>
     <string name="session">Sessions</string>
     <string name="profile">Profile</string>
     <string name="tutories">Tutories</string>
-    <string name="searchText">Search tutor, subject and others...</string>
+    <string name="search_text">Search tutor, subject and others...</string>
     <string name="popular">Popular Subjects</string>
-    <string name="viewall">View All</string>
-    <string name="top1">Number1</string>
-    <string name="top2">Number2</string>
-    <string name="top3">Number3</string>
+    <string name="view_all">View All</string>
+    <string name="top_1">Number1</string>
+    <string name="top_2">Number2</string>
+    <string name="top_3">Number3</string>
     <string name="recommended">Recommended Tutors</string>
 
-    <string name="tutorImage">Tutor image</string>
-    <string name="tutorName">Tutor Name</string>
-    <string name="tutorSubject">Tutor Subject</string>
+    <string name="tutor_image">Tutor image</string>
+    <string name="tutor_name">Tutor Name</string>
+    <string name="tutor_subject">Tutor Subject</string>
     <string name="reviews">reviews</string>
     <string name="price">Price</string>
     <string name="location">Location</string>
@@ -41,121 +41,120 @@
     <string name="back">Back</string>
     <string name="filter">Filter</string>
 
-    <string name="nosession">No Booked Sessions</string>
-    <string name="findout">Find out your lesson plan by requesting a tutor</string>
-    <string name="findTutor">Find a Tutor</string>
+    <string name="no_session">No Booked Sessions</string>
+    <string name="find_out">Find out your lesson plan by requesting a tutor</string>
+    <string name="find_tutor">Find a Tutor</string>
 
-    <string name="profilesetting">Profile Settings</string>
+    <string name="profile_setting">Profile Settings</string>
     <string name="username">Username</string>
-    <string name="emailuser">Email User</string>
-    <string name="editprofile">Edit Profile</string>
+    <string name="user_email">Email User</string>
+    <string name="edit_profile">Edit Profile</string>
     <string name="select_your_gender">Select your gender</string>
     <string name="save">Save</string>
     <string name="general">General</string>
-    <string name="editprofileText">Change profile picture, location</string>
-    <string name="changepassword">Change Password</string>
-    <string name="changepasswordText">Update and strongthen account security</string>
-    <string name="myactivity">My Activity</string>
-    <string name="myschedule">My Schedule</string>
-    <string name="myactivityText">Check your previous activity</string>
-    <string name="myscheduleText">Set your tutoring schedule</string>
+    <string name="edit_profile_text">Change profile picture, location</string>
+    <string name="change_password">Change Password</string>
+    <string name="change_password_text">Update and strongthen account security</string>
+    <string name="my_activity">My Activity</string>
+    <string name="my_schedule">My Schedule</string>
+    <string name="my_activity_text">Check your previous activity</string>
+    <string name="my_schedule_text">Set your tutoring schedule</string>
     <string name="preferences">Preferences</string>
     <string name="logout">Logout</string>
-    <string name="logoutText">Securely log out of Account</string>
+    <string name="logout_text">Securely log out of Account</string>
 
-    <string name="welcometotutortoise">Welcome to Tutortoise!</string>
-    <string name="howto">How would you like to join us?</string>
-    <string name="selectpath">Select an option from below</string>
-    <string name="aslearner">As a Learner</string>
-    <string name="astutor">As a Tutor</string>
-    <string name="alreadyhaveacc">Already have an account? </string>
-    <string name="linklogin">Sign in</string>
+    <string name="welcome_to_tutortoise">Welcome to Tutortoise!</string>
+    <string name="how_to">How would you like to join us?</string>
+    <string name="select_path">Select an option from below</string>
+    <string name="as_learner">As a Learner</string>
+    <string name="as_tutor">As a Tutor</string>
+    <string name="already_have_acc">Already have an account? </string>
+    <string name="link_login">Sign in</string>
 
-    <string name="welcomeback">Welcome Back!</string>
-    <string name="accesstext">Access your personalized hub to continue your learning journey.</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="access_text">Access your personalized hub to continue your learning journey.</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="forgor">Forgot Password ?</string>
-    <string name="signin">Sign In</string>
+    <string name="forgot_password">Forgot Password ?</string>
+    <string name="sign_in">Sign In</string>
     <string name="or">Or</string>
-    <string name="continuewith">Continue with Google</string>
-    <string name="donthave">Don’t have an account? </string>
-    <string name="signup">Sign Up</string>
+    <string name="continue_with">Continue with Google</string>
+    <string name="dont_have">Don’t have an account? </string>
+    <string name="sign_up">Sign Up</string>
 
     <string name="create">Create Your Account!</string>
     <string name="join">Join and start your learning journey with expert tutors</string>
     <string name="name">Name</string>
-    <string name="confirmpw">Confirm Password</string>
-    <string name="tospp">By continuing, you agree to our Terms of Service and\n Privacy Policy</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="aggrement_tos_pp">By continuing, you agree to our Terms of Service and\n Privacy Policy</string>
 
-    <string name="hellotutor">Hello Username,</string>
-    <string name="yourschedule">This is your schedule</string>
+    <string name="greeting_tutor">Hello Username,</string>
+    <string name="your_schedule">This is your schedule</string>
     <string name="date">Date Today</string>
-    <string name="noschedule">No schedule</string>
+    <string name="no_schedule">No schedule</string>
 
     <string name="notification">Notifications</string>
     <string name="chat">Chat</string>
     <string name="subjects">Subjects</string>
-    <string name="subjectname">Subject</string>
+    <string name="subject_name">Subject</string>
 
     <string-array name="gender_options">
         <item>Male</item>
         <item>Female</item>
         <item>Prefer not to say</item>
     </string-array>
-    <string name="fullname">Full Name</string>
+    <string name="full_name">Full Name</string>
     <string name="phone">Phone Number</string>
     <string name="verify">Verify</string>
-    <string name="uselocation">Use Current Location</string>
+    <string name="use_location">Use Current Location</string>
     <string name="edit">Edit</string>
-    <string name="changepw">Change Password</string>
-    <string name="tutordetail">Tutor Detail</string>
-    <string name="notimessage">Notification Messages Received Goes Here</string>
-    <string name="notidate">Date/Time</string>
-    <string name="tutorrsvp">Tutor Reservation</string>
+    <string name="tutor_detail">Tutor Detail</string>
+    <string name="notif_message">Notification Messages Received Goes Here</string>
+    <string name="notif_date">Date/Time</string>
+    <string name="tutor_rsvp">Tutor Reservation</string>
 
-    <string name="mytutories">My Tutories</string>
-    <string name="whichsubject">Which Subjects do you teach?</string>
-    <string name="aboutyou">About you in this subject</string>
-    <string name="aboutyoutext">Reassure your student about your professionalism, inspire confidence and etablish your legtimacy as a tutor</string>
+    <string name="my_tutories">My Tutories</string>
+    <string name="which_subject">Which Subjects do you teach?</string>
+    <string name="about_you">About you in this subject</string>
+    <string name="about_you_text">Reassure your student about your professionalism, inspire confidence and etablish your legtimacy as a tutor</string>
     <string name="method">Teaching Methodology</string>
-    <string name="methodtext">It’s time to convince your future students why they should take lessons with you!</string>
-    <string name="rateperhour">Rate per hour</string>
-    <string name="rateperhourinfo"><b>Info</b>: The average rate for mathematics lessons in Samarinda is <b>Rp.50000</b></string>
-    <string name="rateperhournominal">50000</string>
-    <string name="typelessons">Type Lessons</string>
+    <string name="method_text">It’s time to convince your future students why they should take lessons with you!</string>
+    <string name="rate_per_hour">Rate per hour</string>
+    <string name="rate_per_hour_info"><b>Info</b>: The average rate for mathematics lessons in Samarinda is <b>Rp.50000</b></string>
+    <string name="rate_per_hour_nominal">50000</string>
+    <string name="type_lessons">Type Lessons</string>
     <string name="online">Online</string>
     <string name="onsite">On-site</string>
     <string name="confirm">Confirm</string>
 
-    <string name="setschedule">Set Tutor Schedule</string>
-    <string name="messageText">This is a message template</string>
-    <string name="timesent">Time Sent</string>
-    <string name="messageCount">1</string>
+    <string name="set_schedule">Set Tutor Schedule</string>
+    <string name="message_text">This is a message template</string>
+    <string name="time_sent">Time Sent</string>
+    <string name="message_count">1</string>
 
-    <string name="questionone">Question 1 of 2</string>
-    <string name="questiontwo">Question 2 of 2</string>
-    <string name="learningstyle">What is your learning style ?</string>
+    <string name="question_one">Question 1 of 2</string>
+    <string name="question_two">Question 2 of 2</string>
+    <string name="learning_style">What is your learning style ?</string>
     <string name="visual">Visual</string>
     <string name="auditory">Auditory</string>
     <string name="kinesthetic">Kinesthetic</string>
 
     <string name="subject">Subject</string>
-    <string name="priceperhour">Price per hour</string>
+    <string name="price_per_hour">Price per hour</string>
 
-    <string name="tutortime">Tutoring Time</string>
-    <string name="tutordate">Tutoring Date</string>
-    <string name="awaitingconfirm">Awaiting\nConfirmation</string>
+    <string name="tutor_time">Tutoring Time</string>
+    <string name="tutor_date">Tutoring Date</string>
+    <string name="awaiting_confirm">Awaiting\nConfirmation</string>
     <string name="rejected">Rejected</string>
     <string name="completed">Completed</string>
-    
+
     <string name="editpr">Edit Profile</string>
     <string name="gender">Gender</string>
-    <string name="exampleemail">example@gmail.com</string>
+    <string name="example_email">example@gmail.com</string>
     <string name="num">+62</string>
-    <string name="numexample">812-3456-7890</string>
+    <string name="num_example">812-3456-7890</string>
 
-    <string name="addtutory">Add new tutory</string>
+    <string name="add_tutory">Add new tutory</string>
 
 
     <!-- Change Password Errors -->
