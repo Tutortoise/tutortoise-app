@@ -69,7 +69,7 @@ class AuthRepository(private val context: Context) {
 
             val userDetails = fetchUserDetails()
             userDetails?.data?.let { data ->
-                saveUserInfo(data.name, data.email, data.role)
+                saveUserInfo(data.id, data.name, data.email, data.role)
             }
 
             true
@@ -84,8 +84,9 @@ class AuthRepository(private val context: Context) {
         sharedPreferences.edit().putString("auth_token", token).apply()
     }
 
-    private fun saveUserInfo(name: String, email: String, role: String) {
+    private fun saveUserInfo(id: String, name: String, email: String, role: String) {
         sharedPreferences.edit()
+            .putString("user_id", id)
             .putString("user_name", name)
             .putString("user_email", email)
             .putString("user_role", role)
@@ -116,6 +117,10 @@ class AuthRepository(private val context: Context) {
 
     fun getUserRole(): String? {
         return sharedPreferences.getString("user_role", null)
+    }
+
+    fun getUserId(): String? {
+        return sharedPreferences.getString("user_id", null)
     }
 }
 
