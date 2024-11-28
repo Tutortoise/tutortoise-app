@@ -26,6 +26,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -45,6 +46,7 @@ import com.tutortoise.tutortoise.utils.Constants
 import com.tutortoise.tutortoise.utils.EventBus
 import com.tutortoise.tutortoise.utils.ProfileUpdateEvent
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -504,13 +506,32 @@ class EditProfileActivity : AppCompatActivity() {
             }
     }
 
-    private suspend fun reloadProfilePicture() {
-        val userId = authRepository.getUserId()
-        withContext(Dispatchers.Main) {
-            // Reload the image
-            Glide.with(this@EditProfileActivity)
-                .load(Constants.getProfilePictureUrl(userId!!))
-                .into(binding.profileImage)
+    private fun loadProfileImage(userId: String?) {
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                withContext(Dispatchers.Main) {
+                    userId?.let {
+                        Glide.with(this@EditProfileActivity)
+                            .load(Constants.getProfilePictureUrl(it))
+                            .placeholder(R.drawable.default_profile_picture)
+                            .error(R.drawable.default_profile_picture)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
+                            .into(binding.profileImage)
+                    } ?: run {
+                        binding.profileImage.setImageResource(R.drawable.default_profile_picture)
+                    }
+                }
+            } catch (e: Exception) {
+                withContext(Dispatchers.Main) {
+                    binding.profileImage.setImageResource(R.drawable.default_profile_picture)
+                    Toast.makeText(
+                        this@EditProfileActivity,
+                        "Failed to load profile image",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
     }
 
@@ -530,7 +551,7 @@ class EditProfileActivity : AppCompatActivity() {
                             it.message,
                             Toast.LENGTH_SHORT
                         ).show()
-                        reloadProfilePicture()
+                        loadProfileImage(authRepository.getUserId())
                     },
                     onFailure = {
                         Toast.makeText(
@@ -578,7 +599,7 @@ class EditProfileActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        binding.mapView.loadUrl("about:blank")
-        binding.mapView.destroy()
+        lifecycleScope.coroutineContext.cancelChildren()
+        fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 }

@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.databinding.FragmentTutorProfileBinding
 import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
@@ -71,19 +72,34 @@ class ProfileTutorFragment : Fragment() {
                 val id = authRepository.getUserId()
                 val name = sharedPreferences.getString("user_name", null)
                 val email = sharedPreferences.getString("user_email", null)
-                binding.tvName.text = name
-                binding.tvEmail.text = email
-                Glide.with(this@ProfileTutorFragment)
-                    .load(Constants.getProfilePictureUrl(id!!))
-                    .into(binding.ivProfile)
+
+                binding.tvName.text = name ?: "No name"
+                binding.tvEmail.text = email ?: "No email"
+
+                id?.let { userId ->
+                    Glide.with(this@ProfileTutorFragment)
+                        .load(Constants.getProfilePictureUrl(userId))
+                        .placeholder(R.drawable.default_profile_picture) // Add a default placeholder image
+                        .error(R.drawable.default_profile_picture) // Add an error placeholder image
+                        .into(binding.ivProfile)
+                } ?: run {
+                    binding.ivProfile.setImageResource(R.drawable.default_profile_picture)
+                    Log.w("ProfileTutorFragment", "User ID is null, using default profile picture")
+                }
             }
         } catch (e: Exception) {
             Log.e("UserDetails", "Failed to fetch user details", e)
-            Toast.makeText(
-                requireContext(),
-                "Failed to fetch user details: ${e.message}",
-                Toast.LENGTH_SHORT
-            ).show()
+            withContext(Dispatchers.Main) {
+                Toast.makeText(
+                    requireContext(),
+                    "Failed to load profile: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                binding.tvName.text = "Unknown User"
+                binding.tvEmail.text = "No email available"
+                binding.ivProfile.setImageResource(R.drawable.ic_nav_profile)
+            }
         }
     }
 

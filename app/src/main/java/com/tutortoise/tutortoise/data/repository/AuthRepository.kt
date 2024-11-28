@@ -120,7 +120,9 @@ class AuthRepository(private val context: Context) {
     }
 
     fun getUserId(): String? {
-        return sharedPreferences.getString("user_id", null)
+        return sharedPreferences.getString("user_id", null)?.also {
+            if (it.isEmpty()) return null
+        }
     }
 }
 
