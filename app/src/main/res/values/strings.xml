@@ -56,7 +56,9 @@
     <string name="changepassword">Change Password</string>
     <string name="changepasswordText">Update and strongthen account security</string>
     <string name="myactivity">My Activity</string>
+    <string name="myschedule">My Schedule</string>
     <string name="myactivityText">Check your previous activity</string>
+    <string name="myscheduleText">Set your tutoring schedule</string>
     <string name="preferences">Preferences</string>
     <string name="logout">Log Out</string>
     <string name="logoutText">Securely log out of Account</string>

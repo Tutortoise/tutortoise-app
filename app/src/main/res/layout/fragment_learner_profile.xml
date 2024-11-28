@@ -155,7 +155,7 @@
                     android:id="@+id/divider1"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#EEEEEE"
+                    android:background="#10000000"
                     app:layout_constraintTop_toBottomOf="@id/layoutEditProfile" />
 
                 <!-- Change Password Section -->
@@ -215,7 +215,7 @@
                     android:id="@+id/divider2"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#EEEEEE"
+                    android:background="#10000000"
                     app:layout_constraintTop_toBottomOf="@id/layoutChangePassword" />
 
                 <!-- My Activity Section -->
