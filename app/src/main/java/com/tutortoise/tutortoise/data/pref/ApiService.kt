@@ -47,6 +47,9 @@ interface ApiService {
     @GET("subjects/popular")
     suspend fun getPopularSubjects(): Response<ApiResponse<List<SubjectResponse>>>
 
+    @GET("subjects/available")
+    suspend fun getAvailableSubjects(): Response<ApiResponse<List<SubjectResponse>>>
+
     @GET("tutors/services/me")
     suspend fun getMyTutories(
     ): Response<ApiResponse<List<TutoriesServiceModel>>>

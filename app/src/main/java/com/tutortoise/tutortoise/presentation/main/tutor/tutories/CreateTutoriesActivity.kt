@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.CreateTutoriesRequest
+import com.tutortoise.tutortoise.data.repository.SubjectRepository
 import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.ActivityCreateTutoriesBinding
 import kotlinx.coroutines.launch
@@ -15,6 +16,7 @@ import kotlinx.coroutines.launch
 class CreateTutoriesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateTutoriesBinding
     private lateinit var tutoriesRepository: TutoriesRepository
+    private lateinit var subjectRepository: SubjectRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,20 +24,38 @@ class CreateTutoriesActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         tutoriesRepository = TutoriesRepository(this)
+        subjectRepository = SubjectRepository(this)
         setupViews()
         setupListeners()
     }
 
     private fun setupViews() {
-        // TODO: Set up spinner for subject selection
-        val subjects = arrayOf("Mathematics", "Physics", "Chemistry", "Biology", "English")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, subjects)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerSubject.adapter = adapter
+        // Fetch available subjects (for spinner)
+        fetchAvailableSubjects()
 
         // Set default state for teaching mode buttons
         binding.btnOnline.isSelected = false
         binding.btnFaceToFace.isSelected = false
+    }
+
+    private fun fetchAvailableSubjects() {
+        lifecycleScope.launch {
+            val subjectsResponse = subjectRepository.fetchAvailableSubjects()
+            val subjects = subjectsResponse?.data?.map { it.name }
+            if (!subjects.isNullOrEmpty()) {
+                setSubjectSpinner(subjects)
+            }
+        }
+    }
+
+    private fun setSubjectSpinner(subjects: List<String>) {
+        val adapter = ArrayAdapter(
+            this@CreateTutoriesActivity,
+            android.R.layout.simple_spinner_item,
+            subjects
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerSubject.adapter = adapter
     }
 
     private fun setupListeners() {

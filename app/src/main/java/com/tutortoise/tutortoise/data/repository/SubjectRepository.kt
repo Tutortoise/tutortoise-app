@@ -36,4 +36,18 @@ class SubjectRepository(context: Context) {
             null
         }
     }
+
+    suspend fun fetchAvailableSubjects(): ApiResponse<List<SubjectResponse>>? {
+        return try {
+            val response = apiService.getAvailableSubjects()
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("SubjectRepository", "Failed to fetch available subjects", e)
+            null
+        }
+    }
 }
