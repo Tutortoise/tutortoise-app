@@ -3,12 +3,14 @@ package com.tutortoise.tutortoise.presentation.main.tutor.tutories
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.navArgs
 import com.google.android.material.button.MaterialButton
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.databinding.ActivitySetScheduleBinding
 import com.tutortoise.tutortoise.presentation.main.tutor.tutories.dialog.TimePickerDialog
 
 class SetScheduleActivity : AppCompatActivity() {
+    private val args: SetScheduleActivityArgs by navArgs()
     private var selectedFromTime: String? = null
     private var selectedToTime: String? = null
     private val selectedDays = mutableSetOf<String>()
@@ -24,6 +26,7 @@ class SetScheduleActivity : AppCompatActivity() {
         initializeDayButtons()
         setupTimeButtons()
         setupConfirmButton()
+        setupBackButton()
     }
 
     private fun setupTimeButtons() {
@@ -67,6 +70,12 @@ class SetScheduleActivity : AppCompatActivity() {
                     binding.toTimeLayout.error = error
                 }
             ).show()
+        }
+    }
+
+    private fun setupBackButton() {
+        binding.btnBack.setOnClickListener {
+            finish()
         }
     }
 

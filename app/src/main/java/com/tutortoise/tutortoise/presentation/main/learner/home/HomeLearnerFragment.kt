@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.SubjectRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerHomeBinding
 import com.tutortoise.tutortoise.presentation.chat.ChatListActivity
@@ -20,6 +22,8 @@ import kotlinx.coroutines.launch
 class HomeLearnerFragment : Fragment() {
     private var _binding: FragmentLearnerHomeBinding? = null
     private val binding get() = _binding!!
+    private val navController by lazy { findNavController() }
+
 
     private val notificationIntent by lazy {
         Intent(
@@ -51,15 +55,15 @@ class HomeLearnerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.notification.setOnClickListener {
-            startActivity(notificationIntent)
+            navController.navigate(R.id.action_home_to_notification)
         }
 
         binding.chat.setOnClickListener {
-            startActivity(chatIntent)
+            navController.navigate(R.id.action_home_to_chat)
         }
 
         binding.seemore.setOnClickListener {
-            startActivity(subjectsIntent)
+            navController.navigate(R.id.action_home_to_subjects)
         }
     }
 

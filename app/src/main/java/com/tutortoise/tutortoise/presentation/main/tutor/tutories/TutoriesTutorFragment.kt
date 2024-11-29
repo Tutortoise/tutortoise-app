@@ -1,6 +1,5 @@
 package com.tutortoise.tutortoise.presentation.main.tutor.tutories
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +7,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.FragmentTutorTutoriesBinding
 import com.tutortoise.tutortoise.presentation.main.tutor.tutories.adapter.TutoriesAdapter
@@ -40,7 +41,7 @@ class TutoriesTutorFragment : Fragment() {
         }
 
         binding.btnAddTutory.setOnClickListener {
-            startActivity(Intent(requireContext(), CreateTutoriesActivity::class.java))
+            findNavController().navigate(R.id.action_tutories_to_createTutories)
         }
 
         fetchTutories()

@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,17 +18,19 @@ import com.tutortoise.tutortoise.databinding.FragmentLearnerExploreBinding
 import com.tutortoise.tutortoise.presentation.main.learner.explore.adapter.ExploreAdapter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 
 // TODO: Handle the filters thing
 class ExploreLearnerFragment : Fragment() {
     private var _binding: FragmentLearnerExploreBinding? = null
-    private val binding get() = _binding!!
+    private val binding
+        get() = _binding
+            ?: throw IllegalStateException("Binding should not be accessed after Fragment is destroyed")
     private lateinit var exploreAdapter: ExploreAdapter
     private lateinit var tutoriesRepository: TutoriesRepository
     private var searchJob: Job? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,49 +39,56 @@ class ExploreLearnerFragment : Fragment() {
     ): View {
         _binding = FragmentLearnerExploreBinding.inflate(inflater, container, false)
         tutoriesRepository = TutoriesRepository(requireContext())
-
-        setupSearch()
-        fetchTutories()
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupSearch()
+        setupUI()
+        fetchTutories()
+    }
 
+    private fun setupUI() {
         binding.etSearch.imeOptions = EditorInfo.IME_ACTION_SEARCH
         binding.etSearch.inputType = InputType.TYPE_CLASS_TEXT
 
         binding.btnFilter.setOnClickListener {
             FilterBottomSheet().show(childFragmentManager, "FilterDialog")
         }
+
+        // Initialize RecyclerView and adapter
+        exploreAdapter = ExploreAdapter(emptyList())
+        binding.rvTutories.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = exploreAdapter
+        }
     }
 
     private fun setupSearch() {
         binding.etSearch.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
             override fun afterTextChanged(s: Editable?) {
                 searchJob?.cancel()
-                searchJob = lifecycleScope.launch {
+                searchJob = viewLifecycleOwner.lifecycleScope.launch {
                     delay(300) // Debounce for 300ms
-                    if (s.isNullOrBlank()) {
-                        fetchTutories()
-                    } else {
-                        fetchTutories(s.toString())
+                    if (isActive) { // Check if coroutine is still active
+                        fetchTutories(s?.toString())
                     }
                 }
             }
         })
 
         binding.etSearch.setOnEditorActionListener { _, actionId, _ ->
-
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 searchJob?.cancel()
                 val query = binding.etSearch.text.toString()
-                fetchTutories(query)
+                viewLifecycleOwner.lifecycleScope.launch {
+                    if (isActive) {
+                        fetchTutories(query)
+                    }
+                }
                 hideKeyboard()
                 return@setOnEditorActionListener true
             }
@@ -89,50 +97,47 @@ class ExploreLearnerFragment : Fragment() {
     }
 
     private fun fetchTutories(query: String? = null) {
-        lifecycleScope.launch {
-            // Hide both states initially
-            showLoading(true)
-            showEmptyState(false)
-            binding.rvTutories.isVisible = false
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                showLoading(true)
+                showEmptyState(false)
+                binding.rvTutories.visibility = View.GONE
 
-            val tutoriesItems = tutoriesRepository.searchTutories(query = query)
+                val tutoriesItems = tutoriesRepository.searchTutories(query = query)
 
-            // Hide loading first
-            showLoading(false)
+                if (!isActive) return@launch // Check if coroutine is still active
 
-            if (tutoriesItems?.data != null) {
-                if (tutoriesItems.data.isEmpty()) {
-                    // Show empty state if no data
-                    binding.rvTutories.isVisible = false
-                    showEmptyState(true)
-                } else {
-                    // Show recycler view with data
-                    binding.rvTutories.isVisible = true
-                    showEmptyState(false)
+                showLoading(false)
 
-                    if (::exploreAdapter.isInitialized) {
-                        exploreAdapter.updateItems(tutoriesItems.data)
+                if (tutoriesItems?.data != null) {
+                    if (tutoriesItems.data.isEmpty()) {
+                        binding.rvTutories.visibility = View.GONE
+                        showEmptyState(true)
                     } else {
-                        exploreAdapter = ExploreAdapter(tutoriesItems.data)
-                        binding.rvTutories.apply {
-                            layoutManager = LinearLayoutManager(requireContext())
-                            adapter = exploreAdapter
-                        }
+                        binding.rvTutories.visibility = View.VISIBLE
+                        showEmptyState(false)
+                        exploreAdapter.updateItems(tutoriesItems.data)
                     }
+                } else {
+                    binding.rvTutories.visibility = View.GONE
+                    showEmptyState(true)
                 }
-            } else {
-                binding.rvTutories.isVisible = false
-                showEmptyState(true)
+            } catch (e: Exception) {
+                if (isActive) {
+                    showLoading(false)
+                    binding.rvTutories.visibility = View.GONE
+                    showEmptyState(true)
+                }
             }
         }
     }
 
     private fun showLoading(show: Boolean) {
-        binding.progressBar.isVisible = show
+        _binding?.progressBar?.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     private fun showEmptyState(show: Boolean) {
-        binding.emptyStateLayout.isVisible = show
+        _binding?.emptyStateLayout?.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     private fun hideKeyboard() {
@@ -142,7 +147,8 @@ class ExploreLearnerFragment : Fragment() {
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
+        searchJob?.cancel() // Cancel any ongoing search job
         _binding = null
+        super.onDestroyView()
     }
 }

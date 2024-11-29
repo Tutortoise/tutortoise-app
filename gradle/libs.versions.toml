@@ -34,6 +34,7 @@ playServicesLocation = "21.3.0"
 swiperefreshlayout = "1.1.0"
 glide = "4.16.0"
 flexbox = "3.0.0"
+navigation-safe-args = "2.8.4"
 
 
 [libraries]
@@ -74,4 +75,5 @@ flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref 
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
+navigation-safe-args = { id = "androidx.navigation.safeargs.kotlin", version.ref = "navigation-safe-args" }
 

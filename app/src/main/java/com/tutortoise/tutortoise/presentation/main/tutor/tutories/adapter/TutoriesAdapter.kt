@@ -1,13 +1,17 @@
 package com.tutortoise.tutortoise.presentation.main.tutor.tutories.adapter
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.GetMyTutoriesResponse
 import com.tutortoise.tutortoise.databinding.ItemTutoriesBinding
 import com.tutortoise.tutortoise.utils.Constants
+
 
 class TutoriesAdapter : RecyclerView.Adapter<TutoriesAdapter.TutoriesViewHolder>() {
 
@@ -67,7 +71,13 @@ class TutoriesAdapter : RecyclerView.Adapter<TutoriesAdapter.TutoriesViewHolder>
 
             // Handle item click
             binding.root.setOnClickListener {
-                // TODO: Navigate to edit tutories
+                val bundle = Bundle().apply {
+                    putString("tutoriesId", tutories.id)
+                }
+                itemView.findNavController().navigate(
+                    R.id.action_tutories_to_editTutories,
+                    bundle
+                )
             }
         }
     }

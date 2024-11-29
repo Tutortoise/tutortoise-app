@@ -2,16 +2,11 @@ package com.tutortoise.tutortoise.presentation.chat
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.databinding.ActivityChatListBinding
 import com.tutortoise.tutortoise.presentation.main.MainActivity
 
 class ChatListActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityChatListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

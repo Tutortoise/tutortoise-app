@@ -3,12 +3,10 @@ package com.tutortoise.tutortoise.presentation.notification
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.databinding.ActivityNotificationBinding
 import com.tutortoise.tutortoise.presentation.main.MainActivity
 
 class NotificationActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityNotificationBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,7 +15,7 @@ class NotificationActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnBack.setOnClickListener {
-            backToHome()
+            finish()
         }
 
     }

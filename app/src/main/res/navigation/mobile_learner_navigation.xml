@@ -9,23 +9,131 @@
         android:id="@+id/homeLearnerFragment"
         android:name="com.tutortoise.tutortoise.presentation.main.learner.home.HomeLearnerFragment"
         android:label="HomeFragment"
-        tools:layout="@layout/fragment_learner_home" />
+        tools:layout="@layout/fragment_learner_home">
+
+        <action
+            android:id="@+id/action_home_to_notification"
+            app:destination="@id/notificationActivity" />
+        <action
+            android:id="@+id/action_home_to_chat"
+            app:destination="@id/chatListActivity" />
+        <action
+            android:id="@+id/action_home_to_subjects"
+            app:destination="@id/subjectsActivity" />
+        <action
+            android:id="@+id/action_home_to_explore"
+            app:destination="@id/exploreLearnerFragment" />
+        <action
+            android:id="@+id/action_home_to_session"
+            app:destination="@id/sessionLearnerFragment" />
+        <action
+            android:id="@+id/action_home_to_profile"
+            app:destination="@id/profileLearnerFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/exploreLearnerFragment"
         android:name="com.tutortoise.tutortoise.presentation.main.learner.explore.ExploreLearnerFragment"
         android:label="ExploreFragment"
-        tools:layout="@layout/fragment_learner_explore" />
+        tools:layout="@layout/fragment_learner_explore">
+
+        <action
+            android:id="@+id/action_explore_to_tutor_detail"
+            app:destination="@id/detailTutorActivity" />
+        <action
+            android:id="@+id/action_explore_to_home"
+            app:destination="@id/homeLearnerFragment" />
+        <action
+            android:id="@+id/action_explore_to_session"
+            app:destination="@id/sessionLearnerFragment" />
+        <action
+            android:id="@+id/action_explore_to_profile"
+            app:destination="@id/profileLearnerFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/sessionLearnerFragment"
         android:name="com.tutortoise.tutortoise.presentation.main.learner.session.SessionFragment"
         android:label="SessionFragment"
-        tools:layout="@layout/fragment_learner_session" />
+        tools:layout="@layout/fragment_learner_session">
+
+        <action
+            android:id="@+id/action_session_to_home"
+            app:destination="@id/homeLearnerFragment" />
+        <action
+            android:id="@+id/action_session_to_explore"
+            app:destination="@id/exploreLearnerFragment" />
+        <action
+            android:id="@+id/action_session_to_profile"
+            app:destination="@id/profileLearnerFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/profileLearnerFragment"
         android:name="com.tutortoise.tutortoise.presentation.main.learner.profile.ProfileLearnerFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_learner_profile" />
+        tools:layout="@layout/fragment_learner_profile">
+
+        <action
+            android:id="@+id/action_profile_to_home"
+            app:destination="@id/homeLearnerFragment" />
+        <action
+            android:id="@+id/action_profile_to_explore"
+            app:destination="@id/exploreLearnerFragment" />
+        <action
+            android:id="@+id/action_profile_to_session"
+            app:destination="@id/sessionLearnerFragment" />
+        <action
+            android:id="@+id/action_profile_to_editProfile"
+            app:destination="@id/editProfileActivity" />
+        <action
+            android:id="@+id/action_profile_to_changePassword"
+            app:destination="@id/changePasswordActivity" />
+        <action
+            android:id="@+id/action_profile_to_myActivity"
+            app:destination="@id/myActivityActivity" />
+        <action
+            android:id="@+id/action_profile_to_login"
+            app:destination="@id/loginActivity" />
+    </fragment>
+
+    <!-- Activity Destinations -->
+    <activity
+        android:id="@+id/notificationActivity"
+        android:name="com.tutortoise.tutortoise.presentation.notification.NotificationActivity"
+        tools:layout="@layout/activity_notification">
+        <argument
+            android:name="fromScreen"
+            android:defaultValue="home"
+            app:argType="string" />
+    </activity>
+
+    <activity
+        android:id="@+id/chatListActivity"
+        android:name="com.tutortoise.tutortoise.presentation.chat.ChatListActivity" />
+
+    <activity
+        android:id="@+id/subjectsActivity"
+        android:name="com.tutortoise.tutortoise.presentation.subjects.SubjectsActivity" />
+
+    <activity
+        android:id="@+id/editProfileActivity"
+        android:name="com.tutortoise.tutortoise.presentation.commonProfile.EditProfileActivity" />
+
+    <activity
+        android:id="@+id/changePasswordActivity"
+        android:name="com.tutortoise.tutortoise.presentation.commonProfile.ChangePasswordActivity" />
+
+    <activity
+        android:id="@+id/myActivityActivity"
+        android:name="com.tutortoise.tutortoise.presentation.commonProfile.MyActivityActivity" />
+
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.tutortoise.tutortoise.presentation.auth.login.LoginActivity" />
+
+    <activity
+        android:id="@+id/detailTutorActivity"
+        android:name="com.tutortoise.tutortoise.presentation.main.learner.explore.DetailTutorActivity" />
+    
 </navigation>

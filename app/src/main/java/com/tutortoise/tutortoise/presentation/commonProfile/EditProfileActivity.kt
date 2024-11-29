@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -27,6 +28,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
@@ -128,37 +132,76 @@ class EditProfileActivity : AppCompatActivity() {
 
         binding.apply {
             btnBack.setOnClickListener { navigateBackToProfile() }
-            btnSave.setOnClickListener {
+            binding.btnSave.setOnClickListener {
+                if (!validateForm()) return@setOnClickListener
+
                 val userRole = authRepository.getUserRole()
                 val profileUpdateData = createProfileUpdateData()
 
-                when (userRole) {
-                    "learner" -> updateLearnerProfile(profileUpdateData)
-                    else -> {
-                        val request = UpdateTutorProfileRequest(
-                            name = profileUpdateData.name,
-                            email = profileUpdateData.email,
-                            phoneNumber = profileUpdateData.phoneNumber,
-                            gender = profileUpdateData.gender,
-                            city = profileUpdateData.city,
-                            district = profileUpdateData.district
-                        )
+                lifecycleScope.launch {
+                    try {
+                        when (userRole) {
+                            "learner" -> {
+                                learnerRepository.updateLearnerProfile(
+                                    UpdateLearnerProfileRequest(
+                                        name = profileUpdateData.name,
+                                        email = profileUpdateData.email,
+                                        phoneNumber = profileUpdateData.phoneNumber,
+                                        gender = profileUpdateData.gender,
+                                        city = profileUpdateData.city,
+                                        district = profileUpdateData.district,
+                                        learningStyle = null,
+                                        interests = null
+                                    )
+                                )?.let {
+                                    handleSuccessfulUpdate(
+                                        profileUpdateData.name,
+                                        profileUpdateData.email
+                                    )
+                                    navigateBackToProfile()
+                                } ?: run {
+                                    Toast.makeText(
+                                        this@EditProfileActivity,
+                                        "Failed to update profile",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
 
-                        lifecycleScope.launch {
-                            try {
-                                tutorRepository.updateTutorProfile(request)
-                                handleSuccessfulUpdate(
-                                    profileUpdateData.name,
-                                    profileUpdateData.email
-                                )
-                            } catch (e: Exception) {
-                                Log.e("EditProfileActivity", "Failed to update tutor profile", e)
+                            else -> {
+                                tutorRepository.updateTutorProfile(
+                                    UpdateTutorProfileRequest(
+                                        name = profileUpdateData.name,
+                                        email = profileUpdateData.email,
+                                        phoneNumber = profileUpdateData.phoneNumber,
+                                        gender = profileUpdateData.gender,
+                                        city = profileUpdateData.city,
+                                        district = profileUpdateData.district
+                                    )
+                                )?.let {
+                                    handleSuccessfulUpdate(
+                                        profileUpdateData.name,
+                                        profileUpdateData.email
+                                    )
+                                    navigateBackToProfile()
+                                } ?: run {
+                                    Toast.makeText(
+                                        this@EditProfileActivity,
+                                        "Failed to update profile",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
                         }
+                    } catch (e: Exception) {
+                        Log.e("EditProfileActivity", "Failed to update profile", e)
+                        Toast.makeText(
+                            this@EditProfileActivity,
+                            "Error: ${e.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
-
-                navigateBackToProfile()
             }
             btnLocation.setOnClickListener {
                 initializeWebViewIfNeeded()
@@ -208,10 +251,17 @@ class EditProfileActivity : AppCompatActivity() {
 
                             if (locationData.hasValidLocation()) {
                                 loadMap(validAddress.latitude, validAddress.longitude)
+                                // Enable save button after location is set
+                                binding.btnSave.isEnabled = true
                             } else {
                                 binding.mapView.visibility = View.GONE
+                                Toast.makeText(
+                                    this@EditProfileActivity,
+                                    "Could not determine location. Please try again.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
-                        } ?: {
+                        } ?: run {
                             hideLoadingState()
                             binding.btnLocation.text = "Location not found"
                             binding.mapView.visibility = View.GONE
@@ -221,14 +271,24 @@ class EditProfileActivity : AppCompatActivity() {
                     withContext(Dispatchers.Main) {
                         handleLocationError(e)
                     }
-                } finally {
-                    fusedLocationClient.removeLocationUpdates(locationCallback)
-                        .addOnCompleteListener {
-                            Log.d("EditProfileActivity", "Location updates removed")
-                        }
                 }
             }
         }
+    }
+
+    private fun validateForm(): Boolean {
+        if (binding.edtName.text.toString().isEmpty()) {
+            Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        val gender = binding.spinnerGender.text.toString().lowercase()
+        if (gender !in listOf("male", "female", "prefer not to say")) {
+            Toast.makeText(this, "Please select a valid gender", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        return true
     }
 
     private fun loadMap(latitude: Double, longitude: Double) {
@@ -377,9 +437,13 @@ class EditProfileActivity : AppCompatActivity() {
             edtEmail.setText(profileData.email)
             edtPhone.setText(profileData.phoneNumber?.removePrefix("+62"))
             updateGenderSpinner(profileData.gender)
-            // Load image
+
             Glide.with(profileImage.context)
                 .load(Constants.getProfilePictureUrl(profileData.id))
+                .placeholder(R.drawable.default_profile_picture)
+                .error(R.drawable.default_profile_picture)
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
                 .into(profileImage)
         }
     }
@@ -400,6 +464,7 @@ class EditProfileActivity : AppCompatActivity() {
             binding.btnLocation.text = formatLocationText()
             getCoordinatesForLocation("${locationData.city} ${locationData.district}")
         } else {
+            binding.btnLocation.text = "Use current location"
             binding.mapView.visibility = View.GONE
         }
     }
@@ -421,13 +486,14 @@ class EditProfileActivity : AppCompatActivity() {
     }
 
     private fun createProfileUpdateData(): ProfileUpdateData {
+        val locationValid = locationData.hasValidLocation()
         return ProfileUpdateData(
             name = binding.edtName.text.toString(),
             email = getUpdatedEmail(),
             phoneNumber = binding.edtPhone.text.toString().takeIf { it.isNotEmpty() },
             gender = binding.spinnerGender.text.toString().lowercase(),
-            city = locationData.city,
-            district = locationData.district
+            city = if (locationValid) locationData.city else null,
+            district = if (locationValid) locationData.district else null
         )
     }
 
@@ -517,6 +583,27 @@ class EditProfileActivity : AppCompatActivity() {
                             .error(R.drawable.default_profile_picture)
                             .diskCacheStrategy(DiskCacheStrategy.NONE)
                             .skipMemoryCache(true)
+                            .listener(object : RequestListener<Drawable> {
+                                override fun onLoadFailed(
+                                    e: GlideException?,
+                                    model: Any?,
+                                    target: Target<Drawable>,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    Log.w("EditProfileActivity", "Failed to load profile image", e)
+                                    return false
+                                }
+
+                                override fun onResourceReady(
+                                    resource: Drawable,
+                                    model: Any,
+                                    target: Target<Drawable>,
+                                    dataSource: com.bumptech.glide.load.DataSource,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    return false
+                                }
+                            })
                             .into(binding.profileImage)
                     } ?: run {
                         binding.profileImage.setImageResource(R.drawable.default_profile_picture)
@@ -527,7 +614,7 @@ class EditProfileActivity : AppCompatActivity() {
                     binding.profileImage.setImageResource(R.drawable.default_profile_picture)
                     Toast.makeText(
                         this@EditProfileActivity,
-                        "Failed to load profile image",
+                        "Using default profile picture",
                         Toast.LENGTH_SHORT
                     ).show()
                 }

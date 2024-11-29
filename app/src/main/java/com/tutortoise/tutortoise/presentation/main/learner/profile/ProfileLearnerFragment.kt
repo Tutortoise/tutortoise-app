@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -17,9 +18,6 @@ import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerProfileBinding
 import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
-import com.tutortoise.tutortoise.presentation.commonProfile.ChangePasswordActivity
-import com.tutortoise.tutortoise.presentation.commonProfile.EditProfileActivity
-import com.tutortoise.tutortoise.presentation.commonProfile.MyActivityActivity
 import com.tutortoise.tutortoise.utils.Constants
 import com.tutortoise.tutortoise.utils.EventBus
 import com.tutortoise.tutortoise.utils.ProfileUpdateEvent
@@ -34,6 +32,8 @@ class ProfileLearnerFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var authRepository: AuthRepository
     private var profileUpdateListener: ((Any) -> Unit)? = null
+    private val navController by lazy { findNavController() }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,22 +111,22 @@ class ProfileLearnerFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        // Edit Profile
+        // Navigate to EditProfileFragment
         binding.layoutEditProfile.setOnClickListener {
-            startActivity(Intent(requireContext(), EditProfileActivity::class.java))
+            navController.navigate(R.id.action_profile_to_editProfile)
         }
 
-        // Change Password
+        // Navigate to ChangePasswordFragment
         binding.layoutChangePassword.setOnClickListener {
-            startActivity(Intent(requireContext(), ChangePasswordActivity::class.java))
+            navController.navigate(R.id.action_profile_to_changePassword)
         }
 
-        // My Activity
+        // Navigate to MyActivityFragment
         binding.layoutMyActivity.setOnClickListener {
-            startActivity(Intent(requireContext(), MyActivityActivity::class.java))
+            navController.navigate(R.id.action_profile_to_myActivity)
         }
 
-        // Logout
+        // Navigate to MyTutoriesFragment
         binding.layoutLogOut.setOnClickListener {
             showLogoutConfirmation()
         }
@@ -198,13 +198,8 @@ class ProfileLearnerFragment : Fragment() {
     }
 
     private fun logoutUser() {
-        // Clear the authentication token
         authRepository.clearToken()
-
-        // Redirect to LoginActivity
-        val intent = Intent(requireContext(), LoginActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
+        navController.navigate(R.id.action_profile_to_login)
     }
 
 

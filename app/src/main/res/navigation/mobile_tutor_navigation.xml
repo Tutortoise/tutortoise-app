@@ -9,21 +9,151 @@
         android:id="@+id/homeTutorFragment"
         android:name="com.tutortoise.tutortoise.presentation.main.tutor.home.HomeTutorFragment"
         android:label="HomeTutorFragment"
-        tools:layout="@layout/fragment_tutor_home" />
+        tools:layout="@layout/fragment_tutor_home">
+
+        <action
+            android:id="@+id/action_home_to_session"
+            app:destination="@id/sessionTutorFragment" />
+        <action
+            android:id="@+id/action_home_to_tutories"
+            app:destination="@id/tutoriesTutorFragment" />
+        <action
+            android:id="@+id/action_home_to_profile"
+            app:destination="@id/profileTutorFragment" />
+        <action
+            android:id="@+id/action_home_to_notification"
+            app:destination="@id/notificationActivity"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+
+        <action
+            android:id="@+id/action_home_to_chat"
+            app:destination="@id/chatListActivity"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+
     <fragment
         android:id="@+id/sessionTutorFragment"
         android:name="com.tutortoise.tutortoise.presentation.main.tutor.sessions.SessionFragment"
         android:label="SessionTutorFragment"
-        tools:layout="@layout/fragment_tutor_sessions" />
-    <fragment
-        android:id="@+id/tutoriesTutorFragment"
-        android:name="com.tutortoise.tutortoise.presentation.main.tutor.tutories.TutoriesTutorFragment"
-        android:label="TutoriesTutorFragment"
-        tools:layout="@layout/fragment_tutor_tutories"/>
+        tools:layout="@layout/fragment_tutor_sessions">
+
+        <action
+            android:id="@+id/action_session_to_home"
+            app:destination="@id/homeTutorFragment" />
+        <action
+            android:id="@+id/action_session_to_tutories"
+            app:destination="@id/tutoriesTutorFragment" />
+        <action
+            android:id="@+id/action_session_to_profile"
+            app:destination="@id/profileTutorFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/profileTutorFragment"
         android:name="com.tutortoise.tutortoise.presentation.main.tutor.profile.ProfileTutorFragment"
         android:label="ProfileTutorFragment"
-        tools:layout="@layout/fragment_tutor_profile"/>
+        tools:layout="@layout/fragment_tutor_profile">
 
+        <action
+            android:id="@+id/action_profile_to_home"
+            app:destination="@id/homeTutorFragment" />
+        <action
+            android:id="@+id/action_profile_to_session"
+            app:destination="@id/sessionTutorFragment" />
+        <action
+            android:id="@+id/action_profile_to_tutories"
+            app:destination="@id/tutoriesTutorFragment" />
+        <action
+            android:id="@+id/action_profile_to_editProfile"
+            app:destination="@id/editProfileActivity" />
+        <action
+            android:id="@+id/action_profile_to_changePassword"
+            app:destination="@id/changePasswordActivity" />
+        <action
+            android:id="@+id/action_profile_to_myActivity"
+            app:destination="@id/myActivityActivity" />
+        <action
+            android:id="@+id/action_profile_to_login"
+            app:destination="@id/loginActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/tutoriesTutorFragment"
+        android:name="com.tutortoise.tutortoise.presentation.main.tutor.tutories.TutoriesTutorFragment"
+        android:label="TutoriesTutorFragment"
+        tools:layout="@layout/fragment_tutor_tutories">
+
+        <action
+            android:id="@+id/action_tutories_to_home"
+            app:destination="@id/homeTutorFragment" />
+        <action
+            android:id="@+id/action_tutories_to_session"
+            app:destination="@id/sessionTutorFragment" />
+        <action
+            android:id="@+id/action_tutories_to_profile"
+            app:destination="@id/profileTutorFragment" />
+        <action
+            android:id="@+id/action_tutories_to_createTutories"
+            app:destination="@id/createTutoriesActivity" />
+
+        <action
+            android:id="@+id/action_tutories_to_editTutories"
+            app:destination="@id/editTutoriesActivity">
+            <argument
+                android:name="tutoriesId"
+                app:argType="integer" />
+        </action>
+
+        <action
+            android:id="@+id/action_tutories_to_setSchedule"
+            app:destination="@id/setScheduleActivity"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
+
+
+    <!-- Activity Destinations -->
+    <activity
+        android:id="@+id/notificationActivity"
+        android:name="com.tutortoise.tutortoise.presentation.notification.NotificationActivity" />
+
+    <activity
+        android:id="@+id/chatListActivity"
+        android:name="com.tutortoise.tutortoise.presentation.chat.ChatListActivity" />
+
+    <activity
+        android:id="@+id/editProfileActivity"
+        android:name="com.tutortoise.tutortoise.presentation.commonProfile.EditProfileActivity" />
+
+    <activity
+        android:id="@+id/changePasswordActivity"
+        android:name="com.tutortoise.tutortoise.presentation.commonProfile.ChangePasswordActivity" />
+
+    <activity
+        android:id="@+id/setScheduleActivity"
+        android:name="com.tutortoise.tutortoise.presentation.main.tutor.tutories.SetScheduleActivity"
+        tools:layout="@layout/activity_set_schedule">
+        <argument
+            android:name="tutoriesId"
+            app:argType="integer" />
+    </activity>
+
+    <activity
+        android:id="@+id/myActivityActivity"
+        android:name="com.tutortoise.tutortoise.presentation.commonProfile.MyActivityActivity" />
+
+    <activity
+        android:id="@+id/loginActivity"
+        android:name="com.tutortoise.tutortoise.presentation.auth.login.LoginActivity" />
+
+    <activity
+        android:id="@+id/createTutoriesActivity"
+        android:name="com.tutortoise.tutortoise.presentation.main.tutor.tutories.CreateTutoriesActivity" />
+
+    <activity
+        android:id="@+id/editTutoriesActivity"
+        android:name="com.tutortoise.tutortoise.presentation.main.tutor.tutories.EditTutoriesActivity"
+        tools:layout="@layout/activity_edit_tutories" />
 </navigation>
