@@ -18,11 +18,15 @@ class ExploreLearnerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLearnerExploreBinding.inflate(inflater, container, false)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.btnFilter.setOnClickListener {
+            FilterBottomSheet().show(childFragmentManager, "FilterDialog")
+        }
     }
 
     override fun onDestroyView() {
