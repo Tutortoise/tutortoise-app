@@ -1,13 +1,16 @@
 package com.tutortoise.tutortoise.presentation.main.tutor.tutories
 
-import android.content.res.ColorStateList
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.lifecycleScope
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.CreateTutoriesRequest
+import com.tutortoise.tutortoise.data.model.SubjectResponse
 import com.tutortoise.tutortoise.data.repository.SubjectRepository
 import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.ActivityCreateTutoriesBinding
@@ -41,18 +44,18 @@ class CreateTutoriesActivity : AppCompatActivity() {
     private fun fetchAvailableSubjects() {
         lifecycleScope.launch {
             val subjectsResponse = subjectRepository.fetchAvailableSubjects()
-            val subjects = subjectsResponse?.data?.map { it.name }
+            val subjects = subjectsResponse?.data
             if (!subjects.isNullOrEmpty()) {
                 setSubjectSpinner(subjects)
             }
         }
     }
 
-    private fun setSubjectSpinner(subjects: List<String>) {
+    private fun setSubjectSpinner(subjects: List<SubjectResponse>) {
         val adapter = ArrayAdapter(
             this@CreateTutoriesActivity,
             android.R.layout.simple_spinner_item,
-            subjects
+            subjects,
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerSubject.adapter = adapter
@@ -84,19 +87,18 @@ class CreateTutoriesActivity : AppCompatActivity() {
     }
 
     private fun updateButtonAppearance() {
-        binding.btnOnline.backgroundTintList = ColorStateList.valueOf(
-            if (binding.btnOnline.isSelected) getColor(R.color.darkgreen) else getColor(R.color.white)
-        )
-        binding.btnOnline.setTextColor(
-            if (binding.btnOnline.isSelected) getColor(R.color.white) else getColor(R.color.darkgreen)
-        )
+        updateButtonStyle(binding.btnOnline, binding.btnOnline.isSelected)
+        updateButtonStyle(binding.btnFaceToFace, binding.btnFaceToFace.isSelected)
+    }
 
-        binding.btnFaceToFace.backgroundTintList = ColorStateList.valueOf(
-            if (binding.btnFaceToFace.isSelected) getColor(R.color.darkgreen) else getColor(R.color.white)
-        )
-        binding.btnFaceToFace.setTextColor(
-            if (binding.btnFaceToFace.isSelected) getColor(R.color.white) else getColor(R.color.darkgreen)
-        )
+    private fun updateButtonStyle(button: Button, isSelected: Boolean) {
+        if (isSelected) {
+            button.background = AppCompatResources.getDrawable(this, R.drawable.bg_dark_green)
+            button.setTextColor(getColor(R.color.white))
+        } else {
+            button.background = AppCompatResources.getDrawable(this, R.drawable.button_outline)
+            button.setTextColor(getColor(R.color.darkgreen))
+        }
     }
 
     private fun validateInputs(): Boolean {
@@ -132,13 +134,15 @@ class CreateTutoriesActivity : AppCompatActivity() {
     //    TODO: Fix Post Service
     private fun createTutories() {
         val request = CreateTutoriesRequest(
-            subject = binding.spinnerSubject.selectedItem.toString(),
+            subject = (binding.spinnerSubject.selectedItem as SubjectResponse).id,
             about = binding.editAbout.text.toString(),
             methodology = binding.editMethodology.text.toString(),
             ratePerHour = binding.editRate.text.toString().toInt(),
             isOnline = binding.btnOnline.isSelected,
             isFaceToFace = binding.btnFaceToFace.isSelected
         )
+
+        Log.d("CreateTutoriesActivity", "Request: $request")
 
         lifecycleScope.launch {
             try {

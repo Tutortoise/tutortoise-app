@@ -2,6 +2,7 @@ package com.tutortoise.tutortoise.data.pref
 
 import com.tutortoise.tutortoise.data.model.ApiResponse
 import com.tutortoise.tutortoise.data.model.ChangePasswordRequest
+import com.tutortoise.tutortoise.data.model.CreateTutoriesRequest
 import com.tutortoise.tutortoise.data.model.LearnerData
 import com.tutortoise.tutortoise.data.model.LoginData
 import com.tutortoise.tutortoise.data.model.LoginRequest
@@ -33,7 +34,7 @@ interface ApiService {
 
     @POST("tutors/services")
     suspend fun createTutories(
-        @Body tutories: TutoriesServiceModel
+        @Body tutories: CreateTutoriesRequest
     ): Response<ApiResponse<TutoriesServiceModel>>
 
     @GET("auth/me")

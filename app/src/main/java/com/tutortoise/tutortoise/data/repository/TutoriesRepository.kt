@@ -27,8 +27,7 @@ class TutoriesRepository(context: Context) {
     suspend fun createTutories(request: CreateTutoriesRequest): Result<TutoriesServiceModel> {
         return try {
             val response = apiService.createTutories(
-                TutoriesServiceModel(
-                    id = "",
+                CreateTutoriesRequest(
                     subject = request.subject,
                     about = request.about,
                     methodology = request.methodology,
