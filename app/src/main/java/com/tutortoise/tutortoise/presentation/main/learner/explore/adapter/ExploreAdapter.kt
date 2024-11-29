@@ -12,7 +12,8 @@ import com.tutortoise.tutortoise.data.model.ExploreTutoriesResponse
 import com.tutortoise.tutortoise.data.model.LessonType
 import com.tutortoise.tutortoise.utils.Constants
 
-class ExploreAdapter(private var tutories: List<ExploreTutoriesResponse>) :
+class ExploreAdapter(private var tutories: List<ExploreTutoriesResponse>,
+                     private val onItemClicked: (ExploreTutoriesResponse) -> Unit) :
     RecyclerView.Adapter<ExploreAdapter.ExploreViewHolder>() {
 
     inner class ExploreViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -47,6 +48,8 @@ class ExploreAdapter(private var tutories: List<ExploreTutoriesResponse>) :
             Glide.with(ivTutorImage.context)
                 .load(Constants.getProfilePictureUrl(tutoriesItem.tutorId))
                 .into(ivTutorImage)
+
+            itemView.setOnClickListener { onItemClicked(tutoriesItem) }
         }
 
     }

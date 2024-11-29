@@ -1,6 +1,7 @@
 package com.tutortoise.tutortoise.presentation.main.learner.explore
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
@@ -13,8 +14,10 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tutortoise.tutortoise.data.model.ExploreTutoriesResponse
 import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerExploreBinding
+import com.tutortoise.tutortoise.presentation.main.learner.detail.DetailTutorActivity
 import com.tutortoise.tutortoise.presentation.main.learner.explore.adapter.ExploreAdapter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -58,11 +61,26 @@ class ExploreLearnerFragment : Fragment() {
         }
 
         // Initialize RecyclerView and adapter
-        exploreAdapter = ExploreAdapter(emptyList())
+        exploreAdapter = ExploreAdapter(emptyList()) { tutor ->
+            navigateToTutorDetail(tutor)
+        }
         binding.rvTutories.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = exploreAdapter
         }
+    }
+
+    // Navigate to DetailTutorActivity
+    private fun navigateToTutorDetail(tutor: ExploreTutoriesResponse) {
+        val intent = Intent(requireContext(), DetailTutorActivity::class.java).apply {
+            putExtra("TUTOR_NAME", tutor.tutorName)
+            putExtra("SUBJECT_NAME", tutor.subjectName)
+            putExtra("RATING", tutor.avgRating)
+            putExtra("HOURLY_RATE", tutor.hourlyRate)
+            putExtra("CITY", tutor.city)
+            putExtra("TUTOR_ID", tutor.tutorId)
+        }
+        startActivity(intent)
     }
 
     private fun setupSearch() {
