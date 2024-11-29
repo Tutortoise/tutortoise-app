@@ -12,7 +12,7 @@ import com.tutortoise.tutortoise.data.model.ExploreTutoriesResponse
 import com.tutortoise.tutortoise.data.model.LessonType
 import com.tutortoise.tutortoise.utils.Constants
 
-class ExploreAdapter(private val tutories: List<ExploreTutoriesResponse>) :
+class ExploreAdapter(private var tutories: List<ExploreTutoriesResponse>) :
     RecyclerView.Adapter<ExploreAdapter.ExploreViewHolder>() {
 
     inner class ExploreViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -62,5 +62,10 @@ class ExploreAdapter(private val tutories: List<ExploreTutoriesResponse>) :
     }
 
     override fun getItemCount(): Int = tutories.size
+
+    fun updateItems(newItems: List<ExploreTutoriesResponse>) {
+        tutories = newItems
+        notifyDataSetChanged() // For simple implementation. Consider using DiffUtil for better performance
+    }
 }
 

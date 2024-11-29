@@ -30,9 +30,13 @@ class TutoriesRepository(context: Context) {
         }
     }
 
-    suspend fun searchTutories(): ApiResponse<List<ExploreTutoriesResponse>>? {
+    suspend fun searchTutories(
+        query: String? = null,
+        subjectId: String? = null,
+        city: String? = null
+    ): ApiResponse<List<ExploreTutoriesResponse>>? {
         return try {
-            val response = apiService.searchTutories()
+            val response = apiService.searchTutories(query, subjectId, city)
             if (response.isSuccessful) {
                 response.body()
             } else {

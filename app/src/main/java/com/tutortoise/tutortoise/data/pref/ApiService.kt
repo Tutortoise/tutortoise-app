@@ -25,6 +25,7 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.Query
 
 interface ApiService {
     @POST("auth/register")
@@ -94,5 +95,8 @@ interface ApiService {
 
     @GET("tutors/services")
     suspend fun searchTutories(
+        @Query("q") query: String? = null,
+        @Query("subjectId") subjectId: String? = null,
+        @Query("city") city: String? = null
     ): Response<ApiResponse<List<ExploreTutoriesResponse>>>
 }
