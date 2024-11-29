@@ -4,8 +4,13 @@ import android.content.Context
 import android.util.Log
 import com.tutortoise.tutortoise.data.model.ApiResponse
 import com.tutortoise.tutortoise.data.model.CreateTutoriesRequest
+import com.tutortoise.tutortoise.data.model.MessageResponse
 import com.tutortoise.tutortoise.data.model.TutoriesServiceModel
 import com.tutortoise.tutortoise.data.pref.ApiConfig
+import com.tutortoise.tutortoise.data.pref.ApiException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 
 class TutoriesRepository(context: Context) {
     private val apiService = ApiConfig.getApiService(context)
@@ -24,27 +29,27 @@ class TutoriesRepository(context: Context) {
         }
     }
 
-    suspend fun createTutories(request: CreateTutoriesRequest): Result<TutoriesServiceModel> {
-        return try {
-            val response = apiService.createTutories(
-                CreateTutoriesRequest(
-                    subject = request.subject,
-                    about = request.about,
-                    methodology = request.methodology,
-                    ratePerHour = request.ratePerHour,
-                    isOnline = request.isOnline,
-                    isFaceToFace = request.isFaceToFace
+    suspend fun createTutories(request: CreateTutoriesRequest): Result<MessageResponse> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                Log.d("TutoriesRepository", "Creating tutories with request: $request")
+                val response = apiService.createTutories(
+                    CreateTutoriesRequest(
+                        subjectId = request.subjectId,
+                        aboutYou = request.aboutYou,
+                        teachingMethodology = request.teachingMethodology,
+                        hourlyRate = request.hourlyRate,
+                        typeLesson = request.typeLesson,
+                    )
                 )
-            )
 
-            if (response.isSuccessful && response.body()?.status == "success") {
-                Result.success(response.body()?.data!!)
-            } else {
-                Result.failure(Exception(response.body()?.message ?: "Failed to create tutories"))
+                Result.success(response)
+            } catch (e: HttpException) {
+                val errorBody = ApiConfig.parseError(e.response()!!)
+                Result.failure(ApiException(errorBody?.message ?: "Registration failed", errorBody))
+            } catch (e: Exception) {
+                Log.e("TutoriesRepository", "Failed to create tutories", e)
+                Result.failure(e)
             }
-        } catch (e: Exception) {
-            Log.e("TutoriesRepository", "Failed to create tutories", e)
-            Result.failure(e)
         }
-    }
 }

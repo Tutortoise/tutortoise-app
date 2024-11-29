@@ -35,7 +35,7 @@ interface ApiService {
     @POST("tutors/services")
     suspend fun createTutories(
         @Body tutories: CreateTutoriesRequest
-    ): Response<ApiResponse<TutoriesServiceModel>>
+    ): MessageResponse
 
     @GET("auth/me")
     suspend fun getAuthenticatedUser(

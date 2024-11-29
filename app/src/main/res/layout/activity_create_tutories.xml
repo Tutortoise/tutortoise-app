@@ -186,9 +186,8 @@
                 android:text="@string/online"
                 android:textColor="@color/darkgreen" />
 
-            <!--button after click-->
             <Button
-                android:id="@+id/btnFaceToFace"
+                android:id="@+id/btnOnsite"
                 android:layout_width="0dp"
                 android:layout_height="39dp"
                 android:layout_marginStart="8dp"

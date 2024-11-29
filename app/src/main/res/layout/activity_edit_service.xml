@@ -188,13 +188,13 @@
                 android:text="@string/online"
                 android:textColor="@color/darkgreen" />
 
-            <!--button after click-->
             <Button
-                android:id="@+id/btnFaceToFace"
+                android:id="@+id/btnOnsite"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="39dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
+                android:background="@drawable/button_outline"
                 android:backgroundTint="@color/darkgreen"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:text="@string/onsite"

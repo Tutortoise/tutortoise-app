@@ -11,10 +11,9 @@ data class TutoriesServiceModel(
 )
 
 data class CreateTutoriesRequest(
-    val subject: String,
-    val about: String,
-    val methodology: String,
-    val ratePerHour: Int,
-    val isOnline: Boolean,
-    val isFaceToFace: Boolean
+    val subjectId: String,
+    val aboutYou: String,
+    val teachingMethodology: String,
+    val hourlyRate: Int,
+    val typeLesson: String, // "online" | "offline" | "both"
 )

@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.CreateTutoriesRequest
 import com.tutortoise.tutortoise.data.model.SubjectResponse
+import com.tutortoise.tutortoise.data.pref.ApiException
 import com.tutortoise.tutortoise.data.repository.SubjectRepository
 import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.ActivityCreateTutoriesBinding
@@ -38,7 +39,7 @@ class CreateTutoriesActivity : AppCompatActivity() {
 
         // Set default state for teaching mode buttons
         binding.btnOnline.isSelected = false
-        binding.btnFaceToFace.isSelected = false
+        binding.btnOnsite.isSelected = false
     }
 
     private fun fetchAvailableSubjects() {
@@ -73,22 +74,20 @@ class CreateTutoriesActivity : AppCompatActivity() {
             updateButtonAppearance()
         }
 
-        binding.btnFaceToFace.setOnClickListener {
-            binding.btnFaceToFace.isSelected = !binding.btnFaceToFace.isSelected
+        binding.btnOnsite.setOnClickListener {
+            binding.btnOnsite.isSelected = !binding.btnOnsite.isSelected
             updateButtonAppearance()
         }
 
         // Confirm button
         binding.btnConfirm.setOnClickListener {
-            if (validateInputs()) {
-                createTutories()
-            }
+            createTutories()
         }
     }
 
     private fun updateButtonAppearance() {
         updateButtonStyle(binding.btnOnline, binding.btnOnline.isSelected)
-        updateButtonStyle(binding.btnFaceToFace, binding.btnFaceToFace.isSelected)
+        updateButtonStyle(binding.btnOnsite, binding.btnOnsite.isSelected)
     }
 
     private fun updateButtonStyle(button: Button, isSelected: Boolean) {
@@ -101,45 +100,34 @@ class CreateTutoriesActivity : AppCompatActivity() {
         }
     }
 
-    private fun validateInputs(): Boolean {
-        val subject = binding.spinnerSubject.selectedItem?.toString()
-        val about = binding.editAbout.text.toString()
-        val methodology = binding.editMethodology.text.toString()
-        val rate = binding.editRate.text.toString()
-
-        if (subject.isNullOrEmpty()) {
-            showError("Please select a subject")
-            return false
+    private fun getTypeLesson(): String {
+        binding.apply {
+            return if (btnOnline.isSelected && btnOnsite.isSelected) {
+                "both"
+            } else if (btnOnline.isSelected) {
+                "online"
+            } else if (btnOnsite.isSelected) {
+                "offline"
+            } else {
+                ""
+            }
         }
-        if (about.isEmpty()) {
-            showError("Please provide information about yourself")
-            return false
-        }
-        if (methodology.isEmpty()) {
-            showError("Please describe your teaching methodology")
-            return false
-        }
-        if (rate.isEmpty()) {
-            showError("Please set your rate per hour")
-            return false
-        }
-        if (!binding.btnOnline.isSelected && !binding.btnFaceToFace.isSelected) {
-            showError("Please select at least one teaching mode")
-            return false
-        }
-
-        return true
     }
 
-    //    TODO: Fix Post Service
+    // TODO: before submitting, go to availability page
     private fun createTutories() {
+        val selectedSubject = binding.spinnerSubject.selectedItem as? SubjectResponse
+        val subjectId = selectedSubject!!.id
+        val typeLesson = getTypeLesson()
+
+
         val request = CreateTutoriesRequest(
-            subject = (binding.spinnerSubject.selectedItem as SubjectResponse).id,
-            about = binding.editAbout.text.toString(),
-            methodology = binding.editMethodology.text.toString(),
-            ratePerHour = binding.editRate.text.toString().toInt(),
-            isOnline = binding.btnOnline.isSelected,
-            isFaceToFace = binding.btnFaceToFace.isSelected
+            subjectId = subjectId,
+            aboutYou = binding.editAbout.text.toString(),
+            teachingMethodology = binding.editMethodology.text.toString(),
+            hourlyRate = binding.editRate.text.toString().toIntOrNull()
+                ?: return showError("Invalid rate"),
+            typeLesson = typeLesson
         )
 
         Log.d("CreateTutoriesActivity", "Request: $request")
@@ -156,12 +144,31 @@ class CreateTutoriesActivity : AppCompatActivity() {
                         ).show()
                         finish()
                     },
-                    onFailure = { error ->
-                        showError(error.message ?: "Failed to create tutories")
+                    onFailure = { throwable ->
+                        handleValidationErrors(throwable)
                     }
                 )
             } catch (e: Exception) {
                 showError("An error occurred: ${e.message}")
+            }
+        }
+    }
+
+    private fun handleValidationErrors(throwable: Throwable) {
+        if (throwable is ApiException) {
+            // Clear previous errors before showing new ones
+            binding.editAbout.error = null
+            binding.editMethodology.error = null
+            binding.editRate.error = null
+
+            throwable.errorResponse?.errors?.forEach { error ->
+                when (error.field) {
+                    "body.aboutYou" -> binding.editAbout.error = error.message
+                    "body.teachingMethodology" -> binding.editMethodology.error = error.message
+                    "body.hourlyRate" -> binding.editRate.error = error.message
+                    "body.subjectId" -> showError(error.message)
+                    "body.typeLesson" -> showError("Please select at least one type lesson")
+                }
             }
         }
     }
