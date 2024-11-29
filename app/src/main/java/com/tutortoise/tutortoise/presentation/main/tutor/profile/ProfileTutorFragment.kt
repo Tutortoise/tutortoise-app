@@ -20,6 +20,7 @@ import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
 import com.tutortoise.tutortoise.presentation.commonProfile.ChangePasswordActivity
 import com.tutortoise.tutortoise.presentation.commonProfile.EditProfileActivity
 import com.tutortoise.tutortoise.presentation.commonProfile.MyActivityActivity
+import com.tutortoise.tutortoise.presentation.main.tutor.tutories.SetScheduleActivity
 import com.tutortoise.tutortoise.utils.Constants
 import com.tutortoise.tutortoise.utils.EventBus
 import com.tutortoise.tutortoise.utils.ProfileUpdateEvent
@@ -113,6 +114,10 @@ class ProfileTutorFragment : Fragment() {
 
         binding.layoutChangePassword.setOnClickListener {
             startActivity(Intent(requireContext(), ChangePasswordActivity::class.java))
+        }
+
+        binding.layoutMySchedule.setOnClickListener {
+            startActivity(Intent(requireContext(), SetScheduleActivity::class.java))
         }
 
         binding.layoutMyActivity.setOnClickListener {

@@ -33,6 +33,7 @@ material-icons-extended = "1.7.5"
 playServicesLocation = "21.3.0"
 swiperefreshlayout = "1.1.0"
 glide = "4.16.0"
+flexbox = "3.0.0"
 
 
 [libraries]
@@ -67,6 +68,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "flexbox" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
