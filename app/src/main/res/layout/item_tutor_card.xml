@@ -17,7 +17,7 @@
         android:paddingVertical="8dp">
 
         <ImageView
-            android:id="@+id/imageTutor"
+            android:id="@+id/ivTutorImage"
             android:layout_width="95dp"
             android:layout_height="108dp"
             android:contentDescription="@string/tutor_image"
@@ -29,7 +29,7 @@
             app:layout_constraintVertical_bias="0.48" />
 
         <TextView
-            android:id="@+id/tutorName"
+            android:id="@+id/tvTutorName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
@@ -37,11 +37,11 @@
             android:text="@string/tutor_name"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imageTutor"
+            app:layout_constraintStart_toEndOf="@id/ivTutorImage"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tutorSubject"
+            android:id="@+id/tvTutorSubject"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
@@ -50,11 +50,11 @@
             android:text="@string/tutor_subject"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imageTutor"
-            app:layout_constraintTop_toBottomOf="@id/tutorName" />
+            app:layout_constraintStart_toEndOf="@id/ivTutorImage"
+            app:layout_constraintTop_toBottomOf="@id/tvTutorName" />
 
         <TextView
-            android:id="@+id/tutorReviews"
+            android:id="@+id/tvRating"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
@@ -64,11 +64,11 @@
             android:textColor="#808080"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imageTutor"
-            app:layout_constraintTop_toBottomOf="@id/tutorSubject" />
+            app:layout_constraintStart_toEndOf="@id/ivTutorImage"
+            app:layout_constraintTop_toBottomOf="@id/tvTutorSubject" />
 
         <TextView
-            android:id="@+id/tutorPrice"
+            android:id="@+id/tvHourlyRate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
@@ -77,11 +77,11 @@
             android:text="@string/price"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/imageTutor"
-            app:layout_constraintTop_toBottomOf="@+id/tutorReviews" />
+            app:layout_constraintStart_toEndOf="@id/ivTutorImage"
+            app:layout_constraintTop_toBottomOf="@+id/tvRating" />
 
         <TextView
-            android:id="@+id/tutorLocation"
+            android:id="@+id/tvCity"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
@@ -90,18 +90,18 @@
             android:text="@string/location"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageTutor"
-            app:layout_constraintTop_toBottomOf="@id/tutorPrice" />
+            app:layout_constraintStart_toEndOf="@+id/ivTutorImage"
+            app:layout_constraintTop_toBottomOf="@id/tvHourlyRate" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            app:layout_constraintStart_toStartOf="@+id/tutorLocation"
-            app:layout_constraintTop_toBottomOf="@+id/tutorLocation">
+            app:layout_constraintStart_toStartOf="@+id/tvCity"
+            app:layout_constraintTop_toBottomOf="@+id/tvCity">
 
             <TextView
-                android:id="@+id/tv_face_to_face"
+                android:id="@+id/tvOnsite"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="0dp"
@@ -113,13 +113,13 @@
                 android:text="@string/onsite"
                 android:textColor="@android:color/white"
                 android:textSize="10sp"
-                app:layout_constraintEnd_toStartOf="@+id/tv_online"
+                app:layout_constraintEnd_toStartOf="@+id/tvOnline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.5" />
 
             <TextView
-                android:id="@+id/tv_online"
+                android:id="@+id/tvOnline"
                 android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
@@ -132,7 +132,7 @@
                 android:textColor="@android:color/white"
                 android:textSize="10sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/tv_face_to_face"
+                app:layout_constraintStart_toEndOf="@+id/tvOnsite"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.5" />
         </androidx.constraintlayout.widget.ConstraintLayout>

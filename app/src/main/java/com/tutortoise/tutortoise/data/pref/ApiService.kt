@@ -3,6 +3,7 @@ package com.tutortoise.tutortoise.data.pref
 import com.tutortoise.tutortoise.data.model.ApiResponse
 import com.tutortoise.tutortoise.data.model.ChangePasswordRequest
 import com.tutortoise.tutortoise.data.model.CreateTutoriesRequest
+import com.tutortoise.tutortoise.data.model.ExploreTutoriesResponse
 import com.tutortoise.tutortoise.data.model.GetMyTutoriesResponse
 import com.tutortoise.tutortoise.data.model.LearnerData
 import com.tutortoise.tutortoise.data.model.LoginData
@@ -90,4 +91,8 @@ interface ApiService {
 
     @PUT("/api/v1/tutors/password")
     suspend fun changeTutorPassword(@Body request: ChangePasswordRequest): Response<MessageResponse>
+
+    @GET("tutors/services")
+    suspend fun searchTutories(
+    ): Response<ApiResponse<List<ExploreTutoriesResponse>>>
 }

@@ -1,13 +1,10 @@
 package com.tutortoise.tutortoise.data.model
 
-data class Tutories(
-    val id: String,
-    val subjectId: String,
-    val aboutYou: String,
-    val teachingMethodology: String,
-    val hourlyRate: Int,
-    val typeLesson: String, // "online" | "offline" | "both"
-)
+object LessonType {
+    const val BOTH = "both"
+    const val ONLINE = "online"
+    const val OFFLINE = "offline"
+}
 
 data class CreateTutoriesRequest(
     val subjectId: String,
@@ -25,4 +22,17 @@ data class GetMyTutoriesResponse(
     val typeLesson: String,
     val city: String,
     val district: String,
+)
+
+data class ExploreTutoriesResponse(
+    val id: String,
+    val tutorId: String,
+    val tutorName: String,
+    val subjectName: String,
+    val hourlyRate: Int,
+    val typeLesson: String,
+    val city: String,
+    val district: String,
+    val avgRating: Float,
+    val totalReviews: Int
 )

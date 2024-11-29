@@ -41,14 +41,13 @@ class TutoriesAdapter : RecyclerView.Adapter<TutoriesAdapter.TutoriesViewHolder>
             binding.tvSubject.text = tutories.subjectName
             binding.tvPrice.text = "Rp. ${tutories.hourlyRate} per hour"
 
-
             // Initially hide both type lessons
-            binding.tvFaceToFace.visibility = View.GONE
+            binding.tvOnsite.visibility = View.GONE
             binding.tvOnline.visibility = View.GONE
 
             when (tutories.typeLesson) {
                 "both" -> {
-                    binding.tvFaceToFace.visibility = View.VISIBLE
+                    binding.tvOnsite.visibility = View.VISIBLE
                     binding.tvOnline.visibility = View.VISIBLE
                 }
 
@@ -57,7 +56,7 @@ class TutoriesAdapter : RecyclerView.Adapter<TutoriesAdapter.TutoriesViewHolder>
                 }
 
                 "offline" -> {
-                    binding.tvFaceToFace.visibility = View.VISIBLE
+                    binding.tvOnsite.visibility = View.VISIBLE
                 }
             }
 

@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.tutortoise.tutortoise.data.model.ApiResponse
 import com.tutortoise.tutortoise.data.model.CreateTutoriesRequest
+import com.tutortoise.tutortoise.data.model.ExploreTutoriesResponse
 import com.tutortoise.tutortoise.data.model.GetMyTutoriesResponse
 import com.tutortoise.tutortoise.data.model.MessageResponse
 import com.tutortoise.tutortoise.data.pref.ApiConfig
@@ -25,6 +26,20 @@ class TutoriesRepository(context: Context) {
             }
         } catch (e: Exception) {
             Log.e("TutoriesRepository", "Failed to fetch tutories", e)
+            null
+        }
+    }
+
+    suspend fun searchTutories(): ApiResponse<List<ExploreTutoriesResponse>>? {
+        return try {
+            val response = apiService.searchTutories()
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("TutoriesRepository", "Failed to search tutories", e)
             null
         }
     }
