@@ -38,20 +38,20 @@
 
                 <ImageView
                     android:id="@+id/notification"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_marginEnd="12dp"
                     android:layout_toStartOf="@id/chat"
-                    android:src="@drawable/notifications"
+                    android:src="@drawable/ic_notification"
                     app:tint="@color/white" />
 
                 <ImageView
                     android:id="@+id/chat"
-                    android:layout_width="26dp"
-                    android:layout_height="26dp"
+                    android:layout_width="21dp"
+                    android:layout_height="24dp"
                     android:layout_alignParentEnd="true"
                     android:layout_marginEnd="12dp"
-                    android:src="@drawable/chat"
+                    android:src="@drawable/ic_chat"
                     app:tint="@color/white" />
             </RelativeLayout>
         </LinearLayout>
