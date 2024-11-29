@@ -45,4 +45,10 @@
         <item name="backgroundColor">@color/lightgreen</item>
         <item name="clockHandColor">@color/darkgreen</item>
     </style>
+
+    <style name="CustomNumberPicker">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColorPrimary">@color/darkgreen</item>
+        <item name="android:colorControlNormal">@color/material_dynamic_neutral20</item>
+    </style>
 </resources>
