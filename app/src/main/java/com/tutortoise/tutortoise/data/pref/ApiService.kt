@@ -3,6 +3,7 @@ package com.tutortoise.tutortoise.data.pref
 import com.tutortoise.tutortoise.data.model.ApiResponse
 import com.tutortoise.tutortoise.data.model.ChangePasswordRequest
 import com.tutortoise.tutortoise.data.model.CreateTutoriesRequest
+import com.tutortoise.tutortoise.data.model.GetMyTutoriesResponse
 import com.tutortoise.tutortoise.data.model.LearnerData
 import com.tutortoise.tutortoise.data.model.LoginData
 import com.tutortoise.tutortoise.data.model.LoginRequest
@@ -11,7 +12,6 @@ import com.tutortoise.tutortoise.data.model.RegisterData
 import com.tutortoise.tutortoise.data.model.RegisterRequest
 import com.tutortoise.tutortoise.data.model.SubjectResponse
 import com.tutortoise.tutortoise.data.model.TutorData
-import com.tutortoise.tutortoise.data.model.TutoriesServiceModel
 import com.tutortoise.tutortoise.data.model.UpdateLearnerProfileRequest
 import com.tutortoise.tutortoise.data.model.UpdateTutorProfileRequest
 import com.tutortoise.tutortoise.data.model.UserResponse
@@ -53,7 +53,7 @@ interface ApiService {
 
     @GET("tutors/services/me")
     suspend fun getMyTutories(
-    ): Response<ApiResponse<List<TutoriesServiceModel>>>
+    ): Response<ApiResponse<List<GetMyTutoriesResponse>>>
 
     @GET("learners/profile")
     suspend fun getLearnerProfile(

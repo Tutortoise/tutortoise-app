@@ -4,8 +4,8 @@ import android.content.Context
 import android.util.Log
 import com.tutortoise.tutortoise.data.model.ApiResponse
 import com.tutortoise.tutortoise.data.model.CreateTutoriesRequest
+import com.tutortoise.tutortoise.data.model.GetMyTutoriesResponse
 import com.tutortoise.tutortoise.data.model.MessageResponse
-import com.tutortoise.tutortoise.data.model.TutoriesServiceModel
 import com.tutortoise.tutortoise.data.pref.ApiConfig
 import com.tutortoise.tutortoise.data.pref.ApiException
 import kotlinx.coroutines.Dispatchers
@@ -15,7 +15,7 @@ import retrofit2.HttpException
 class TutoriesRepository(context: Context) {
     private val apiService = ApiConfig.getApiService(context)
 
-    suspend fun getMyTutories(): ApiResponse<List<TutoriesServiceModel>>? {
+    suspend fun getMyTutories(): ApiResponse<List<GetMyTutoriesResponse>>? {
         return try {
             val response = apiService.getMyTutories()
             if (response.isSuccessful) {

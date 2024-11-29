@@ -4,14 +4,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.tutortoise.tutortoise.data.model.TutoriesServiceModel
+import com.bumptech.glide.Glide
+import com.tutortoise.tutortoise.data.model.GetMyTutoriesResponse
 import com.tutortoise.tutortoise.databinding.ItemTutoriesBinding
+import com.tutortoise.tutortoise.utils.Constants
 
 class TutoriesAdapter : RecyclerView.Adapter<TutoriesAdapter.TutoriesViewHolder>() {
 
-    private val tutoriesList = mutableListOf<TutoriesServiceModel>()
+    private val tutoriesList = mutableListOf<GetMyTutoriesResponse>()
 
-    fun submitList(tutories: List<TutoriesServiceModel>) {
+    fun submitList(tutories: List<GetMyTutoriesResponse>) {
         tutoriesList.clear()
         tutoriesList.addAll(tutories)
         notifyDataSetChanged()
@@ -35,15 +37,38 @@ class TutoriesAdapter : RecyclerView.Adapter<TutoriesAdapter.TutoriesViewHolder>
     inner class TutoriesViewHolder(private val binding: ItemTutoriesBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(tutory: TutoriesServiceModel) {
-            binding.tvSubject.text = tutory.subject
-            binding.tvPrice.text = "${tutory.ratePerHour} per hour"
-            binding.tvFaceToFace.visibility = if (tutory.isFaceToFace) View.VISIBLE else View.GONE
-            binding.tvOnline.visibility = if (tutory.isOnline) View.VISIBLE else View.GONE
+        fun bind(tutories: GetMyTutoriesResponse) {
+            binding.tvSubject.text = tutories.subjectName
+            binding.tvPrice.text = "Rp. ${tutories.hourlyRate} per hour"
+
+
+            // Initially hide both type lessons
+            binding.tvFaceToFace.visibility = View.GONE
+            binding.tvOnline.visibility = View.GONE
+
+            when (tutories.typeLesson) {
+                "both" -> {
+                    binding.tvFaceToFace.visibility = View.VISIBLE
+                    binding.tvOnline.visibility = View.VISIBLE
+                }
+
+                "online" -> {
+                    binding.tvOnline.visibility = View.VISIBLE
+                }
+
+                "offline" -> {
+                    binding.tvFaceToFace.visibility = View.VISIBLE
+                }
+            }
+
+            // Show subject image
+            Glide.with(this@TutoriesViewHolder.itemView.context)
+                .load(Constants.getSubjectIconUrl(tutories.subjectName))
+                .into(binding.ivSubject)
 
             // Handle item click
             binding.root.setOnClickListener {
-                // Navigate to detailed view or perform other actions
+                // TODO: Navigate to edit tutories
             }
         }
     }

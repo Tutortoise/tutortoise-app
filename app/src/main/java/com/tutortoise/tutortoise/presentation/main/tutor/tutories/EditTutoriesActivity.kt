@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.tutortoise.tutortoise.R
 
-class EditServiceActivity : AppCompatActivity() {
+class EditTutoriesActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_service)
+        setContentView(R.layout.activity_edit_tutories)
 
     }
 }

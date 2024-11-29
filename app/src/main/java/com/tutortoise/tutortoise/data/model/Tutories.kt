@@ -1,13 +1,12 @@
 package com.tutortoise.tutortoise.data.model
 
-data class TutoriesServiceModel(
+data class Tutories(
     val id: String,
-    val subject: String,
-    val about: String,
-    val methodology: String,
-    val ratePerHour: Int,
-    val isOnline: Boolean,
-    val isFaceToFace: Boolean
+    val subjectId: String,
+    val aboutYou: String,
+    val teachingMethodology: String,
+    val hourlyRate: Int,
+    val typeLesson: String, // "online" | "offline" | "both"
 )
 
 data class CreateTutoriesRequest(
@@ -15,5 +14,15 @@ data class CreateTutoriesRequest(
     val aboutYou: String,
     val teachingMethodology: String,
     val hourlyRate: Int,
-    val typeLesson: String, // "online" | "offline" | "both"
+    val typeLesson: String,
+)
+
+data class GetMyTutoriesResponse(
+    val id: String,
+    val tutorName: String,
+    val subjectName: String,
+    val hourlyRate: Int,
+    val typeLesson: String,
+    val city: String,
+    val district: String,
 )
