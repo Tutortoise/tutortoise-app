@@ -241,8 +241,8 @@ class EditProfileActivity : AppCompatActivity() {
                     withContext(Dispatchers.Main) {
                         address?.let { validAddress ->
                             locationData.apply {
-                                city = validAddress.locality
-                                district = validAddress.adminArea
+                                city = validAddress.subAdminArea
+                                district = validAddress.locality
                             }
 
                             hideLoadingState()
@@ -317,7 +317,7 @@ class EditProfileActivity : AppCompatActivity() {
 
 
     private fun formatLocationText(): String {
-        return listOfNotNull(locationData.city, locationData.district)
+        return listOfNotNull(locationData.district, locationData.city)
             .joinToString(", ")
             .takeIf { it.isNotEmpty() } ?: "Your location"
     }
