@@ -30,6 +30,7 @@ class DetailTutorActivity : AppCompatActivity() {
         binding = ActivityDetailTutorBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val tutoriesId = intent.getStringExtra("TUTORIES_ID")!!
         val tutorName = intent.getStringExtra("TUTOR_NAME") ?: "Unknown Tutor"
         val subjectName = intent.getStringExtra("SUBJECT_NAME") ?: "Unknown Subject"
         val rating = intent.getFloatExtra("RATING", 0f)
@@ -49,7 +50,7 @@ class DetailTutorActivity : AppCompatActivity() {
                 .load(Constants.getProfilePictureUrl(tutorId))
                 .into(binding.ivTutorImage)
 
-            fetchTutorDetails(tutorId)
+            fetchTutoriesDetails(tutoriesId)
         }
 
         binding.btnBack.setOnClickListener {
@@ -57,12 +58,12 @@ class DetailTutorActivity : AppCompatActivity() {
         }
     }
 
-    private fun fetchTutorDetails(tutorId: String) {
+    private fun fetchTutoriesDetails(tutoriesId: String) {
         coroutineScope.launch {
             try {
                 // Assuming you have a method to get tutories by ID in your repository
                 val response = withContext(Dispatchers.IO) {
-                    apiService.getTutoriesById(tutorId)
+                    apiService.getTutoriesById(tutoriesId)
                 }
 
                 if (response.isSuccessful && response.body()?.data != null) {
@@ -70,10 +71,11 @@ class DetailTutorActivity : AppCompatActivity() {
 
                     // Update UI with additional details from DetailedTutoriesResponse
                     binding.tvAboutText.text = detailedTutor.tutories.aboutYou
-                    binding.tvTeachingMethodologyText.text = detailedTutor.tutories.teachingMethodology
+                    binding.tvTeachingMethodologyText.text =
+                        detailedTutor.tutories.teachingMethodology
 
                     // Set lesson type
-                    binding.tvLessonType.text = when(detailedTutor.tutories.typeLesson) {
+                    binding.tvLessonType.text = when (detailedTutor.tutories.typeLesson) {
                         LessonType.ONLINE -> "Online Lessons"
                         LessonType.OFFLINE -> "Offline Lessons"
                         LessonType.BOTH -> "Online and Offline Lessons"
@@ -81,19 +83,22 @@ class DetailTutorActivity : AppCompatActivity() {
                     }
 
                     // Manage visibility of lesson type views
-                    when(detailedTutor.tutories.typeLesson) {
+                    when (detailedTutor.tutories.typeLesson) {
                         LessonType.ONLINE -> {
                             binding.tvOnlineStatus.visibility = View.VISIBLE
                             binding.tvOnsiteStatus.visibility = View.GONE
                         }
+
                         LessonType.OFFLINE -> {
                             binding.tvOnlineStatus.visibility = View.GONE
                             binding.tvOnsiteStatus.visibility = View.VISIBLE
                         }
+
                         LessonType.BOTH -> {
                             binding.tvOnlineStatus.visibility = View.VISIBLE
                             binding.tvOnsiteStatus.visibility = View.VISIBLE
                         }
+
                         else -> {
                             binding.tvOnlineStatus.visibility = View.GONE
                             binding.tvOnsiteStatus.visibility = View.GONE
@@ -114,37 +119,45 @@ class DetailTutorActivity : AppCompatActivity() {
                                 binding.alsoTeach1.visibility = View.GONE
                                 binding.alsoTeach2.visibility = View.GONE
                             }
+
                             1 -> {
                                 binding.alsoTeach1.visibility = View.VISIBLE
                                 binding.alsoTeach2.visibility = View.GONE
 
                                 // Update the first layout with the single subject
                                 val subject = detailedTutor.alsoTeaches[0]
-                                (binding.alsoTeach1.getChildAt(0) as TextView).text = subject.subjectName
+                                (binding.alsoTeach1.getChildAt(0) as TextView).text =
+                                    subject.subjectName
                             }
+
                             2 -> {
                                 binding.alsoTeach1.visibility = View.VISIBLE
                                 binding.alsoTeach2.visibility = View.VISIBLE
 
                                 // Update the first layout
                                 val subject1 = detailedTutor.alsoTeaches[0]
-                                (binding.alsoTeach1.getChildAt(0) as TextView).text = subject1.subjectName
+                                (binding.alsoTeach1.getChildAt(0) as TextView).text =
+                                    subject1.subjectName
 
                                 // Update the second layout
                                 val subject2 = detailedTutor.alsoTeaches[1]
-                                (binding.alsoTeach2.getChildAt(0) as TextView).text = subject2.subjectName
+                                (binding.alsoTeach2.getChildAt(0) as TextView).text =
+                                    subject2.subjectName
                             }
+
                             else -> {
                                 binding.alsoTeach1.visibility = View.VISIBLE
                                 binding.alsoTeach2.visibility = View.VISIBLE
 
                                 // Update the first layout
                                 val subject1 = detailedTutor.alsoTeaches[0]
-                                (binding.alsoTeach1.getChildAt(0) as TextView).text = subject1.subjectName
+                                (binding.alsoTeach1.getChildAt(0) as TextView).text =
+                                    subject1.subjectName
 
                                 // Update the second layout
                                 val subject2 = detailedTutor.alsoTeaches[1]
-                                (binding.alsoTeach2.getChildAt(0) as TextView).text = subject2.subjectName
+                                (binding.alsoTeach2.getChildAt(0) as TextView).text =
+                                    subject2.subjectName
                             }
                         }
                     } else {
@@ -155,11 +168,16 @@ class DetailTutorActivity : AppCompatActivity() {
 
                 } else {
                     // Handle error case
-                    Toast.makeText(this@DetailTutorActivity, "Failed to load tutor details", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@DetailTutorActivity,
+                        "Failed to load tutor details",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             } catch (e: Exception) {
                 // Handle network or other errors
-                Toast.makeText(this@DetailTutorActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@DetailTutorActivity, "Error: ${e.message}", Toast.LENGTH_SHORT)
+                    .show()
                 Log.e("DetailTutorActivity", "Error fetching tutor details", e)
             }
         }
