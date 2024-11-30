@@ -16,8 +16,8 @@
             android:layout_height="24dp"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="33dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:background="?android:attr/selectableItemBackground"
             android:contentDescription="@string/back"
             android:scaleType="fitXY"
@@ -30,7 +30,7 @@
             android:id="@+id/tutorDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/montserrat_semi_bold"
             android:text="@string/tutor_detail"
             android:textColor="@color/black"
@@ -55,16 +55,24 @@
                 android:layout_height="150dp"
                 android:padding="15dp">
 
-                <ImageView
-                    android:id="@+id/ivTutorImage"
-                    android:layout_width="118dp"
-                    android:layout_height="118dp"
-                    android:contentDescription="@string/tutor_image"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/rounded_image"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/ivTutorImageCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/ivTutorImage"
+                        android:layout_width="118dp"
+                        android:layout_height="118dp"
+                        android:contentDescription="@string/tutor_image"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/rounded_image" />
+
+                </androidx.cardview.widget.CardView>
 
                 <TextView
                     android:id="@+id/tvTutorName"
@@ -75,7 +83,7 @@
                     android:text="@string/tutor_name"
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ivTutorImage"
+                    app:layout_constraintStart_toEndOf="@id/ivTutorImageCard"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -88,7 +96,7 @@
                     android:textColor="#50000000"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ivTutorImage"
+                    app:layout_constraintStart_toEndOf="@id/ivTutorImageCard"
                     app:layout_constraintTop_toBottomOf="@id/tvTutorName" />
 
                 <LinearLayout
@@ -98,7 +106,7 @@
                     android:orientation="horizontal"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="4dp"
-                    app:layout_constraintStart_toEndOf="@+id/ivTutorImage"
+                    app:layout_constraintStart_toEndOf="@+id/ivTutorImageCard"
                     app:layout_constraintTop_toBottomOf="@+id/tvRating">
 
                     <ImageView
@@ -133,7 +141,7 @@
                     android:textColor="#50000000"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/ivTutorImage"
+                    app:layout_constraintStart_toEndOf="@id/ivTutorImageCard"
                     app:layout_constraintTop_toBottomOf="@id/Location" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -179,7 +187,6 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintWidth_percent="0.5" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
@@ -470,8 +477,6 @@
                     android:textColor="@color/purewhite"
                     android:textSize="12sp" />
             </LinearLayout>
-
-
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
