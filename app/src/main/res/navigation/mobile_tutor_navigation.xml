@@ -150,7 +150,7 @@
 
     <activity
         android:id="@+id/createTutoriesActivity"
-        android:name="com.tutortoise.tutortoise.presentation.main.tutor.tutories.CreateTutoriesActivity" />
+        android:name="com.tutortoise.tutortoise.presentation.main.tutor.tutories.createTutories.CreateTutoriesActivity" />
 
     <activity
         android:id="@+id/editTutoriesActivity"

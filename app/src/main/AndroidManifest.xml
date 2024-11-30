@@ -33,7 +33,7 @@
             android:name=".presentation.main.tutor.tutories.SetScheduleActivity"
             android:exported="false" />
         <activity
-            android:name=".presentation.main.tutor.tutories.CreateTutoriesActivity"
+            android:name=".presentation.main.tutor.tutories.createTutories.CreateTutoriesActivity"
             android:exported="false" />
         <activity
             android:name=".presentation.main.learner.detail.DetailTutorActivity"

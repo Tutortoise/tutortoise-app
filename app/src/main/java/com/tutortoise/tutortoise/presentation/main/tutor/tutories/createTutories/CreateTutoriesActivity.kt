@@ -1,14 +1,14 @@
-package com.tutortoise.tutortoise.presentation.main.tutor.tutories
+package com.tutortoise.tutortoise.presentation.main.tutor.tutories.createTutories
 
+import android.R
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.lifecycle.lifecycleScope
-import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.CreateTutoriesRequest
 import com.tutortoise.tutortoise.data.model.SubjectResponse
 import com.tutortoise.tutortoise.data.pref.ApiException
@@ -34,12 +34,9 @@ class CreateTutoriesActivity : AppCompatActivity() {
     }
 
     private fun setupViews() {
-        // Fetch available subjects (for spinner)
         fetchAvailableSubjects()
-
-        // Set default state for teaching mode buttons
-        binding.btnOnline.isSelected = false
-        binding.btnOnsite.isSelected = false
+        setupRateEditText()
+        initializeButtons()
     }
 
     private fun fetchAvailableSubjects() {
@@ -54,50 +51,62 @@ class CreateTutoriesActivity : AppCompatActivity() {
 
     private fun setSubjectSpinner(subjects: List<SubjectResponse>) {
         val adapter = ArrayAdapter(
-            this@CreateTutoriesActivity,
-            android.R.layout.simple_spinner_item,
-            subjects,
+            this,
+            R.layout.simple_spinner_item,
+            subjects
+        ).apply {
+            setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        }
+
+        binding.spinnerSubject.apply {
+            this.adapter = adapter
+            onItemSelectedListener = createSubjectSelectionListener(subjects)
+        }
+    }
+
+    private fun createSubjectSelectionListener(subjects: List<SubjectResponse>) =
+        object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                updateRateInfo(subjects[position])
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
+
+    private fun updateRateInfo(subject: SubjectResponse) {
+        // TODO: Fetch average rate, location from API
+        val rateInfo = RateInfo(
+            averageRate = 50000,
+            location = "Samarinda",
+            subject = subject.name
         )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerSubject.adapter = adapter
+        binding.textRateInfo.text = rateInfo.formatMessage(this)
     }
 
     private fun setupListeners() {
-        // Back button
-        binding.btnBack.setOnClickListener {
-            finish()
-        }
-
-        // Teaching mode selection
-        binding.btnOnline.setOnClickListener {
-            binding.btnOnline.isSelected = !binding.btnOnline.isSelected
-            updateButtonAppearance()
-        }
-
-        binding.btnOnsite.setOnClickListener {
-            binding.btnOnsite.isSelected = !binding.btnOnsite.isSelected
-            updateButtonAppearance()
-        }
-
-        // Confirm button
-        binding.btnConfirm.setOnClickListener {
-            createTutories()
+        with(binding) {
+            btnBack.setOnClickListener { finish() }
+            btnOnline.setOnClickListener { it.isSelected = !it.isSelected }
+            btnOnsite.setOnClickListener { it.isSelected = !it.isSelected }
+            btnConfirm.setOnClickListener { createTutories() }
         }
     }
 
-    private fun updateButtonAppearance() {
-        updateButtonStyle(binding.btnOnline, binding.btnOnline.isSelected)
-        updateButtonStyle(binding.btnOnsite, binding.btnOnsite.isSelected)
+
+    private fun initializeButtons() {
+        binding.apply {
+            btnOnline.isSelected = false
+            btnOnsite.isSelected = false
+        }
     }
 
-    private fun updateButtonStyle(button: Button, isSelected: Boolean) {
-        if (isSelected) {
-            button.background = AppCompatResources.getDrawable(this, R.drawable.bg_dark_green)
-            button.setTextColor(getColor(R.color.white))
-        } else {
-            button.background = AppCompatResources.getDrawable(this, R.drawable.button_outline)
-            button.setTextColor(getColor(R.color.darkgreen))
-        }
+    private fun setupRateEditText() {
+        binding.editRate.addTextChangedListener(CurrencyTextWatcher(binding.editRate))
     }
 
     private fun getTypeLesson(): String {
@@ -120,13 +129,13 @@ class CreateTutoriesActivity : AppCompatActivity() {
         val subjectId = selectedSubject!!.id
         val typeLesson = getTypeLesson()
 
+        val hourlyRate = binding.editRate.text.toString().parseFormattedNumber()
 
         val request = CreateTutoriesRequest(
             subjectId = subjectId,
             aboutYou = binding.editAbout.text.toString(),
             teachingMethodology = binding.editMethodology.text.toString(),
-            hourlyRate = binding.editRate.text.toString().toIntOrNull()
-                ?: return showError("Invalid rate"),
+            hourlyRate = hourlyRate.toInt(),
             typeLesson = typeLesson
         )
 
