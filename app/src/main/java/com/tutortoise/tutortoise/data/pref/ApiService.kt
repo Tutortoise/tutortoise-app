@@ -11,6 +11,8 @@ import com.tutortoise.tutortoise.data.model.LearnerData
 import com.tutortoise.tutortoise.data.model.LoginData
 import com.tutortoise.tutortoise.data.model.LoginRequest
 import com.tutortoise.tutortoise.data.model.MessageResponse
+import com.tutortoise.tutortoise.data.model.OAuthData
+import com.tutortoise.tutortoise.data.model.OAuthRequest
 import com.tutortoise.tutortoise.data.model.RegisterData
 import com.tutortoise.tutortoise.data.model.RegisterRequest
 import com.tutortoise.tutortoise.data.model.SubjectResponse
@@ -34,6 +36,9 @@ interface ApiService {
     // Auth
     @POST("auth/register")
     suspend fun register(@Body request: RegisterRequest): ApiResponse<RegisterData>
+
+    @POST("auth/google")
+    suspend fun authenticateWithGoogle(@Body request: OAuthRequest): ApiResponse<OAuthData>
 
     @POST("auth/login")
     suspend fun login(@Body request: LoginRequest): ApiResponse<LoginData>

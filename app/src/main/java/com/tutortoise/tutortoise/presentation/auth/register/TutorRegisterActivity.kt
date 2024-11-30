@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.tutortoise.tutortoise.data.pref.ApiException
 import com.tutortoise.tutortoise.data.repository.AuthRepository
+import com.tutortoise.tutortoise.data.repository.CustomOAuthException
 import com.tutortoise.tutortoise.databinding.ActivityTutorRegisterBinding
 import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
 import kotlinx.coroutines.launch
@@ -23,7 +24,7 @@ class TutorRegisterActivity : AppCompatActivity() {
         binding = ActivityTutorRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        authRepository = AuthRepository(applicationContext)
+        authRepository = AuthRepository(this@TutorRegisterActivity)
         setupListeners()
     }
 
@@ -42,6 +43,38 @@ class TutorRegisterActivity : AppCompatActivity() {
         binding.tvSignIn.setOnClickListener {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
+        }
+
+        binding.btnGoogleSignIn.setOnClickListener {
+            lifecycleScope.launch {
+                val result = authRepository.authenticateWithGoogle("tutor")
+                result.fold(
+                    onSuccess = {
+                        val intent = Intent(this@TutorRegisterActivity, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    },
+                    onFailure = { throwable ->
+                        when (throwable) {
+                            is CustomOAuthException -> {
+                                Toast.makeText(
+                                    this@TutorRegisterActivity,
+                                    throwable.message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            else -> {
+                                Toast.makeText(
+                                    this@TutorRegisterActivity,
+                                    "Sign in with Google failed",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                )
+            }
         }
     }
 
@@ -63,7 +96,7 @@ class TutorRegisterActivity : AppCompatActivity() {
                 )
 
                 result.fold(
-                    onSuccess = { response ->
+                    onSuccess = {
                         Log.d("TutorRegisterActivity", "Registration successful")
                         Toast.makeText(
                             this@TutorRegisterActivity,

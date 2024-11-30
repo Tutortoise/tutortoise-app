@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.tutortoise.tutortoise.data.pref.ApiException
 import com.tutortoise.tutortoise.data.repository.AuthRepository
+import com.tutortoise.tutortoise.data.repository.CustomOAuthException
 import com.tutortoise.tutortoise.databinding.ActivityLearnerRegisterBinding
 import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
 import kotlinx.coroutines.launch
@@ -22,7 +23,7 @@ class LearnerRegisterActivity : AppCompatActivity() {
         binding = ActivityLearnerRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        authRepository = AuthRepository(applicationContext)
+        authRepository = AuthRepository(this@LearnerRegisterActivity)
         setupListeners()
     }
 
@@ -42,6 +43,38 @@ class LearnerRegisterActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
+
+        binding.btnGoogleSignIn.setOnClickListener {
+            lifecycleScope.launch {
+                val result = authRepository.authenticateWithGoogle("learner")
+                result.fold(
+                    onSuccess = {
+                        val intent = Intent(this@LearnerRegisterActivity, LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
+                    },
+                    onFailure = { throwable ->
+                        when (throwable) {
+                            is CustomOAuthException -> {
+                                Toast.makeText(
+                                    this@LearnerRegisterActivity,
+                                    throwable.message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            else -> {
+                                Toast.makeText(
+                                    this@LearnerRegisterActivity,
+                                    "Sign in with Google failed",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                )
+            }
+        }
     }
 
     private fun registerUser(name: String, email: String, password: String) {
@@ -56,7 +89,7 @@ class LearnerRegisterActivity : AppCompatActivity() {
                 )
 
                 result.fold(
-                    onSuccess = { response ->
+                    onSuccess = {
                         Toast.makeText(
                             this@LearnerRegisterActivity,
                             "Registration successful!",

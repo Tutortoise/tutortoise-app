@@ -9,7 +9,9 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.tutortoise.tutortoise.data.pref.ApiException
 import com.tutortoise.tutortoise.data.repository.AuthRepository
+import com.tutortoise.tutortoise.data.repository.CustomOAuthException
 import com.tutortoise.tutortoise.databinding.ActivityLoginBinding
 import com.tutortoise.tutortoise.presentation.main.MainActivity
 import kotlinx.coroutines.launch
@@ -23,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        authRepository = AuthRepository(applicationContext)
+        authRepository = AuthRepository(this@LoginActivity)
 
         if (authRepository.getToken() != null) {
             navigateToMainActivity()
@@ -54,6 +56,44 @@ class LoginActivity : AppCompatActivity() {
                 )
             }
             startActivity(intent)
+        }
+
+        binding.btnGoogleSignIn.setOnClickListener {
+            lifecycleScope.launch {
+                val result = authRepository.authenticateWithGoogle(null)
+                result.fold(
+                    onSuccess = {
+                        navigateToMainActivity()
+                    },
+                    onFailure = { throwable ->
+                        when (throwable) {
+                            is CustomOAuthException -> {
+                                Toast.makeText(
+                                    this@LoginActivity,
+                                    throwable.message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            is ApiException -> {
+                                Toast.makeText(
+                                    this@LoginActivity,
+                                    "Your Google account is not registered with us",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            else -> {
+                                Toast.makeText(
+                                    this@LoginActivity,
+                                    "Failed to authenticate with Google",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
+                )
+            }
         }
 
         binding.tilEmail.editText?.addTextChangedListener(object : TextWatcher {

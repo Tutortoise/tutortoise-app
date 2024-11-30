@@ -3,10 +3,12 @@ agp = "8.5.2"
 circleimageview = "3.1.0"
 converterGson = "2.9.0"
 coreSplashscreen = "1.0.0"
+credentials = "1.3.0"
 firebaseAnalytics = "22.1.2"
 firebaseBom = "33.6.0"
 firebaseFirestore = "25.1.1"
 glideVersion = "4.16.0"
+googleid = "1.1.1"
 googleServices = "4.4.2"
 gson = "2.11.0"
 kotlin = "1.9.0"
@@ -24,6 +26,7 @@ constraintlayout = "2.2.0"
 navigationFragmentKtx = "2.8.4"
 navigationUiKtx = "2.8.4"
 navigationVersion = "2.7.6"
+playServicesAuthVersion = "20.3.0"
 retrofit = "2.9.0"
 securityCrypto = "1.1.0-alpha06"
 viewpager2 = "1.1.0"
@@ -40,6 +43,8 @@ navigation-safe-args = "2.8.4"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
+androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
@@ -52,6 +57,7 @@ firebase-firestore = { module = "com.google.firebase:firebase-firestore", versio
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glideVersion" }
 google-firebase-analytics = { module = "com.google.firebase:firebase-analytics", version.ref = "firebaseAnalytics" }
 google-services = { module = "com.google.gms:google-services", version.ref = "googleServices" }
+googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }

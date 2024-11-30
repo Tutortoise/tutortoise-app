@@ -11,7 +11,18 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
 }
 
+val keystoreProperties = Properties()
+keystoreProperties.load(FileInputStream(rootProject.file("keystore.properties")))
+
 android {
+    signingConfigs {
+        getByName("debug") {
+            storeFile = file(keystoreProperties.getProperty("store.file"))
+            storePassword = keystoreProperties.getProperty("store.password")
+            keyAlias = keystoreProperties.getProperty("key.alias")
+            keyPassword = keystoreProperties.getProperty("key.password")
+        }
+    }
     namespace = "com.tutortoise.tutortoise"
     compileSdk = 35
 
@@ -29,6 +40,13 @@ android {
             "BASE_URL",
             "\"${localProperties.getProperty("base.url", "https://default-url.com/")}\""
         )
+
+        buildConfigField(
+            "String",
+            "GOOGLE_OAUTH_CLIENT_ID",
+            "\"${localProperties.getProperty("google.oauth.client.id", "")}\""
+        )
+        signingConfig = signingConfigs.getByName("debug")
     }
 
     buildTypes {
@@ -86,6 +104,9 @@ dependencies {
     implementation(libs.firebase.analytics)
     implementation(libs.google.firebase.analytics)
     implementation(libs.firebase.firestore)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
 
     implementation(libs.material.icons.extended)
     implementation(libs.play.services.location)
