@@ -144,12 +144,26 @@
                     app:layout_constraintStart_toEndOf="@id/ivTutorImageCard"
                     app:layout_constraintTop_toBottomOf="@id/Location" />
 
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     app:layout_constraintStart_toStartOf="@+id/tvStudent"
                     app:layout_constraintTop_toBottomOf="@+id/tvStudent">
+
+                <TextView
+                    android:id="@+id/tvLessonType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="0dp"
+                    android:paddingHorizontal="0dp"
+                    android:text=""
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/tvOnsiteStatus"
@@ -393,7 +407,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginStart="16dp"
             android:fontFamily="@font/montserrat_bold"
-            android:text="@string/about"
+            android:text="@string/method"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintTop_toBottomOf="@id/alsoTeach2" />
