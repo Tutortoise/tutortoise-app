@@ -203,7 +203,6 @@
                     app:chipIcon="@drawable/ic_star"
                     app:chipIconEnabled="true"
                     app:chipIconSize="16dp"
-                    app:chipIconTint="@color/chip_text_color"
                     app:chipIconVisible="true"
                     app:chipMinHeight="32dp"
                     app:chipStartPadding="12dp"

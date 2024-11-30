@@ -53,17 +53,17 @@
 
     <ImageButton
         android:id="@+id/btnFilter"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
-        android:background="@color/transparent"
+        android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="@string/filter"
         android:src="@drawable/ic_filter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/black" />
+        app:tint="@color/darkgreen" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -100,17 +100,27 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:src="@drawable/ic_empty_search" />
+            android:layout_width="150dp"
+            android:layout_height="130dp"
+            android:src="@drawable/result_not_found_ilustration" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:fontFamily="@font/montserrat_medium"
-            android:text="There are no results found"
+            android:text="Result Not Found"
+            android:textColor="@color/darkgreen"
             android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
+            android:textColor="#50000000"
+            android:textAlignment="center"
+            android:text="@string/cant_find_any_item"
+            android:textSize="14sp" />
 
     </LinearLayout>
 
