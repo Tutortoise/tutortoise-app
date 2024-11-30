@@ -118,7 +118,7 @@
 
     <activity
         android:id="@+id/editProfileActivity"
-        android:name="com.tutortoise.tutortoise.presentation.commonProfile.EditProfileActivity" />
+        android:name="com.tutortoise.tutortoise.presentation.commonProfile.editProfile.EditProfileActivity" />
 
     <activity
         android:id="@+id/changePasswordActivity"
@@ -135,5 +135,5 @@
     <activity
         android:id="@+id/detailTutorActivity"
         android:name="com.tutortoise.tutortoise.presentation.main.learner.explore.DetailTutorActivity" />
-    
+
 </navigation>
