@@ -47,7 +47,7 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnSignUp.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW).apply {
-                intent.data = Uri.parse("tutortoise://onboarding/register")
+                data = Uri.parse("tutortoise://onboarding/register")
                 setClassName(
                     this@LoginActivity,
                     "com.tutortoise.tutortoise.presentation.onboarding.OnboardingActivity"

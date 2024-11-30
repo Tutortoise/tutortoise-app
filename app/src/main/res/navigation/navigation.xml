@@ -37,8 +37,8 @@
             app:destination="@id/onboardingFragment4">
             <argument
                 android:name="transition"
-                app:argType="boolean"
-                android:defaultValue="true" />
+                android:defaultValue="true"
+                app:argType="boolean" />
         </action>
         <action
             android:id="@+id/action_onboardingFragment3_to_loginRegisterFragment"
@@ -60,15 +60,17 @@
         tools:layout="@layout/fragment_login_register">
         <action
             android:id="@+id/action_loginRegisterFragment_to_registerAsFragment"
-            app:destination="@id/registerAsFragment"
-                />
+            app:destination="@id/registerAsFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/registerAsFragment"
         android:name="com.tutortoise.tutortoise.presentation.onboarding.fragment.RegisterAsFragment"
         tools:layout="@layout/fragment_register_as">
-    <deepLink
-        app:uri="tutortoise://onboarding/register" />
+        <deepLink app:uri="tutortoise://onboarding/register" />
+        <argument
+            android:name="fromLogin"
+            android:defaultValue="false"
+            app:argType="boolean" />
     </fragment>
 </navigation>
