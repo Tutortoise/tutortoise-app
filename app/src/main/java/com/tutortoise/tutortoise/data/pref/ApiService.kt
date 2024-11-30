@@ -3,6 +3,8 @@ package com.tutortoise.tutortoise.data.pref
 import com.tutortoise.tutortoise.data.model.ApiResponse
 import com.tutortoise.tutortoise.data.model.ChangePasswordRequest
 import com.tutortoise.tutortoise.data.model.CreateTutoriesRequest
+import com.tutortoise.tutortoise.data.model.DetailedTutoriesResponse
+import com.tutortoise.tutortoise.data.model.EditTutoriesRequest
 import com.tutortoise.tutortoise.data.model.ExploreTutoriesResponse
 import com.tutortoise.tutortoise.data.model.GetMyTutoriesResponse
 import com.tutortoise.tutortoise.data.model.LearnerData
@@ -25,6 +27,7 @@ import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -102,5 +105,16 @@ interface ApiService {
     @POST("tutors/services")
     suspend fun createTutories(
         @Body tutories: CreateTutoriesRequest
+    ): MessageResponse
+
+    @GET("tutors/services/{tutoriesId}")
+    suspend fun getTutoriesById(
+        @Path("tutoriesId") tutoriesId: String
+    ): Response<ApiResponse<DetailedTutoriesResponse>>
+
+    @PATCH("tutors/services/{tutoriesId}")
+    suspend fun updateTutories(
+        @Path("tutoriesId") tutoriesId: String,
+        @Body request: EditTutoriesRequest
     ): MessageResponse
 }

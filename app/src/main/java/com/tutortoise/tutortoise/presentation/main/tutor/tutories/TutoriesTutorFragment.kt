@@ -1,6 +1,8 @@
 package com.tutortoise.tutortoise.presentation.main.tutor.tutories
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +15,7 @@ import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.FragmentTutorTutoriesBinding
 import com.tutortoise.tutortoise.presentation.main.tutor.tutories.adapter.TutoriesAdapter
+import com.tutortoise.tutortoise.presentation.main.tutor.tutories.editTutories.EditTutoriesActivity
 import kotlinx.coroutines.launch
 
 class TutoriesTutorFragment : Fragment() {
@@ -34,7 +37,22 @@ class TutoriesTutorFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tutoriesAdapter = TutoriesAdapter()
+        tutoriesAdapter = TutoriesAdapter { tutories ->
+            try {
+                val intent = Intent(requireContext(), EditTutoriesActivity::class.java).apply {
+                    putExtra(EditTutoriesActivity.EXTRA_TUTORIES_ID, tutories.id)
+                }
+                startActivity(intent)
+            } catch (e: Exception) {
+                Log.e("TutoriesTutorFragment", "Error starting EditTutoriesActivity", e)
+                Toast.makeText(
+                    requireContext(),
+                    "Failed to open tutories: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
         binding.recyclerViewTutories.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = tutoriesAdapter

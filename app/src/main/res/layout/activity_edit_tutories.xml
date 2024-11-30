@@ -48,15 +48,16 @@
             android:text="@string/which_subject"
             android:textSize="14sp" />
 
-        <EditText
-            android:id="@+id/editSubject"
+        <!-- Changed from EditText to TextView since subject shouldn't be editable -->
+        <TextView
+            android:id="@+id/textSubject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:background="@drawable/edit_text_background"
             android:fontFamily="@font/montserrat_regular"
-            android:hint="mathematics"
             android:padding="12dp"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <TextView
@@ -73,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:background="@drawable/edit_text_background"
-            android:fontFamily="@font/montserrat_light"
+            android:fontFamily="@font/montserrat_regular"
             android:gravity="top"
             android:hint="@string/about_you_text"
             android:minHeight="120dp"
@@ -94,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:background="@drawable/edit_text_background"
-            android:fontFamily="@font/montserrat_light"
+            android:fontFamily="@font/montserrat_regular"
             android:gravity="top"
             android:hint="@string/method_text"
             android:minHeight="120dp"
@@ -111,11 +112,11 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/textRateInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/montserrat_medium"
-            android:text="@string/rate_per_hour_info"
             android:textColor="@color/black"
             android:textSize="12sp" />
 
@@ -143,10 +144,10 @@
                 android:background="@drawable/edit_text_background"
                 android:fontFamily="@font/montserrat_regular"
                 android:gravity="left|center"
+                android:hint="Min. 5.000"
                 android:inputType="number"
                 android:paddingStart="16dp"
-                android:text="@string/rate_per_hour_nominal"
-                android:textColor="#60000000"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <TextView
@@ -174,31 +175,36 @@
             android:layout_marginBottom="24dp"
             android:orientation="horizontal">
 
-            <!--button before click-->
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnOnline"
                 android:layout_width="0dp"
                 android:layout_height="39dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/button_outline"
-                android:backgroundTint="@color/purewhite"
+                android:background="@drawable/button_selector"
                 android:fontFamily="@font/montserrat_semi_bold"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:stateListAnimator="@null"
                 android:text="@string/online"
-                android:textColor="@color/darkgreen" />
+                android:textColor="@color/button_text_selector"
+                app:backgroundTint="@null" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnOnsite"
                 android:layout_width="0dp"
                 android:layout_height="39dp"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/button_outline"
-                android:backgroundTint="@color/darkgreen"
+                android:background="@drawable/button_selector"
                 android:fontFamily="@font/montserrat_semi_bold"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:stateListAnimator="@null"
                 android:text="@string/onsite"
-                android:textColor="#FFFFFF" />
+                android:textColor="@color/button_text_selector"
+                app:backgroundTint="@null" />
         </LinearLayout>
 
         <Button

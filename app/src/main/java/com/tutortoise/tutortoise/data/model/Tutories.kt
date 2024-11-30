@@ -14,6 +14,35 @@ data class CreateTutoriesRequest(
     val typeLesson: String,
 )
 
+data class EditTutoriesRequest(
+    val aboutYou: String,
+    val teachingMethodology: String,
+    val hourlyRate: Int,
+    val typeLesson: String
+)
+
+data class TutoriesResponse(
+    val id: String,
+    val subject: SubjectResponse,
+    val aboutYou: String,
+    val teachingMethodology: String,
+    val hourlyRate: Int,
+    val typeLesson: String
+)
+
+data class DetailedTutoriesResponse(
+    val tutories: TutoriesResponse,
+    val tutors: TutorData,
+    val subjects: SubjectResponse,
+    val alsoTeaches: List<AlsoTeachesResponse>
+)
+
+data class AlsoTeachesResponse(
+    val subjectName: String,
+    val hourlyRate: Int,
+    val typeLesson: String
+)
+
 data class GetMyTutoriesResponse(
     val id: String,
     val tutorName: String,

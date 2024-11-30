@@ -103,7 +103,7 @@
             app:destination="@id/editTutoriesActivity">
             <argument
                 android:name="tutoriesId"
-                app:argType="integer" />
+                app:argType="string" />
         </action>
 
         <action
@@ -154,6 +154,10 @@
 
     <activity
         android:id="@+id/editTutoriesActivity"
-        android:name="com.tutortoise.tutortoise.presentation.main.tutor.tutories.EditTutoriesActivity"
-        tools:layout="@layout/activity_edit_tutories" />
+        android:name="com.tutortoise.tutortoise.presentation.main.tutor.tutories.editTutories.EditTutoriesActivity"
+        tools:layout="@layout/activity_edit_tutories">
+        <argument
+            android:name="tutoriesId"
+            app:argType="string" />
+    </activity>
 </navigation>
