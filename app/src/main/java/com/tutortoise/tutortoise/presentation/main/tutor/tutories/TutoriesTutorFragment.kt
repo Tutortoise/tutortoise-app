@@ -82,6 +82,10 @@ class TutoriesTutorFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        fetchTutories()  // Refresh data when coming back to the fragment
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
