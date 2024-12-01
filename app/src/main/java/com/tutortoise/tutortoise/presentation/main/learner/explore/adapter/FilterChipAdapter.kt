@@ -1,15 +1,15 @@
-class FilterChipAdapter(
+class FilterChipAdapter<T>(
     val initialLimit: Int = 3,
     private val onShowAllClick: () -> Unit
 ) {
-    private var items: List<String> = emptyList()
+    private var items: List<T> = emptyList()
     private var isExpanded = false
 
-    fun setItems(newItems: List<String>) {
+    fun setItems(newItems: List<T>) {
         items = newItems
     }
 
-    fun getVisibleItems(): List<String> {
+    fun getVisibleItems(): List<T> {
         return if (!isExpanded && items.size > initialLimit) {
             items.take(initialLimit)
         } else {
@@ -25,4 +25,4 @@ class FilterChipAdapter(
         isExpanded = !isExpanded
         onShowAllClick()
     }
-} 
+}

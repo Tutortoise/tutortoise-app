@@ -6,24 +6,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.data.model.SubjectResponse
+import com.tutortoise.tutortoise.data.repository.SubjectRepository
+import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.FragmentFilterSheetBinding
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class FilterBottomSheet : BottomSheetDialogFragment() {
     private var _binding: FragmentFilterSheetBinding? = null
     private val binding get() = _binding!!
 
-    private val subjectAdapter = FilterChipAdapter { updateSubjectChips() }
-    private val locationAdapter = FilterChipAdapter { updateLocationChips() }
+    private val subjectAdapter = FilterChipAdapter<SubjectResponse> { updateSubjectChips() }
+    private val locationAdapter = FilterChipAdapter<String> { updateLocationChips() }
 
-    // TODO: Replace with actual data
-    private val subjects =
-        listOf("Piano", "English", "Mathematics", "Computer", "Photography", "Driving")
-    private val locations =
-        listOf("Medan", "Bandung", "DKI Jakarta", "Samarinda", "Surabaya", "Semarang")
+    private lateinit var subjectRepository: SubjectRepository
+    private lateinit var tutoriesRepository: TutoriesRepository
+
+    private var subjects: List<SubjectResponse> = emptyList()
+    private var locations: List<String> = emptyList()
     private val priceRanges = listOf(
         "Rp30rb-Rp50rb",
         "Rp50rb-Rp80rb",
@@ -32,7 +38,7 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
     )
 
     // Add properties to track selected items
-    private var selectedSubjects = mutableSetOf<String>()
+    private var selectedSubjects = mutableSetOf<SubjectResponse>()
     private var selectedLocations = mutableSetOf<String>()
 
     override fun onCreateView(
@@ -47,14 +53,35 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        subjectRepository = SubjectRepository(requireContext())
+        tutoriesRepository = TutoriesRepository(requireContext())
+
         setupInitialData()
         setupViews()
     }
 
     private fun setupInitialData() {
-        subjectAdapter.setItems(subjects)
-        locationAdapter.setItems(locations)
+        lifecycleScope.launch {
+            val subjectsDeferred = async { subjectRepository.fetchSubjects() }
+            val locationsDeferred = async { tutoriesRepository.fetchLocations() }
+
+            val subjectsResponse = subjectsDeferred.await()?.data
+            val locationsResponse = locationsDeferred.await()?.data
+
+            subjectsResponse?.let { data ->
+                subjects = data
+                subjectAdapter.setItems(subjects)
+                updateSubjectChips()
+            }
+
+            locationsResponse?.let { data ->
+                locations = data.cities
+                locationAdapter.setItems(locations)
+                updateLocationChips()
+            }
+        }
     }
+
 
     private fun setupViews() {
         binding.apply {
@@ -87,7 +114,7 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
         binding.apply {
             chipGroupSubject.removeAllViews()
             subjectAdapter.getVisibleItems().forEach { subject ->
-                addChip(chipGroupSubject, subject).apply {
+                addChip(chipGroupSubject, subject.toString()).apply {
                     isCheckable = true
                     isChecked = selectedSubjects.contains(subject)
                     setOnCheckedChangeListener { _, isChecked ->

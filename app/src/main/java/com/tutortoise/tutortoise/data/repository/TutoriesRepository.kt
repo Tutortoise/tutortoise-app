@@ -8,6 +8,7 @@ import com.tutortoise.tutortoise.data.model.DetailedTutoriesResponse
 import com.tutortoise.tutortoise.data.model.EditTutoriesRequest
 import com.tutortoise.tutortoise.data.model.ExploreTutoriesResponse
 import com.tutortoise.tutortoise.data.model.GetMyTutoriesResponse
+import com.tutortoise.tutortoise.data.model.GetTutoriesLocationResponse
 import com.tutortoise.tutortoise.data.model.MessageResponse
 import com.tutortoise.tutortoise.data.pref.ApiConfig
 import com.tutortoise.tutortoise.data.pref.ApiException
@@ -91,7 +92,6 @@ class TutoriesRepository(context: Context) {
         }
     }
 
-
     suspend fun updateTutories(
         tutoriesId: String,
         request: EditTutoriesRequest
@@ -118,4 +118,18 @@ class TutoriesRepository(context: Context) {
                 Result.failure(e)
             }
         }
+
+    suspend fun fetchLocations(): ApiResponse<GetTutoriesLocationResponse>? {
+        return try {
+            val response = apiService.getLocations()
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("TutoriesRepository", "Failed to fetch locations", e)
+            null
+        }
+    }
 }

@@ -53,6 +53,11 @@ data class GetMyTutoriesResponse(
     val district: String,
 )
 
+data class GetTutoriesLocationResponse(
+    val cities: List<String>,
+    val district: List<String>
+)
+
 data class ExploreTutoriesResponse(
     val id: String,
     val tutorId: String,

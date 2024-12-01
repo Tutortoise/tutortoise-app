@@ -7,6 +7,7 @@ import com.tutortoise.tutortoise.data.model.DetailedTutoriesResponse
 import com.tutortoise.tutortoise.data.model.EditTutoriesRequest
 import com.tutortoise.tutortoise.data.model.ExploreTutoriesResponse
 import com.tutortoise.tutortoise.data.model.GetMyTutoriesResponse
+import com.tutortoise.tutortoise.data.model.GetTutoriesLocationResponse
 import com.tutortoise.tutortoise.data.model.LearnerData
 import com.tutortoise.tutortoise.data.model.LoginData
 import com.tutortoise.tutortoise.data.model.LoginRequest
@@ -99,6 +100,10 @@ interface ApiService {
     @GET("tutors/services/me")
     suspend fun getMyTutories(
     ): Response<ApiResponse<List<GetMyTutoriesResponse>>>
+
+    @GET("tutors/services/locations")
+    suspend fun getLocations(
+    ): Response<ApiResponse<GetTutoriesLocationResponse>>
 
     @GET("tutors/services")
     suspend fun searchTutories(
