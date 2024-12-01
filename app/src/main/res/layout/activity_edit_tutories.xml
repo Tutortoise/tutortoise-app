@@ -38,6 +38,17 @@
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:fontFamily="@font/montserrat_semi_bold"
+                android:layout_centerVertical="true"
+                android:text="@string/delete"
+                android:textColor="#FF0000"
+                android:textSize="14sp" />
         </RelativeLayout>
 
         <TextView
@@ -204,6 +215,37 @@
                 android:text="@string/onsite"
                 android:textColor="@color/button_text_selector_onsite"
                 app:backgroundTint="@null" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="@string/your_tutories_status"
+            android:textColor="@color/black"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/btnTutoriesStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:thumbTint="@color/white"
+                android:trackTint="@color/green" />
+
+            <TextView
+                android:id="@+id/tvTutoriesStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/disable"
+                android:textSize="14sp"
+                android:layout_marginStart="8dp" />
         </LinearLayout>
 
         <Button
