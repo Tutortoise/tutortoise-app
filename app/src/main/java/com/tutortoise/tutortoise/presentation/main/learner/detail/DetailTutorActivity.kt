@@ -92,6 +92,9 @@ class DetailTutorActivity : AppCompatActivity() {
                     }
 
                     // Handle also teaches section
+                    if (detailedTutor.alsoTeaches.isEmpty()) {
+                        binding.tvAlsoTeach.visibility = View.GONE
+                    }
                     binding.rvAlsoTeach.layoutManager =
                         GridLayoutManager(this@DetailTutorActivity, 2)
                     binding.rvAlsoTeach.adapter = AlsoTeachAdapter(detailedTutor.alsoTeaches)
