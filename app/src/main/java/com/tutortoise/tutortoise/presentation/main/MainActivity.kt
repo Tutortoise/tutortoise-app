@@ -6,6 +6,7 @@ import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -14,14 +15,17 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.data.model.SubjectResponse
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.databinding.ActivityMainBinding
 import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
+import com.tutortoise.tutortoise.presentation.main.learner.explore.ExploreViewModel
 import com.tutortoise.tutortoise.presentation.onboarding.OnboardingActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+    private val exploreViewModel: ExploreViewModel by viewModels()
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
     private lateinit var authRepository: AuthRepository
     private lateinit var navController: NavController
@@ -152,5 +156,23 @@ class MainActivity : AppCompatActivity() {
         )
         startActivity(intent, options.toBundle())
         finish()
+    }
+
+    fun navigateToExploreWithSearch(query: String) {
+        // Set the query in ViewModel
+        exploreViewModel.setSearchQuery(query)
+
+        // Navigate to explore
+        binding.bottomNav.selectedItemId = R.id.exploreLearnerFragment
+        navController.navigate(R.id.exploreLearnerFragment)
+    }
+
+    fun navigateToExploreWithSubject(subject: SubjectResponse) {
+        exploreViewModel.clearData() // Clear any existing data
+        exploreViewModel.setSelectedSubject(subject)
+
+        // Then navigate
+        binding.bottomNav.selectedItemId = R.id.exploreLearnerFragment
+        navController.navigate(R.id.exploreLearnerFragment)
     }
 }

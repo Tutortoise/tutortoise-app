@@ -10,12 +10,23 @@ import com.bumptech.glide.Glide
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.SubjectResponse
 
-class SubjectsAdapter(private val subjects: List<SubjectResponse>) :
-    RecyclerView.Adapter<SubjectsAdapter.SubjectViewHolder>() {
+class SubjectsAdapter(
+    private val subjects: List<SubjectResponse>,
+    private val onSubjectClick: ((SubjectResponse) -> Unit)? = null
+) : RecyclerView.Adapter<SubjectsAdapter.SubjectViewHolder>() {
 
     inner class SubjectViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val subjectName: TextView = view.findViewById(R.id.subjectName)
         val subjectImage: ImageView = view.findViewById(R.id.subjectImage)
+
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    onSubjectClick?.invoke(subjects[position])
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SubjectViewHolder {

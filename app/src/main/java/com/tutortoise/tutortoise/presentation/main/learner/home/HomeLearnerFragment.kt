@@ -1,10 +1,11 @@
 package com.tutortoise.tutortoise.presentation.main.learner.home
 
-import android.content.Intent
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -13,9 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.SubjectRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerHomeBinding
-import com.tutortoise.tutortoise.presentation.chat.ChatListActivity
-import com.tutortoise.tutortoise.presentation.notification.NotificationActivity
-import com.tutortoise.tutortoise.presentation.subjects.SubjectsActivity
+import com.tutortoise.tutortoise.presentation.main.MainActivity
 import com.tutortoise.tutortoise.presentation.subjects.adapter.SubjectsAdapter
 import kotlinx.coroutines.launch
 
@@ -23,16 +22,6 @@ class HomeLearnerFragment : Fragment() {
     private var _binding: FragmentLearnerHomeBinding? = null
     private val binding get() = _binding!!
     private val navController by lazy { findNavController() }
-
-
-    private val notificationIntent by lazy {
-        Intent(
-            requireContext(),
-            NotificationActivity::class.java
-        )
-    }
-    private val chatIntent by lazy { Intent(requireContext(), ChatListActivity::class.java) }
-    private val subjectsIntent by lazy { Intent(requireContext(), SubjectsActivity::class.java) }
 
     private lateinit var subjectRepository: SubjectRepository
 
@@ -65,11 +54,32 @@ class HomeLearnerFragment : Fragment() {
         binding.seemore.setOnClickListener {
             navController.navigate(R.id.action_home_to_subjects)
         }
+
+        binding.etSearch.apply {
+            imeOptions = EditorInfo.IME_ACTION_SEARCH
+            setOnEditorActionListener { v, actionId, event ->
+                if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                    (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN)
+                ) {
+                    val query = text.toString()
+                    if (query.isNotEmpty()) {
+                        (activity as? MainActivity)?.navigateToExploreWithSearch(query)
+                        return@setOnEditorActionListener true
+                    }
+                }
+                false
+            }
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.etSearch.text?.clear()
     }
 
     private fun fetchSubjects() {
@@ -78,7 +88,11 @@ class HomeLearnerFragment : Fragment() {
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         lifecycleScope.launch {
             val subjects = subjectRepository.fetchPopularSubjects()
-            recyclerView.adapter = subjects?.data?.let { SubjectsAdapter(it) }
+            recyclerView.adapter = subjects?.data?.let { subjectsList ->
+                SubjectsAdapter(subjectsList) { clickedSubject ->
+                    (activity as? MainActivity)?.navigateToExploreWithSubject(clickedSubject)
+                }
+            }
         }
     }
 

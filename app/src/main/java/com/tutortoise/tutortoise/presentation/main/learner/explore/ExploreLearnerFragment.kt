@@ -14,10 +14,12 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.ExploreTutoriesResponse
+import com.tutortoise.tutortoise.data.model.SubjectResponse
 import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerExploreBinding
 import com.tutortoise.tutortoise.presentation.main.learner.detail.DetailTutorActivity
@@ -28,8 +30,8 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 
-// TODO: Handle the filters thing
 class ExploreLearnerFragment : Fragment() {
+    private val exploreViewModel: ExploreViewModel by activityViewModels()
     private var _binding: FragmentLearnerExploreBinding? = null
     private val binding
         get() = _binding
@@ -40,6 +42,30 @@ class ExploreLearnerFragment : Fragment() {
 
     private var currentFilterState: FilterState? = null
     private var currentSearchQuery: String? = null
+
+    private var pendingSearchQuery: String? = null
+    private var pendingSubjectFilter: SubjectResponse? = null
+
+    override fun onResume() {
+        super.onResume()
+        // Handle any pending actions when fragment resumes
+        handlePendingActions()
+    }
+
+
+    private fun handlePendingActions() {
+        // Handle pending search query
+        pendingSearchQuery?.let { query ->
+            setSearchQuery(query)
+            pendingSearchQuery = null
+        }
+
+        // Handle pending subject filter
+        pendingSubjectFilter?.let { subject ->
+            setSubjectFilter(subject)
+            pendingSubjectFilter = null
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,7 +81,47 @@ class ExploreLearnerFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupSearch()
         setupUI()
+        observeViewModel()
         fetchTutories()
+    }
+
+    private fun observeViewModel() {
+        // Observe search query changes
+        exploreViewModel.searchQuery.observe(viewLifecycleOwner) { query ->
+            if (!query.isNullOrEmpty()) {
+                binding.etSearch.setText(query)
+                currentSearchQuery = query
+                fetchTutories(query)
+            }
+        }
+
+        // Observe subject selection changes
+        exploreViewModel.selectedSubject.observe(viewLifecycleOwner) { subject ->
+            subject?.let {
+                // Clear any existing search
+                binding.etSearch.text?.clear()
+                currentSearchQuery = null
+
+                // Update filter state with the selected subject
+                currentFilterState = FilterState(
+                    subjects = setOf(it),
+                    locations = emptySet(),
+                    priceRange = null,
+                    rating = null,
+                    lessonType = null
+                )
+
+                // Update UI
+                updateFilterBadge(1)
+
+                // Log the filter state
+                println("Setting subject filter: ${it.name}")
+                println("Current filter state subjects: ${currentFilterState?.subjects?.map { sub -> sub.id }}")
+
+                // Fetch tutories with new filter
+                fetchTutories()
+            }
+        }
     }
 
     private fun setupUI() {
@@ -139,12 +205,15 @@ class ExploreLearnerFragment : Fragment() {
                 showEmptyState(false)
                 binding.rvTutories.visibility = View.GONE
 
-                // Only include filter parameters if they are non-null and non-empty
+                // Debug logging
+                println("Fetching tutories with:")
+                println("Query: $query")
+                println("Subject IDs: ${currentFilterState?.subjects?.map { it.id }}")
+
                 val tutoriesItems = tutoriesRepository.searchTutories(
                     query = query?.takeIf { it.isNotEmpty() },
-                    subjectIds = currentFilterState?.subjects?.takeIf { it.isNotEmpty() }
-                        ?.map { it.id },
-                    cities = currentFilterState?.locations?.takeIf { it.isNotEmpty() }?.toList(),
+                    subjectIds = currentFilterState?.subjects?.map { it.id },
+                    cities = currentFilterState?.locations?.toList(),
                     minPrice = currentFilterState?.priceRange?.min,
                     maxPrice = currentFilterState?.priceRange?.max,
                     minRating = currentFilterState?.rating,
@@ -156,25 +225,15 @@ class ExploreLearnerFragment : Fragment() {
                 showLoading(false)
 
                 if (tutoriesItems?.data != null) {
-                    if (tutoriesItems.data.isEmpty()) {
-                        binding.rvTutories.visibility = View.GONE
-                        showEmptyState(true)
-                    } else {
-                        binding.rvTutories.visibility = View.VISIBLE
-                        showEmptyState(false)
-                        exploreAdapter.updateItems(tutoriesItems.data)
-                    }
+                    binding.rvTutories.visibility = View.VISIBLE
+                    showEmptyState(tutoriesItems.data.isEmpty())
+                    exploreAdapter.updateItems(tutoriesItems.data)
                 } else {
-                    // If response is null, try to fetch without any filters
-                    if (currentFilterState != null) {
-                        currentFilterState = null
-                        fetchTutories(query)
-                    } else {
-                        binding.rvTutories.visibility = View.GONE
-                        showEmptyState(true)
-                    }
+                    binding.rvTutories.visibility = View.GONE
+                    showEmptyState(true)
                 }
             } catch (e: Exception) {
+                println("Error fetching tutories: ${e.message}")
                 if (isActive) {
                     showLoading(false)
                     binding.rvTutories.visibility = View.GONE
@@ -212,9 +271,53 @@ class ExploreLearnerFragment : Fragment() {
         }
     }
 
+    fun setSearchQuery(query: String) {
+        if (!isResumed) {
+            // If fragment is not resumed, save for later
+            pendingSearchQuery = query
+            return
+        }
+
+        // Update search UI and trigger search
+        _binding?.let { binding ->
+            binding.etSearch.setText(query)
+            currentSearchQuery = query
+            fetchTutories(query)
+        }
+    }
+
+    fun setSubjectFilter(subject: SubjectResponse) {
+        if (!isResumed) {
+            // If fragment is not resumed, save for later
+            pendingSubjectFilter = subject
+            return
+        }
+
+        // Update filter state
+        currentFilterState = FilterState(
+            subjects = setOf(subject),
+            locations = currentFilterState?.locations ?: emptySet(),
+            priceRange = currentFilterState?.priceRange,
+            rating = currentFilterState?.rating,
+            lessonType = currentFilterState?.lessonType
+        )
+
+        // Update UI
+        updateFilterBadge(1)
+
+        // Trigger search with new filter
+        fetchTutories(currentSearchQuery)
+    }
+
     override fun onDestroyView() {
         searchJob?.cancel() // Cancel any ongoing search job
         _binding = null
         super.onDestroyView()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.etSearch.text?.clear()
+        exploreViewModel.clearData()
     }
 }
