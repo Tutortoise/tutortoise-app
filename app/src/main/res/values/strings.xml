@@ -182,4 +182,7 @@
     <string name="message_type_photo">📷 Photo</string>
     <string name="text_continue">Continue</string>
     <string name="learning_type">Learning Type</string>
+    <string name="disable">Disable</string>
+    <string name="your_tutories_status">Your tutories status</string>
+    <string name="delete">Delete</string>
 </resources>
