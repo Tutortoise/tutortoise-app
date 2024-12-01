@@ -180,4 +180,6 @@
     <string name="text_reminder_before_reservation">Feel free to chat with the tutor before making your\nreservation!</string>
     <string name="no_chats_yet">No chats yet</string>
     <string name="message_type_photo">📷 Photo</string>
+    <string name="text_continue">Continue</string>
+    <string name="learning_type">Learning Type</string>
 </resources>
