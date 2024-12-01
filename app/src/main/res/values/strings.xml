@@ -182,4 +182,6 @@
     <string name="message_type_photo">📷 Photo</string>
     <string name="text_continue">Continue</string>
     <string name="learning_type">Learning Type</string>
+    <string name="filters_with_count">Filters (%d)</string>
+    <string name="filters">Filters</string>
 </resources>

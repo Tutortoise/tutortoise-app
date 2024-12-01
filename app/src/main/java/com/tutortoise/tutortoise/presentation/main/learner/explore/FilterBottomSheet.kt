@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.data.model.LessonType
 import com.tutortoise.tutortoise.data.model.SubjectResponse
 import com.tutortoise.tutortoise.data.repository.SubjectRepository
 import com.tutortoise.tutortoise.data.repository.TutoriesRepository
@@ -41,6 +43,21 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
     private var selectedSubjects = mutableSetOf<SubjectResponse>()
     private var selectedLocations = mutableSetOf<String>()
 
+    private var currentFilterState = FilterState()
+    private var onFilterChanged: ((FilterState) -> Unit)? = null
+
+    companion object {
+        fun newInstance(
+            currentState: FilterState?,
+            onFilterChanged: (FilterState) -> Unit
+        ): FilterBottomSheet {
+            return FilterBottomSheet().apply {
+                this.currentFilterState = currentState ?: FilterState()
+                this.onFilterChanged = onFilterChanged
+            }
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,6 +72,10 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
 
         subjectRepository = SubjectRepository(requireContext())
         tutoriesRepository = TutoriesRepository(requireContext())
+
+        // Restore selected states from currentFilterState
+        selectedSubjects.addAll(currentFilterState.subjects)
+        selectedLocations.addAll(currentFilterState.locations)
 
         setupInitialData()
         setupViews()
@@ -103,6 +124,42 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
 
             // Setup Price Range chips
             setupPriceRangeChips()
+            // Restore price range selection
+            currentFilterState.priceRange?.let { range ->
+                priceRanges.forEachIndexed { index, price ->
+                    if (PriceRange.fromString(price)?.min == range.min) {
+                        chipGroupPriceRange.check(
+                            chipGroupPriceRange.getChildAt(index).id
+                        )
+                    }
+                }
+            }
+
+            // Setup Rating chips
+            setupRatingChips()
+            // Restore rating selection
+            currentFilterState.rating?.let { rating ->
+                chipGroupRating.children.forEach { chip ->
+                    if ((chip as Chip).text.toString().replace("+", "").toFloatOrNull() == rating) {
+                        chip.isChecked = true
+                    }
+                }
+            }
+
+            // Setup Lesson Type chips and restore selection
+            chipGroupLessonType.setOnCheckedStateChangeListener { _, _ ->
+                updateFilters()
+            }
+            // Restore lesson type selection
+            currentFilterState.lessonType?.let { type ->
+                val chipId = when (type) {
+                    LessonType.ONLINE -> R.id.chipOnline
+                    LessonType.OFFLINE -> R.id.chipOffline
+                    LessonType.BOTH -> R.id.chipBoth
+                    else -> null
+                }
+                chipId?.let { chipGroupLessonType.check(it) }
+            }
 
             // Update show all buttons visibility
             btnShowAllSubjects.isVisible = subjectAdapter.shouldShowViewAll()
@@ -123,6 +180,8 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
                         } else {
                             selectedSubjects.remove(subject)
                         }
+                        // Trigger filter update
+                        updateFilters()
                     }
                 }
             }
@@ -145,6 +204,8 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
                         } else {
                             selectedLocations.remove(location)
                         }
+                        // Trigger filter update
+                        updateFilters()
                     }
                 }
             }
@@ -170,29 +231,89 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
         priceRanges.forEach { price ->
             addChip(binding.chipGroupPriceRange, price).apply {
                 isCheckable = true
+                setOnCheckedChangeListener { _, _ ->
+                    // Trigger filter update
+                    updateFilters()
+                }
             }
         }
     }
 
+    private fun setupRatingChips() {
+        binding.chipGroupRating.setOnCheckedStateChangeListener { _, _ ->
+            // Trigger filter update
+            updateFilters()
+        }
+    }
+
+    private fun getSelectedPriceRange(): PriceRange? {
+        val checkedChipId = binding.chipGroupPriceRange.checkedChipId
+        if (checkedChipId != View.NO_ID) {
+            val chip = binding.chipGroupPriceRange.findViewById<Chip>(checkedChipId)
+            return PriceRange.fromString(chip.text.toString())
+        }
+        return null
+    }
+
+    private fun getSelectedRating(): Float? {
+        val checkedChipId = binding.chipGroupRating.checkedChipId
+        if (checkedChipId != View.NO_ID) {
+            val chip = binding.chipGroupRating.findViewById<Chip>(checkedChipId)
+            return chip.text.toString().replace("+", "").toFloatOrNull()
+        }
+        return null
+    }
+
+    private fun getSelectedLessonType(): String? {
+        val checkedChipId = binding.chipGroupLessonType?.checkedChipId
+        return when (checkedChipId) {
+            R.id.chipOnline -> LessonType.ONLINE
+            R.id.chipOffline -> LessonType.OFFLINE
+            R.id.chipBoth -> LessonType.BOTH
+            else -> null
+        }
+    }
+
+    private fun updateFilters() {
+        val newFilterState = FilterState(
+            subjects = selectedSubjects,
+            locations = selectedLocations,
+            priceRange = getSelectedPriceRange(),
+            rating = getSelectedRating(),
+            lessonType = getSelectedLessonType()
+        )
+        currentFilterState = newFilterState
+        onFilterChanged?.invoke(newFilterState)
+        updateFilterBadge()
+    }
+
     private fun resetAllFilters() {
-        // Clear selected items
         selectedSubjects.clear()
         selectedLocations.clear()
-
-        // Reset all chip groups
         binding.apply {
-            // Reset subject chips
-            updateSubjectChips()
-
-            // Reset location chips
-            updateLocationChips()
-
-            // Reset price range chips
-            setupPriceRangeChips()
-
-            // Reset rating chip
+            chipGroupPriceRange.clearCheck()
             chipGroupRating.clearCheck()
+            chipGroupLessonType.clearCheck()
+            updateSubjectChips()
+            updateLocationChips()
         }
+
+        currentFilterState = FilterState()
+        onFilterChanged?.invoke(currentFilterState)
+        updateFilterBadge()
+    }
+
+    private fun updateFilterBadge() {
+        val activeFilters = listOfNotNull(
+            selectedSubjects.takeIf { it.isNotEmpty() },
+            selectedLocations.takeIf { it.isNotEmpty() },
+            getSelectedPriceRange(),
+            getSelectedRating(),
+            getSelectedLessonType()
+        ).size
+
+        // Update filter badge in parent fragment
+        (parentFragment as? ExploreLearnerFragment)?.updateFilterBadge(activeFilters)
     }
 
     override fun onDestroyView() {

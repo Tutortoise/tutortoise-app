@@ -6,31 +6,32 @@
     android:layout_height="match_parent"
     tools:context=".presentation.main.learner.explore.ExploreLearnerFragment">
 
+    <!-- Search CardView -->
     <androidx.cardview.widget.CardView
         android:id="@+id/searchCardView"
         android:layout_width="0dp"
-        android:layout_height="36dp"
+        android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
         app:layout_constraintEnd_toStartOf="@+id/btnFilter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <android.widget.LinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="12dp"
-            android:paddingEnd="16dp">
+            android:paddingEnd="12dp">
 
             <ImageView
                 android:id="@+id/ivSearchIcon"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginTop="1dp"
                 android:src="@drawable/search"
                 app:tint="#50000000" />
 
@@ -39,31 +40,30 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:fontFamily="@font/montserrat_medium"
                 android:hint="@string/search_text"
                 android:inputType="text"
                 android:textColorHint="#60000000"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
-        </android.widget.LinearLayout>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <ImageButton
+    <!-- Filter Button -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnFilter"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="16dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="@string/filter"
-        android:src="@drawable/ic_filter"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        app:icon="@drawable/ic_filter"
+        app:iconGravity="textStart"
+        app:layout_constraintBottom_toBottomOf="@+id/searchCardView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/darkgreen" />
+        app:layout_constraintTop_toTopOf="@+id/searchCardView" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -117,9 +117,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_regular"
-            android:textColor="#50000000"
-            android:textAlignment="center"
             android:text="@string/cant_find_any_item"
+            android:textAlignment="center"
+            android:textColor="#50000000"
             android:textSize="14sp" />
 
     </LinearLayout>

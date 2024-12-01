@@ -112,9 +112,13 @@ interface ApiService {
 
     @GET("tutors/services")
     suspend fun searchTutories(
-        @Query("q") query: String? = null,
+        @Query("q") q: String? = null,
         @Query("subjectId") subjectId: String? = null,
-        @Query("city") city: String? = null
+        @Query("city") city: String? = null,
+        @Query("minHourlyRate") minHourlyRate: String? = null,
+        @Query("maxHourlyRate") maxHourlyRate: String? = null,
+        @Query("minRating") minRating: String? = null,
+        @Query("typeLesson") typeLesson: String? = null
     ): Response<ApiResponse<List<ExploreTutoriesResponse>>>
 
     @POST("tutors/services")

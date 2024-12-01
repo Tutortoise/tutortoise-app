@@ -2,6 +2,7 @@ package com.tutortoise.tutortoise.presentation.main.learner.explore
 
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
@@ -11,9 +12,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.ExploreTutoriesResponse
 import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerExploreBinding
@@ -34,6 +37,9 @@ class ExploreLearnerFragment : Fragment() {
     private lateinit var exploreAdapter: ExploreAdapter
     private lateinit var tutoriesRepository: TutoriesRepository
     private var searchJob: Job? = null
+
+    private var currentFilterState: FilterState? = null
+    private var currentSearchQuery: String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,10 +62,6 @@ class ExploreLearnerFragment : Fragment() {
         binding.etSearch.imeOptions = EditorInfo.IME_ACTION_SEARCH
         binding.etSearch.inputType = InputType.TYPE_CLASS_TEXT
 
-        binding.btnFilter.setOnClickListener {
-            FilterBottomSheet().show(childFragmentManager, "FilterDialog")
-        }
-
         // Initialize RecyclerView and adapter
         exploreAdapter = ExploreAdapter(emptyList()) { tutor ->
             navigateToTutorDetail(tutor)
@@ -68,6 +70,20 @@ class ExploreLearnerFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = exploreAdapter
         }
+
+        binding.btnFilter.setOnClickListener {
+            showFilterBottomSheet()
+        }
+    }
+
+    private fun showFilterBottomSheet() {
+        FilterBottomSheet.newInstance(
+            currentState = currentFilterState,
+            onFilterChanged = { filterState ->
+                currentFilterState = filterState
+                fetchTutories(currentSearchQuery)
+            }
+        ).show(childFragmentManager, "FilterDialog")
     }
 
     // Navigate to DetailTutorActivity
@@ -116,15 +132,26 @@ class ExploreLearnerFragment : Fragment() {
     }
 
     private fun fetchTutories(query: String? = null) {
+        currentSearchQuery = query
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 showLoading(true)
                 showEmptyState(false)
                 binding.rvTutories.visibility = View.GONE
 
-                val tutoriesItems = tutoriesRepository.searchTutories(query = query)
+                // Only include filter parameters if they are non-null and non-empty
+                val tutoriesItems = tutoriesRepository.searchTutories(
+                    query = query?.takeIf { it.isNotEmpty() },
+                    subjectIds = currentFilterState?.subjects?.takeIf { it.isNotEmpty() }
+                        ?.map { it.id },
+                    cities = currentFilterState?.locations?.takeIf { it.isNotEmpty() }?.toList(),
+                    minPrice = currentFilterState?.priceRange?.min,
+                    maxPrice = currentFilterState?.priceRange?.max,
+                    minRating = currentFilterState?.rating,
+                    lessonType = currentFilterState?.lessonType
+                )
 
-                if (!isActive) return@launch // Check if coroutine is still active
+                if (!isActive) return@launch
 
                 showLoading(false)
 
@@ -138,8 +165,14 @@ class ExploreLearnerFragment : Fragment() {
                         exploreAdapter.updateItems(tutoriesItems.data)
                     }
                 } else {
-                    binding.rvTutories.visibility = View.GONE
-                    showEmptyState(true)
+                    // If response is null, try to fetch without any filters
+                    if (currentFilterState != null) {
+                        currentFilterState = null
+                        fetchTutories(query)
+                    } else {
+                        binding.rvTutories.visibility = View.GONE
+                        showEmptyState(true)
+                    }
                 }
             } catch (e: Exception) {
                 if (isActive) {
@@ -163,6 +196,20 @@ class ExploreLearnerFragment : Fragment() {
         val imm =
             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(binding.etSearch.windowToken, 0)
+    }
+
+    fun updateFilterBadge(activeFilters: Int) {
+        binding.btnFilter.apply {
+            if (activeFilters > 0) {
+                setTextColor(ContextCompat.getColor(context, R.color.darkgreen))
+                iconTint =
+                    ColorStateList.valueOf(ContextCompat.getColor(context, R.color.darkgreen))
+            } else {
+                setTextColor(ContextCompat.getColor(context, R.color.colorInactive))
+                iconTint =
+                    ColorStateList.valueOf(ContextCompat.getColor(context, R.color.colorInactive))
+            }
+        }
     }
 
     override fun onDestroyView() {
