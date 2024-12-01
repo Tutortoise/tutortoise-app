@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.data.repository.TutorRepository
 import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.FragmentTutorTutoriesBinding
 import com.tutortoise.tutortoise.presentation.main.tutor.tutories.adapter.TutoriesAdapter
@@ -23,6 +24,7 @@ class TutoriesTutorFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var tutoriesAdapter: TutoriesAdapter
     private lateinit var tutoriesRepository: TutoriesRepository
+    private lateinit var tutorRepository: TutorRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,6 +33,7 @@ class TutoriesTutorFragment : Fragment() {
     ): View {
         _binding = FragmentTutorTutoriesBinding.inflate(inflater, container, false)
         tutoriesRepository = TutoriesRepository(requireContext())
+        tutorRepository = TutorRepository(requireContext())
         return binding.root
     }
 
@@ -59,7 +62,20 @@ class TutoriesTutorFragment : Fragment() {
         }
 
         binding.btnAddTutory.setOnClickListener {
-            findNavController().navigate(R.id.action_tutories_to_createTutories)
+            lifecycleScope.launch {
+                val isFilled = tutorRepository.isProfileFilled()
+                // TODO: use modal like in Figma
+                if (!isFilled) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Please fill your profile first.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    return@launch
+                }
+
+                findNavController().navigate(R.id.action_tutories_to_createTutories)
+            }
         }
 
         fetchTutories()

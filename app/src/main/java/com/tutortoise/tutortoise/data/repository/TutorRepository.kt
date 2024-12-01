@@ -15,6 +15,20 @@ import retrofit2.HttpException
 class TutorRepository(context: Context) {
     private val apiService = ApiConfig.getApiService(context)
 
+    // Tutor need to fill their profile before creating tutories
+    suspend fun isProfileFilled(): Boolean {
+        return try {
+            val response = apiService.getTutorProfile()
+            val tutorData = response.body()
+            tutorData?.data.let {
+                return it?.name != null && it.gender != null && it.city != null && it.district != null
+            }
+        } catch (e: Exception) {
+            Log.e("TutorRepository", "Failed to check if profile is filled", e)
+            false
+        }
+    }
+
     suspend fun fetchTutorProfile(): ApiResponse<TutorData>? {
         return try {
             val response = apiService.getTutorProfile()
