@@ -343,77 +343,15 @@
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@id/tvReadMore1" />
 
-            <LinearLayout
-                android:id="@+id/alsoTeach1"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvAlsoTeach"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="24dp"
                 android:paddingHorizontal="16dp"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/tvAlsoTeach">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_outline"
-                    android:fontFamily="@font/montserrat_semi_bold"
-                    android:text="Mathematics"
-                    android:textColor="@color/darkgreen"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_outline"
-                    android:fontFamily="@font/montserrat_semi_bold"
-                    android:text="Public Speaking"
-                    android:textColor="@color/darkgreen"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/alsoTeach2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp"
-                android:paddingHorizontal="16dp"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@id/alsoTeach1">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_outline"
-                    android:fontFamily="@font/montserrat_semi_bold"
-                    android:text="Swimming"
-                    android:textColor="@color/darkgreen"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_outline"
-                    android:fontFamily="@font/montserrat_semi_bold"
-                    android:text="Singing"
-                    android:textColor="@color/darkgreen"
-                    android:gravity="center"
-                    android:textSize="14sp" />
-            </LinearLayout>
+                app:layout_constraintTop_toBottomOf="@id/tvAlsoTeach"
+                android:orientation="vertical" />
 
             <TextView
                 android:id="@+id/tvTeachingMethodology"
@@ -426,7 +364,7 @@
                 android:text="@string/method"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/alsoTeach2" />
+                app:layout_constraintTop_toBottomOf="@id/rvAlsoTeach" />
 
             <TextView
                 android:id="@+id/tvTeachingMethodologyText"

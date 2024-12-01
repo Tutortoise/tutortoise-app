@@ -3,14 +3,15 @@ package com.tutortoise.tutortoise.presentation.main.learner.detail
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
 import com.tutortoise.tutortoise.data.model.LessonType
 import com.tutortoise.tutortoise.data.pref.ApiConfig
 import com.tutortoise.tutortoise.data.pref.ApiService
 import com.tutortoise.tutortoise.databinding.ActivityDetailTutorBinding
+import com.tutortoise.tutortoise.presentation.main.learner.detail.adapter.AlsoTeachAdapter
 import com.tutortoise.tutortoise.utils.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -31,12 +32,12 @@ class DetailTutorActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val tutoriesId = intent.getStringExtra("TUTORIES_ID")!!
-        val tutorName = intent.getStringExtra("TUTOR_NAME") ?: "Unknown Tutor"
-        val subjectName = intent.getStringExtra("SUBJECT_NAME") ?: "Unknown Subject"
+        val tutorName = intent.getStringExtra("TUTOR_NAME")!!
+        val subjectName = intent.getStringExtra("SUBJECT_NAME")!!
         val rating = intent.getFloatExtra("RATING", 0f)
         val hourlyRate = intent.getIntExtra("HOURLY_RATE", 0)
-        val city = intent.getStringExtra("CITY") ?: "Unknown City"
-        val tutorId = intent.getStringExtra("TUTOR_ID")
+        val city = intent.getStringExtra("CITY")!!
+        val tutorId = intent.getStringExtra("TUTOR_ID")!!
 
         // Use the data to populate your UI
         binding.tvTutorName.text = tutorName
@@ -45,13 +46,11 @@ class DetailTutorActivity : AppCompatActivity() {
         binding.tvHourlyRate.text = "Rp. $hourlyRate / Hour"
         binding.tvCity.text = city
 
-        if (tutorId != null) {
-            Glide.with(this)
-                .load(Constants.getProfilePictureUrl(tutorId))
-                .into(binding.ivTutorImage)
+        Glide.with(this)
+            .load(Constants.getProfilePictureUrl(tutorId))
+            .into(binding.ivTutorImage)
 
-            fetchTutoriesDetails(tutoriesId)
-        }
+        fetchTutoriesDetails(tutoriesId)
 
         binding.btnBack.setOnClickListener {
             finish()
@@ -74,97 +73,28 @@ class DetailTutorActivity : AppCompatActivity() {
                     binding.tvTeachingMethodologyText.text =
                         detailedTutor.tutories.teachingMethodology
 
-                    // Set lesson type
-                    binding.tvLessonType.text = when (detailedTutor.tutories.typeLesson) {
-                        LessonType.ONLINE -> "Online Lessons"
-                        LessonType.OFFLINE -> "Offline Lessons"
-                        LessonType.BOTH -> "Online and Offline Lessons"
-                        else -> "Lesson Type Not Specified"
-                    }
-
                     // Manage visibility of lesson type views
+                    binding.tvOnlineStatus.visibility = View.GONE
+                    binding.tvOnsiteStatus.visibility = View.GONE
                     when (detailedTutor.tutories.typeLesson) {
                         LessonType.ONLINE -> {
                             binding.tvOnlineStatus.visibility = View.VISIBLE
-                            binding.tvOnsiteStatus.visibility = View.GONE
                         }
 
                         LessonType.OFFLINE -> {
                             binding.tvOnlineStatus.visibility = View.GONE
-                            binding.tvOnsiteStatus.visibility = View.VISIBLE
                         }
 
                         LessonType.BOTH -> {
                             binding.tvOnlineStatus.visibility = View.VISIBLE
                             binding.tvOnsiteStatus.visibility = View.VISIBLE
                         }
-
-                        else -> {
-                            binding.tvOnlineStatus.visibility = View.GONE
-                            binding.tvOnsiteStatus.visibility = View.GONE
-                        }
                     }
 
                     // Handle also teaches section
-                    if (detailedTutor.alsoTeaches.isNotEmpty()) {
-                        val alsoTeachesText = detailedTutor.alsoTeaches.joinToString("\n") {
-                            "${it.subjectName} - Rp. ${it.hourlyRate}/Hour (${it.typeLesson})"
-                        }
-                        binding.tvAlsoTeach.text = alsoTeachesText
-                        binding.tvAlsoTeach.visibility = View.VISIBLE
-
-                        // Show or hide additional subject layouts based on the number of subjects
-                        when (detailedTutor.alsoTeaches.size) {
-                            0 -> {
-                                binding.alsoTeach1.visibility = View.GONE
-                                binding.alsoTeach2.visibility = View.GONE
-                            }
-
-                            1 -> {
-                                binding.alsoTeach1.visibility = View.VISIBLE
-                                binding.alsoTeach2.visibility = View.GONE
-
-                                // Update the first layout with the single subject
-                                val subject = detailedTutor.alsoTeaches[0]
-                                (binding.alsoTeach1.getChildAt(0) as TextView).text =
-                                    subject.subjectName
-                            }
-
-                            2 -> {
-                                binding.alsoTeach1.visibility = View.VISIBLE
-                                binding.alsoTeach2.visibility = View.VISIBLE
-
-                                // Update the first layout
-                                val subject1 = detailedTutor.alsoTeaches[0]
-                                (binding.alsoTeach1.getChildAt(0) as TextView).text =
-                                    subject1.subjectName
-
-                                // Update the second layout
-                                val subject2 = detailedTutor.alsoTeaches[1]
-                                (binding.alsoTeach2.getChildAt(0) as TextView).text =
-                                    subject2.subjectName
-                            }
-
-                            else -> {
-                                binding.alsoTeach1.visibility = View.VISIBLE
-                                binding.alsoTeach2.visibility = View.VISIBLE
-
-                                // Update the first layout
-                                val subject1 = detailedTutor.alsoTeaches[0]
-                                (binding.alsoTeach1.getChildAt(0) as TextView).text =
-                                    subject1.subjectName
-
-                                // Update the second layout
-                                val subject2 = detailedTutor.alsoTeaches[1]
-                                (binding.alsoTeach2.getChildAt(0) as TextView).text =
-                                    subject2.subjectName
-                            }
-                        }
-                    } else {
-                        binding.tvAlsoTeach.visibility = View.GONE
-                        binding.alsoTeach1.visibility = View.GONE
-                        binding.alsoTeach2.visibility = View.GONE
-                    }
+                    binding.rvAlsoTeach.layoutManager =
+                        GridLayoutManager(this@DetailTutorActivity, 2)
+                    binding.rvAlsoTeach.adapter = AlsoTeachAdapter(detailedTutor.alsoTeaches)
 
                 } else {
                     // Handle error case
