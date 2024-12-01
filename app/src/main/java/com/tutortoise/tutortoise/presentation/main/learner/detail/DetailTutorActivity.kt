@@ -29,28 +29,35 @@ class DetailTutorActivity : AppCompatActivity() {
     private var isAboutExpanded = false
     private var isMethodologyExpanded = false
 
+    private var currentTutorId: String = ""
+    private var currentTutorName: String = ""
+    private var currentCity: String = ""
+    private var currentRating: Float = 0f
+    private var currentHourlyRate: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailTutorBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val tutoriesId = intent.getStringExtra("TUTORIES_ID")!!
-        val tutorName = intent.getStringExtra("TUTOR_NAME")!!
-        val subjectName = intent.getStringExtra("SUBJECT_NAME")!!
-        val rating = intent.getFloatExtra("RATING", 0f)
-        val hourlyRate = intent.getIntExtra("HOURLY_RATE", 0)
-        val city = intent.getStringExtra("CITY")!!
-        val tutorId = intent.getStringExtra("TUTOR_ID")!!
+        currentTutorId = intent.getStringExtra("TUTOR_ID") ?: ""
+        currentTutorName = intent.getStringExtra("TUTOR_NAME") ?: ""
+        currentCity = intent.getStringExtra("CITY") ?: ""
+        currentRating = intent.getFloatExtra("RATING", 0f)
+        currentHourlyRate = intent.getIntExtra("HOURLY_RATE", 0)
+
+        val tutoriesId = intent.getStringExtra("TUTORIES_ID") ?: ""
+        val subjectName = intent.getStringExtra("SUBJECT_NAME") ?: ""
 
         // Use the data to populate your UI
-        binding.tvTutorName.text = tutorName
+        binding.tvTutorName.text = currentTutorName
         binding.tvTutorSubject.text = subjectName
-        binding.tvRating.text = rating.toString()
-        binding.tvHourlyRate.text = "Rp. $hourlyRate / Hour"
-        binding.tvCity.text = city
+        binding.tvRating.text = currentRating.toString()
+        binding.tvHourlyRate.text = "Rp. $currentHourlyRate / Hour"
+        binding.tvCity.text = currentCity
 
         Glide.with(this)
-            .load(Constants.getProfilePictureUrl(tutorId))
+            .load(Constants.getProfilePictureUrl(currentTutorId))
             .into(binding.ivTutorImage)
 
         fetchTutoriesDetails(tutoriesId)
@@ -70,6 +77,7 @@ class DetailTutorActivity : AppCompatActivity() {
             isMethodologyExpanded = !isMethodologyExpanded
             updateTeachingMethodologyText()
         }
+
     }
 
     private fun fetchTutoriesDetails(tutoriesId: String) {
@@ -114,7 +122,13 @@ class DetailTutorActivity : AppCompatActivity() {
                     }
                     binding.rvAlsoTeach.layoutManager =
                         GridLayoutManager(this@DetailTutorActivity, 2)
-                    binding.rvAlsoTeach.adapter = AlsoTeachAdapter(detailedTutor.alsoTeaches)
+                    binding.rvAlsoTeach.adapter = AlsoTeachAdapter(
+                        detailedTutor.alsoTeaches,
+                        currentTutorId,
+                        currentTutorName,
+                        currentCity,
+                        currentRating
+                    )
 
                 } else {
                     // Handle error case

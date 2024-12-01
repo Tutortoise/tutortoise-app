@@ -40,7 +40,8 @@ data class DetailedTutoriesResponse(
 data class AlsoTeachesResponse(
     val subjectName: String,
     val hourlyRate: Int,
-    val typeLesson: String
+    val typeLesson: String,
+    val tutoriesId: String? = null
 )
 
 data class GetMyTutoriesResponse(

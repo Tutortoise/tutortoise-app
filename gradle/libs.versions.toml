@@ -7,6 +7,7 @@ credentials = "1.3.0"
 firebaseAnalytics = "22.1.2"
 firebaseBom = "33.6.0"
 firebaseFirestore = "25.1.1"
+flexboxVersion = "3.0.0"
 glideVersion = "4.16.0"
 googleid = "1.1.1"
 googleServices = "4.4.2"
@@ -24,6 +25,7 @@ material = "1.12.0"
 activity = "1.9.3"
 constraintlayout = "2.2.0"
 navigationFragmentKtx = "2.8.4"
+navigationSafeArgsGradlePlugin = "2.8.4"
 navigationUiKtx = "2.8.4"
 navigationVersion = "2.7.6"
 playServicesAuthVersion = "20.3.0"
@@ -43,12 +45,14 @@ playServicesAuth = "20.7.0"
 
 
 [libraries]
+android-flexbox = { module = "com.google.android:flexbox", version.ref = "flexboxVersion" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleRuntimeKtx" }
+androidx-navigation-safe-args-gradle-plugin = { module = "androidx.navigation:navigation-safe-args-gradle-plugin", version.ref = "navigationSafeArgsGradlePlugin" }
 androidx-security-crypto = { module = "androidx.security:security-crypto", version.ref = "securityCrypto" }
 androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 circleimageview = { module = "de.hdodenhof:circleimageview", version.ref = "circleimageview" }
