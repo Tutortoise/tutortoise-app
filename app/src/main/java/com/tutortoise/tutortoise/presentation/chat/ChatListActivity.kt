@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tutortoise.tutortoise.databinding.ActivityChatListBinding
+import com.tutortoise.tutortoise.presentation.chat.adapter.ChatRoomAdapter
 
 class ChatListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatListBinding

@@ -7,6 +7,9 @@ import com.tutortoise.tutortoise.data.model.CreateRoomRequest
 import com.tutortoise.tutortoise.data.model.SendMessageRequest
 import com.tutortoise.tutortoise.data.pref.ApiConfig
 import com.tutortoise.tutortoise.data.pref.ApiException
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
 class ChatRepository(private val context: Context) {
     private val api = ApiConfig.getApiService(context)
@@ -70,6 +73,19 @@ class ChatRepository(private val context: Context) {
         return try {
             val response = when (type) {
                 "text" -> api.sendTextMessage(roomId, SendMessageRequest(content))
+                "image" -> {
+                    val imageBytes =
+                        android.util.Base64.decode(content, android.util.Base64.DEFAULT)
+                    val mediaType = "image/jpeg".toMediaTypeOrNull()
+                    val requestBody = imageBytes.toRequestBody(mediaType)
+                    val part = MultipartBody.Part.createFormData(
+                        "image",
+                        "image.jpg",
+                        requestBody
+                    )
+                    api.sendImageMessage(roomId, part)
+                }
+
                 else -> throw IllegalArgumentException("Unsupported message type")
             }
 

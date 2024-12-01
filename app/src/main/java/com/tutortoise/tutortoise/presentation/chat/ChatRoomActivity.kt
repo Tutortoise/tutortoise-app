@@ -1,5 +1,7 @@
 package com.tutortoise.tutortoise.presentation.chat
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
@@ -10,10 +12,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tutortoise.tutortoise.databinding.ActivityChatRoomBinding
+import com.tutortoise.tutortoise.presentation.chat.adapter.ChatMessageAdapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import java.io.ByteArrayOutputStream
 
 class ChatRoomActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatRoomBinding
@@ -138,12 +142,18 @@ class ChatRoomActivity : AppCompatActivity() {
     private val imagePickerLauncher =
         registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             uri?.let {
-                // Convert Uri to base64 string
-                val inputStream = contentResolver.openInputStream(uri)
-                val bytes = inputStream?.readBytes()
-                val base64String = Base64.encodeToString(bytes, Base64.DEFAULT)
+                try {
+                    val inputStream = contentResolver.openInputStream(uri)
+                    val bitmap = BitmapFactory.decodeStream(inputStream)
+                    val outputStream = ByteArrayOutputStream()
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
+                    val bytes = outputStream.toByteArray()
+                    val base64String = Base64.encodeToString(bytes, Base64.DEFAULT)
 
-                viewModel.sendMessage(roomId, base64String, isImage = true)
+                    viewModel.sendMessage(roomId, base64String, isImage = true)
+                } catch (e: Exception) {
+                    Toast.makeText(this, "Failed to process image", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

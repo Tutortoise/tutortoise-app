@@ -13,7 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-// TODO: Handles The Image Properly
 class ChatViewModel(context: Context) : ViewModel() {
     private val TAG = "ChatViewModel"
     private val chatRepository = ChatRepository(context)

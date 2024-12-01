@@ -1,4 +1,4 @@
-package com.tutortoise.tutortoise.presentation.chat
+package com.tutortoise.tutortoise.presentation.chat.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -44,7 +44,12 @@ class ChatRoomAdapter(
                     room.learnerName
                 }
 
-                tvLastMessage.text = room.lastMessage?.content ?: "No messages yet"
+                tvLastMessage.text = when {
+                    room.lastMessage == null -> "No messages yet"
+                    room.lastMessage.type == "image" -> root.context.getString(R.string.message_type_photo)
+                    else -> room.lastMessage.content
+                }
+
                 tvTime.text = formatTime(room.lastMessageAt)
 
                 Glide.with(root.context)

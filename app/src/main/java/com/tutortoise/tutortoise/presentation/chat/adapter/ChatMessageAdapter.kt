@@ -1,4 +1,4 @@
-package com.tutortoise.tutortoise.presentation.chat
+package com.tutortoise.tutortoise.presentation.chat.adapter
 
 import android.view.Gravity
 import android.view.LayoutInflater
