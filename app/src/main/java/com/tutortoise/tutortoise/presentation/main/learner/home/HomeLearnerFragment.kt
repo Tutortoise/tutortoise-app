@@ -15,7 +15,7 @@ import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.SubjectRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerHomeBinding
 import com.tutortoise.tutortoise.presentation.main.MainActivity
-import com.tutortoise.tutortoise.presentation.subjects.adapter.SubjectsAdapter
+import com.tutortoise.tutortoise.presentation.main.learner.subjects.adapter.SubjectsAdapter
 import kotlinx.coroutines.launch
 
 class HomeLearnerFragment : Fragment() {

@@ -114,7 +114,7 @@
 
     <activity
         android:id="@+id/subjectsActivity"
-        android:name="com.tutortoise.tutortoise.presentation.subjects.SubjectsActivity" />
+        android:name="com.tutortoise.tutortoise.presentation.main.learner.subjects.SubjectsActivity" />
 
     <activity
         android:id="@+id/editProfileActivity"

@@ -1,4 +1,4 @@
-package com.tutortoise.tutortoise.presentation.subjects.adapter
+package com.tutortoise.tutortoise.presentation.main.learner.subjects.adapter
 
 import android.view.LayoutInflater
 import android.view.View
