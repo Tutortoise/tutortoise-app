@@ -7,8 +7,12 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.tasks.Task
 import com.tutortoise.tutortoise.data.pref.ApiException
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.data.repository.CustomOAuthException
@@ -20,12 +24,21 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var authRepository: AuthRepository
 
+    private val googleSignInLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+            handleGoogleSignInResult(task)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        authRepository = AuthRepository(this@LoginActivity)
+        authRepository = AuthRepository(this)
 
         if (authRepository.getToken() != null) {
             navigateToMainActivity()
@@ -41,9 +54,6 @@ class LoginActivity : AppCompatActivity() {
 
             if (validateInput(email, password)) {
                 loginUser(email, password)
-            } else {
-                Toast.makeText(this, "Please enter both email and password.", Toast.LENGTH_SHORT)
-                    .show()
             }
         }
 
@@ -60,42 +70,65 @@ class LoginActivity : AppCompatActivity() {
 
         binding.btnGoogleSignIn.setOnClickListener {
             lifecycleScope.launch {
-                val result = authRepository.authenticateWithGoogle(null)
-                result.fold(
-                    onSuccess = {
-                        navigateToMainActivity()
-                    },
-                    onFailure = { throwable ->
-                        when (throwable) {
-                            is CustomOAuthException -> {
-                                Toast.makeText(
-                                    this@LoginActivity,
-                                    throwable.message,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
+                try {
+                    val result = authRepository.authenticateWithGoogle(null)
+                    result.fold(
+                        onSuccess = {
+                            navigateToMainActivity()
+                        },
+                        onFailure = { throwable ->
+                            when (throwable) {
+                                is CustomOAuthException -> {
+                                    if (throwable.message == "LAUNCH_GOOGLE_SIGNIN") {
+                                        // Launch Google Sign In
+                                        val signInIntent = GoogleSignIn.getClient(
+                                            this@LoginActivity,
+                                            authRepository.getGoogleSignInOptions()
+                                        ).signInIntent
+                                        googleSignInLauncher.launch(signInIntent)
+                                    } else {
+                                        showError(throwable.message.toString())
+                                    }
+                                }
 
-                            is ApiException -> {
-                                Toast.makeText(
-                                    this@LoginActivity,
-                                    "Your Google account is not registered with us",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }
-
-                            else -> {
-                                Toast.makeText(
-                                    this@LoginActivity,
-                                    "Failed to authenticate with Google",
-                                    Toast.LENGTH_SHORT
-                                ).show()
+                                is ApiException -> showError("Your Google account is not registered with us")
+                                else -> showError("Failed to authenticate with Google")
                             }
                         }
-                    }
-                )
+                    )
+                } catch (e: Exception) {
+                    showError("Authentication failed: ${e.message}")
+                }
             }
         }
 
+        // Add text change listeners
+        setupTextChangeListeners()
+    }
+
+    private fun handleGoogleSignInResult(completedTask: Task<GoogleSignInAccount>) {
+        try {
+            val account = completedTask.getResult(ApiException::class.java)
+            account.idToken?.let { token ->
+                lifecycleScope.launch {
+                    val result = authRepository.handleGoogleAuthentication(token, null)
+                    result.fold(
+                        onSuccess = { navigateToMainActivity() },
+                        onFailure = { throwable ->
+                            when (throwable) {
+                                is CustomOAuthException -> showError(throwable.message.toString())
+                                else -> showError("Google sign-in failed")
+                            }
+                        }
+                    )
+                }
+            } ?: showError("Failed to get ID token")
+        } catch (e: ApiException) {
+            showError("Google sign-in failed: ${e.message}")
+        }
+    }
+
+    private fun setupTextChangeListeners() {
         binding.tilEmail.editText?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -115,23 +148,29 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
+    private fun showError(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
     private fun loginUser(email: String, password: String) {
         binding.tilEmail.error = null
         binding.tilPassword.error = null
 
         lifecycleScope.launch {
-            val success = authRepository.login(email, password)
-            if (success) {
-                Toast.makeText(this@LoginActivity, "Login successful!", Toast.LENGTH_SHORT).show()
-                navigateToMainActivity()
-            } else {
-                binding.tilEmail.error = "Invalid email or password"
-                binding.tilPassword.error = "Invalid email or password"
-                Toast.makeText(this@LoginActivity, "Login failed!", Toast.LENGTH_SHORT).show()
+            try {
+                val success = authRepository.login(email, password)
+                if (success) {
+                    showError("Login successful!")
+                    navigateToMainActivity()
+                } else {
+                    binding.tilEmail.error = "Invalid email or password"
+                    binding.tilPassword.error = "Invalid email or password"
+                }
+            } catch (e: Exception) {
+                showError("Login failed: ${e.message}")
             }
         }
     }
-
 
     private fun navigateToMainActivity() {
         val intent = Intent(this, MainActivity::class.java)

@@ -4,8 +4,12 @@ import android.content.Context
 import android.util.Log
 import androidx.credentials.CredentialManager
 import androidx.credentials.exceptions.GetCredentialCancellationException
+import androidx.credentials.exceptions.NoCredentialException
 import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.tutortoise.tutortoise.data.model.ApiResponse
 import com.tutortoise.tutortoise.data.model.ChangePasswordRequest
@@ -20,6 +24,7 @@ import com.tutortoise.tutortoise.data.pref.ApiConfig
 import com.tutortoise.tutortoise.data.pref.ApiException
 import com.tutortoise.tutortoise.data.pref.OAuthConfig
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
@@ -28,6 +33,10 @@ class CustomOAuthException(message: String) : Exception(message)
 class AuthRepository(private val context: Context) {
     private val apiService = ApiConfig.getApiService(context)
     private val oauthConfig = OAuthConfig()
+
+    private val googleSignInClient: GoogleSignInClient by lazy {
+        GoogleSignIn.getClient(context, oauthConfig.getGoogleSignInOptions())
+    }
 
     private val sharedPreferences = EncryptedSharedPreferences.create(
         context,
@@ -66,39 +75,27 @@ class AuthRepository(private val context: Context) {
     }
 
     suspend fun authenticateWithGoogle(role: String?): Result<ApiResponse<OAuthData>> {
-        val credentialManager = CredentialManager.create(context)
         return try {
-            val credential = credentialManager.getCredential(
-                context = context,
-                request = oauthConfig.getCredentialRequest()
-            ).credential
+            val credentialManager = CredentialManager.create(context)
 
-            val googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.data)
-            Log.d("AuthRepository", "Google ID Token: ${googleIdTokenCredential.idToken}")
-
-            val response = apiService.authenticateWithGoogle(
-                OAuthRequest(
-                    idToken = googleIdTokenCredential.idToken,
-                    role = role,
+            try {
+                // Try modern Credential Manager first
+                val result = credentialManager.getCredential(
+                    request = oauthConfig.getCredentialRequest(),
+                    context = context
                 )
-            )
 
-            response.data?.let { data ->
-                role?.takeIf { it != data.user.role }?.let {
-                    Log.d("AuthRepository", "Role mismatch: $it != ${data.user.role}")
-                    return Result.failure(CustomOAuthException("You are already registered as ${data.user.role}"))
-                }
+                val googleIdTokenCredential =
+                    GoogleIdTokenCredential.createFrom(result.credential.data)
+                handleGoogleAuthentication(googleIdTokenCredential.idToken, role)
 
-                saveToken(data.token)
-                fetchUserDetails()?.data?.let { user ->
-                    saveUserInfo(user.id, user.name, user.email, user.role)
-                }
-                return Result.success(response)
-            } ?: run {
-                Log.d("AuthRepository", "Google sign-in failed: ${response.message}")
-                return Result.failure(Exception("Google sign-in failed"))
+            } catch (e: GetCredentialCancellationException) {
+                // User canceled the flow
+                Result.failure(e)
+            } catch (e: NoCredentialException) {
+                // Fall back to traditional Google Sign-In
+                handleTraditionalGoogleSignIn(role)
             }
-
         } catch (e: HttpException) {
             val errorBody = ApiConfig.parseError(e.response()!!)
             Result.failure(ApiException(errorBody?.message ?: "Google sign-in failed", errorBody))
@@ -107,7 +104,48 @@ class AuthRepository(private val context: Context) {
         } catch (e: GetCredentialCancellationException) {
             Result.failure(e)
         } catch (e: Exception) {
-            Log.e("AuthRepository", "Google sign-in failed due to unexpected error", e)
+            Log.e("AuthRepository", "Google sign-in failed", e)
+            Result.failure(e)
+        }
+    }
+
+    private suspend fun handleTraditionalGoogleSignIn(role: String?): Result<ApiResponse<OAuthData>> {
+        return try {
+            // Sign out first to show account picker
+            googleSignInClient.signOut().await()
+
+            // Let the Activity handle the sign in process and return the result
+            throw CustomOAuthException("LAUNCH_GOOGLE_SIGNIN")
+
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun handleGoogleAuthentication(
+        idToken: String,
+        role: String?
+    ): Result<ApiResponse<OAuthData>> {
+        return try {
+            val response = apiService.authenticateWithGoogle(
+                OAuthRequest(
+                    idToken = idToken,
+                    role = role
+                )
+            )
+
+            response.data?.let { data ->
+                role?.takeIf { it != data.user.role }?.let {
+                    return Result.failure(CustomOAuthException("You are already registered as ${data.user.role}"))
+                }
+
+                saveToken(data.token)
+                fetchUserDetails()?.data?.let { user ->
+                    saveUserInfo(user.id, user.name, user.email, user.role)
+                }
+                Result.success(response)
+            } ?: Result.failure(Exception("Google sign-in failed: ${response.message}"))
+        } catch (e: Exception) {
             Result.failure(e)
         }
     }
@@ -189,6 +227,10 @@ class AuthRepository(private val context: Context) {
 
     fun getToken(): String? {
         return sharedPreferences.getString("auth_token", null)
+    }
+
+    fun getGoogleSignInOptions(): GoogleSignInOptions {
+        return oauthConfig.getGoogleSignInOptions()
     }
 
     fun clearToken() {
