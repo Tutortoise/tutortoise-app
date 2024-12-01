@@ -4,8 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.SubjectRepository
 import com.tutortoise.tutortoise.databinding.ActivitySubjectsBinding
@@ -34,7 +34,7 @@ class SubjectsActivity : AppCompatActivity() {
 
     private fun fetchPopularSubjects() {
         val recyclerView: RecyclerView = findViewById(R.id.rvSubjects)
-        recyclerView.layoutManager = GridLayoutManager(this, 3)
+        recyclerView.layoutManager = FlexboxLayoutManager(this)
 
         lifecycleScope.launch {
             // Try to fetch popular subjects first
