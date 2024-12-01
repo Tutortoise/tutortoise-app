@@ -38,7 +38,10 @@ class ChatRoomAdapter(
 
         fun bind(room: ChatRoom) {
             binding.apply {
-                tvName.text = if (AuthManager.getInstance()?.getUserRole() == "learner") {
+                val isLearner = AuthManager.getInstance()?.getUserRole() == "learner"
+
+                // Set name based on role
+                tvName.text = if (isLearner) {
                     room.tutorName
                 } else {
                     room.learnerName
@@ -52,9 +55,17 @@ class ChatRoomAdapter(
 
                 tvTime.text = formatTime(room.lastMessageAt)
 
+                val profileUserId = if (isLearner) {
+                    room.tutorId
+                } else {
+                    room.learnerId
+                }
+
                 Glide.with(root.context)
-                    .load(Constants.getProfilePictureUrl(room.id))
+                    .load(Constants.getProfilePictureUrl(profileUserId))
                     .placeholder(R.drawable.default_profile_picture)
+                    .error(R.drawable.default_profile_picture)
+                    .circleCrop()
                     .into(profileImage)
 
                 root.setOnClickListener { onRoomClick(room) }
