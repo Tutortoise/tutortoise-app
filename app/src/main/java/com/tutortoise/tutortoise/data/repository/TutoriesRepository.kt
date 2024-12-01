@@ -35,11 +35,23 @@ class TutoriesRepository(context: Context) {
 
     suspend fun searchTutories(
         query: String? = null,
-        subjectId: String? = null,
-        city: String? = null
+        subjectIds: List<String>? = null,
+        cities: List<String>? = null,
+        minPrice: Int? = null,
+        maxPrice: Int? = null,
+        minRating: Float? = null,
+        lessonType: String? = null
     ): ApiResponse<List<ExploreTutoriesResponse>>? {
         return try {
-            val response = apiService.searchTutories(query, subjectId, city)
+            val response = apiService.searchTutories(
+                q = query,
+                subjectId = subjectIds?.takeIf { it.isNotEmpty() }?.joinToString(","),
+                city = cities?.takeIf { it.isNotEmpty() }?.joinToString(","),
+                minHourlyRate = minPrice?.toString(),
+                maxHourlyRate = maxPrice?.toString(),
+                minRating = minRating?.toString(),
+                typeLesson = lessonType
+            )
             if (response.isSuccessful) {
                 response.body()
             } else {
