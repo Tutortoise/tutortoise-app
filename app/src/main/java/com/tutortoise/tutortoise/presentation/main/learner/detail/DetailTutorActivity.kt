@@ -17,6 +17,7 @@ import com.tutortoise.tutortoise.presentation.main.learner.detail.adapter.AlsoTe
 import com.tutortoise.tutortoise.presentation.main.learner.reservation.ReservationActivity
 import com.tutortoise.tutortoise.utils.ChatUtils
 import com.tutortoise.tutortoise.utils.Constants
+import com.tutortoise.tutortoise.utils.formatWithThousandsSeparator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -56,7 +57,7 @@ class DetailTutorActivity : AppCompatActivity() {
         binding.tvTutorName.text = currentTutorName
         binding.tvTutorSubject.text = subjectName
         binding.tvRating.text = currentRating.toString()
-        binding.tvHourlyRate.text = "Rp. $currentHourlyRate / Hour"
+        binding.tvHourlyRate.text = "Rp. ${currentHourlyRate.formatWithThousandsSeparator()} / Hour"
         binding.tvCity.text = currentCity
 
         Glide.with(this)

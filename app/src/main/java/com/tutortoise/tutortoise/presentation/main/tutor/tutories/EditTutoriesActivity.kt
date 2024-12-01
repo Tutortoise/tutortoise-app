@@ -12,7 +12,7 @@ import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.ActivityEditTutoriesBinding
 import com.tutortoise.tutortoise.presentation.main.tutor.tutories.createTutories.CurrencyTextWatcher
 import com.tutortoise.tutortoise.presentation.main.tutor.tutories.createTutories.RateInfo
-import com.tutortoise.tutortoise.presentation.main.tutor.tutories.createTutories.parseFormattedNumber
+import com.tutortoise.tutortoise.utils.parseFormattedNumber
 import kotlinx.coroutines.launch
 
 class EditTutoriesActivity : AppCompatActivity() {

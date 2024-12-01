@@ -3,6 +3,7 @@ package com.tutortoise.tutortoise.presentation.main.tutor.tutories.createTutorie
 import android.text.Editable
 import android.text.TextWatcher
 import android.widget.EditText
+import com.tutortoise.tutortoise.utils.formatWithThousandsSeparator
 
 class CurrencyTextWatcher(
     private val editText: EditText,

@@ -11,9 +11,12 @@ import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.ExploreTutoriesResponse
 import com.tutortoise.tutortoise.data.model.LessonType
 import com.tutortoise.tutortoise.utils.Constants
+import com.tutortoise.tutortoise.utils.formatWithThousandsSeparator
 
-class ExploreAdapter(private var tutories: List<ExploreTutoriesResponse>,
-                     private val onItemClicked: (ExploreTutoriesResponse) -> Unit) :
+class ExploreAdapter(
+    private var tutories: List<ExploreTutoriesResponse>,
+    private val onItemClicked: (ExploreTutoriesResponse) -> Unit
+) :
     RecyclerView.Adapter<ExploreAdapter.ExploreViewHolder>() {
 
     inner class ExploreViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -30,7 +33,8 @@ class ExploreAdapter(private var tutories: List<ExploreTutoriesResponse>,
             tvTutorName.text = tutoriesItem.tutorName
             tvSubjectName.text = tutoriesItem.subjectName
             tvRating.text = tutoriesItem.avgRating.toString()
-            tvHourlyRate.text = "Rp. ${tutoriesItem.hourlyRate} / Hour"
+            tvHourlyRate.text =
+                "Rp. ${tutoriesItem.hourlyRate.formatWithThousandsSeparator()} / Hour"
             tvCity.text = tutoriesItem.city
 
             tvOnsite.visibility = View.GONE

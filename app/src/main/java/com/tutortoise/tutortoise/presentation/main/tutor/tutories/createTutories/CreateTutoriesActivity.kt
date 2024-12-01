@@ -15,6 +15,7 @@ import com.tutortoise.tutortoise.data.pref.ApiException
 import com.tutortoise.tutortoise.data.repository.SubjectRepository
 import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.ActivityCreateTutoriesBinding
+import com.tutortoise.tutortoise.utils.parseFormattedNumber
 import kotlinx.coroutines.launch
 
 class CreateTutoriesActivity : AppCompatActivity() {

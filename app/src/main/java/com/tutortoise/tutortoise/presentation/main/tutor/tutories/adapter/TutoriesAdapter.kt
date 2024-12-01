@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tutortoise.tutortoise.data.model.GetMyTutoriesResponse
 import com.tutortoise.tutortoise.databinding.ItemTutoriesBinding
-import com.tutortoise.tutortoise.presentation.main.tutor.tutories.createTutories.formatWithThousandsSeparator
 import com.tutortoise.tutortoise.utils.Constants
+import com.tutortoise.tutortoise.utils.formatWithThousandsSeparator
 
 
 class TutoriesAdapter(
