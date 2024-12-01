@@ -1,5 +1,6 @@
 package com.tutortoise.tutortoise.presentation.main.learner.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -13,6 +14,7 @@ import com.tutortoise.tutortoise.data.pref.ApiConfig
 import com.tutortoise.tutortoise.data.pref.ApiService
 import com.tutortoise.tutortoise.databinding.ActivityDetailTutorBinding
 import com.tutortoise.tutortoise.presentation.main.learner.detail.adapter.AlsoTeachAdapter
+import com.tutortoise.tutortoise.presentation.main.learner.reservation.ReservationActivity
 import com.tutortoise.tutortoise.utils.ChatUtils
 import com.tutortoise.tutortoise.utils.Constants
 import kotlinx.coroutines.CoroutineScope
@@ -150,6 +152,16 @@ class DetailTutorActivity : AppCompatActivity() {
         // Chat button click listener
         binding.btnChat.setOnClickListener {
             ChatUtils.navigateToChat(this, currentTutorId)
+        }
+
+        // Reservation button click listener
+        binding.btnReservation.setOnClickListener {
+            val intent = Intent(this, ReservationActivity::class.java).apply {
+                putExtra("TUTOR_ID", currentTutorId)
+                putExtra("TUTOR_NAME", currentTutorName)
+                putExtra("HOURLY_RATE", currentHourlyRate)
+            }
+            startActivity(intent)
         }
     }
 
