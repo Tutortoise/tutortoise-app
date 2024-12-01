@@ -13,6 +13,7 @@ import com.tutortoise.tutortoise.data.pref.ApiConfig
 import com.tutortoise.tutortoise.data.pref.ApiService
 import com.tutortoise.tutortoise.databinding.ActivityDetailTutorBinding
 import com.tutortoise.tutortoise.presentation.main.learner.detail.adapter.AlsoTeachAdapter
+import com.tutortoise.tutortoise.utils.ChatUtils
 import com.tutortoise.tutortoise.utils.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -144,6 +145,11 @@ class DetailTutorActivity : AppCompatActivity() {
                     .show()
                 Log.e("DetailTutorActivity", "Error fetching tutor details", e)
             }
+        }
+
+        // Chat button click listener
+        binding.btnChat.setOnClickListener {
+            ChatUtils.navigateToChat(this, currentTutorId)
         }
     }
 

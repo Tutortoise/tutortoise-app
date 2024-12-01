@@ -2,6 +2,9 @@ package com.tutortoise.tutortoise.data.pref
 
 import com.tutortoise.tutortoise.data.model.ApiResponse
 import com.tutortoise.tutortoise.data.model.ChangePasswordRequest
+import com.tutortoise.tutortoise.data.model.ChatMessage
+import com.tutortoise.tutortoise.data.model.ChatRoom
+import com.tutortoise.tutortoise.data.model.CreateRoomRequest
 import com.tutortoise.tutortoise.data.model.CreateTutoriesRequest
 import com.tutortoise.tutortoise.data.model.DetailedTutoriesResponse
 import com.tutortoise.tutortoise.data.model.EditTutoriesRequest
@@ -16,8 +19,10 @@ import com.tutortoise.tutortoise.data.model.OAuthData
 import com.tutortoise.tutortoise.data.model.OAuthRequest
 import com.tutortoise.tutortoise.data.model.RegisterData
 import com.tutortoise.tutortoise.data.model.RegisterRequest
+import com.tutortoise.tutortoise.data.model.SendMessageRequest
 import com.tutortoise.tutortoise.data.model.SubjectResponse
 import com.tutortoise.tutortoise.data.model.TutorData
+import com.tutortoise.tutortoise.data.model.TypingStatus
 import com.tutortoise.tutortoise.data.model.UpdateLearnerProfileRequest
 import com.tutortoise.tutortoise.data.model.UpdateTutorProfileRequest
 import com.tutortoise.tutortoise.data.model.UserResponse
@@ -127,4 +132,44 @@ interface ApiService {
         @Path("tutoriesId") tutoriesId: String,
         @Body request: EditTutoriesRequest
     ): MessageResponse
+
+    // Chat endpoints
+    @POST("chat/rooms")
+    suspend fun createRoom(
+        @Body request: CreateRoomRequest
+    ): Response<ApiResponse<ChatRoom>>
+
+    @GET("chat/rooms")
+    suspend fun getRooms(): Response<ApiResponse<List<ChatRoom>>>
+
+    @GET("chat/rooms/{roomId}/messages")
+    suspend fun getRoomMessages(
+        @Path("roomId") roomId: String,
+        @Query("before") before: String? = null,
+        @Query("limit") limit: Int? = null
+    ): Response<ApiResponse<List<ChatMessage>>>
+
+    @POST("chat/rooms/{roomId}/messages/text")
+    suspend fun sendTextMessage(
+        @Path("roomId") roomId: String,
+        @Body request: SendMessageRequest
+    ): Response<ApiResponse<ChatMessage>>
+
+    @Multipart
+    @POST("chat/rooms/{roomId}/messages/image")
+    suspend fun sendImageMessage(
+        @Path("roomId") roomId: String,
+        @Part image: MultipartBody.Part
+    ): Response<ApiResponse<ChatMessage>>
+
+    @POST("chat/rooms/{roomId}/typing")
+    suspend fun updateTypingStatus(
+        @Path("roomId") roomId: String,
+        @Body isTyping: Boolean
+    ): Response<MessageResponse>
+
+    @GET("chat/rooms/{roomId}/presence")
+    suspend fun getRoomPresence(
+        @Path("roomId") roomId: String
+    ): Response<ApiResponse<Map<String, TypingStatus>>>
 }
