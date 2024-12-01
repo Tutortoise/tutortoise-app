@@ -1,6 +1,7 @@
 package com.tutortoise.tutortoise.presentation.main.learner.detail
 
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -25,6 +26,8 @@ class DetailTutorActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailTutorBinding
     private val apiService: ApiService = ApiConfig.getApiService(this)
     private val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
+    private var isAboutExpanded = false
+    private var isMethodologyExpanded = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +58,18 @@ class DetailTutorActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener {
             finish()
         }
+
+        // Toggle About Section
+        binding.tvReadMore1.setOnClickListener {
+            isAboutExpanded = !isAboutExpanded
+            updateAboutText()
+        }
+
+        // Toggle Teaching Methodology Section
+        binding.tvReadMore2.setOnClickListener {
+            isMethodologyExpanded = !isMethodologyExpanded
+            updateTeachingMethodologyText()
+        }
     }
 
     private fun fetchTutoriesDetails(tutoriesId: String) {
@@ -79,9 +94,11 @@ class DetailTutorActivity : AppCompatActivity() {
                     when (detailedTutor.tutories.typeLesson) {
                         LessonType.ONLINE -> {
                             binding.tvOnlineStatus.visibility = View.VISIBLE
+                            binding.tvOnsiteStatus.visibility = View.GONE
                         }
 
                         LessonType.OFFLINE -> {
+                            binding.tvOnsiteStatus.visibility = View.VISIBLE
                             binding.tvOnlineStatus.visibility = View.GONE
                         }
 
@@ -113,6 +130,30 @@ class DetailTutorActivity : AppCompatActivity() {
                     .show()
                 Log.e("DetailTutorActivity", "Error fetching tutor details", e)
             }
+        }
+    }
+
+    private fun updateAboutText() {
+        if (isAboutExpanded) {
+            binding.tvAboutText.maxLines = Int.MAX_VALUE
+            binding.tvAboutText.ellipsize = null
+            binding.tvReadMore1.text = "Read Less"
+        } else {
+            binding.tvAboutText.maxLines = 2
+            binding.tvAboutText.ellipsize = TextUtils.TruncateAt.END
+            binding.tvReadMore1.text = "Read More"
+        }
+    }
+
+    private fun updateTeachingMethodologyText() {
+        if (isMethodologyExpanded) {
+            binding.tvTeachingMethodologyText.maxLines = Int.MAX_VALUE
+            binding.tvTeachingMethodologyText.ellipsize = null
+            binding.tvReadMore2.text = "Read Less"
+        } else {
+            binding.tvTeachingMethodologyText.maxLines = 2
+            binding.tvTeachingMethodologyText.ellipsize = TextUtils.TruncateAt.END
+            binding.tvReadMore2.text = "Read More"
         }
     }
 
