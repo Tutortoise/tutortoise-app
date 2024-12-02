@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -67,7 +68,6 @@ class DetailTutorActivity : AppCompatActivity() {
     private fun fetchTutoriesDetails() {
         coroutineScope.launch {
             try {
-                // Assuming you have a method to get tutories by ID in your repository
                 val response = withContext(Dispatchers.IO) {
                     apiService.getTutoriesById(currentTutoriesId)
                 }
@@ -87,9 +87,12 @@ class DetailTutorActivity : AppCompatActivity() {
                         .load(Constants.getProfilePictureUrl(tutories.tutorId))
                         .into(binding.ivTutorImage)
 
+                    // Set text and manage "Read More" visibility
                     binding.tvAboutText.text = tutories.aboutYou
-                    binding.tvTeachingMethodologyText.text =
-                        tutories.teachingMethodology
+                    setupTextWithReadMore(binding.tvAboutText, binding.tvReadMore1)
+
+                    binding.tvTeachingMethodologyText.text = tutories.teachingMethodology
+                    setupTextWithReadMore(binding.tvTeachingMethodologyText, binding.tvReadMore2)
 
                     // Manage visibility of lesson type views
                     binding.tvOnlineStatus.visibility = View.GONE
@@ -149,6 +152,47 @@ class DetailTutorActivity : AppCompatActivity() {
                 putExtra("TUTORIES_ID", currentTutoriesId)
             }
             startActivity(intent)
+        }
+    }
+
+    private fun setupTextWithReadMore(
+        textView: TextView,
+        readMoreButton: TextView,
+        maxLines: Int = 2
+    ) {
+        textView.post {
+            val layout = textView.layout
+            val isTextLong = layout != null && layout.lineCount > maxLines
+
+            if (isTextLong) {
+                // Limit the text to maxLines
+                textView.maxLines = maxLines
+                textView.ellipsize = TextUtils.TruncateAt.END
+
+                // Make read more button visible
+                readMoreButton.visibility = View.VISIBLE
+                readMoreButton.text = "Read More"
+
+                // Set up toggle functionality
+                readMoreButton.setOnClickListener {
+                    if (textView.maxLines == maxLines) {
+                        // Expand text
+                        textView.maxLines = Integer.MAX_VALUE
+                        textView.ellipsize = null
+                        readMoreButton.text = "Read Less"
+                    } else {
+                        // Collapse text
+                        textView.maxLines = maxLines
+                        textView.ellipsize = TextUtils.TruncateAt.END
+                        readMoreButton.text = "Read More"
+                    }
+                }
+            } else {
+                // If text is not long, hide read more button
+                textView.maxLines = Integer.MAX_VALUE
+                textView.ellipsize = null
+                readMoreButton.visibility = View.GONE
+            }
         }
     }
 
