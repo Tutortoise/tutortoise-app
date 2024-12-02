@@ -49,6 +49,14 @@ class ChatListActivity : AppCompatActivity() {
     private fun observeViewModel() {
         viewModel.rooms.observe(this) { rooms ->
             adapter.submitList(rooms)
+
+            if (rooms.isNullOrEmpty()) {
+                binding.recyclerView.visibility = View.GONE
+                binding.emptyStateLayout.visibility = View.VISIBLE
+            } else {
+                binding.recyclerView.visibility = View.VISIBLE
+                binding.emptyStateLayout.visibility = View.GONE
+            }
         }
 
         viewModel.isLoading.observe(this) { isLoading ->

@@ -193,6 +193,8 @@
     <string name="profile_completion_setting_detail_text">Completing your profile is required to continue.\nThis helps us ensure the best experience for you</string>
     <string name="tutories_title">Tutories Title</string>
     <string name="enter_tutories_title">Enter your tutories Title</string>
+    <string name="no_chat">No Conversation</string>
+    <string name="no_chat_detail">There are no chats in your feed</string>
 
     <plurals name="total_reviews">
         <item quantity="one">(%d review)</item>
