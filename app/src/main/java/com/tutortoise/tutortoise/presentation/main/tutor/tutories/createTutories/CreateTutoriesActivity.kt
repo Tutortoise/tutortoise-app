@@ -133,6 +133,7 @@ class CreateTutoriesActivity : AppCompatActivity() {
         val hourlyRate = binding.editRate.text.toString().parseFormattedNumber()
 
         val request = CreateTutoriesRequest(
+            name = binding.editTutoriesName.text.toString(),
             categoryId = categoryId,
             aboutYou = binding.editAbout.text.toString(),
             teachingMethodology = binding.editMethodology.text.toString(),

@@ -7,6 +7,7 @@ object LessonType {
 }
 
 data class CreateTutoriesRequest(
+    val name: String,
     val categoryId: String,
     val aboutYou: String,
     val teachingMethodology: String,

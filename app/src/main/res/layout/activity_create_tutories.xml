@@ -65,9 +65,9 @@
                 android:fontFamily="@font/montserrat_regular"
                 android:gravity="left|center"
                 android:hint="@string/enter_tutories_title"
+                android:inputType="text"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
-
 
             <TextView
                 android:layout_width="wrap_content"

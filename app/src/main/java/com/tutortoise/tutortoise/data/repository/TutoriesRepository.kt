@@ -69,6 +69,7 @@ class TutoriesRepository(context: Context) {
                 Log.d("TutoriesRepository", "Creating tutories with request: $request")
                 val response = apiService.createTutories(
                     CreateTutoriesRequest(
+                        name = request.name,
                         categoryId = request.categoryId,
                         aboutYou = request.aboutYou,
                         teachingMethodology = request.teachingMethodology,
