@@ -1,5 +1,6 @@
 package com.tutortoise.tutortoise.presentation.main.learner.detail.adapter
 
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +29,7 @@ class AlsoTeachAdapter(
                     }
 
                     context.startActivity(intent)
+                    (context as Activity).finish()
                 }
             }
         }
