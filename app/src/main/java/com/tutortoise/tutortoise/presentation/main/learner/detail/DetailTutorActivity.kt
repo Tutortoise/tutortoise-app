@@ -33,38 +33,18 @@ class DetailTutorActivity : AppCompatActivity() {
     private var isAboutExpanded = false
     private var isMethodologyExpanded = false
 
+    private var currentTutoriesId: String = ""
     private var currentTutorId: String = ""
-    private var currentTutorName: String = ""
-    private var currentCity: String = ""
-    private var currentRating: Float = 0f
-    private var currentHourlyRate: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailTutorBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        currentTutoriesId = intent.getStringExtra("TUTORIES_ID") ?: ""
         currentTutorId = intent.getStringExtra("TUTOR_ID") ?: ""
-        currentTutorName = intent.getStringExtra("TUTOR_NAME") ?: ""
-        currentCity = intent.getStringExtra("CITY") ?: ""
-        currentRating = intent.getFloatExtra("RATING", 0f)
-        currentHourlyRate = intent.getIntExtra("HOURLY_RATE", 0)
 
-        val tutoriesId = intent.getStringExtra("TUTORIES_ID") ?: ""
-        val categoryName = intent.getStringExtra("CATEGORY_NAME") ?: ""
-
-        // Use the data to populate your UI
-        binding.tvTutorName.text = currentTutorName
-        binding.tvCategoryName.text = categoryName
-        binding.tvRating.text = currentRating.toString()
-        binding.tvHourlyRate.text = "Rp. ${currentHourlyRate.formatWithThousandsSeparator()} / Hour"
-        binding.tvCity.text = currentCity
-
-        Glide.with(this)
-            .load(Constants.getProfilePictureUrl(currentTutorId))
-            .into(binding.ivTutorImage)
-
-        fetchTutoriesDetails(tutoriesId)
+        fetchTutoriesDetails()
 
         binding.btnBack.setOnClickListener {
             finish()
@@ -84,26 +64,37 @@ class DetailTutorActivity : AppCompatActivity() {
 
     }
 
-    private fun fetchTutoriesDetails(tutoriesId: String) {
+    private fun fetchTutoriesDetails() {
         coroutineScope.launch {
             try {
                 // Assuming you have a method to get tutories by ID in your repository
                 val response = withContext(Dispatchers.IO) {
-                    apiService.getTutoriesById(tutoriesId)
+                    apiService.getTutoriesById(currentTutoriesId)
                 }
 
                 if (response.isSuccessful && response.body()?.data != null) {
-                    val detailedTutor = response.body()?.data!!
+                    val tutories = response.body()?.data!!
 
-                    // Update UI with additional details from DetailedTutoriesResponse
-                    binding.tvAboutText.text = detailedTutor.tutories.aboutYou
+                    binding.tvTutorName.text = tutories.tutorName
+                    binding.tvCategoryName.text = tutories.categoryName
+                    // TODO: avg rating
+//                    binding.tvRating.text = tutories.avgRating.toString()
+                    binding.tvHourlyRate.text =
+                        "Rp. ${tutories.hourlyRate.formatWithThousandsSeparator()} / Hour"
+                    binding.tvCity.text = tutories.city
+
+                    Glide.with(this@DetailTutorActivity)
+                        .load(Constants.getProfilePictureUrl(tutories.tutorId))
+                        .into(binding.ivTutorImage)
+
+                    binding.tvAboutText.text = tutories.aboutYou
                     binding.tvTeachingMethodologyText.text =
-                        detailedTutor.tutories.teachingMethodology
+                        tutories.teachingMethodology
 
                     // Manage visibility of lesson type views
                     binding.tvOnlineStatus.visibility = View.GONE
                     binding.tvOnsiteStatus.visibility = View.GONE
-                    when (detailedTutor.tutories.typeLesson) {
+                    when (tutories.typeLesson) {
                         LessonType.ONLINE -> {
                             binding.tvOnlineStatus.visibility = View.VISIBLE
                             binding.tvOnsiteStatus.visibility = View.GONE
@@ -121,17 +112,13 @@ class DetailTutorActivity : AppCompatActivity() {
                     }
 
                     // Handle also teaches section
-                    if (detailedTutor.alsoTeaches.isEmpty()) {
+                    if (tutories.alsoTeaches.isEmpty()) {
                         binding.tvAlsoTeach.visibility = View.GONE
                     }
                     binding.rvAlsoTeach.layoutManager =
                         GridLayoutManager(this@DetailTutorActivity, 2)
                     binding.rvAlsoTeach.adapter = AlsoTeachAdapter(
-                        detailedTutor.alsoTeaches,
-                        currentTutorId,
-                        currentTutorName,
-                        currentCity,
-                        currentRating
+                        tutories.alsoTeaches,
                     )
 
                 } else {
@@ -159,8 +146,7 @@ class DetailTutorActivity : AppCompatActivity() {
         binding.btnReservation.setOnClickListener {
             val intent = Intent(this, ReservationActivity::class.java).apply {
                 putExtra("TUTOR_ID", currentTutorId)
-                putExtra("TUTOR_NAME", currentTutorName)
-                putExtra("HOURLY_RATE", currentHourlyRate)
+                putExtra("TUTORIES_ID", currentTutoriesId)
             }
             startActivity(intent)
         }

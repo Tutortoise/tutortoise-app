@@ -98,12 +98,10 @@ class EditTutoriesActivity : AppCompatActivity() {
         }
     }
 
-    private fun populateData(detailedTutories: DetailedTutoriesResponse) {
+    private fun populateData(tutories: DetailedTutoriesResponse) {
         with(binding) {
-            val tutories = detailedTutories.tutories
-            val categories = detailedTutories.categories
 
-            tvCategoryName.text = categories.name
+            tvCategoryName.text = tutories.categoryName
             editAbout.setText(tutories.aboutYou)
             editMethodology.setText(tutories.teachingMethodology)
             editRate.setText(tutories.hourlyRate.toString())
@@ -121,8 +119,8 @@ class EditTutoriesActivity : AppCompatActivity() {
             // Update rate info
             val rateInfo = RateInfo(
                 averageRate = 50000, // TODO: Fetch from API
-                location = detailedTutories.tutors.city ?: "Samarinda",
-                category = categories.name
+                location = tutories.city,
+                category = tutories.categoryName
             )
             textRateInfo.text = rateInfo.formatMessage(this@EditTutoriesActivity)
         }

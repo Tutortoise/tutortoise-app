@@ -155,13 +155,9 @@ class ExploreLearnerFragment : Fragment() {
     // Navigate to DetailTutorActivity
     private fun navigateToTutorDetail(tutories: ExploreTutoriesResponse) {
         val intent = Intent(requireContext(), DetailTutorActivity::class.java).apply {
-            putExtra("TUTORIES_ID", tutories.id)
-            putExtra("TUTOR_NAME", tutories.tutorName)
-            putExtra("CATEGORY_NAME", tutories.categoryName)
-            putExtra("RATING", tutories.avgRating)
-            putExtra("HOURLY_RATE", tutories.hourlyRate)
-            putExtra("CITY", tutories.city)
             putExtra("TUTOR_ID", tutories.tutorId)
+            putExtra("TUTOR_NAME", tutories.tutorName)
+            putExtra("TUTORIES_ID", tutories.id)
         }
         startActivity(intent)
     }

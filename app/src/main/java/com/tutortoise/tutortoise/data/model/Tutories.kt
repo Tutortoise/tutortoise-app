@@ -21,27 +21,25 @@ data class EditTutoriesRequest(
     val typeLesson: String
 )
 
-data class TutoriesResponse(
+data class DetailedTutoriesResponse(
     val id: String,
-    val category: CategoryResponse,
+    val tutorId: String,
+    val categoryName: String,
+    val tutorName: String,
     val aboutYou: String,
     val teachingMethodology: String,
     val hourlyRate: Int,
-    val typeLesson: String
-)
-
-data class DetailedTutoriesResponse(
-    val tutories: TutoriesResponse,
-    val tutors: TutorData,
-    val categories: CategoryResponse,
+    val typeLesson: String,
+    val city: String,
+    val district: String,
     val alsoTeaches: List<AlsoTeachesResponse>
 )
 
 data class AlsoTeachesResponse(
+    val id: String,
     val categoryName: String,
     val hourlyRate: Int,
     val typeLesson: String,
-    val tutoriesId: String? = null
 )
 
 data class GetMyTutoriesResponse(

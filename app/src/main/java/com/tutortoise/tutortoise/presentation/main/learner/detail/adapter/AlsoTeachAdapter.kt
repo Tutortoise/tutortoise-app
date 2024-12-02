@@ -12,10 +12,6 @@ import com.tutortoise.tutortoise.presentation.main.learner.detail.DetailTutorAct
 
 class AlsoTeachAdapter(
     private val alsoTeachList: List<AlsoTeachesResponse>,
-    private val currentTutorId: String,
-    private val currentTutorName: String,
-    private val currentCity: String,
-    private val currentRating: Float
 ) : RecyclerView.Adapter<AlsoTeachAdapter.AlsoTeachViewHolder>() {
 
     inner class AlsoTeachViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -25,17 +21,10 @@ class AlsoTeachAdapter(
             itemView.setOnClickListener {
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
-                    val alsoTeachItem = alsoTeachList[position]
                     val context = itemView.context
 
-                    // Create intent to open DetailTutorActivity
                     val intent = Intent(context, DetailTutorActivity::class.java).apply {
-                        putExtra("TUTOR_ID", currentTutorId)
-                        putExtra("TUTOR_NAME", currentTutorName)
-                        putExtra("CATEGORY_NAME", alsoTeachItem.categoryName)
-                        putExtra("HOURLY_RATE", alsoTeachItem.hourlyRate)
-                        putExtra("RATING", currentRating)
-                        putExtra("CITY", currentCity)
+                        putExtra("TUTORIES_ID", alsoTeachList[position].id)
                     }
 
                     context.startActivity(intent)
