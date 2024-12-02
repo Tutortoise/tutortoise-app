@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:paddingVertical="10dp">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profileImage"
@@ -38,7 +38,7 @@
         android:fontFamily="@font/montserrat_regular"
         android:maxLines="1"
         android:text="Last message"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@color/Black_50"
         android:textSize="14sp"
         app:layout_constraintEnd_toStartOf="@id/tvUnreadCount"
         app:layout_constraintStart_toStartOf="@id/tvName"

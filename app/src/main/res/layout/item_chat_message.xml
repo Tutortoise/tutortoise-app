@@ -21,9 +21,11 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_sent_message"
             android:maxWidth="260dp"
-            android:padding="12dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="16dp"
             android:textColor="@color/chat_sent_text"
-            android:textSize="16sp"
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize="14sp"
             tools:text="This is a sent message" />
 
         <TextView
@@ -52,9 +54,11 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_received_message"
             android:maxWidth="260dp"
-            android:padding="12dp"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="16dp"
             android:textColor="@color/chat_received_text"
-            android:textSize="16sp"
+            android:fontFamily="@font/montserrat_regular"
+            android:textSize="14sp"
             tools:text="This is a received message" />
 
         <TextView
