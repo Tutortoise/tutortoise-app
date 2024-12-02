@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.DetailedTutoriesResponse
 import com.tutortoise.tutortoise.data.model.EditTutoriesRequest
 import com.tutortoise.tutortoise.data.pref.ApiException
@@ -71,6 +72,9 @@ class EditTutoriesActivity : AppCompatActivity() {
             btnOnline.setOnClickListener { it.isSelected = !it.isSelected }
             btnOnsite.setOnClickListener { it.isSelected = !it.isSelected }
             btnConfirm.setOnClickListener { updateTutories() }
+            btnTutoriesStatus.setOnClickListener {
+                tvTutoriesStatus.setText(if (btnTutoriesStatus.isChecked) R.string.status_enabled else R.string.status_disabled)
+            }
         }
     }
 
@@ -116,6 +120,9 @@ class EditTutoriesActivity : AppCompatActivity() {
                 }
             }
 
+            btnTutoriesStatus.isChecked = tutories.isEnabled
+            tvTutoriesStatus.setText(if (btnTutoriesStatus.isChecked) R.string.status_enabled else R.string.status_disabled)
+
             // Update rate info
             val rateInfo = RateInfo(
                 averageRate = 50000, // TODO: Fetch from API
@@ -147,7 +154,8 @@ class EditTutoriesActivity : AppCompatActivity() {
             aboutYou = binding.editAbout.text.toString(),
             teachingMethodology = binding.editMethodology.text.toString(),
             hourlyRate = hourlyRate.toInt(),
-            typeLesson = getTypeLesson()
+            typeLesson = getTypeLesson(),
+            isEnabled = binding.btnTutoriesStatus.isChecked
         )
 
         lifecycleScope.launch {

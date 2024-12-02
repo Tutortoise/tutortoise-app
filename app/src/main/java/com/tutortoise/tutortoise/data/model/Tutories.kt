@@ -18,7 +18,8 @@ data class EditTutoriesRequest(
     val aboutYou: String,
     val teachingMethodology: String,
     val hourlyRate: Int,
-    val typeLesson: String
+    val typeLesson: String,
+    val isEnabled: Boolean
 )
 
 data class DetailedTutoriesResponse(
@@ -32,6 +33,7 @@ data class DetailedTutoriesResponse(
     val typeLesson: String,
     val city: String,
     val district: String,
+    val isEnabled: Boolean,
     val alsoTeaches: List<AlsoTeachesResponse>
 )
 

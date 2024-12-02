@@ -117,7 +117,8 @@ class TutoriesRepository(context: Context) {
                         aboutYou = request.aboutYou,
                         teachingMethodology = request.teachingMethodology,
                         hourlyRate = request.hourlyRate,
-                        typeLesson = request.typeLesson
+                        typeLesson = request.typeLesson,
+                        isEnabled = request.isEnabled
                     )
                 )
 

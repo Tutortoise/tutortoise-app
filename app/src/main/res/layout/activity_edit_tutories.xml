@@ -243,7 +243,7 @@
                 android:id="@+id/tvTutoriesStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/disable"
+                android:text="@string/status_disabled"
                 android:textSize="14sp"
                 android:layout_marginStart="8dp" />
         </LinearLayout>

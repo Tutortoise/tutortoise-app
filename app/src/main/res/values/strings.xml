@@ -185,7 +185,8 @@
     <string name="learning_type">Learning Type</string>
     <string name="filters_with_count">Filters (%d)</string>
     <string name="filters">Filters</string>
-    <string name="disable">Disable</string>
+    <string name="status_disabled">Disabled</string>
+    <string name="status_enabled">Enabled</string>
     <string name="your_tutories_status">Your tutories status</string>
     <string name="delete">Delete</string>
 </resources>
