@@ -65,7 +65,7 @@
                 android:fontFamily="@font/montserrat_regular"
                 android:gravity="left|center"
                 android:hint="Enter your tutories Name"
-                android:inputType="number"
+                android:inputType="text"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
