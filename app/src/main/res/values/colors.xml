@@ -9,11 +9,12 @@
     <color name="yellow">#E4D52B</color>
     <color name="green">#56C580</color>
     <color name="transparent">#00000000</color>
+    <color name="Black_50">#50000000</color>
 
     <color name="colorActive">#000000</color>
     <color name="colorInactive">#888888</color>
 
-    <color name="strokeColor">#50000000</color>
+    <color name="strokeColor">#20000000</color>
 
 
     <color name="chat_background">#F5F5F5</color>
