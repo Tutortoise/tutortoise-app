@@ -113,8 +113,8 @@ interface ApiService {
     @GET("tutors/services")
     suspend fun searchTutories(
         @Query("q") q: String? = null,
-        @Query("categoryId") categoryId: String? = null,
-        @Query("city") city: String? = null,
+        @Query("categoryId[]") categoryId: List<String>? = null,
+        @Query("city[]") city: List<String>? = null,
         @Query("minHourlyRate") minHourlyRate: String? = null,
         @Query("maxHourlyRate") maxHourlyRate: String? = null,
         @Query("minRating") minRating: String? = null,

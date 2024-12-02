@@ -45,8 +45,8 @@ class TutoriesRepository(context: Context) {
         return try {
             val response = apiService.searchTutories(
                 q = query,
-                categoryId = categoryIds?.takeIf { it.isNotEmpty() }?.joinToString(","),
-                city = cities?.takeIf { it.isNotEmpty() }?.joinToString(","),
+                categoryId = categoryIds?.takeIf { it.isNotEmpty() },
+                city = cities?.takeIf { it.isNotEmpty() },
                 minHourlyRate = minPrice?.toString(),
                 maxHourlyRate = maxPrice?.toString(),
                 minRating = minRating?.toString(),
