@@ -64,7 +64,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".presentation.main.learner.subjects.SubjectsActivity"
+            android:name=".presentation.main.learner.categories.CategoriesActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity

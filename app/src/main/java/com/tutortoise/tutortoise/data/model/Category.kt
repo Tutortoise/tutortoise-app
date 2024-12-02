@@ -1,13 +1,13 @@
 package com.tutortoise.tutortoise.data.model
 
-data class SubjectResponse(
+data class CategoryResponse(
     val id: String,
     val name: String,
     val iconUrl: String
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is SubjectResponse) return false
+        if (other !is CategoryResponse) return false
         return id == other.id
     }
 

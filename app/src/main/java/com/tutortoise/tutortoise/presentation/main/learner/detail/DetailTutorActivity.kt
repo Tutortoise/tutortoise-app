@@ -51,11 +51,11 @@ class DetailTutorActivity : AppCompatActivity() {
         currentHourlyRate = intent.getIntExtra("HOURLY_RATE", 0)
 
         val tutoriesId = intent.getStringExtra("TUTORIES_ID") ?: ""
-        val subjectName = intent.getStringExtra("SUBJECT_NAME") ?: ""
+        val categoryName = intent.getStringExtra("CATEGORY_NAME") ?: ""
 
         // Use the data to populate your UI
         binding.tvTutorName.text = currentTutorName
-        binding.tvTutorSubject.text = subjectName
+        binding.tvCategoryName.text = categoryName
         binding.tvRating.text = currentRating.toString()
         binding.tvHourlyRate.text = "Rp. ${currentHourlyRate.formatWithThousandsSeparator()} / Hour"
         binding.tvCity.text = currentCity

@@ -3,21 +3,21 @@ package com.tutortoise.tutortoise.presentation.main.learner.explore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.tutortoise.tutortoise.data.model.SubjectResponse
+import com.tutortoise.tutortoise.data.model.CategoryResponse
 
 class ExploreViewModel : ViewModel() {
     private val _searchQuery = MutableLiveData<String>()
     val searchQuery: LiveData<String> = _searchQuery
 
-    private val _selectedSubject = MutableLiveData<SubjectResponse?>()
-    val selectedSubject: LiveData<SubjectResponse?> = _selectedSubject
+    private val _selectedCategory = MutableLiveData<CategoryResponse?>()
+    val selectedCategory: LiveData<CategoryResponse?> = _selectedCategory
 
-    private var hasHandledSubject = false
+    private var hasHandledCategory = false
 
-    fun setSelectedSubject(subject: SubjectResponse) {
-        if (!hasHandledSubject) {
-            _selectedSubject.value = subject
-            hasHandledSubject = true
+    fun setSelectedCategory(category: CategoryResponse) {
+        if (!hasHandledCategory) {
+            _selectedCategory.value = category
+            hasHandledCategory = true
         }
     }
 
@@ -27,7 +27,7 @@ class ExploreViewModel : ViewModel() {
 
     fun clearData() {
         _searchQuery.value = ""
-        _selectedSubject.value = null
-        hasHandledSubject = false
+        _selectedCategory.value = null
+        hasHandledCategory = false
     }
 }

@@ -35,7 +35,7 @@ class TutoriesRepository(context: Context) {
 
     suspend fun searchTutories(
         query: String? = null,
-        subjectIds: List<String>? = null,
+        categoryIds: List<String>? = null,
         cities: List<String>? = null,
         minPrice: Int? = null,
         maxPrice: Int? = null,
@@ -45,7 +45,7 @@ class TutoriesRepository(context: Context) {
         return try {
             val response = apiService.searchTutories(
                 q = query,
-                subjectId = subjectIds?.takeIf { it.isNotEmpty() }?.joinToString(","),
+                categoryId = categoryIds?.takeIf { it.isNotEmpty() }?.joinToString(","),
                 city = cities?.takeIf { it.isNotEmpty() }?.joinToString(","),
                 minHourlyRate = minPrice?.toString(),
                 maxHourlyRate = maxPrice?.toString(),
@@ -69,7 +69,7 @@ class TutoriesRepository(context: Context) {
                 Log.d("TutoriesRepository", "Creating tutories with request: $request")
                 val response = apiService.createTutories(
                     CreateTutoriesRequest(
-                        subjectId = request.subjectId,
+                        categoryId = request.categoryId,
                         aboutYou = request.aboutYou,
                         teachingMethodology = request.teachingMethodology,
                         hourlyRate = request.hourlyRate,

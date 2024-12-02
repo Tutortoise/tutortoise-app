@@ -14,7 +14,7 @@
         android:padding="18dp">
 
         <ImageView
-            android:id="@+id/iv_subject"
+            android:id="@+id/ivCategoryIcon"
             android:layout_width="58dp"
             android:layout_height="70dp"
             android:src="@drawable/ic_image_placeholder"
@@ -23,15 +23,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_subject"
+            android:id="@+id/tvCategoryName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:fontFamily="@font/montserrat_semi_bold"
-            android:text="@string/subject"
+            android:text="@string/category"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/tv_price"
-            app:layout_constraintStart_toEndOf="@+id/iv_subject"
+            app:layout_constraintStart_toEndOf="@+id/ivCategoryIcon"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -44,8 +44,8 @@
             android:text="@string/price_per_hour"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/iv_subject"
-            app:layout_constraintTop_toBottomOf="@+id/tv_subject" />
+            app:layout_constraintStart_toEndOf="@+id/ivCategoryIcon"
+            app:layout_constraintTop_toBottomOf="@+id/tvCategoryName" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"

@@ -11,7 +11,7 @@ object Constants {
         return "${GCS_BASE_URL}/profile-pictures/${userId}.jpg?rand=$randomQuery"
     }
 
-    fun getSubjectIconUrl(subjectName: String): String {
-        return "${GCS_BASE_URL}/subjects/${subjectName}.png"
+    fun getCategoryIconUrl(categoryName: String): String {
+        return "${GCS_BASE_URL}/categories/${categoryName}.png"
     }
 }

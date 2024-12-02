@@ -12,9 +12,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.data.model.CategoryResponse
 import com.tutortoise.tutortoise.data.model.LessonType
-import com.tutortoise.tutortoise.data.model.SubjectResponse
-import com.tutortoise.tutortoise.data.repository.SubjectRepository
+import com.tutortoise.tutortoise.data.repository.CategoryRepository
 import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.FragmentFilterSheetBinding
 import kotlinx.coroutines.async
@@ -24,13 +24,13 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
     private var _binding: FragmentFilterSheetBinding? = null
     private val binding get() = _binding!!
 
-    private val subjectAdapter = FilterChipAdapter<SubjectResponse> { updateSubjectChips() }
+    private val categoryAdapter = FilterChipAdapter<CategoryResponse> { updateCategoryChips() }
     private val locationAdapter = FilterChipAdapter<String> { updateLocationChips() }
 
-    private lateinit var subjectRepository: SubjectRepository
+    private lateinit var categoryRepository: CategoryRepository
     private lateinit var tutoriesRepository: TutoriesRepository
 
-    private var subjects: List<SubjectResponse> = emptyList()
+    private var categories: List<CategoryResponse> = emptyList()
     private var locations: List<String> = emptyList()
     private val priceRanges = listOf(
         "Rp30rb-Rp50rb",
@@ -40,7 +40,7 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
     )
 
     // Add properties to track selected items
-    private var selectedSubjects = mutableSetOf<SubjectResponse>()
+    private var selectedCategories = mutableSetOf<CategoryResponse>()
     private var selectedLocations = mutableSetOf<String>()
 
     private var currentFilterState = FilterState()
@@ -70,11 +70,11 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        subjectRepository = SubjectRepository(requireContext())
+        categoryRepository = CategoryRepository(requireContext())
         tutoriesRepository = TutoriesRepository(requireContext())
 
         // Restore selected states from currentFilterState
-        selectedSubjects.addAll(currentFilterState.subjects)
+        selectedCategories.addAll(currentFilterState.categories)
         selectedLocations.addAll(currentFilterState.locations)
 
         setupInitialData()
@@ -83,16 +83,16 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
 
     private fun setupInitialData() {
         lifecycleScope.launch {
-            val subjectsDeferred = async { subjectRepository.fetchSubjects() }
+            val categoriesDeferred = async { categoryRepository.fetchCategories() }
             val locationsDeferred = async { tutoriesRepository.fetchLocations() }
 
-            val subjectsResponse = subjectsDeferred.await()?.data
+            val categoriesResponse = categoriesDeferred.await()?.data
             val locationsResponse = locationsDeferred.await()?.data
 
-            subjectsResponse?.let { data ->
-                subjects = data
-                subjectAdapter.setItems(subjects)
-                updateSubjectChips()
+            categoriesResponse?.let { data ->
+                categories = data
+                categoryAdapter.setItems(categories)
+                updateCategoryChips()
             }
 
             locationsResponse?.let { data ->
@@ -110,10 +110,10 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
                 resetAllFilters()
             }
 
-            // Setup Subject section
-            updateSubjectChips()
-            btnShowAllSubjects.setOnClickListener {
-                subjectAdapter.toggleExpanded()
+            // Setup Category section
+            updateCategoryChips()
+            btnShowAllCategory.setOnClickListener {
+                categoryAdapter.toggleExpanded()
             }
 
             // Setup Location section
@@ -162,32 +162,32 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
             }
 
             // Update show all buttons visibility
-            btnShowAllSubjects.isVisible = subjectAdapter.shouldShowViewAll()
+            btnShowAllCategory.isVisible = categoryAdapter.shouldShowViewAll()
             btnShowAllLocations.isVisible = locationAdapter.shouldShowViewAll()
         }
     }
 
-    private fun updateSubjectChips() {
+    private fun updateCategoryChips() {
         binding.apply {
-            chipGroupSubject.removeAllViews()
-            subjectAdapter.getVisibleItems().forEach { subject ->
-                addChip(chipGroupSubject, subject.toString()).apply {
+            chipGroupCategory.removeAllViews()
+            categoryAdapter.getVisibleItems().forEach { category ->
+                addChip(chipGroupCategory, category.toString()).apply {
                     isCheckable = true
-                    isChecked = selectedSubjects.contains(subject)
+                    isChecked = selectedCategories.contains(category)
                     setOnCheckedChangeListener { _, isChecked ->
                         if (isChecked) {
-                            selectedSubjects.add(subject)
+                            selectedCategories.add(category)
                         } else {
-                            selectedSubjects.remove(subject)
+                            selectedCategories.remove(category)
                         }
                         // Trigger filter update
                         updateFilters()
                     }
                 }
             }
-            btnShowAllSubjects.text =
-                if (subjectAdapter.getExpandedState()) "Show Less" else "Show All"
-            btnShowAllSubjects.isVisible = subjects.size > subjectAdapter.initialLimit
+            btnShowAllCategory.text =
+                if (categoryAdapter.getExpandedState()) "Show Less" else "Show All"
+            btnShowAllCategory.isVisible = categories.size > categoryAdapter.initialLimit
         }
     }
 
@@ -276,7 +276,7 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
 
     private fun updateFilters() {
         val newFilterState = FilterState(
-            subjects = selectedSubjects,
+            categories = selectedCategories,
             locations = selectedLocations,
             priceRange = getSelectedPriceRange(),
             rating = getSelectedRating(),
@@ -288,13 +288,13 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
     }
 
     private fun resetAllFilters() {
-        selectedSubjects.clear()
+        selectedCategories.clear()
         selectedLocations.clear()
         binding.apply {
             chipGroupPriceRange.clearCheck()
             chipGroupRating.clearCheck()
             chipGroupLessonType.clearCheck()
-            updateSubjectChips()
+            updateCategoryChips()
             updateLocationChips()
         }
 
@@ -305,7 +305,7 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
 
     private fun updateFilterBadge() {
         val activeFilters = listOfNotNull(
-            selectedSubjects.takeIf { it.isNotEmpty() },
+            selectedCategories.takeIf { it.isNotEmpty() },
             selectedLocations.takeIf { it.isNotEmpty() },
             getSelectedPriceRange(),
             getSelectedRating(),

@@ -12,10 +12,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tutortoise.tutortoise.R
-import com.tutortoise.tutortoise.data.repository.SubjectRepository
+import com.tutortoise.tutortoise.data.repository.CategoryRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerHomeBinding
 import com.tutortoise.tutortoise.presentation.main.MainActivity
-import com.tutortoise.tutortoise.presentation.main.learner.subjects.adapter.SubjectsAdapter
+import com.tutortoise.tutortoise.presentation.main.learner.categories.adapter.CategoriesAdapter
 import kotlinx.coroutines.launch
 
 class HomeLearnerFragment : Fragment() {
@@ -23,7 +23,7 @@ class HomeLearnerFragment : Fragment() {
     private val binding get() = _binding!!
     private val navController by lazy { findNavController() }
 
-    private lateinit var subjectRepository: SubjectRepository
+    private lateinit var categoryRepository: CategoryRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,10 +32,10 @@ class HomeLearnerFragment : Fragment() {
     ): View {
         _binding = FragmentLearnerHomeBinding.inflate(inflater, container, false)
 
-        subjectRepository = SubjectRepository(requireContext())
+        categoryRepository = CategoryRepository(requireContext())
 
-        // Fetch subjects
-        fetchSubjects()
+        // Fetch categories
+        fetchCategories()
 
         return binding.root
     }
@@ -52,7 +52,7 @@ class HomeLearnerFragment : Fragment() {
         }
 
         binding.seemore.setOnClickListener {
-            navController.navigate(R.id.action_home_to_subjects)
+            navController.navigate(R.id.action_home_to_categories)
         }
 
         binding.etSearch.apply {
@@ -82,15 +82,15 @@ class HomeLearnerFragment : Fragment() {
         binding.etSearch.text?.clear()
     }
 
-    private fun fetchSubjects() {
-        val recyclerView: RecyclerView = binding.rvHomeSubjects
+    private fun fetchCategories() {
+        val recyclerView: RecyclerView = binding.rvHomeCategories
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
         lifecycleScope.launch {
-            val subjects = subjectRepository.fetchPopularSubjects()
-            recyclerView.adapter = subjects?.data?.let { subjectsList ->
-                SubjectsAdapter(subjectsList) { clickedSubject ->
-                    (activity as? MainActivity)?.navigateToExploreWithSubject(clickedSubject)
+            val categories = categoryRepository.fetchPopularCategories()
+            recyclerView.adapter = categories?.data?.let { categoryList ->
+                CategoriesAdapter(categoryList) { clickedCategory ->
+                    (activity as? MainActivity)?.navigateToExploreWithCategory(clickedCategory)
                 }
             }
         }

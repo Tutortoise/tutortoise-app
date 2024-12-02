@@ -48,12 +48,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvTutorSubject"
+            android:id="@+id/tvCategoryName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:fontFamily="@font/montserrat_medium"
-            android:text="@string/tutor_subject"
+            android:text="@string/tutories_category"
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivTutorImageCard"
@@ -70,7 +70,7 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivTutorImageCard"
-            app:layout_constraintTop_toBottomOf="@id/tvTutorSubject" />
+            app:layout_constraintTop_toBottomOf="@id/tvCategoryName" />
 
         <TextView
             android:id="@+id/tvHourlyRate"

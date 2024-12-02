@@ -23,17 +23,18 @@
     <string name="session">Sessions</string>
     <string name="profile">Profile</string>
     <string name="tutories">Tutories</string>
-    <string name="search_text">Search tutor, subject and others...</string>
-    <string name="popular">Popular Subjects</string>
+    <string name="search_text">Search tutor, category and others...</string>
+    <string name="popular">Popular Categories</string>
     <string name="view_all">View All</string>
     <string name="top_1">Number1</string>
     <string name="top_2">Number2</string>
     <string name="top_3">Number3</string>
     <string name="recommended">Recommended Tutors</string>
 
+    <string name="category_icon">Category Icon</string>
     <string name="tutor_image">Tutor image</string>
     <string name="tutor_name">Tutor Name</string>
-    <string name="tutor_subject">Tutor Subject</string>
+    <string name="tutories_category">Tutories Category</string>
     <string name="reviews">reviews</string>
     <string name="price">Price</string>
     <string name="location">Location</string>
@@ -95,8 +96,8 @@
 
     <string name="notification">Notifications</string>
     <string name="chat">Chat</string>
-    <string name="subjects">Subjects</string>
-    <string name="subject_name">Subject</string>
+    <string name="categories">Categories</string>
+    <string name="category_name">Category</string>
 
     <string-array name="gender_options">
         <item>Male</item>
@@ -114,8 +115,8 @@
     <string name="tutor_rsvp">Tutor Reservation</string>
 
     <string name="my_tutories">My Tutories</string>
-    <string name="which_subject">Which Subjects do you teach?</string>
-    <string name="about_you">About you in this subject</string>
+    <string name="which_category">Which category do you teach?</string>
+    <string name="about_you">About you in this category</string>
     <string name="about_you_text">Reassure your student about your professionalism, inspire confidence and etablish your legtimacy as a tutor</string>
     <string name="method">Teaching Methodology</string>
     <string name="method_text">It’s time to convince your future students why they should take lessons with you!</string>
@@ -141,7 +142,7 @@
     <string name="auditory">Auditory</string>
     <string name="kinesthetic">Kinesthetic</string>
 
-    <string name="subject">Subject</string>
+    <string name="category">Category</string>
     <string name="price_per_hour">Price per hour</string>
 
     <string name="tutor_time">Tutoring Time</string>

@@ -18,8 +18,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.data.model.CategoryResponse
 import com.tutortoise.tutortoise.data.model.ExploreTutoriesResponse
-import com.tutortoise.tutortoise.data.model.SubjectResponse
 import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerExploreBinding
 import com.tutortoise.tutortoise.presentation.main.learner.detail.DetailTutorActivity
@@ -44,7 +44,7 @@ class ExploreLearnerFragment : Fragment() {
     private var currentSearchQuery: String? = null
 
     private var pendingSearchQuery: String? = null
-    private var pendingSubjectFilter: SubjectResponse? = null
+    private var pendingCategoriesFilter: CategoryResponse? = null
 
     override fun onResume() {
         super.onResume()
@@ -60,10 +60,10 @@ class ExploreLearnerFragment : Fragment() {
             pendingSearchQuery = null
         }
 
-        // Handle pending subject filter
-        pendingSubjectFilter?.let { subject ->
-            setSubjectFilter(subject)
-            pendingSubjectFilter = null
+        // Handle pending categories filter
+        pendingCategoriesFilter?.let { category ->
+            setCategoryFilter(category)
+            pendingCategoriesFilter = null
         }
     }
 
@@ -95,16 +95,16 @@ class ExploreLearnerFragment : Fragment() {
             }
         }
 
-        // Observe subject selection changes
-        exploreViewModel.selectedSubject.observe(viewLifecycleOwner) { subject ->
-            subject?.let {
+        // Observe category selection changes
+        exploreViewModel.selectedCategory.observe(viewLifecycleOwner) { category ->
+            category?.let {
                 // Clear any existing search
                 binding.etSearch.text?.clear()
                 currentSearchQuery = null
 
-                // Update filter state with the selected subject
+                // Update filter state with the selected category
                 currentFilterState = FilterState(
-                    subjects = setOf(it),
+                    categories = setOf(it),
                     locations = emptySet(),
                     priceRange = null,
                     rating = null,
@@ -115,8 +115,8 @@ class ExploreLearnerFragment : Fragment() {
                 updateFilterBadge(1)
 
                 // Log the filter state
-                println("Setting subject filter: ${it.name}")
-                println("Current filter state subjects: ${currentFilterState?.subjects?.map { sub -> sub.id }}")
+                println("Setting category filter: ${it.name}")
+                println("Current filter state categories: ${currentFilterState?.categories?.map { sub -> sub.id }}")
 
                 // Fetch tutories with new filter
                 fetchTutories()
@@ -157,7 +157,7 @@ class ExploreLearnerFragment : Fragment() {
         val intent = Intent(requireContext(), DetailTutorActivity::class.java).apply {
             putExtra("TUTORIES_ID", tutories.id)
             putExtra("TUTOR_NAME", tutories.tutorName)
-            putExtra("SUBJECT_NAME", tutories.subjectName)
+            putExtra("CATEGORY_NAME", tutories.categoryName)
             putExtra("RATING", tutories.avgRating)
             putExtra("HOURLY_RATE", tutories.hourlyRate)
             putExtra("CITY", tutories.city)
@@ -208,11 +208,11 @@ class ExploreLearnerFragment : Fragment() {
                 // Debug logging
                 println("Fetching tutories with:")
                 println("Query: $query")
-                println("Subject IDs: ${currentFilterState?.subjects?.map { it.id }}")
+                println("Category IDs: ${currentFilterState?.categories?.map { it.id }}")
 
                 val tutoriesItems = tutoriesRepository.searchTutories(
                     query = query?.takeIf { it.isNotEmpty() },
-                    subjectIds = currentFilterState?.subjects?.map { it.id },
+                    categoryIds = currentFilterState?.categories?.map { it.id },
                     cities = currentFilterState?.locations?.toList(),
                     minPrice = currentFilterState?.priceRange?.min,
                     maxPrice = currentFilterState?.priceRange?.max,
@@ -286,16 +286,16 @@ class ExploreLearnerFragment : Fragment() {
         }
     }
 
-    fun setSubjectFilter(subject: SubjectResponse) {
+    fun setCategoryFilter(category: CategoryResponse) {
         if (!isResumed) {
             // If fragment is not resumed, save for later
-            pendingSubjectFilter = subject
+            pendingCategoriesFilter = category
             return
         }
 
         // Update filter state
         currentFilterState = FilterState(
-            subjects = setOf(subject),
+            categories = setOf(category),
             locations = currentFilterState?.locations ?: emptySet(),
             priceRange = currentFilterState?.priceRange,
             rating = currentFilterState?.rating,

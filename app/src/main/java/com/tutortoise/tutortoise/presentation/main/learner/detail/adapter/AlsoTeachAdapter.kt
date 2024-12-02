@@ -19,7 +19,7 @@ class AlsoTeachAdapter(
 ) : RecyclerView.Adapter<AlsoTeachAdapter.AlsoTeachViewHolder>() {
 
     inner class AlsoTeachViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvSubjectName: TextView = view.findViewById(R.id.tvSubjectName)
+        val tvCategoryName: TextView = view.findViewById(R.id.tvCategoryName)
 
         init {
             itemView.setOnClickListener {
@@ -32,7 +32,7 @@ class AlsoTeachAdapter(
                     val intent = Intent(context, DetailTutorActivity::class.java).apply {
                         putExtra("TUTOR_ID", currentTutorId)
                         putExtra("TUTOR_NAME", currentTutorName)
-                        putExtra("SUBJECT_NAME", alsoTeachItem.subjectName)
+                        putExtra("CATEGORY_NAME", alsoTeachItem.categoryName)
                         putExtra("HOURLY_RATE", alsoTeachItem.hourlyRate)
                         putExtra("RATING", currentRating)
                         putExtra("CITY", currentCity)
@@ -52,7 +52,7 @@ class AlsoTeachAdapter(
 
     override fun onBindViewHolder(holder: AlsoTeachViewHolder, position: Int) {
         val alsoTeachItem = alsoTeachList[position]
-        holder.tvSubjectName.text = alsoTeachItem.subjectName
+        holder.tvCategoryName.text = alsoTeachItem.categoryName
     }
 
     override fun getItemCount(): Int = alsoTeachList.size

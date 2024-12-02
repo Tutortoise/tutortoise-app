@@ -3,50 +3,50 @@ package com.tutortoise.tutortoise.data.repository
 import android.content.Context
 import android.util.Log
 import com.tutortoise.tutortoise.data.model.ApiResponse
-import com.tutortoise.tutortoise.data.model.SubjectResponse
+import com.tutortoise.tutortoise.data.model.CategoryResponse
 import com.tutortoise.tutortoise.data.pref.ApiConfig
 
-class SubjectRepository(context: Context) {
+class CategoryRepository(context: Context) {
     private val apiService = ApiConfig.getApiService(context)
 
-    suspend fun fetchSubjects(): ApiResponse<List<SubjectResponse>>? {
+    suspend fun fetchCategories(): ApiResponse<List<CategoryResponse>>? {
         return try {
-            val response = apiService.getSubjects()
+            val response = apiService.getCategories()
             if (response.isSuccessful) {
                 response.body()
             } else {
                 null
             }
         } catch (e: Exception) {
-            Log.e("SubjectRepository", "Failed to fetch subjects", e)
+            Log.e("CategoryRepository", "Failed to fetch categories", e)
             null
         }
     }
 
-    suspend fun fetchPopularSubjects(): ApiResponse<List<SubjectResponse>>? {
+    suspend fun fetchPopularCategories(): ApiResponse<List<CategoryResponse>>? {
         return try {
-            val response = apiService.getPopularSubjects()
+            val response = apiService.getPopularCategories()
             if (response.isSuccessful) {
                 response.body()
             } else {
                 null
             }
         } catch (e: Exception) {
-            Log.e("SubjectRepository", "Failed to fetch popular subjects", e)
+            Log.e("CategoryRepository", "Failed to fetch popular categories", e)
             null
         }
     }
 
-    suspend fun fetchAvailableSubjects(): ApiResponse<List<SubjectResponse>>? {
+    suspend fun fetchAvailableCategories(): ApiResponse<List<CategoryResponse>>? {
         return try {
-            val response = apiService.getAvailableSubjects()
+            val response = apiService.getAvailableCategories()
             if (response.isSuccessful) {
                 response.body()
             } else {
                 null
             }
         } catch (e: Exception) {
-            Log.e("SubjectRepository", "Failed to fetch available subjects", e)
+            Log.e("CategoryRepository", "Failed to fetch available categories", e)
             null
         }
     }

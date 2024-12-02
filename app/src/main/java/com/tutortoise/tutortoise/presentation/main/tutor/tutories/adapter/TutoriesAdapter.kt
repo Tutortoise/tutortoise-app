@@ -42,7 +42,7 @@ class TutoriesAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(tutories: GetMyTutoriesResponse) {
-            binding.tvSubject.text = tutories.subjectName
+            binding.tvCategoryName.text = tutories.categoryName
             binding.tvPrice.text = "${tutories.hourlyRate.formatWithThousandsSeparator()} per hour"
 
             // Initially hide both type lessons
@@ -60,8 +60,8 @@ class TutoriesAdapter(
             }
 
             Glide.with(itemView.context)
-                .load(Constants.getSubjectIconUrl(tutories.subjectName))
-                .into(binding.ivSubject)
+                .load(Constants.getCategoryIconUrl(tutories.categoryName))
+                .into(binding.ivCategoryIcon)
 
             binding.root.setOnClickListener {
                 onItemClick(tutories)

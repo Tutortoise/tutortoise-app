@@ -18,8 +18,8 @@
             android:id="@+id/action_home_to_chat"
             app:destination="@id/chatListActivity" />
         <action
-            android:id="@+id/action_home_to_subjects"
-            app:destination="@id/subjectsActivity" />
+            android:id="@+id/action_home_to_categories"
+            app:destination="@id/categoriesActivity" />
         <action
             android:id="@+id/action_home_to_explore"
             app:destination="@id/exploreLearnerFragment" />
@@ -113,8 +113,8 @@
         android:name="com.tutortoise.tutortoise.presentation.chat.ChatListActivity" />
 
     <activity
-        android:id="@+id/subjectsActivity"
-        android:name="com.tutortoise.tutortoise.presentation.main.learner.subjects.SubjectsActivity" />
+        android:id="@+id/categoriesActivity"
+        android:name="com.tutortoise.tutortoise.presentation.main.learner.categories.CategoriesActivity" />
 
     <activity
         android:id="@+id/editProfileActivity"
@@ -134,6 +134,6 @@
 
     <activity
         android:id="@+id/detailTutorActivity"
-        android:name="com.tutortoise.tutortoise.presentation.main.learner.explore.DetailTutorActivity" />
+        android:name="com.tutortoise.tutortoise.presentation.main.learner.detail.DetailTutorActivity" />
 
 </navigation>

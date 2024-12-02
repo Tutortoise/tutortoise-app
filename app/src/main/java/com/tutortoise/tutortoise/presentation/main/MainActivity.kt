@@ -15,7 +15,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.tutortoise.tutortoise.R
-import com.tutortoise.tutortoise.data.model.SubjectResponse
+import com.tutortoise.tutortoise.data.model.CategoryResponse
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.databinding.ActivityMainBinding
 import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
@@ -167,9 +167,9 @@ class MainActivity : AppCompatActivity() {
         navController.navigate(R.id.exploreLearnerFragment)
     }
 
-    fun navigateToExploreWithSubject(subject: SubjectResponse) {
+    fun navigateToExploreWithCategory(category: CategoryResponse) {
         exploreViewModel.clearData() // Clear any existing data
-        exploreViewModel.setSelectedSubject(subject)
+        exploreViewModel.setSelectedCategory(category)
 
         // Then navigate
         binding.bottomNav.selectedItemId = R.id.exploreLearnerFragment

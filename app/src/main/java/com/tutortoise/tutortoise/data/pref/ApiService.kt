@@ -1,6 +1,7 @@
 package com.tutortoise.tutortoise.data.pref
 
 import com.tutortoise.tutortoise.data.model.ApiResponse
+import com.tutortoise.tutortoise.data.model.CategoryResponse
 import com.tutortoise.tutortoise.data.model.ChangePasswordRequest
 import com.tutortoise.tutortoise.data.model.ChatMessage
 import com.tutortoise.tutortoise.data.model.ChatRoom
@@ -20,7 +21,6 @@ import com.tutortoise.tutortoise.data.model.OAuthRequest
 import com.tutortoise.tutortoise.data.model.RegisterData
 import com.tutortoise.tutortoise.data.model.RegisterRequest
 import com.tutortoise.tutortoise.data.model.SendMessageRequest
-import com.tutortoise.tutortoise.data.model.SubjectResponse
 import com.tutortoise.tutortoise.data.model.TutorData
 import com.tutortoise.tutortoise.data.model.TypingStatus
 import com.tutortoise.tutortoise.data.model.UpdateLearnerProfileRequest
@@ -53,16 +53,16 @@ interface ApiService {
     suspend fun getAuthenticatedUser(
     ): Response<ApiResponse<UserResponse>>
 
-    // Subjects
-    @GET("subjects")
-    suspend fun getSubjects(
-    ): Response<ApiResponse<List<SubjectResponse>>>
+    // Categories
+    @GET("categories")
+    suspend fun getCategories(
+    ): Response<ApiResponse<List<CategoryResponse>>>
 
-    @GET("subjects/popular")
-    suspend fun getPopularSubjects(): Response<ApiResponse<List<SubjectResponse>>>
+    @GET("categories/popular")
+    suspend fun getPopularCategories(): Response<ApiResponse<List<CategoryResponse>>>
 
-    @GET("subjects/available")
-    suspend fun getAvailableSubjects(): Response<ApiResponse<List<SubjectResponse>>>
+    @GET("categories/available")
+    suspend fun getAvailableCategories(): Response<ApiResponse<List<CategoryResponse>>>
 
     // Learners
     @GET("learners/profile")
@@ -113,7 +113,7 @@ interface ApiService {
     @GET("tutors/services")
     suspend fun searchTutories(
         @Query("q") q: String? = null,
-        @Query("subjectId") subjectId: String? = null,
+        @Query("categoryId") categoryId: String? = null,
         @Query("city") city: String? = null,
         @Query("minHourlyRate") minHourlyRate: String? = null,
         @Query("maxHourlyRate") maxHourlyRate: String? = null,

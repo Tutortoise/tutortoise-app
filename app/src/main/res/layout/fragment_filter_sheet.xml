@@ -62,41 +62,41 @@
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/headerSection">
 
-        <!-- Subject Section -->
+        <!-- Category Section -->
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/subjectSection"
+            android:id="@+id/categorySection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/tvSubjectTitle"
+                android:id="@+id/tvCategoryTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_medium"
-                android:text="Subject"
+                android:text="@string/category"
                 android:textSize="15sp"
-                app:layout_constraintEnd_toStartOf="@id/btnShowAllSubjects"
+                app:layout_constraintEnd_toStartOf="@id/btnShowAllCategory"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/btnShowAllSubjects"
+                android:id="@+id/btnShowAllCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
                 android:text="Show All"
                 android:textColor="@color/darkgreen"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tvSubjectTitle" />
+                app:layout_constraintTop_toTopOf="@id/tvCategoryTitle" />
 
             <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroupSubject"
+                android:id="@+id/chipGroupCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 app:chipSpacingHorizontal="8dp"
                 app:chipSpacingVertical="8dp"
-                app:layout_constraintTop_toBottomOf="@id/tvSubjectTitle" />
+                app:layout_constraintTop_toBottomOf="@id/tvCategoryTitle" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Location Section -->

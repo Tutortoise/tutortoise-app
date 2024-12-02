@@ -1,9 +1,9 @@
 package com.tutortoise.tutortoise.presentation.main.learner.explore
 
-import com.tutortoise.tutortoise.data.model.SubjectResponse
+import com.tutortoise.tutortoise.data.model.CategoryResponse
 
 data class FilterState(
-    val subjects: Set<SubjectResponse> = emptySet(),
+    val categories: Set<CategoryResponse> = emptySet(),
     val locations: Set<String> = emptySet(),
     val priceRange: PriceRange? = null,
     val rating: Float? = null,

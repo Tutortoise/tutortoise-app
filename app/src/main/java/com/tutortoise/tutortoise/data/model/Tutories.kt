@@ -7,7 +7,7 @@ object LessonType {
 }
 
 data class CreateTutoriesRequest(
-    val subjectId: String,
+    val categoryId: String,
     val aboutYou: String,
     val teachingMethodology: String,
     val hourlyRate: Int,
@@ -23,7 +23,7 @@ data class EditTutoriesRequest(
 
 data class TutoriesResponse(
     val id: String,
-    val subject: SubjectResponse,
+    val category: CategoryResponse,
     val aboutYou: String,
     val teachingMethodology: String,
     val hourlyRate: Int,
@@ -33,12 +33,12 @@ data class TutoriesResponse(
 data class DetailedTutoriesResponse(
     val tutories: TutoriesResponse,
     val tutors: TutorData,
-    val subjects: SubjectResponse,
+    val categories: CategoryResponse,
     val alsoTeaches: List<AlsoTeachesResponse>
 )
 
 data class AlsoTeachesResponse(
-    val subjectName: String,
+    val categoryName: String,
     val hourlyRate: Int,
     val typeLesson: String,
     val tutoriesId: String? = null
@@ -47,7 +47,7 @@ data class AlsoTeachesResponse(
 data class GetMyTutoriesResponse(
     val id: String,
     val tutorName: String,
-    val subjectName: String,
+    val categoryName: String,
     val hourlyRate: Int,
     val typeLesson: String,
     val city: String,
@@ -63,7 +63,7 @@ data class ExploreTutoriesResponse(
     val id: String,
     val tutorId: String,
     val tutorName: String,
-    val subjectName: String,
+    val categoryName: String,
     val hourlyRate: Int,
     val typeLesson: String,
     val city: String,

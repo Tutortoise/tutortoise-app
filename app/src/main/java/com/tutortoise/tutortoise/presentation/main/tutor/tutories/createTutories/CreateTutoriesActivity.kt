@@ -9,10 +9,10 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.tutortoise.tutortoise.data.model.CategoryResponse
 import com.tutortoise.tutortoise.data.model.CreateTutoriesRequest
-import com.tutortoise.tutortoise.data.model.SubjectResponse
 import com.tutortoise.tutortoise.data.pref.ApiException
-import com.tutortoise.tutortoise.data.repository.SubjectRepository
+import com.tutortoise.tutortoise.data.repository.CategoryRepository
 import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.ActivityCreateTutoriesBinding
 import com.tutortoise.tutortoise.utils.parseFormattedNumber
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 class CreateTutoriesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateTutoriesBinding
     private lateinit var tutoriesRepository: TutoriesRepository
-    private lateinit var subjectRepository: SubjectRepository
+    private lateinit var categoryRepository: CategoryRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,43 +29,43 @@ class CreateTutoriesActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         tutoriesRepository = TutoriesRepository(this)
-        subjectRepository = SubjectRepository(this)
+        categoryRepository = CategoryRepository(this)
         setupViews()
         setupListeners()
     }
 
     private fun setupViews() {
-        fetchAvailableSubjects()
+        fetchAvailableCategories()
         setupRateEditText()
         initializeButtons()
     }
 
-    private fun fetchAvailableSubjects() {
+    private fun fetchAvailableCategories() {
         lifecycleScope.launch {
-            val subjectsResponse = subjectRepository.fetchAvailableSubjects()
-            val subjects = subjectsResponse?.data
-            if (!subjects.isNullOrEmpty()) {
-                setSubjectSpinner(subjects)
+            val categoryResponse = categoryRepository.fetchAvailableCategories()
+            val categories = categoryResponse?.data
+            if (!categories.isNullOrEmpty()) {
+                setCategorySpinner(categories)
             }
         }
     }
 
-    private fun setSubjectSpinner(subjects: List<SubjectResponse>) {
+    private fun setCategorySpinner(categories: List<CategoryResponse>) {
         val adapter = ArrayAdapter(
             this,
             R.layout.simple_spinner_item,
-            subjects
+            categories
         ).apply {
             setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
         }
 
-        binding.spinnerSubject.apply {
+        binding.spinnerCategory.apply {
             this.adapter = adapter
-            onItemSelectedListener = createSubjectSelectionListener(subjects)
+            onItemSelectedListener = createCategorySelectionListener(categories)
         }
     }
 
-    private fun createSubjectSelectionListener(subjects: List<SubjectResponse>) =
+    private fun createCategorySelectionListener(categories: List<CategoryResponse>) =
         object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -73,18 +73,18 @@ class CreateTutoriesActivity : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                updateRateInfo(subjects[position])
+                updateRateInfo(categories[position])
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-    private fun updateRateInfo(subject: SubjectResponse) {
+    private fun updateRateInfo(category: CategoryResponse) {
         // TODO: Fetch average rate, location from API
         val rateInfo = RateInfo(
             averageRate = 50000,
             location = "Samarinda",
-            subject = subject.name
+            category = category.name
         )
         binding.textRateInfo.text = rateInfo.formatMessage(this)
     }
@@ -126,14 +126,14 @@ class CreateTutoriesActivity : AppCompatActivity() {
 
     // TODO: before submitting, go to availability page
     private fun createTutories() {
-        val selectedSubject = binding.spinnerSubject.selectedItem as? SubjectResponse
-        val subjectId = selectedSubject!!.id
+        val selectedCategory = binding.spinnerCategory.selectedItem as? CategoryResponse
+        val categoryId = selectedCategory!!.id
         val typeLesson = getTypeLesson()
 
         val hourlyRate = binding.editRate.text.toString().parseFormattedNumber()
 
         val request = CreateTutoriesRequest(
-            subjectId = subjectId,
+            categoryId = categoryId,
             aboutYou = binding.editAbout.text.toString(),
             teachingMethodology = binding.editMethodology.text.toString(),
             hourlyRate = hourlyRate.toInt(),
@@ -176,7 +176,7 @@ class CreateTutoriesActivity : AppCompatActivity() {
                     "body.aboutYou" -> binding.editAbout.error = error.message
                     "body.teachingMethodology" -> binding.editMethodology.error = error.message
                     "body.hourlyRate" -> binding.editRate.error = error.message
-                    "body.subjectId" -> showError(error.message)
+                    "body.categoryId" -> showError(error.message)
                     "body.typeLesson" -> showError("Please select at least one type lesson")
                 }
             }
