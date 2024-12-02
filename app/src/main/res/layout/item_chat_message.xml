@@ -1,28 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/messageContainer"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="8dp">
 
-    <TextView
-        android:id="@+id/textMessage"
+    <!-- Sent Message Container -->
+    <LinearLayout
+        android:id="@+id/sentMessageContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_message_bubble"
-        android:maxWidth="260dp"
-        android:padding="12dp"
-        android:text="Message"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
+        android:layout_gravity="end"
+        android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/imageMessage"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:adjustViewBounds="true"
-        android:scaleType="centerCrop"
-        android:visibility="gone" />
+        <TextView
+            android:id="@+id/textMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_sent_message"
+            android:maxWidth="260dp"
+            android:padding="12dp"
+            android:textColor="@color/chat_sent_text"
+            android:textSize="16sp"
+            tools:text="This is a sent message" />
+
+        <TextView
+            android:id="@+id/sentTimeStamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="4dp"
+            android:textColor="#80000000"
+            android:textSize="10sp"
+            tools:text="12:34 PM" />
+    </LinearLayout>
+
+    <!-- Received Message Container -->
+    <LinearLayout
+        android:id="@+id/receivedMessageContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textReceivedMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_received_message"
+            android:maxWidth="260dp"
+            android:padding="12dp"
+            android:textColor="@color/chat_received_text"
+            android:textSize="16sp"
+            tools:text="This is a received message" />
+
+        <TextView
+            android:id="@+id/receivedTimeStamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="2dp"
+            android:textColor="#80000000"
+            android:textSize="10sp"
+            tools:text="12:34 PM" />
+    </LinearLayout>
+
+    <!-- Image Message -->
+    <LinearLayout
+        android:id="@+id/imageMessageContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageMessage"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/imageTimeStamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="4dp"
+            android:textColor="#80000000"
+            android:textSize="10sp"
+            tools:text="12:34 PM" />
+    </LinearLayout>
 
 </LinearLayout>

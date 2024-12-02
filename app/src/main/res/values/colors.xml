@@ -14,4 +14,12 @@
     <color name="colorInactive">#888888</color>
 
     <color name="strokeColor">#50000000</color>
+
+
+    <color name="chat_background">#F5F5F5</color>
+    <color name="chat_sent_bubble">#E3F2FD</color>
+    <color name="chat_received_bubble">#4CAF50</color>
+    <color name="chat_sent_text">#000000</color>
+    <color name="chat_received_text">#FFFFFF</color>
+    <color name="chat_input_background">#F5F5F5</color>
 </resources>

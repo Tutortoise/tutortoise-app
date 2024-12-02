@@ -3,6 +3,7 @@ package com.tutortoise.tutortoise.presentation.chat.adapter
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -35,39 +36,45 @@ class ChatMessageAdapter :
 
         fun bind(message: ChatMessage) {
             binding.apply {
+                val isCurrentUser = message.senderId == AuthManager.getCurrentUserId()
+                val timestamp = formatTime(message.sentAt)
+
+                // Hide all containers first
+                sentMessageContainer.isVisible = false
+                receivedMessageContainer.isVisible = false
+                imageMessageContainer.isVisible = false
+
                 when (message.type) {
                     "text" -> {
-                        textMessage.isVisible = true
-                        imageMessage.isVisible = false
-                        textMessage.text = message.content
+                        if (isCurrentUser) {
+                            sentMessageContainer.isVisible = true
+                            textMessage.text = message.content
+                            sentTimeStamp.text = timestamp
+                        } else {
+                            receivedMessageContainer.isVisible = true
+                            textReceivedMessage.text = message.content
+                            receivedTimeStamp.text = timestamp
+                        }
                     }
 
                     "image" -> {
-                        textMessage.isVisible = false
-                        imageMessage.isVisible = true
-                        Glide.with(imageMessage)
+                        imageMessageContainer.isVisible = true
+                        imageMessage.isVisible = true // Make sure image view is visible
+
+                        // Set container gravity based on sender
+                        imageMessageContainer.layoutParams =
+                            (imageMessageContainer.layoutParams as LinearLayout.LayoutParams).apply {
+                                gravity = if (isCurrentUser) Gravity.END else Gravity.START
+                            }
+
+                        // Load image
+                        Glide.with(itemView.context)
                             .load(message.content)
+                            .placeholder(R.drawable.ic_image_placeholder) // Add a placeholder
+                            .error(R.drawable.ic_image_placeholder) // Add an error image
                             .into(imageMessage)
-                    }
-                }
 
-                // Align messages based on sender
-                val isCurrentUser = message.senderId == AuthManager.getCurrentUserId()
-                messageContainer.gravity = if (isCurrentUser) Gravity.END else Gravity.START
-
-                // Apply different background colors/drawables for sender/receiver
-                if (message.type == "text") {
-                    textMessage.apply {
-                        setBackgroundResource(
-                            if (isCurrentUser) R.drawable.bg_sent_message
-                            else R.drawable.bg_received_message
-                        )
-                        setTextColor(
-                            if (isCurrentUser)
-                                context.getColor(android.R.color.black)
-                            else
-                                context.getColor(android.R.color.white)
-                        )
+                        imageTimeStamp.text = timestamp
                     }
                 }
             }
