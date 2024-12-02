@@ -26,14 +26,38 @@ object ChatManager {
                     return@launch
                 }
 
-                // Just navigate to ChatRoomActivity with necessary IDs
-                val intent = Intent(context, ChatRoomActivity::class.java).apply {
-                    putExtra("LEARNER_ID", learnerId)
-                    putExtra("TUTOR_ID", tutorId)
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }
-                context.startActivity(intent)
+                // Check for existing room first
+                val chatRepository = ChatRepository(context)
+                val roomsResult = chatRepository.getRooms()
 
+                roomsResult.fold(
+                    onSuccess = { rooms ->
+                        // Try to find existing room
+                        val existingRoom = rooms.find { it.tutorId == tutorId }
+
+                        val intent = Intent(context, ChatRoomActivity::class.java).apply {
+                            if (existingRoom != null) {
+                                // If room exists, pass the room ID
+                                putExtra("ROOM_ID", existingRoom.id)
+                            }
+                            // Always pass these IDs for potential new room creation
+                            putExtra("LEARNER_ID", learnerId)
+                            putExtra("TUTOR_ID", tutorId)
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                        context.startActivity(intent)
+                    },
+                    onFailure = { error ->
+                        // If we fail to get rooms, still allow navigation but without room ID
+                        val intent = Intent(context, ChatRoomActivity::class.java).apply {
+                            putExtra("LEARNER_ID", learnerId)
+                            putExtra("TUTOR_ID", tutorId)
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                        context.startActivity(intent)
+                        Log.e(TAG, "Failed to check existing rooms", error)
+                    }
+                )
             } catch (e: Exception) {
                 Log.e(TAG, "Exception in navigateToChat", e)
                 Toast.makeText(context, "Failed to start chat", Toast.LENGTH_SHORT).show()
@@ -41,7 +65,6 @@ object ChatManager {
         }
     }
 
-    // This function will be called only when sending the first message
     suspend fun findOrCreateChatRoom(context: Context, tutorId: String): Result<ChatRoom> =
         withContext(Dispatchers.IO) {
             try {
