@@ -32,6 +32,8 @@ class ChatListActivity : AppCompatActivity() {
                 putExtra("ROOM_ID", room.id)
                 putExtra("LEARNER_ID", room.learnerId)
                 putExtra("TUTOR_ID", room.tutorId)
+                putExtra("LEARNER_NAME", room.learnerName)
+                putExtra("TUTOR_NAME", room.tutorName)
             }
             startActivity(intent)
         }

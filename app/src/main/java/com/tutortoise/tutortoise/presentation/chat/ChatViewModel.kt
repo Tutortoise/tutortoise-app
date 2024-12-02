@@ -23,6 +23,9 @@ class ChatViewModel(private val context: Context) : ViewModel() {
     private val _rooms = MutableLiveData<List<ChatRoom>>()
     val rooms: LiveData<List<ChatRoom>> = _rooms
 
+    private val _chatPartner = MutableLiveData<Pair<String, String>>() // (name, id)
+    val chatPartner: LiveData<Pair<String, String>> = _chatPartner
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -39,6 +42,14 @@ class ChatViewModel(private val context: Context) : ViewModel() {
 
     init {
         _isLoading.value = false
+    }
+
+    fun setChatPartner(isLearner: Boolean, room: ChatRoom) {
+        _chatPartner.value = if (isLearner) {
+            Pair(room.tutorName, room.tutorId)
+        } else {
+            Pair(room.learnerName, room.learnerId)
+        }
     }
 
     fun loadRooms() {

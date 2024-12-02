@@ -10,8 +10,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.data.model.ChatRoom
 import com.tutortoise.tutortoise.databinding.ActivityChatRoomBinding
+import com.tutortoise.tutortoise.domain.AuthManager
 import com.tutortoise.tutortoise.presentation.chat.adapter.ChatMessageAdapter
+import com.tutortoise.tutortoise.utils.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -35,22 +40,39 @@ class ChatRoomActivity : AppCompatActivity() {
         private const val TAG = "ChatRoomActivity"
     }
 
+    private val isLearner by lazy { AuthManager.getInstance()?.getUserRole() == "learner" }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatRoomBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Get room ID if it exists
         roomId = intent.getStringExtra("ROOM_ID")
-
         viewModel = ChatViewModel(this)
+
         setupUI()
+        setupToolbar()
         observeViewModel()
 
-        // Only load messages if room exists
-        roomId?.let {
-            viewModel.loadMessages(it)
+        roomId?.let { id ->
+            // Set initial chat partner info if room exists
+            val room = ChatRoom(
+                id = id,
+                learnerId = learnerId,
+                tutorId = tutorId,
+                lastMessageAt = "",
+                createdAt = "",
+                learnerName = intent.getStringExtra("LEARNER_NAME") ?: "",
+                tutorName = intent.getStringExtra("TUTOR_NAME") ?: "",
+                lastMessage = null
+            )
+            viewModel.setChatPartner(isLearner, room)
+            viewModel.loadMessages(id)
         }
+    }
+
+    private fun setupToolbar() {
+        binding.btnBack.setOnClickListener { finish() }
     }
 
     private fun setupUI() {
@@ -153,6 +175,18 @@ class ChatRoomActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             imagePickerLauncher.launch("image/*")
+        }
+
+        viewModel.chatPartner.observe(this) { (name, id) ->
+            binding.tvName.text = name
+
+            // Load profile picture
+            Glide.with(this)
+                .load(Constants.getProfilePictureUrl(id))
+                .placeholder(R.drawable.default_profile_picture)
+                .error(R.drawable.default_profile_picture)
+                .circleCrop()
+                .into(binding.profileImage)
         }
     }
 
