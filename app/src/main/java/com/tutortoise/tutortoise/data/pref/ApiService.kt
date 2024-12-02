@@ -137,6 +137,11 @@ interface ApiService {
         @Body request: EditTutoriesRequest
     ): MessageResponse
 
+    @PATCH("tutors/services/{tutoriesId}")
+    suspend fun deleteTutories(
+        @Path("tutoriesId") tutoriesId: String,
+    ): MessageResponse
+
     // Chat endpoints
     @POST("chat/rooms")
     suspend fun createRoom(

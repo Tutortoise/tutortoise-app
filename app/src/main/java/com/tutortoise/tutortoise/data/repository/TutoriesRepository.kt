@@ -132,6 +132,22 @@ class TutoriesRepository(context: Context) {
             }
         }
 
+    suspend fun deleteTutories(tutoriesId: String): Result<MessageResponse> =
+        withContext(Dispatchers.IO) {
+            return@withContext try {
+                Log.d("TutoriesRepository", "Deleting tutories with id: $tutoriesId")
+                val response = apiService.deleteTutories(tutoriesId)
+
+                Result.success(response)
+            } catch (e: HttpException) {
+                val errorBody = ApiConfig.parseError(e.response()!!)
+                Result.failure(ApiException(errorBody?.message ?: "Delete failed", errorBody))
+            } catch (e: Exception) {
+                Log.e("TutoriesRepository", "Failed to delete tutories", e)
+                Result.failure(e)
+            }
+        }
+
     suspend fun fetchLocations(): ApiResponse<GetTutoriesLocationResponse>? {
         return try {
             val response = apiService.getLocations()

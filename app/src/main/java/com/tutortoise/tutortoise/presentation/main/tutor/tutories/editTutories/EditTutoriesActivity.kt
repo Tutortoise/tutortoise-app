@@ -75,6 +75,12 @@ class EditTutoriesActivity : AppCompatActivity() {
             btnTutoriesStatus.setOnClickListener {
                 tvTutoriesStatus.setText(if (btnTutoriesStatus.isChecked) R.string.status_enabled else R.string.status_disabled)
             }
+            tvDelete.setOnClickListener {
+                // TODO: Show confirmation dialog
+                deleteTutories()
+                finish()
+            }
+
         }
     }
 
@@ -147,6 +153,7 @@ class EditTutoriesActivity : AppCompatActivity() {
         }
     }
 
+
     private fun updateTutories() {
         val hourlyRate = binding.editRate.text.toString().parseFormattedNumber()
 
@@ -176,6 +183,29 @@ class EditTutoriesActivity : AppCompatActivity() {
                         } else {
                             showError("Failed to update tutories: ${throwable.message}")
                         }
+                    }
+                )
+            } catch (e: Exception) {
+                showError("An error occurred: ${e.message}")
+            }
+        }
+    }
+
+    private fun deleteTutories() {
+        lifecycleScope.launch {
+            try {
+                val result = tutoriesRepository.deleteTutories(tutoriesId!!)
+                result.fold(
+                    onSuccess = {
+                        Toast.makeText(
+                            this@EditTutoriesActivity,
+                            "Tutories deleted successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    },
+                    onFailure = {
+                        showError("Failed to delete tutories")
                     }
                 )
             } catch (e: Exception) {
