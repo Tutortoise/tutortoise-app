@@ -34,7 +34,9 @@ data class DetailedTutoriesResponse(
     val city: String,
     val district: String,
     val isEnabled: Boolean,
-    val alsoTeaches: List<AlsoTeachesResponse>
+    val alsoTeaches: List<AlsoTeachesResponse>,
+    val avgRating: Float,
+    val totalReviews: Int
 )
 
 data class AlsoTeachesResponse(

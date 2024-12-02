@@ -20,6 +20,7 @@ import com.tutortoise.tutortoise.data.model.OAuthData
 import com.tutortoise.tutortoise.data.model.OAuthRequest
 import com.tutortoise.tutortoise.data.model.RegisterData
 import com.tutortoise.tutortoise.data.model.RegisterRequest
+import com.tutortoise.tutortoise.data.model.ReviewResponse
 import com.tutortoise.tutortoise.data.model.SendMessageRequest
 import com.tutortoise.tutortoise.data.model.TutorData
 import com.tutortoise.tutortoise.data.model.TypingStatus
@@ -141,6 +142,12 @@ interface ApiService {
     suspend fun deleteTutories(
         @Path("tutoriesId") tutoriesId: String,
     ): MessageResponse
+
+    // Review
+    @GET("reviews/tutories/{tutoriesId}")
+    suspend fun getReviews(
+        @Path("tutoriesId") tutoriesId: String
+    ): Response<ApiResponse<List<ReviewResponse>>>
 
     // Chat endpoints
     @POST("chat/rooms")

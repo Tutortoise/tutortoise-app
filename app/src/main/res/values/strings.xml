@@ -191,4 +191,9 @@
     <string name="delete">Delete</string>
     <string name="profile_completion_setting_text">Please complete your profile to proceed\nto the next step</string>
     <string name="profile_completion_setting_detail_text">Completing your profile is required to continue.\nThis helps us ensure the best experience for you</string>
+
+    <plurals name="total_reviews">
+        <item quantity="one">(%d review)</item>
+        <item quantity="other">(%d reviews)</item>
+    </plurals>
 </resources>

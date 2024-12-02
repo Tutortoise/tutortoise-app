@@ -9,13 +9,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
+import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.LessonType
 import com.tutortoise.tutortoise.data.pref.ApiConfig
 import com.tutortoise.tutortoise.data.pref.ApiService
+import com.tutortoise.tutortoise.data.repository.ReviewRepository
 import com.tutortoise.tutortoise.databinding.ActivityDetailTutorBinding
 import com.tutortoise.tutortoise.domain.ChatManager
 import com.tutortoise.tutortoise.presentation.main.learner.detail.adapter.AlsoTeachAdapter
+import com.tutortoise.tutortoise.presentation.main.learner.detail.adapter.ReviewsAdapter
 import com.tutortoise.tutortoise.presentation.main.learner.reservation.ReservationActivity
 import com.tutortoise.tutortoise.utils.Constants
 import com.tutortoise.tutortoise.utils.formatWithThousandsSeparator
@@ -37,6 +41,8 @@ class DetailTutorActivity : AppCompatActivity() {
     private var currentTutoriesId: String = ""
     private var currentTutorId: String = ""
 
+    private lateinit var reviewRepository: ReviewRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailTutorBinding.inflate(layoutInflater)
@@ -45,7 +51,10 @@ class DetailTutorActivity : AppCompatActivity() {
         currentTutoriesId = intent.getStringExtra("TUTORIES_ID") ?: ""
         currentTutorId = intent.getStringExtra("TUTOR_ID") ?: ""
 
+        reviewRepository = ReviewRepository(this)
+
         fetchTutoriesDetails()
+        fetchReviews()
 
         binding.btnBack.setOnClickListener {
             finish()
@@ -65,6 +74,24 @@ class DetailTutorActivity : AppCompatActivity() {
 
     }
 
+    // TODO: handle ui of no reviews
+    // TODO: fix the layout of the reviews
+    private fun fetchReviews() {
+        coroutineScope.launch {
+            try {
+                val reviewsResponse = reviewRepository.getTutoriesReviews(currentTutoriesId)
+                reviewsResponse?.data?.let { reviews ->
+                    binding.rvReview.layoutManager = LinearLayoutManager(this@DetailTutorActivity)
+                    binding.rvReview.adapter = ReviewsAdapter(reviews)
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@DetailTutorActivity, "Error: ${e.message}", Toast.LENGTH_SHORT)
+                    .show()
+                Log.e("DetailTutorActivity", "Error fetching reviews", e)
+            }
+        }
+    }
+
     private fun fetchTutoriesDetails() {
         coroutineScope.launch {
             try {
@@ -77,8 +104,13 @@ class DetailTutorActivity : AppCompatActivity() {
 
                     binding.tvTutorName.text = tutories.tutorName
                     binding.tvCategoryName.text = tutories.categoryName
-                    // TODO: avg rating
-//                    binding.tvRating.text = tutories.avgRating.toString()
+                    binding.tvRating.text = tutories.avgRating.toString()
+                    binding.tvAvgRating.text = tutories.avgRating.toString()
+                    binding.tvTotalReviews.text = resources.getQuantityString(
+                        R.plurals.total_reviews,
+                        tutories.totalReviews,
+                        tutories.totalReviews,
+                    )
                     binding.tvHourlyRate.text =
                         "Rp. ${tutories.hourlyRate.formatWithThousandsSeparator()} / Hour"
                     binding.tvCity.text = tutories.city
