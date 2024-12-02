@@ -114,8 +114,26 @@ class MainActivity : AppCompatActivity() {
 
         // Handle deep linking or specific fragment start
         val startFragment = intent.getStringExtra("startFragment")
-        if (startFragment == "profile") {
-            binding.bottomNav.selectedItemId = R.id.profileLearnerFragment
+        when (startFragment) {
+            "profile" -> binding.bottomNav.selectedItemId = R.id.profileLearnerFragment
+            "home" -> binding.bottomNav.selectedItemId = R.id.homeLearnerFragment
+            "explore" -> navigateToExploreWithIntentData()
+        }
+    }
+
+    private fun navigateToExploreWithIntentData() {
+        val categoryId = intent.getStringExtra("categoryId")
+        val categoryName = intent.getStringExtra("categoryName")
+
+        if (categoryId != null) {
+            exploreViewModel.clearData() // Clear any existing data
+            exploreViewModel.setSelectedCategory(
+                CategoryResponse(categoryId, categoryName ?: "", "") // Empty iconUrl since it's not needed
+            )
+
+            // Navigate to ExploreLearnerFragment
+            binding.bottomNav.selectedItemId = R.id.exploreLearnerFragment
+            navController.navigate(R.id.exploreLearnerFragment)
         }
     }
 

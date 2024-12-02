@@ -7,6 +7,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.data.model.CategoryResponse
 import com.tutortoise.tutortoise.data.repository.CategoryRepository
 import com.tutortoise.tutortoise.databinding.ActivityCategoriesBinding
 import com.tutortoise.tutortoise.presentation.main.MainActivity
@@ -41,13 +42,27 @@ class CategoriesActivity : AppCompatActivity() {
             val popularCategories = categoryRepository.fetchPopularCategories()
 
             if (popularCategories?.data != null) {
-                recyclerView.adapter = CategoriesAdapter(popularCategories.data)
+                recyclerView.adapter = CategoriesAdapter(popularCategories.data) { clickedCategory ->
+                    navigateToExploreWithCategory(clickedCategory)
+                }
             } else {
-                // Fallback to regular categories if popular categories fetch fails
                 val categories = categoryRepository.fetchCategories()
-                recyclerView.adapter = categories?.data?.let { CategoriesAdapter(it) }
+                recyclerView.adapter = categories?.data?.let {
+                    CategoriesAdapter(it) { clickedCategory ->
+                        navigateToExploreWithCategory(clickedCategory)
+                    }
+                }
             }
         }
+    }
+
+    private fun navigateToExploreWithCategory(category: CategoryResponse) {
+        // Using NavController to navigate if CategoriesActivity is hosting fragments
+        val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("startFragment", "explore")
+        intent.putExtra("categoryId", category.id)
+        intent.putExtra("categoryName", category.name)
+        startActivity(intent)
     }
 
     private fun backToHome() {
