@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -23,7 +22,10 @@ class ChatRoomActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatRoomBinding
     private lateinit var adapter: ChatMessageAdapter
     private lateinit var viewModel: ChatViewModel
-    private lateinit var roomId: String
+
+    private var roomId: String? = null
+    private val learnerId: String by lazy { intent.getStringExtra("LEARNER_ID") ?: "" }
+    private val tutorId: String by lazy { intent.getStringExtra("TUTOR_ID") ?: "" }
 
     private var shouldScrollToBottom = true
 
@@ -38,18 +40,17 @@ class ChatRoomActivity : AppCompatActivity() {
         binding = ActivityChatRoomBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        roomId = intent.getStringExtra("ROOM_ID") ?: run {
-            Log.e(TAG, "No room ID provided")
-            Toast.makeText(this, "Invalid room ID", Toast.LENGTH_SHORT).show()
-            finish()
-            return
-        }
+        // Get room ID if it exists
+        roomId = intent.getStringExtra("ROOM_ID")
 
-        Log.d(TAG, "Starting chat room with ID: $roomId")
         viewModel = ChatViewModel(this)
         setupUI()
         observeViewModel()
-        viewModel.loadMessages(roomId)
+
+        // Only load messages if room exists
+        roomId?.let {
+            viewModel.loadMessages(it)
+        }
     }
 
     private fun setupUI() {
@@ -69,14 +70,13 @@ class ChatRoomActivity : AppCompatActivity() {
                     val lastVisibleItem = layoutManager.findLastVisibleItemPosition()
                     val totalItemCount = layoutManager.itemCount
 
-                    // Load more when user scrolls near the top (since layout is reversed)
                     if (!viewModel.isLoading.value!! && !viewModel.isLoadingMore.value!! &&
                         lastVisibleItem >= totalItemCount - 5
                     ) {
                         viewModel.messages.value?.let { messages ->
-                            if (messages.isNotEmpty()) {
-                                shouldScrollToBottom = false // Don't scroll when loading more
-                                viewModel.loadMoreMessages(roomId, messages.last().sentAt)
+                            if (messages.isNotEmpty() && roomId != null) {
+                                shouldScrollToBottom = false
+                                viewModel.loadMoreMessages(roomId!!, messages.last().sentAt)
                             }
                         }
                     }
@@ -87,6 +87,7 @@ class ChatRoomActivity : AppCompatActivity() {
         binding.btnSend.setOnClickListener {
             val message = binding.editMessage.text.toString().trim()
             if (message.isNotEmpty()) {
+                shouldScrollToBottom = true
                 viewModel.sendMessage(roomId, message)
                 binding.editMessage.text.clear()
             }
@@ -98,6 +99,10 @@ class ChatRoomActivity : AppCompatActivity() {
     }
 
     private fun observeViewModel() {
+        viewModel.roomCreated.observe(this) { newRoomId ->
+            roomId = newRoomId
+        }
+
         viewModel.messages.observe(this) { messages ->
             val recyclerView = binding.recyclerView
             val layoutManager = recyclerView.layoutManager as LinearLayoutManager
@@ -132,10 +137,22 @@ class ChatRoomActivity : AppCompatActivity() {
         binding.btnSend.setOnClickListener {
             val message = binding.editMessage.text.toString().trim()
             if (message.isNotEmpty()) {
-                shouldScrollToBottom = true // Scroll to bottom for new sent message
-                viewModel.sendMessage(roomId, message)
+                shouldScrollToBottom = true
+                if (roomId == null) {
+                    viewModel.createRoomAndSendMessage(learnerId, tutorId, message)
+                } else {
+                    viewModel.sendMessage(roomId!!, message)
+                }
                 binding.editMessage.text.clear()
             }
+        }
+
+        binding.btnAttach.setOnClickListener {
+            if (roomId == null) {
+                Toast.makeText(this, "Please send a message first", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            imagePickerLauncher.launch("image/*")
         }
     }
 
@@ -150,7 +167,9 @@ class ChatRoomActivity : AppCompatActivity() {
                     val bytes = outputStream.toByteArray()
                     val base64String = Base64.encodeToString(bytes, Base64.DEFAULT)
 
-                    viewModel.sendMessage(roomId, base64String, isImage = true)
+                    roomId?.let { id ->
+                        viewModel.sendMessage(id, base64String, isImage = true)
+                    }
                 } catch (e: Exception) {
                     Toast.makeText(this, "Failed to process image", Toast.LENGTH_SHORT).show()
                 }

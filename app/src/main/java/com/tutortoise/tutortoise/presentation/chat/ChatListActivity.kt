@@ -28,8 +28,11 @@ class ChatListActivity : AppCompatActivity() {
 
     private fun setupUI() {
         adapter = ChatRoomAdapter { room ->
-            val intent = Intent(this, ChatRoomActivity::class.java)
-            intent.putExtra("ROOM_ID", room.id)
+            val intent = Intent(this, ChatRoomActivity::class.java).apply {
+                putExtra("ROOM_ID", room.id)
+                putExtra("LEARNER_ID", room.learnerId)
+                putExtra("TUTOR_ID", room.tutorId)
+            }
             startActivity(intent)
         }
 

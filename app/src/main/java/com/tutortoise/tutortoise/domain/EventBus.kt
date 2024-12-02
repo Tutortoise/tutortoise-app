@@ -1,4 +1,4 @@
-package com.tutortoise.tutortoise.utils
+package com.tutortoise.tutortoise.domain
 
 object EventBus {
     private val listeners = mutableMapOf<Class<*>, MutableList<(Any) -> Unit>>()

@@ -23,9 +23,9 @@ import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.data.repository.LearnerRepository
 import com.tutortoise.tutortoise.data.repository.TutorRepository
 import com.tutortoise.tutortoise.databinding.ActivityEditProfileBinding
+import com.tutortoise.tutortoise.domain.EventBus
+import com.tutortoise.tutortoise.domain.ProfileUpdateEvent
 import com.tutortoise.tutortoise.utils.Constants
-import com.tutortoise.tutortoise.utils.EventBus
-import com.tutortoise.tutortoise.utils.ProfileUpdateEvent
 import kotlinx.coroutines.cancelChildren
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull

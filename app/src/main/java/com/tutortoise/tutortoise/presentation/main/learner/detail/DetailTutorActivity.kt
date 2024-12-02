@@ -13,9 +13,9 @@ import com.tutortoise.tutortoise.data.model.LessonType
 import com.tutortoise.tutortoise.data.pref.ApiConfig
 import com.tutortoise.tutortoise.data.pref.ApiService
 import com.tutortoise.tutortoise.databinding.ActivityDetailTutorBinding
+import com.tutortoise.tutortoise.domain.ChatManager
 import com.tutortoise.tutortoise.presentation.main.learner.detail.adapter.AlsoTeachAdapter
 import com.tutortoise.tutortoise.presentation.main.learner.reservation.ReservationActivity
-import com.tutortoise.tutortoise.utils.ChatUtils
 import com.tutortoise.tutortoise.utils.Constants
 import com.tutortoise.tutortoise.utils.formatWithThousandsSeparator
 import kotlinx.coroutines.CoroutineScope
@@ -152,7 +152,7 @@ class DetailTutorActivity : AppCompatActivity() {
 
         // Chat button click listener
         binding.btnChat.setOnClickListener {
-            ChatUtils.navigateToChat(this, currentTutorId)
+            ChatManager.navigateToChat(this, currentTutorId)
         }
 
         // Reservation button click listener

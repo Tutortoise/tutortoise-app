@@ -16,14 +16,14 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.databinding.FragmentTutorProfileBinding
+import com.tutortoise.tutortoise.domain.EventBus
+import com.tutortoise.tutortoise.domain.ProfileUpdateEvent
 import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
 import com.tutortoise.tutortoise.presentation.commonProfile.ChangePasswordActivity
 import com.tutortoise.tutortoise.presentation.commonProfile.MyActivityActivity
 import com.tutortoise.tutortoise.presentation.commonProfile.editProfile.EditProfileActivity
 import com.tutortoise.tutortoise.presentation.main.tutor.tutories.SetScheduleActivity
 import com.tutortoise.tutortoise.utils.Constants
-import com.tutortoise.tutortoise.utils.EventBus
-import com.tutortoise.tutortoise.utils.ProfileUpdateEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

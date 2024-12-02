@@ -9,11 +9,12 @@ import androidx.lifecycle.viewModelScope
 import com.tutortoise.tutortoise.data.model.ChatMessage
 import com.tutortoise.tutortoise.data.model.ChatRoom
 import com.tutortoise.tutortoise.data.repository.ChatRepository
+import com.tutortoise.tutortoise.domain.ChatManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ChatViewModel(context: Context) : ViewModel() {
+class ChatViewModel(private val context: Context) : ViewModel() {
     private val TAG = "ChatViewModel"
     private val chatRepository = ChatRepository(context)
     private val _messages = MutableLiveData<List<ChatMessage>>()
@@ -32,7 +33,9 @@ class ChatViewModel(context: Context) : ViewModel() {
     val isLoadingMore: LiveData<Boolean> = _isLoadingMore
 
     private var _hasMoreMessages = MutableLiveData<Boolean>(true)
-    val hasMoreMessages: LiveData<Boolean> = _hasMoreMessages
+
+    private val _roomCreated = MutableLiveData<String>()
+    val roomCreated: LiveData<String> = _roomCreated
 
     init {
         _isLoading.value = false
@@ -112,7 +115,12 @@ class ChatViewModel(context: Context) : ViewModel() {
         }
     }
 
-    fun sendMessage(roomId: String, content: String, isImage: Boolean = false) {
+    fun sendMessage(roomId: String?, content: String, isImage: Boolean = false) {
+        if (roomId == null) {
+            _error.value = "Invalid room ID"
+            return
+        }
+
         viewModelScope.launch {
             try {
                 val result = chatRepository.sendMessage(
@@ -123,7 +131,6 @@ class ChatViewModel(context: Context) : ViewModel() {
 
                 result.fold(
                     onSuccess = { message ->
-                        // Since we're using reverseLayout, add new messages at the beginning
                         val currentMessages = _messages.value?.toMutableList() ?: mutableListOf()
                         currentMessages.add(0, message)
                         _messages.value = currentMessages
@@ -132,6 +139,31 @@ class ChatViewModel(context: Context) : ViewModel() {
                 )
             } catch (e: Exception) {
                 _error.value = "Failed to send message"
+            }
+        }
+    }
+
+    fun createRoomAndSendMessage(learnerId: String, tutorId: String, message: String) {
+        viewModelScope.launch {
+            try {
+                _isLoading.value = true
+                val result = withContext(Dispatchers.IO) {
+                    ChatManager.findOrCreateChatRoom(context, tutorId)
+                }
+
+                result.fold(
+                    onSuccess = { room ->
+                        _roomCreated.value = room.id
+                        sendMessage(room.id, message)
+                    },
+                    onFailure = {
+                        _error.value = it.message
+                    }
+                )
+            } catch (e: Exception) {
+                _error.value = "Failed to create chat room"
+            } finally {
+                _isLoading.value = false
             }
         }
     }
