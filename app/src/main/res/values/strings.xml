@@ -189,4 +189,6 @@
     <string name="status_enabled">Enabled</string>
     <string name="your_tutories_status">Your tutories status</string>
     <string name="delete">Delete</string>
+    <string name="profile_completion_setting_text">Please complete your profile to proceed\nto the next step</string>
+    <string name="profile_completion_setting_detail_text">Completing your profile is required to continue.\nThis helps us ensure the best experience for you</string>
 </resources>
