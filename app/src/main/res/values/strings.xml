@@ -119,7 +119,7 @@
     <string name="about_you">About you in this category</string>
     <string name="about_you_text">Reassure your student about your professionalism, inspire confidence and etablish your legtimacy as a tutor</string>
     <string name="method">Teaching Methodology</string>
-    <string name="method_text">It’s time to convince your future students why they should take lessons with you!</string>
+    <string name="method_text">Now it\'s your chance to convince students to take your course by explaining your teaching methods and the resources you offer as a tutor!</string>
     <string name="rate_per_hour">Rate per hour</string>
     <string name="rate_per_hour_info"><b>Info</b>: The average rate for mathematics lessons in Samarinda is <b>Rp.50000</b></string>
     <string name="rate_per_hour_info_template"><b>Info</b>: The average rate for %1$s lessons in %2$s is <b>Rp %3$s</b></string>
@@ -191,6 +191,8 @@
     <string name="delete">Delete</string>
     <string name="profile_completion_setting_text">Please complete your profile to proceed\nto the next step</string>
     <string name="profile_completion_setting_detail_text">Completing your profile is required to continue.\nThis helps us ensure the best experience for you</string>
+    <string name="tutories_title">Tutories Title</string>
+    <string name="enter_tutories_title">Enter your tutories Title</string>
 
     <plurals name="total_reviews">
         <item quantity="one">(%d review)</item>

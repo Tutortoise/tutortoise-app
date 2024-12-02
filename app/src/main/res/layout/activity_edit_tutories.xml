@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:fontFamily="@font/montserrat_semi_bold"
-                android:text="Tutories Name"
+                android:text="@string/tutories_title"
                 android:textSize="14sp" />
 
             <EditText
@@ -75,8 +75,7 @@
                 android:background="@drawable/edit_text_background"
                 android:fontFamily="@font/montserrat_regular"
                 android:gravity="left|center"
-                android:hint="Enter your tutories Name"
-                android:inputType="number"
+                android:hint="@string/enter_tutories_title"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
