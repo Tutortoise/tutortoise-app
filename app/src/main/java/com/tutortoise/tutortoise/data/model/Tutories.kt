@@ -25,6 +25,7 @@ data class EditTutoriesRequest(
 
 data class DetailedTutoriesResponse(
     val id: String,
+    val name: String,
     val tutorId: String,
     val categoryName: String,
     val tutorName: String,
@@ -64,6 +65,7 @@ data class GetTutoriesLocationResponse(
 
 data class ExploreTutoriesResponse(
     val id: String,
+    val name: String,
     val tutorId: String,
     val tutorName: String,
     val categoryName: String,

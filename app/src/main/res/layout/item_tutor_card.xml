@@ -36,7 +36,7 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/tvTutorName"
+            android:id="@+id/tvTutoriesName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
@@ -57,7 +57,7 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivTutorImageCard"
-            app:layout_constraintTop_toBottomOf="@id/tvTutorName" />
+            app:layout_constraintTop_toBottomOf="@id/tvTutoriesName" />
 
         <TextView
             android:id="@+id/tvRating"

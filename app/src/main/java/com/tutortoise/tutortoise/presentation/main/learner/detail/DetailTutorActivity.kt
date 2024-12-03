@@ -102,7 +102,7 @@ class DetailTutorActivity : AppCompatActivity() {
                 if (response.isSuccessful && response.body()?.data != null) {
                     val tutories = response.body()?.data!!
 
-                    binding.tvTutorName.text = tutories.tutorName
+                    binding.tvTutoriesName.text = tutories.name
                     binding.tvCategoryName.text = tutories.categoryName
                     binding.tvRating.text = tutories.avgRating.toString()
                     binding.tvAvgRating.text = tutories.avgRating.toString()

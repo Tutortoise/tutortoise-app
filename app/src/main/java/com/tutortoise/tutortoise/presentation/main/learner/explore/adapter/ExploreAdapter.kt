@@ -20,7 +20,7 @@ class ExploreAdapter(
     RecyclerView.Adapter<ExploreAdapter.ExploreViewHolder>() {
 
     inner class ExploreViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val tvTutorName: TextView = view.findViewById(R.id.tvTutorName)
+        private val tvTutoriesName: TextView = view.findViewById(R.id.tvTutoriesName)
         private val tvCategoryName: TextView = view.findViewById(R.id.tvCategoryName)
         private val tvRating: TextView = view.findViewById(R.id.tvRating)
         private val tvHourlyRate: TextView = view.findViewById(R.id.tvHourlyRate)
@@ -30,7 +30,7 @@ class ExploreAdapter(
         private val ivTutorImage: ImageView = view.findViewById(R.id.ivTutorImage)
 
         fun bind(tutoriesItem: ExploreTutoriesResponse) {
-            tvTutorName.text = tutoriesItem.tutorName
+            tvTutoriesName.text = tutoriesItem.name
             tvCategoryName.text = tutoriesItem.categoryName
             tvRating.text = tutoriesItem.avgRating.toString()
             tvHourlyRate.text =
