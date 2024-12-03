@@ -7,14 +7,14 @@
     android:layout_marginTop="3dp"
     android:layout_marginEnd="10dp"
     android:layout_marginBottom="20dp"
-    android:background="@drawable/category_item_background"
     app:cardCornerRadius="15dp"
     app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:background="@drawable/category_item_background">
 
         <ImageView
             android:id="@+id/ivCategoryIcon"
@@ -44,7 +44,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivCategoryIcon"
             app:layout_goneMarginBottom="18dp" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
