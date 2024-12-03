@@ -30,6 +30,7 @@ import com.tutortoise.tutortoise.data.model.UserResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
@@ -138,7 +139,7 @@ interface ApiService {
         @Body request: EditTutoriesRequest
     ): MessageResponse
 
-    @PATCH("tutors/services/{tutoriesId}")
+    @DELETE("tutors/services/{tutoriesId}")
     suspend fun deleteTutories(
         @Path("tutoriesId") tutoriesId: String,
     ): MessageResponse
