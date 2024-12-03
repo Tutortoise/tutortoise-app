@@ -17,10 +17,12 @@ import androidx.navigation.ui.setupWithNavController
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.CategoryResponse
 import com.tutortoise.tutortoise.data.repository.AuthRepository
+import com.tutortoise.tutortoise.data.repository.LearnerRepository
 import com.tutortoise.tutortoise.databinding.ActivityMainBinding
 import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
 import com.tutortoise.tutortoise.presentation.main.learner.explore.ExploreViewModel
 import com.tutortoise.tutortoise.presentation.onboarding.OnboardingActivity
+import com.tutortoise.tutortoise.presentation.questioner.QuestionnaireActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -141,7 +143,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun proceedAfterSplash() {
+    private suspend fun proceedAfterSplash() {
         if (isFirstRun()) {
             startOnboarding()
             return
@@ -149,6 +151,11 @@ class MainActivity : AppCompatActivity() {
 
         if (!isUserLoggedIn()) {
             redirectToLogin()
+        }
+
+        if (needsToCompleteQuestionnaire()) {
+            startQuestionnaire()
+            return
         }
     }
 
@@ -160,6 +167,25 @@ class MainActivity : AppCompatActivity() {
     private fun isUserLoggedIn(): Boolean {
         val authRepository = AuthRepository(applicationContext)
         return authRepository.getToken() != null
+    }
+
+    private suspend fun needsToCompleteQuestionnaire(): Boolean {
+        if (authRepository.getUserRole() != "learner") {
+            return false
+        }
+
+        val learnerRepository = LearnerRepository(this)
+        val profile = learnerRepository.fetchLearnerProfile()
+
+        return profile?.data?.let { learner ->
+            learner.learningStyle == null || learner.interests.isNullOrEmpty()
+        } ?: false
+    }
+
+    private fun startQuestionnaire() {
+        val intent = Intent(this, QuestionnaireActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun redirectToLogin() {
