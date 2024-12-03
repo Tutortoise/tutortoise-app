@@ -82,7 +82,6 @@ class ExploreLearnerFragment : Fragment() {
         setupSearch()
         setupUI()
         observeViewModel()
-        fetchTutories()
     }
 
     private fun observeViewModel() {
