@@ -16,13 +16,16 @@ import com.google.android.gms.tasks.Task
 import com.tutortoise.tutortoise.data.pref.ApiException
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.data.repository.CustomOAuthException
+import com.tutortoise.tutortoise.data.repository.LearnerRepository
 import com.tutortoise.tutortoise.databinding.ActivityLoginBinding
 import com.tutortoise.tutortoise.presentation.main.MainActivity
+import com.tutortoise.tutortoise.presentation.questioner.QuestionnaireActivity
 import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var authRepository: AuthRepository
+    private lateinit var learnerRepository: LearnerRepository
 
     private val googleSignInLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -39,6 +42,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         authRepository = AuthRepository(this)
+        learnerRepository = LearnerRepository(this)
 
         if (authRepository.getToken() != null) {
             navigateToMainActivity()
@@ -102,7 +106,6 @@ class LoginActivity : AppCompatActivity() {
             }
         }
 
-        // Add text change listeners
         setupTextChangeListeners()
     }
 
@@ -152,6 +155,26 @@ class LoginActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
+    private suspend fun handleSuccessfulLogin() {
+        val userRole = authRepository.getUserRole()
+
+        if (userRole == "learner") {
+            val learnerProfile = learnerRepository.fetchLearnerProfile()
+
+            if (learnerProfile?.data?.learningStyle == null ||
+                learnerProfile.data.interests.isNullOrEmpty()
+            ) {
+                startActivity(Intent(this, QuestionnaireActivity::class.java))
+            } else {
+                startActivity(Intent(this, MainActivity::class.java))
+            }
+        } else {
+            // For tutors, directly go to main activity
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+        finish()
+    }
+
     private fun loginUser(email: String, password: String) {
         binding.tilEmail.error = null
         binding.tilPassword.error = null
@@ -161,7 +184,7 @@ class LoginActivity : AppCompatActivity() {
                 val success = authRepository.login(email, password)
                 if (success) {
                     showError("Login successful!")
-                    navigateToMainActivity()
+                    handleSuccessfulLogin()
                 } else {
                     binding.tilEmail.error = "Invalid email or password"
                     binding.tilPassword.error = "Invalid email or password"

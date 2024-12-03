@@ -128,7 +128,11 @@ class MainActivity : AppCompatActivity() {
         if (categoryId != null) {
             exploreViewModel.clearData() // Clear any existing data
             exploreViewModel.setSelectedCategory(
-                CategoryResponse(categoryId, categoryName ?: "", "") // Empty iconUrl since it's not needed
+                CategoryResponse(
+                    categoryId,
+                    categoryName ?: "",
+                    ""
+                ) // Empty iconUrl since it's not needed
             )
 
             // Navigate to ExploreLearnerFragment

@@ -28,6 +28,10 @@
         android:theme="@style/Theme.Tutortoise"
         tools:targetApi="31">
         <activity
+            android:name=".presentation.questioner.QuestionnaireActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".presentation.main.learner.reservation.ReservationActivity"
             android:exported="false"
             android:screenOrientation="portrait" />

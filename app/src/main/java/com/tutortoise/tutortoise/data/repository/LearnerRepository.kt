@@ -5,7 +5,9 @@ import android.util.Log
 import com.tutortoise.tutortoise.data.model.ApiResponse
 import com.tutortoise.tutortoise.data.model.LearnerData
 import com.tutortoise.tutortoise.data.model.MessageResponse
+import com.tutortoise.tutortoise.data.model.UpdateInterestsRequest
 import com.tutortoise.tutortoise.data.model.UpdateLearnerProfileRequest
+import com.tutortoise.tutortoise.data.model.UpdateLearningStyleRequest
 import com.tutortoise.tutortoise.data.pref.ApiConfig
 import com.tutortoise.tutortoise.data.pref.ApiException
 import okhttp3.MultipartBody
@@ -29,17 +31,61 @@ class LearnerRepository(context: Context) {
         }
     }
 
-    suspend fun updateLearnerProfile(data: UpdateLearnerProfileRequest): MessageResponse? {
+    suspend fun updateLearnerProfile(data: UpdateLearnerProfileRequest): Result<MessageResponse> {
         return try {
             val response = apiService.updateLearnerProfile(data)
             if (response.isSuccessful) {
-                response.body()
+                response.body()?.let {
+                    Result.success(it)
+                } ?: Result.failure(Exception("Empty response body"))
             } else {
-                null
+                val error = ApiConfig.parseError(response)
+                Result.failure(ApiException(error?.message ?: "Failed to update profile", error))
             }
         } catch (e: Exception) {
-            Log.e("LearnerRepository", "Failed to update learner profile", e)
-            null
+            Result.failure(e)
+        }
+    }
+
+
+    suspend fun updateLearningStyle(style: String): Result<MessageResponse> {
+        return try {
+            val response = apiService.updateLearningStyle(
+                UpdateLearningStyleRequest(style)
+            )
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Result.success(it)
+                } ?: Result.failure(Exception("Empty response body"))
+            } else {
+                val error = ApiConfig.parseError(response)
+                Result.failure(
+                    ApiException(
+                        error?.message ?: "Failed to update learning style",
+                        error
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    suspend fun updateInterests(interests: List<String>): Result<MessageResponse> {
+        return try {
+            val response = apiService.updateInterests(
+                UpdateInterestsRequest(interests)
+            )
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Result.success(it)
+                } ?: Result.failure(Exception("Empty response body"))
+            } else {
+                val error = ApiConfig.parseError(response)
+                Result.failure(ApiException(error?.message ?: "Failed to update interests", error))
+            }
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 

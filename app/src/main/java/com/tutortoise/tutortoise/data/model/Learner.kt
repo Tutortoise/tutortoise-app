@@ -6,6 +6,7 @@ data class LearnerData(
     override val name: String,
     override val email: String,
     val learningStyle: String?,
+    val interests: List<String>?,
     override val gender: String?,
     override val phoneNumber: String?,
     override val city: String?,
@@ -22,4 +23,12 @@ data class UpdateLearnerProfileRequest(
     val district: String?,
     val learningStyle: String?,
     val interests: List<String>?
+)
+
+data class UpdateLearningStyleRequest(
+    val learningStyle: String
+)
+
+data class UpdateInterestsRequest(
+    val interests: List<String>
 )

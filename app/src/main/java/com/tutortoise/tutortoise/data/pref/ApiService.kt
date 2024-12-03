@@ -24,7 +24,9 @@ import com.tutortoise.tutortoise.data.model.ReviewResponse
 import com.tutortoise.tutortoise.data.model.SendMessageRequest
 import com.tutortoise.tutortoise.data.model.TutorData
 import com.tutortoise.tutortoise.data.model.TypingStatus
+import com.tutortoise.tutortoise.data.model.UpdateInterestsRequest
 import com.tutortoise.tutortoise.data.model.UpdateLearnerProfileRequest
+import com.tutortoise.tutortoise.data.model.UpdateLearningStyleRequest
 import com.tutortoise.tutortoise.data.model.UpdateTutorProfileRequest
 import com.tutortoise.tutortoise.data.model.UserResponse
 import okhttp3.MultipartBody
@@ -74,6 +76,16 @@ interface ApiService {
     @PATCH("learners/profile")
     suspend fun updateLearnerProfile(
         @Body request: UpdateLearnerProfileRequest
+    ): Response<MessageResponse>
+
+    @PATCH("learners/profile/learning-style")
+    suspend fun updateLearningStyle(
+        @Body request: UpdateLearningStyleRequest
+    ): Response<MessageResponse>
+
+    @PATCH("learners/profile/interests")
+    suspend fun updateInterests(
+        @Body request: UpdateInterestsRequest
     ): Response<MessageResponse>
 
     @Multipart
