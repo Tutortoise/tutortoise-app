@@ -6,6 +6,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.databinding.ActivityQuestionnaireBinding
 import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
 import com.tutortoise.tutortoise.presentation.main.MainActivity
@@ -13,11 +14,14 @@ import com.tutortoise.tutortoise.presentation.main.MainActivity
 class QuestionnaireActivity : AppCompatActivity() {
     private lateinit var binding: ActivityQuestionnaireBinding
     private var currentFragment = 0
+    private lateinit var authRepository: AuthRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityQuestionnaireBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        authRepository = AuthRepository(this)
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -39,11 +43,14 @@ class QuestionnaireActivity : AppCompatActivity() {
                 dialog.dismiss()
             }
             .setNegativeButton("Exit") { _, _ ->
+                authRepository.clearToken()
+
                 val intent = Intent(this, LoginActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 finish()
             }
+            .setCancelable(false)
             .show()
     }
 
