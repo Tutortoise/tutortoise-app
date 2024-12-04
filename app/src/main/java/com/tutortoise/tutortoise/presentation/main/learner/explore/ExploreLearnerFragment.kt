@@ -85,7 +85,15 @@ class ExploreLearnerFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        // Observe search query changes
+        // Handle initial load only if not navigating from category
+        exploreViewModel.initialLoadTrigger.observe(viewLifecycleOwner) { event ->
+            if (!exploreViewModel.isNavigatingFromCategory()) {
+                event.getContentIfNotHandled()?.let {
+                    fetchTutories()
+                }
+            }
+        }
+
         exploreViewModel.searchQuery.observe(viewLifecycleOwner) { query ->
             if (!query.isNullOrEmpty()) {
                 binding.etSearch.setText(query)
@@ -112,10 +120,6 @@ class ExploreLearnerFragment : Fragment() {
 
                 // Update UI
                 updateFilterBadge(1)
-
-                // Log the filter state
-                println("Setting category filter: ${it.name}")
-                println("Current filter state categories: ${currentFilterState?.categories?.map { sub -> sub.id }}")
 
                 // Fetch tutories with new filter
                 fetchTutories()
@@ -193,17 +197,17 @@ class ExploreLearnerFragment : Fragment() {
     }
 
     private fun fetchTutories(query: String? = null) {
+        // Prevent duplicate fetches if already loading
+        if (_binding?.progressBar?.visibility == View.VISIBLE) {
+            return
+        }
+
         currentSearchQuery = query
         viewLifecycleOwner.lifecycleScope.launch {
             try {
                 showLoading(true)
                 showEmptyState(false)
                 binding.rvTutories.visibility = View.GONE
-
-                // Debug logging
-                println("Fetching tutories with:")
-                println("Query: $query")
-                println("Category IDs: ${currentFilterState?.categories?.map { it.id }}")
 
                 val tutoriesItems = tutoriesRepository.searchTutories(
                     query = query?.takeIf { it.isNotEmpty() },
@@ -228,7 +232,6 @@ class ExploreLearnerFragment : Fragment() {
                     showEmptyState(true)
                 }
             } catch (e: Exception) {
-                println("Error fetching tutories: ${e.message}")
                 if (isActive) {
                     showLoading(false)
                     binding.rvTutories.visibility = View.GONE
