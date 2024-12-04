@@ -42,7 +42,7 @@ flexbox = "3.0.0"
 navigation-safe-args = "2.8.4"
 playServicesAuth = "20.7.0"
 firebaseMessaging = "24.1.0"
-
+shimmer = "0.5.0"
 
 
 
@@ -86,6 +86,7 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref = "flexbox" }
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
+shimmer-android = { group = "com.facebook.shimmer", name = "shimmer", version.ref = "shimmer" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

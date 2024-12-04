@@ -5,13 +5,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.CategoryResponse
 
 class CategoriesAdapter(
-    private val categories: List<CategoryResponse>,
+    private var categories: List<CategoryResponse>,
     private val onCategoryClick: ((CategoryResponse) -> Unit)? = null
 ) : RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder>() {
 
@@ -44,5 +45,25 @@ class CategoriesAdapter(
     }
 
     override fun getItemCount(): Int = categories.size
+
+
+    fun updateData(newCategories: List<CategoryResponse>) {
+        val diffCallback = CategoryDiffCallback(categories, newCategories)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        categories = newCategories
+        diffResult.dispatchUpdatesTo(this)
+    }
 }
 
+class CategoryDiffCallback(
+    private val oldList: List<CategoryResponse>,
+    private val newList: List<CategoryResponse>
+) : DiffUtil.Callback() {
+    override fun getOldListSize() = oldList.size
+    override fun getNewListSize() = newList.size
+    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+        oldList[oldItemPosition].id == newList[newItemPosition].id
+
+    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+        oldList[oldItemPosition] == newList[newItemPosition]
+}

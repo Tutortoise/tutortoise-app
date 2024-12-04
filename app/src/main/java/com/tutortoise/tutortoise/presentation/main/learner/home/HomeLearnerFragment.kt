@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -23,9 +22,9 @@ class HomeLearnerFragment : Fragment() {
     private var _binding: FragmentLearnerHomeBinding? = null
     private val binding get() = _binding!!
     private val navController by lazy { findNavController() }
-    private lateinit var progressBar: ProgressBar
 
     private lateinit var categoryRepository: CategoryRepository
+    private lateinit var categoriesAdapter: CategoriesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,14 +33,22 @@ class HomeLearnerFragment : Fragment() {
     ): View {
         _binding = FragmentLearnerHomeBinding.inflate(inflater, container, false)
 
-        progressBar = binding.progressBar
-
         categoryRepository = CategoryRepository(requireContext())
 
-        // Fetch categories
+        setupRecyclerView()
         fetchCategories()
 
         return binding.root
+    }
+
+    private fun setupRecyclerView() {
+        binding.rvHomeCategories.apply {
+            layoutManager = LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+            categoriesAdapter = CategoriesAdapter(emptyList()) { clickedCategory ->
+                (activity as? MainActivity)?.navigateToExploreWithCategory(clickedCategory)
+            }
+            adapter = categoriesAdapter
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -86,28 +93,26 @@ class HomeLearnerFragment : Fragment() {
         binding.etSearch.text?.clear()
     }
 
-    private fun showLoading(show: Boolean) {
-        progressBar.visibility = if (show) View.VISIBLE else View.GONE
-    }
-
 
     private fun fetchCategories() {
-        val recyclerView: RecyclerView = binding.rvHomeCategories
-        recyclerView.layoutManager =
-            LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
-        showLoading(true) // Show ProgressBar
         lifecycleScope.launch {
             try {
+                binding.categoriesShimmerLayout.visibility = View.VISIBLE
+                binding.categoriesShimmerLayout.startShimmer()
+                binding.rvHomeCategories.visibility = View.GONE
+
                 val categories = categoryRepository.fetchPopularCategories()
-                binding.rvHomeCategories.adapter = categories?.data?.let { categoryList ->
-                    CategoriesAdapter(categoryList) { clickedCategory ->
-                        (activity as? MainActivity)?.navigateToExploreWithCategory(clickedCategory)
-                    }
+
+                binding.categoriesShimmerLayout.stopShimmer()
+                binding.categoriesShimmerLayout.visibility = View.GONE
+                binding.rvHomeCategories.visibility = View.VISIBLE
+
+                categories?.data?.let { categoryList ->
+                    categoriesAdapter.updateData(categoryList)
                 }
             } catch (e: Exception) {
-                // Handle error
-            } finally {
-                showLoading(false) // Hide ProgressBar
+                binding.categoriesShimmerLayout.stopShimmer()
+                binding.categoriesShimmerLayout.visibility = View.GONE
             }
         }
     }
