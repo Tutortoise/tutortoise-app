@@ -12,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.flexbox.AlignItems
 import com.google.android.flexbox.FlexDirection
 import com.google.android.flexbox.FlexboxLayoutManager
-import com.google.android.flexbox.JustifyContent
 import com.tutortoise.tutortoise.data.repository.CategoryRepository
 import com.tutortoise.tutortoise.data.repository.LearnerRepository
 import com.tutortoise.tutortoise.databinding.FragmentQuestionerInterestBinding
@@ -62,7 +61,6 @@ class QuestionerInterestFragment : Fragment() {
 
         val flexboxLayoutManager = FlexboxLayoutManager(context).apply {
             flexDirection = FlexDirection.ROW
-            justifyContent = JustifyContent.CENTER
             alignItems = AlignItems.CENTER
         }
 
