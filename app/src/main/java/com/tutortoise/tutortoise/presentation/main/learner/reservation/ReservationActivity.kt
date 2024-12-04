@@ -1,6 +1,8 @@
 package com.tutortoise.tutortoise.presentation.main.learner.reservation
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +14,10 @@ import com.tutortoise.tutortoise.presentation.main.learner.reservation.adapter.D
 import com.tutortoise.tutortoise.presentation.main.learner.reservation.adapter.TimeAdapter
 import com.tutortoise.tutortoise.utils.groupAvailabilityByDate
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 
 class ReservationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReservationBinding
@@ -25,6 +31,8 @@ class ReservationActivity : AppCompatActivity() {
     private var tutorId: String = ""
     private var tutorName: String = ""
     private var hourlyRate: Int = 0
+
+    private var selectedDatetime = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,21 +76,6 @@ class ReservationActivity : AppCompatActivity() {
             binding.btnOnsite.isSelected = true
         }
 
-        // Handle date selection
-        //val dateButtons = listOf(
-        //    binding.btnDate1,
-        //    binding.btnDate2,
-        //    binding.btnDate3,
-        //    binding.btnDate4
-        //)
-
-        //dateButtons.forEach { button ->
-        //    button.setOnClickListener {
-        //        dateButtons.forEach { it.isSelected = false }
-        //        button.isSelected = true
-        //    }
-        //}
-
         // Handle tutoring time selection
         val timeButtons = listOf(
             binding.btnTutoringTime1,
@@ -111,8 +104,8 @@ class ReservationActivity : AppCompatActivity() {
 
         // Only render four dates
         val firstFourDates = dateList.take(4)
-        val dateAdapter = DateAdapter(firstFourDates) { selectedDate ->
-            updateTimesForSelectedDate(selectedDate, groupedAvailability)
+        val dateAdapter = DateAdapter(firstFourDates) {
+            updateTimesForSelectedDate(it, groupedAvailability)
         }
 
         binding.rvSelectDate.apply {
@@ -122,13 +115,25 @@ class ReservationActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("NewApi")
     private fun updateTimesForSelectedDate(
         date: String,
         groupedAvailability: Map<String, List<String>>
     ) {
         val times = groupedAvailability[date] ?: emptyList()
         val timeAdapter = TimeAdapter(times, onTimeSelected = { time ->
-            // TODO: Handle date and time selection
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")
+
+            val localDateTime = LocalDateTime.parse("$date $time", formatter)
+            val localZone = ZoneId.systemDefault()
+            val localZonedDateTime = ZonedDateTime.of(localDateTime, localZone)
+
+            val utcZonedDateTime = localZonedDateTime.withZoneSameInstant(ZoneId.of("UTC"))
+
+            val isoFormat = DateTimeFormatter.ISO_INSTANT
+            val isoString = isoFormat.format(utcZonedDateTime.toInstant())
+            Log.d("ReservationActivity", "Selected $isoString")
+            selectedDatetime = isoString
         })
         binding.rvSelectTime.apply {
             layoutManager = FlexboxLayoutManager(this@ReservationActivity)
