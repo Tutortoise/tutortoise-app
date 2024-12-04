@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="2dp"
     android:layout_marginTop="2dp"
     android:layout_marginBottom="2dp"
-    android:layout_marginHorizontal="2dp"
     app:cardCornerRadius="15dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="8dp">
+        android:layout_marginVertical="8dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,11 +21,11 @@
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/ivLEarnerImageCard"
+                android:id="@+id/ivLearnerImageCard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="50dp"
                 android:layout_marginBottom="2dp"
+                app:cardCornerRadius="50dp"
                 app:cardElevation="1dp">
 
                 <ImageView
@@ -46,15 +45,15 @@
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat_bold"
-                android:textColor="@color/black"
                 android:text="Learner Name"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:layout_marginBottom="2dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginBottom="2dp"
                 android:src="@drawable/ic_star" />
 
             <TextView
@@ -64,8 +63,8 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginStart="4dp"
                 android:fontFamily="@font/montserrat_medium"
-                android:textColor="@color/black"
                 android:text="5"
+                android:textColor="@color/black"
                 android:textSize="14dp" />
         </LinearLayout>
 
@@ -75,8 +74,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="@font/montserrat_light"
-            android:textColor="@color/black"
             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim  veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea  commodo consequat."
+            android:textColor="@color/black"
             android:textSize="12sp" />
 
     </LinearLayout>
