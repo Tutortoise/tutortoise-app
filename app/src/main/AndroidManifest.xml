@@ -58,7 +58,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.main.learner.detail.DetailTutorActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".presentation.commonProfile.MyActivityActivity"
             android:exported="false"

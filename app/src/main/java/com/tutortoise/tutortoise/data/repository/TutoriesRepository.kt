@@ -162,4 +162,18 @@ class TutoriesRepository(context: Context) {
             null
         }
     }
+
+    suspend fun fetchAvailability(tutoriesId: String): ApiResponse<List<String>>? {
+        return try {
+            val response = apiService.getTutorAvailability(tutoriesId)
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("TutoriesRepository", "Failed to fetch tutories availability", e)
+            null
+        }
+    }
 }

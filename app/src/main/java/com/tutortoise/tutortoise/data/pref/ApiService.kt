@@ -156,6 +156,11 @@ interface ApiService {
         @Path("tutoriesId") tutoriesId: String,
     ): MessageResponse
 
+    @GET("tutors/services/{tutoriesId}/availability")
+    suspend fun getTutorAvailability(
+        @Path("tutoriesId") tutoriesId: String,
+    ): Response<ApiResponse<List<String>>>
+
     // Review
     @GET("reviews/tutories/{tutoriesId}")
     suspend fun getReviews(

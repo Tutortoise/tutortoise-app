@@ -103,83 +103,36 @@
                 app:layout_constraintTop_toBottomOf="@id/btnLearningType"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <LinearLayout
-                android:id="@+id/btnDate"
-                android:layout_width="match_parent"
+            <!--            TODO: fix the layout-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSelectDate"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:orientation="horizontal"
+                android:layout_marginBottom="24dp"
+                android:orientation="vertical"
                 app:layout_constraintTop_toBottomOf="@id/tvSelectDate"
-                app:layout_constraintStart_toStartOf="parent">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnDate1"
-                    style="@style/DayButtonStyle"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_semi_bold"
-                    android:text="Date 1"
-                    android:textSize="12sp"
-                    app:cornerRadius="10dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnDate2"
-                    style="@style/DayButtonStyle"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_semi_bold"
-                    android:text="Date 2"
-                    android:textSize="12sp"
-                    app:cornerRadius="10dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnDate3"
-                    style="@style/DayButtonStyle"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_semi_bold"
-                    android:text="Date 3"
-                    android:textSize="12sp"
-                    app:cornerRadius="10dp" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnDate4"
-                    style="@style/DayButtonStyle"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_semi_bold"
-                    android:text="Date 4"
-                    android:textSize="12sp"
-                    app:cornerRadius="10dp" />
-            </LinearLayout>
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/tvSelectTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:text="Select Time"
                 android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/btnDate"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvSelectDate" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSelectTime"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="24dp"
                 android:orientation="vertical"
-                android:paddingHorizontal="16dp"
-                app:layout_constraintTop_toBottomOf="@id/tvSelectTime" />
+                app:layout_constraintTop_toBottomOf="@id/tvSelectTime"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/tvTutoringTime"
