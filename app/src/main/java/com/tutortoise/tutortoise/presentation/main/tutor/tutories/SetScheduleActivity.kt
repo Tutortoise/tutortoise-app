@@ -1,13 +1,20 @@
 package com.tutortoise.tutortoise.presentation.main.tutor.tutories
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navArgs
 import com.google.android.material.button.MaterialButton
 import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.data.model.UpdateTutorProfileRequest
+import com.tutortoise.tutortoise.data.repository.TutorRepository
 import com.tutortoise.tutortoise.databinding.ActivitySetScheduleBinding
 import com.tutortoise.tutortoise.presentation.main.tutor.tutories.dialog.TimePickerDialog
+import com.tutortoise.tutortoise.utils.generateTimeSlots
+import kotlinx.coroutines.launch
 
 class SetScheduleActivity : AppCompatActivity() {
     private val args: SetScheduleActivityArgs by navArgs()
@@ -17,11 +24,14 @@ class SetScheduleActivity : AppCompatActivity() {
     private val dayButtons = mutableMapOf<MaterialButton, String>()
 
     private lateinit var binding: ActivitySetScheduleBinding
+    private lateinit var tutorRepository: TutorRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySetScheduleBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        tutorRepository = TutorRepository(this)
 
         initializeDayButtons()
         setupTimeButtons()
@@ -97,7 +107,14 @@ class SetScheduleActivity : AppCompatActivity() {
                 if (validateSchedule()) {
                     val scheduleInfo = buildScheduleInfo()
                     // TODO: Save schedule
-                    Toast.makeText(this@SetScheduleActivity, scheduleInfo, Toast.LENGTH_LONG).show()
+                    lifecycleScope.launch {
+                        tutorRepository.updateTutorProfile(
+                            UpdateTutorProfileRequest(
+                                availability = scheduleInfo
+                            )
+                        )
+                    }
+                    finish()
                 }
             }
         }
@@ -124,9 +141,27 @@ class SetScheduleActivity : AppCompatActivity() {
         return isValid
     }
 
-    private fun buildScheduleInfo(): String {
-        val days = selectedDays.joinToString(", ")
-        return "Schedule set for $days\nFrom: $selectedFromTime To: $selectedToTime"
+    @SuppressLint("NewApi")
+    private fun buildScheduleInfo(): Map<Int, List<String>> {
+        val daysOfWeek = mapOf(
+            "Sun" to 0,
+            "Mon" to 1,
+            "Tue" to 2,
+            "Wed" to 3,
+            "Thu" to 4,
+            "Fri" to 5,
+            "Sat" to 6
+        )
+
+        val availability = generateTimeSlots(
+            selectedDays.map { daysOfWeek[it]!! },
+            selectedFromTime!!,
+            selectedToTime!!,
+        )
+
+        Log.d("SetScheduleActivity", "Availability: $availability")
+
+        return availability
     }
 
     private fun showError(message: String) {

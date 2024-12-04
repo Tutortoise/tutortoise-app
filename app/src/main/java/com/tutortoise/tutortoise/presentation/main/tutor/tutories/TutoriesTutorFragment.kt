@@ -74,7 +74,14 @@ class TutoriesTutorFragment : Fragment() {
                     return@launch
                 }
 
-                findNavController().navigate(R.id.action_tutories_to_createTutories)
+                val isScheduleSet =
+                    tutorRepository.fetchTutorProfile().let { it?.data?.availability != null }
+                if (!isScheduleSet) {
+                    startActivity(Intent(requireContext(), SetScheduleActivity::class.java))
+                } else {
+                    findNavController().navigate(R.id.action_tutories_to_createTutories)
+                }
+
             }
         }
 

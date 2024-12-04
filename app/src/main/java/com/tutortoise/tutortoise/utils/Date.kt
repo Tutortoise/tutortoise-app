@@ -1,9 +1,14 @@
 package com.tutortoise.tutortoise.utils
 
 import android.annotation.SuppressLint
-import java.time.LocalDateTime
+import java.time.Duration
+import java.time.LocalDate
+import java.time.LocalTime
+import java.time.Month
 import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.util.TimeZone
 
 @SuppressLint("NewApi")
 fun groupAvailabilityByDate(availability: List<String>): Map<String, List<String>> {
@@ -14,7 +19,7 @@ fun groupAvailabilityByDate(availability: List<String>): Map<String, List<String
 
     // Convert UTC to local and group by date
     return availability.map { utcTime ->
-        val utcDateTime = LocalDateTime.parse(utcTime, inputFormatter)
+        val utcDateTime = java.time.LocalDateTime.parse(utcTime, inputFormatter)
         val localDateTime =
             utcDateTime.atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.systemDefault())
                 .toLocalDateTime()
@@ -25,4 +30,46 @@ fun groupAvailabilityByDate(availability: List<String>): Map<String, List<String
             it.toLocalTime().format(outputTimeFormatter)
         }
     )
+}
+
+// Not sure if this handle all edge cases
+@SuppressLint("NewApi")
+fun generateTimeSlots(
+    dayIndex: List<Int>,
+    startTime: String,
+    endTime: String,
+): Map<Int, List<String>> {
+    val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+
+    val start = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HH:mm"))
+    val end = LocalTime.parse(endTime, DateTimeFormatter.ofPattern("HH:mm"))
+
+    val localZone = ZoneId.of(TimeZone.getDefault().id) // Get the local zone
+
+    val availability: MutableMap<Int, List<String>> = mutableMapOf()
+    for (index in dayIndex) {
+        // January 1, 2023 is a Sunday
+        val referenceDate = LocalDate.of(2023, Month.JANUARY, 1).plusDays(index.toLong())
+
+        val startDate = referenceDate.atTime(start).atZone(localZone)
+        val endDate = referenceDate.atTime(end).atZone(localZone)
+
+        val intervals = mutableListOf<ZonedDateTime>()
+        var current = startDate
+        do {
+            intervals.add(current)
+            current = current.plus(Duration.ofMinutes(30))
+        } while (current.isBefore(endDate) || current.isEqual(endDate))
+
+        intervals.forEach { interval ->
+            // Convert the time to UTC and format it
+            val dayIndexInUtc = interval.withZoneSameInstant(ZoneId.of("UTC")).dayOfWeek.value % 7
+            val utcTime = interval.withZoneSameInstant(ZoneId.of("UTC"))
+
+            availability[dayIndexInUtc] =
+                availability.getOrDefault(dayIndexInUtc, listOf()) + utcTime.format(timeFormatter)
+        }
+    }
+
+    return availability
 }

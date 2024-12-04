@@ -8,14 +8,17 @@ data class TutorData(
     override val phoneNumber: String?,
     override val city: String?,
     override val district: String?,
-    override val createdAt: String
+    override val createdAt: String,
+    val availability: Map<Int, List<String>>?,
 ) : ProfileData
 
+
 data class UpdateTutorProfileRequest(
-    val name: String?,
-    val phoneNumber: String?,
-    val email: String?,
-    val gender: String?,
-    val city: String?,
-    val district: String?,
+    val name: String? = null,
+    val phoneNumber: String? = null,
+    val email: String? = null,
+    val gender: String? = null,
+    val city: String? = null,
+    val district: String? = null,
+    val availability: Map<Int, List<String>>? = null
 )
