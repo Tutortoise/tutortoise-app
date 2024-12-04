@@ -28,6 +28,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlin.random.Random
 
 
 class ExploreLearnerFragment : Fragment() {
@@ -87,7 +88,7 @@ class ExploreLearnerFragment : Fragment() {
     private fun observeViewModel() {
         // Handle initial load only if not navigating from category
         exploreViewModel.initialLoadTrigger.observe(viewLifecycleOwner) { event ->
-            if (!exploreViewModel.isNavigatingFromCategory()) {
+            if (!exploreViewModel.isNavigatingFromCategory() && !exploreViewModel.isNavigatingFromSearch()) {
                 event.getContentIfNotHandled()?.let {
                     fetchTutories()
                 }
@@ -98,7 +99,9 @@ class ExploreLearnerFragment : Fragment() {
             if (!query.isNullOrEmpty()) {
                 binding.etSearch.setText(query)
                 currentSearchQuery = query
-                fetchTutories(query)
+                if (exploreViewModel.isNavigatingFromSearch()) {
+                    fetchTutories(query)
+                }
             }
         }
 
@@ -198,7 +201,7 @@ class ExploreLearnerFragment : Fragment() {
 
     private fun fetchTutories(query: String? = null) {
         // Prevent duplicate fetches if already loading
-        if (_binding?.progressBar?.visibility == View.VISIBLE) {
+        if (_binding?.shimmerFrameLayout?.visibility == View.VISIBLE) {
             return
         }
 
@@ -208,6 +211,10 @@ class ExploreLearnerFragment : Fragment() {
                 showLoading(true)
                 showEmptyState(false)
                 binding.rvTutories.visibility = View.GONE
+
+                delay(
+                    Random(1000).nextLong(100, 200)
+                ) // Prevent flickering by adding a delay
 
                 val tutoriesItems = tutoriesRepository.searchTutories(
                     query = query?.takeIf { it.isNotEmpty() },
@@ -221,32 +228,51 @@ class ExploreLearnerFragment : Fragment() {
 
                 if (!isActive) return@launch
 
-                showLoading(false)
-
                 if (tutoriesItems?.data != null) {
-                    binding.rvTutories.visibility = View.VISIBLE
-                    showEmptyState(tutoriesItems.data.isEmpty())
-                    exploreAdapter.updateItems(tutoriesItems.data)
+                    if (tutoriesItems.data.isEmpty()) {
+                        showEmptyState(true)
+                        showLoading(false)
+                    } else {
+                        showEmptyState(false)
+                        exploreAdapter.updateItems(tutoriesItems.data)
+                        showLoading(false)
+                    }
                 } else {
-                    binding.rvTutories.visibility = View.GONE
                     showEmptyState(true)
+                    showLoading(false)
                 }
             } catch (e: Exception) {
                 if (isActive) {
-                    showLoading(false)
-                    binding.rvTutories.visibility = View.GONE
                     showEmptyState(true)
+                    showLoading(false)
                 }
             }
         }
     }
 
     private fun showLoading(show: Boolean) {
-        _binding?.progressBar?.visibility = if (show) View.VISIBLE else View.GONE
+        _binding?.apply {
+            if (show) {
+                shimmerFrameLayout.visibility = View.VISIBLE
+                shimmerFrameLayout.startShimmer()
+                rvTutories.visibility = View.GONE
+            } else {
+                shimmerFrameLayout.stopShimmer()
+                shimmerFrameLayout.visibility = View.GONE
+            }
+        }
     }
 
     private fun showEmptyState(show: Boolean) {
-        _binding?.emptyStateLayout?.visibility = if (show) View.VISIBLE else View.GONE
+        _binding?.apply {
+            if (show) {
+                emptyStateLayout.visibility = View.VISIBLE
+                rvTutories.visibility = View.GONE  // Hide RecyclerView when showing empty state
+            } else {
+                emptyStateLayout.visibility = View.GONE
+                rvTutories.visibility = View.VISIBLE  // Show RecyclerView when hiding empty state
+            }
+        }
     }
 
     private fun hideKeyboard() {

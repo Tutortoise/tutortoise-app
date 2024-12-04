@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="2dp"
+    android:layout_marginVertical="4dp"
+    app:cardCornerRadius="15dp"
+    app:cardElevation="1dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="8dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/shimmerImageCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="15dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <View
+                android:layout_width="114dp"
+                android:layout_height="114dp"
+                android:background="@color/shimmer_color" />
+
+        </androidx.cardview.widget.CardView>
+
+        <View
+            android:id="@+id/shimmerName"
+            android:layout_width="0dp"
+            android:layout_height="14dp"
+            android:layout_marginStart="15dp"
+            android:background="@color/shimmer_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/shimmerImageCard"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.5" />
+
+        <View
+            android:id="@+id/shimmerCategory"
+            android:layout_width="0dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/shimmer_color"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/shimmerImageCard"
+            app:layout_constraintTop_toBottomOf="@id/shimmerName"
+            app:layout_constraintWidth_percent="0.4" />
+
+        <View
+            android:id="@+id/shimmerRating"
+            android:layout_width="0dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/shimmer_color"
+            app:layout_constraintStart_toEndOf="@id/shimmerImageCard"
+            app:layout_constraintTop_toBottomOf="@id/shimmerCategory"
+            app:layout_constraintWidth_percent="0.2" />
+
+        <View
+            android:id="@+id/shimmerPrice"
+            android:layout_width="0dp"
+            android:layout_height="12dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/shimmer_color"
+            app:layout_constraintStart_toEndOf="@id/shimmerImageCard"
+            app:layout_constraintTop_toBottomOf="@id/shimmerRating"
+            app:layout_constraintWidth_percent="0.3" />
+
+        <LinearLayout
+            android:id="@+id/shimmerLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toEndOf="@id/shimmerImageCard"
+            app:layout_constraintTop_toBottomOf="@id/shimmerPrice">
+
+            <View
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:background="@color/shimmer_color" />
+
+            <View
+                android:layout_width="80dp"
+                android:layout_height="12dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="4dp"
+                android:background="@color/shimmer_color" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            app:layout_constraintStart_toEndOf="@id/shimmerImageCard"
+            app:layout_constraintTop_toBottomOf="@id/shimmerLocation">
+
+            <View
+                android:layout_width="80dp"
+                android:layout_height="16dp"
+                android:layout_marginEnd="5dp"
+                android:background="@color/shimmer_color" />
+
+            <View
+                android:layout_width="80dp"
+                android:layout_height="16dp"
+                android:background="@color/shimmer_color" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
