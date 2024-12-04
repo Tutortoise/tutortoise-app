@@ -2,6 +2,7 @@ package com.tutortoise.tutortoise.domain
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 
 object AuthManager {
@@ -20,5 +21,15 @@ object AuthManager {
 
     fun getInstance(): AuthRepository? {
         return instance
+    }
+
+    suspend fun logout(context: Context) {
+        try {
+            FCMTokenManager.removeToken(context)
+            instance?.clearToken()
+        } catch (e: Exception) {
+            Log.e("AuthManager", "Error during logout", e)
+            throw e
+        }
     }
 }

@@ -10,6 +10,7 @@ import com.tutortoise.tutortoise.data.model.CreateTutoriesRequest
 import com.tutortoise.tutortoise.data.model.DetailedTutoriesResponse
 import com.tutortoise.tutortoise.data.model.EditTutoriesRequest
 import com.tutortoise.tutortoise.data.model.ExploreTutoriesResponse
+import com.tutortoise.tutortoise.data.model.FCMTokenRequest
 import com.tutortoise.tutortoise.data.model.GetMyTutoriesResponse
 import com.tutortoise.tutortoise.data.model.GetTutoriesLocationResponse
 import com.tutortoise.tutortoise.data.model.LearnerData
@@ -34,6 +35,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -206,4 +208,12 @@ interface ApiService {
     suspend fun getRoomPresence(
         @Path("roomId") roomId: String
     ): Response<ApiResponse<Map<String, TypingStatus>>>
+
+
+    // Firebase Cloud Messaging Token
+    @POST("auth/fcm-token")
+    suspend fun updateFCMToken(@Body request: FCMTokenRequest): Response<MessageResponse>
+
+    @HTTP(method = "DELETE", path = "auth/fcm-token", hasBody = true)
+    suspend fun removeFCMToken(@Body request: FCMTokenRequest): Response<MessageResponse>
 }

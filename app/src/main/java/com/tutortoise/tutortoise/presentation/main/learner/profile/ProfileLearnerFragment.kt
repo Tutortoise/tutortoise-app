@@ -17,12 +17,12 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerProfileBinding
+import com.tutortoise.tutortoise.domain.AuthManager
 import com.tutortoise.tutortoise.domain.EventBus
 import com.tutortoise.tutortoise.domain.ProfileUpdateEvent
 import com.tutortoise.tutortoise.presentation.auth.login.LoginActivity
 import com.tutortoise.tutortoise.utils.Constants
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -157,15 +157,10 @@ class ProfileLearnerFragment : Fragment() {
             loadingView.visibility = View.VISIBLE
             buttonsLayout.visibility = View.GONE
 
-            // Perform logout with animation
             lifecycleScope.launch {
                 try {
-                    withContext(Dispatchers.IO) {
-                        authRepository.clearToken()
-                        delay(500)
-                    }
+                    AuthManager.logout(requireContext())
 
-                    // Navigate to login screen with fade animation
                     val intent = Intent(requireContext(), LoginActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }
@@ -195,11 +190,6 @@ class ProfileLearnerFragment : Fragment() {
         }
 
         dialog.show()
-    }
-
-    private fun logoutUser() {
-        authRepository.clearToken()
-        navController.navigate(R.id.action_profile_to_login)
     }
 
 

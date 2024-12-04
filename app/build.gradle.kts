@@ -101,6 +101,7 @@ dependencies {
     implementation(libs.androidx.viewpager2)
     implementation(libs.circleimageview)
     implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.messaging)
     implementation(libs.firebase.analytics)
     implementation(libs.google.firebase.analytics)
     implementation(libs.firebase.firestore)

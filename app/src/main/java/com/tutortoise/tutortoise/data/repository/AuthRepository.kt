@@ -13,6 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.tutortoise.tutortoise.data.model.ApiResponse
 import com.tutortoise.tutortoise.data.model.ChangePasswordRequest
+import com.tutortoise.tutortoise.data.model.FCMTokenRequest
 import com.tutortoise.tutortoise.data.model.LoginRequest
 import com.tutortoise.tutortoise.data.model.MessageResponse
 import com.tutortoise.tutortoise.data.model.OAuthData
@@ -207,6 +208,40 @@ class AuthRepository(private val context: Context) {
             }
         } catch (e: Exception) {
             Log.e("AuthRepository", "Failed to change password", e)
+            Result.failure(e)
+        }
+    }
+
+    suspend fun updateFCMToken(token: String): Result<MessageResponse> {
+        return try {
+            val response = apiService.updateFCMToken(FCMTokenRequest(token))
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Result.success(it)
+                } ?: Result.failure(Exception("Empty response body"))
+            } else {
+                val error = ApiConfig.parseError(response)
+                Result.failure(ApiException(error?.message ?: "Failed to update FCM token", error))
+            }
+        } catch (e: Exception) {
+            Log.e("AuthRepository", "Failed to update FCM token", e)
+            Result.failure(e)
+        }
+    }
+
+    suspend fun removeFCMToken(token: String): Result<MessageResponse> {
+        return try {
+            val response = apiService.removeFCMToken(FCMTokenRequest(token))
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Result.success(it)
+                } ?: Result.failure(Exception("Empty response body"))
+            } else {
+                val error = ApiConfig.parseError(response)
+                Result.failure(ApiException(error?.message ?: "Failed to remove FCM token", error))
+            }
+        } catch (e: Exception) {
+            Log.e("AuthRepository", "Failed to remove FCM token", e)
             Result.failure(e)
         }
     }
