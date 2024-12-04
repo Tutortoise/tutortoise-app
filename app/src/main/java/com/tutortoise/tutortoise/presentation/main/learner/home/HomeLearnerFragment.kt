@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -22,6 +23,7 @@ class HomeLearnerFragment : Fragment() {
     private var _binding: FragmentLearnerHomeBinding? = null
     private val binding get() = _binding!!
     private val navController by lazy { findNavController() }
+    private lateinit var progressBar: ProgressBar
 
     private lateinit var categoryRepository: CategoryRepository
 
@@ -31,6 +33,8 @@ class HomeLearnerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLearnerHomeBinding.inflate(inflater, container, false)
+
+        progressBar = binding.progressBar
 
         categoryRepository = CategoryRepository(requireContext())
 
@@ -82,16 +86,28 @@ class HomeLearnerFragment : Fragment() {
         binding.etSearch.text?.clear()
     }
 
+    private fun showLoading(show: Boolean) {
+        progressBar.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+
     private fun fetchCategories() {
         val recyclerView: RecyclerView = binding.rvHomeCategories
         recyclerView.layoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.HORIZONTAL, false)
+        showLoading(true) // Show ProgressBar
         lifecycleScope.launch {
-            val categories = categoryRepository.fetchPopularCategories()
-            recyclerView.adapter = categories?.data?.let { categoryList ->
-                CategoriesAdapter(categoryList) { clickedCategory ->
-                    (activity as? MainActivity)?.navigateToExploreWithCategory(clickedCategory)
+            try {
+                val categories = categoryRepository.fetchPopularCategories()
+                binding.rvHomeCategories.adapter = categories?.data?.let { categoryList ->
+                    CategoriesAdapter(categoryList) { clickedCategory ->
+                        (activity as? MainActivity)?.navigateToExploreWithCategory(clickedCategory)
+                    }
                 }
+            } catch (e: Exception) {
+                // Handle error
+            } finally {
+                showLoading(false) // Hide ProgressBar
             }
         }
     }
