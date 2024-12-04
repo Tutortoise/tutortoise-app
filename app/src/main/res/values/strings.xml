@@ -195,10 +195,17 @@
     <string name="enter_tutories_title">Enter your tutories Title</string>
     <string name="no_chat">No Conversation</string>
     <string name="no_chat_detail">There are no chats in your feed</string>
-    <string name="rate_tutoring_text">Rate your tutoring experience!</string>
-    <string name="share_experience_text">Tell your experience</string>
-    <string name="tutoring_experience_hint_text">It’s time to convince your future students why they \nshould take lessons with you!</string>
+    <string name="rate_tutoring_text">Rate your tutoring experience !</string>
+    <string name="share_experience_text">Share your thoughts about this tutoring experience</string>
+    <string name="tutoring_experience_hint_text">How was your experience with this tutor? Let us know!</string>
     <string name="submit">Submit</string>
+    <string name="one_hour_text">1 Hour</string>
+    <string name="two_hour_text">2 Hours</string>
+    <string name="three_hour_text">3 Hours</string>
+    <string name="four_hours_text">4 Hours</string>
+    <string name="five_hours_text">5 Hours</string>
+    <string name="note">Note</string>
+    <string name="note_hint_text">Send note to your tutor</string>
 
     <plurals name="total_reviews">
         <item quantity="one">(%d review)</item>

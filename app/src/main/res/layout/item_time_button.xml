@@ -7,7 +7,7 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnTime"
         style="@style/DayButtonStyle"
-        android:layout_width="wrap_content"
+        android:layout_width="106dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:fontFamily="@font/montserrat_semi_bold"

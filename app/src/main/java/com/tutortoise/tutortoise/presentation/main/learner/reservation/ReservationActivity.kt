@@ -113,6 +113,12 @@ class ReservationActivity : AppCompatActivity() {
                 LinearLayoutManager(this@ReservationActivity, LinearLayoutManager.HORIZONTAL, false)
             adapter = dateAdapter
         }
+        
+        if (firstFourDates.isNotEmpty()) {
+            val defaultPosition = 0
+            dateAdapter.setDefaultSelectedDate(defaultPosition)
+            updateTimesForSelectedDate(firstFourDates[defaultPosition], groupedAvailability)
+        }
     }
 
     @SuppressLint("NewApi")

@@ -43,5 +43,10 @@ class DateAdapter(
     }
 
     override fun getItemCount() = dates.size
+
+    fun setDefaultSelectedDate(defaultPosition: Int) {
+        selectedPosition = defaultPosition
+        notifyDataSetChanged()
+    }
 }
 
