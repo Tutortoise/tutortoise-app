@@ -72,8 +72,8 @@ class ChatRoomAdapter(
                 root.setOnClickListener { onRoomClick(room) }
 
                 // Show unread count if > 0
-                unreadCount.visibility = if (room.unreadCount > 0) View.VISIBLE else View.GONE
-                unreadCount.text = room.unreadCount.toString()
+                tvUnreadCount.visibility = if (room.unreadCount > 0) View.VISIBLE else View.GONE
+                tvUnreadCount.text = room.unreadCount.toString()
             }
         }
     }
