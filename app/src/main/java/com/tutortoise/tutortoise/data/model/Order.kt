@@ -8,6 +8,20 @@ data class OrderRequest(
     val notes: String? = null
 )
 
-data class OrderResponse(
+data class CreateOrderResponse(
     val orderId: String
+)
+
+data class OrderResponse(
+    val id: String,
+    val status: String,
+    val sessionTime: String,
+    val estimatedEndTime: String,
+    val categoryName: String,
+    val tutorId: String,
+    val tutorName: String,
+    val learnerId: String,
+    val learnerName: String,
+    val typeLesson: String,
+    val price: Int,
 )

@@ -5,6 +5,7 @@ import com.tutortoise.tutortoise.data.model.CategoryResponse
 import com.tutortoise.tutortoise.data.model.ChangePasswordRequest
 import com.tutortoise.tutortoise.data.model.ChatMessage
 import com.tutortoise.tutortoise.data.model.ChatRoom
+import com.tutortoise.tutortoise.data.model.CreateOrderResponse
 import com.tutortoise.tutortoise.data.model.CreateRoomRequest
 import com.tutortoise.tutortoise.data.model.CreateTutoriesRequest
 import com.tutortoise.tutortoise.data.model.DetailedTutoriesResponse
@@ -221,5 +222,8 @@ interface ApiService {
 
     // Orders
     @POST("orders")
-    suspend fun order(@Body order: OrderRequest): Response<ApiResponse<OrderResponse>>
+    suspend fun order(@Body order: OrderRequest): Response<ApiResponse<CreateOrderResponse>>
+
+    @GET("orders/me")
+    suspend fun getMyOrders(@Query("status") status: String? = null): Response<ApiResponse<List<OrderResponse>>>
 }
