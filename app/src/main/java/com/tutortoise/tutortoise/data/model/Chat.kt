@@ -18,15 +18,43 @@ data class LastMessage(
 )
 
 data class ChatMessage(
-    val id: String,
-    val roomId: String,
-    val senderId: String,
-    val senderRole: String,
-    val content: String,
-    val type: String,
-    val sentAt: String,
-    val isRead: Boolean
+    val id: String = "",
+    val roomId: String = "",
+    val senderId: String = "",
+    val senderRole: String = "",
+    val content: String = "",
+    val type: String = "text",
+    val sentAt: String = "",
+    val isRead: Boolean = false
 )
+
+data class FirebaseMessage(
+    val id: String = "",
+    val roomId: String = "",
+    val senderId: String = "",
+    val senderRole: String = "",
+    val content: String = "",
+    val type: String = "text",
+    val sentAt: Long = System.currentTimeMillis(),
+    val isRead: Boolean = false
+) {
+    fun toChatMessage(): ChatMessage {
+        return ChatMessage(
+            id = id,
+            roomId = roomId,
+            senderId = senderId,
+            senderRole = senderRole,
+            content = content,
+            type = type,
+            sentAt = java.text.SimpleDateFormat(
+                "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
+                java.util.Locale.getDefault()
+            )
+                .format(java.util.Date(sentAt)),
+            isRead = isRead
+        )
+    }
+}
 
 data class CreateRoomRequest(
     val learnerId: String,

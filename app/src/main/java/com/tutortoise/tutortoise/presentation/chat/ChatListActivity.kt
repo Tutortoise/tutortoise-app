@@ -25,6 +25,7 @@ class ChatListActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     private var roomsListener: ValueEventListener? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatListBinding.inflate(layoutInflater)
@@ -62,18 +63,36 @@ class ChatListActivity : AppCompatActivity() {
 
 
     private fun setupRealtimeUpdates() {
-        AuthManager.getCurrentUserId()
+        val userId = AuthManager.getCurrentUserId() ?: return
 
-        roomsListener = database.child("rooms").addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                // New message/room update received
-                viewModel.loadRooms() // Refresh room list
-            }
+        roomsListener = database.child("rooms")
+            .orderByChild("lastMessageAt")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    viewModel.loadRooms()
 
-            override fun onCancelled(error: DatabaseError) {
-                Log.e("ChatList", "Failed to listen for updates", error.toException())
-            }
-        })
+                    database.child("presence").child(userId)
+                        .setValue(
+                            mapOf(
+                                "isOnline" to true,
+                                "lastSeen" to System.currentTimeMillis()
+                            )
+                        )
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("ChatList", "Failed to listen for updates", error.toException())
+                }
+            })
+
+        database.child("presence").child(userId)
+            .onDisconnect()
+            .setValue(
+                mapOf(
+                    "isOnline" to false,
+                    "lastSeen" to System.currentTimeMillis()
+                )
+            )
     }
 
     private fun observeViewModel() {
@@ -98,8 +117,23 @@ class ChatListActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadRooms()
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         roomsListener?.let { database.removeEventListener(it) }
+        val userId = AuthManager.getCurrentUserId()
+        if (userId != null) {
+            database.child("presence").child(userId)
+                .setValue(
+                    mapOf(
+                        "isOnline" to false,
+                        "lastSeen" to System.currentTimeMillis()
+                    )
+                )
+        }
     }
 }

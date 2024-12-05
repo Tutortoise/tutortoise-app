@@ -68,6 +68,7 @@ class ChatRoomActivity : AppCompatActivity() {
                 lastMessage = null
             )
             viewModel.setChatPartner(isLearner, room)
+            viewModel.listenForNewMessages(roomId!!)
             viewModel.loadMessages(roomId!!)
         } else {
             // New room - set basic info
@@ -225,6 +226,7 @@ class ChatRoomActivity : AppCompatActivity() {
         }
 
     override fun onDestroy() {
+        viewModel.removeMessageListener()
         scope.cancel() // Cancel all coroutines when the activity is destroyed
         super.onDestroy()
     }

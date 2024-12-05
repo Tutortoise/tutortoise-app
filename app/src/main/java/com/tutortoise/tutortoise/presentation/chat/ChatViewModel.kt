@@ -13,6 +13,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.database
 import com.tutortoise.tutortoise.data.model.ChatMessage
 import com.tutortoise.tutortoise.data.model.ChatRoom
+import com.tutortoise.tutortoise.data.model.FirebaseMessage
 import com.tutortoise.tutortoise.data.repository.ChatRepository
 import com.tutortoise.tutortoise.domain.ChatManager
 import kotlinx.coroutines.Dispatchers
@@ -149,14 +150,7 @@ class ChatViewModel(private val context: Context) : ViewModel() {
                     if (isImage) "image" else "text"
                 )
 
-                result.fold(
-                    onSuccess = { message ->
-                        val currentMessages = _messages.value?.toMutableList() ?: mutableListOf()
-                        currentMessages.add(0, message)
-                        _messages.value = currentMessages
-                    },
-                    onFailure = { _error.value = it.message }
-                )
+                result.onFailure { _error.value = it.message }
             } catch (e: Exception) {
                 _error.value = "Failed to send message"
             }
@@ -189,16 +183,63 @@ class ChatViewModel(private val context: Context) : ViewModel() {
     }
 
     fun listenForNewMessages(roomId: String) {
-        messageListener = database.child("messages").child(roomId)
+        viewModelScope.launch {
+            try {
+                val result = chatRepository.getRoomMessages(roomId)
+                result.fold(
+                    onSuccess = { apiMessages ->
+                        _messages.value = apiMessages
+
+                        setupFirebaseMessageListener(roomId)
+                    },
+                    onFailure = { _error.value = it.message }
+                )
+            } catch (e: Exception) {
+                _error.value = "Failed to load messages"
+            }
+        }
+    }
+
+    private fun setupFirebaseMessageListener(roomId: String) {
+        messageListener?.let { database.child("messages").child(roomId).removeEventListener(it) }
+
+        messageListener = database.child("messages")
+            .child(roomId)
+            .orderByChild("sentAt")
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    loadMessages(roomId)
+                    try {
+                        val firebaseMessages = mutableListOf<ChatMessage>()
+                        snapshot.children.forEach { messageSnap ->
+                            messageSnap.getValue(FirebaseMessage::class.java)?.let { fbMessage ->
+                                firebaseMessages.add(fbMessage.toChatMessage())
+                            }
+                        }
+
+                        val currentMessages = _messages.value?.toMutableList() ?: mutableListOf()
+
+                        firebaseMessages.forEach { fbMessage ->
+                            if (!currentMessages.any { it.id == fbMessage.id }) {
+                                currentMessages.add(fbMessage)
+                            }
+                        }
+
+                        _messages.postValue(currentMessages.sortedByDescending { it.sentAt })
+                    } catch (e: Exception) {
+                        Log.e(TAG, "Error parsing messages", e)
+                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    _error.value = "Failed to listen for new messages: ${error.message}"
+                    Log.e(TAG, "Failed to listen for messages", error.toException())
+                    _error.postValue("Failed to listen for new messages: ${error.message}")
                 }
             })
+    }
+
+    fun removeMessageListener() {
+        messageListener?.let { database.removeEventListener(it) }
+        messageListener = null
     }
 
     companion object {
