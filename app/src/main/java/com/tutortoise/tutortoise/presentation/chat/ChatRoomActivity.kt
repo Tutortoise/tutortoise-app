@@ -31,6 +31,7 @@ class ChatRoomActivity : AppCompatActivity() {
     private var roomId: String? = null
     private val learnerId: String by lazy { intent.getStringExtra("LEARNER_ID") ?: "" }
     private val tutorId: String by lazy { intent.getStringExtra("TUTOR_ID") ?: "" }
+    private val tutorName: String by lazy { intent.getStringExtra("TUTOR_NAME") ?: "" }
 
     private var shouldScrollToBottom = true
 
@@ -54,10 +55,10 @@ class ChatRoomActivity : AppCompatActivity() {
         setupToolbar()
         observeViewModel()
 
-        roomId?.let { id ->
-            // Set initial chat partner info if room exists
+        if (roomId != null) {
+            // Existing room
             val room = ChatRoom(
-                id = id,
+                id = roomId!!,
                 learnerId = learnerId,
                 tutorId = tutorId,
                 lastMessageAt = "",
@@ -67,7 +68,20 @@ class ChatRoomActivity : AppCompatActivity() {
                 lastMessage = null
             )
             viewModel.setChatPartner(isLearner, room)
-            viewModel.loadMessages(id)
+            viewModel.loadMessages(roomId!!)
+        } else {
+            // New room - set basic info
+            val room = ChatRoom(
+                id = "",  // Empty for new room
+                learnerId = learnerId,
+                tutorId = tutorId,
+                lastMessageAt = "",
+                createdAt = "",
+                learnerName = "",  // We might not have this yet
+                tutorName = tutorName,  // We should have this from navigation
+                lastMessage = null
+            )
+            viewModel.setChatPartner(isLearner, room)
         }
     }
 

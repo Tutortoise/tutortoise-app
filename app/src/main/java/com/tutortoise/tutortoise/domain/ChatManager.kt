@@ -17,7 +17,7 @@ object ChatManager {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private const val TAG = "ChatUtils"
 
-    fun navigateToChat(context: Context, tutorId: String) {
+    fun navigateToChat(context: Context, tutorId: String, tutorName: String? = null) {
         scope.launch {
             try {
                 Log.d(TAG, "Starting navigation to chat with tutor: $tutorId")
@@ -37,21 +37,28 @@ object ChatManager {
 
                         val intent = Intent(context, ChatRoomActivity::class.java).apply {
                             if (existingRoom != null) {
-                                // If room exists, pass the room ID
+                                // If room exists, pass all room info
                                 putExtra("ROOM_ID", existingRoom.id)
+                                putExtra("LEARNER_ID", existingRoom.learnerId)
+                                putExtra("TUTOR_ID", existingRoom.tutorId)
+                                putExtra("LEARNER_NAME", existingRoom.learnerName)
+                                putExtra("TUTOR_NAME", existingRoom.tutorName)
+                            } else {
+                                // For new room, pass what we know
+                                putExtra("LEARNER_ID", learnerId)
+                                putExtra("TUTOR_ID", tutorId)
+                                putExtra("TUTOR_NAME", tutorName)
                             }
-                            // Always pass these IDs for potential new room creation
-                            putExtra("LEARNER_ID", learnerId)
-                            putExtra("TUTOR_ID", tutorId)
                             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         }
                         context.startActivity(intent)
                     },
                     onFailure = { error ->
-                        // If we fail to get rooms, still allow navigation but without room ID
+                        // If we fail to get rooms, still allow navigation but with basic info
                         val intent = Intent(context, ChatRoomActivity::class.java).apply {
                             putExtra("LEARNER_ID", learnerId)
                             putExtra("TUTOR_ID", tutorId)
+                            putExtra("TUTOR_NAME", tutorName)
                             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                         }
                         context.startActivity(intent)

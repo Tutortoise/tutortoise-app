@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.data.model.DetailedTutoriesResponse
 import com.tutortoise.tutortoise.data.model.LessonType
 import com.tutortoise.tutortoise.data.pref.ApiConfig
 import com.tutortoise.tutortoise.data.pref.ApiService
@@ -40,6 +41,7 @@ class DetailTutorActivity : AppCompatActivity() {
 
     private var currentTutoriesId: String = ""
     private var currentTutorId: String = ""
+    private var currentTutorName: String = ""
 
     private lateinit var reviewRepository: ReviewRepository
 
@@ -101,6 +103,10 @@ class DetailTutorActivity : AppCompatActivity() {
 
                 if (response.isSuccessful && response.body()?.data != null) {
                     val tutories = response.body()?.data!!
+
+                    currentTutorName = tutories.tutorName
+
+                    setupButtons(tutories)
 
                     binding.tvTutoriesName.text = tutories.name
                     binding.tvCategoryName.text = tutories.categoryName
@@ -171,17 +177,26 @@ class DetailTutorActivity : AppCompatActivity() {
                 Log.e("DetailTutorActivity", "Error fetching tutor details", e)
             }
         }
+    }
 
-        // Chat button click listener
+
+    private fun setupButtons(tutories: DetailedTutoriesResponse) {
+        // Chat button setup
         binding.btnChat.setOnClickListener {
-            ChatManager.navigateToChat(this, currentTutorId)
+            ChatManager.navigateToChat(
+                context = this@DetailTutorActivity,
+                tutorId = currentTutorId,
+                tutorName = currentTutorName
+            )
         }
 
-        // Reservation button click listener
+        // Reservation button setup
         binding.btnReservation.setOnClickListener {
             val intent = Intent(this, ReservationActivity::class.java).apply {
                 putExtra("TUTOR_ID", currentTutorId)
                 putExtra("TUTORIES_ID", currentTutoriesId)
+                putExtra("TUTOR_NAME", currentTutorName)
+                putExtra("HOURLY_RATE", tutories.hourlyRate)
             }
             startActivity(intent)
         }
