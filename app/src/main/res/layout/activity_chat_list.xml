@@ -94,7 +94,5 @@
             android:textAlignment="center"
             android:textColor="#70000000"
             android:textSize="14sp" />
-
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

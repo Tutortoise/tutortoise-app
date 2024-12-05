@@ -206,6 +206,8 @@
     <string name="five_hours_text">5 Hours</string>
     <string name="note">Note</string>
     <string name="note_hint_text">Send note to your tutor</string>
+    <string name="no_notifications">No Notifications</string>
+    <string name="no_notification_text">Notification Inbox Empty</string>
 
     <plurals name="total_reviews">
         <item quantity="one">(%d review)</item>
