@@ -3,11 +3,13 @@ package com.tutortoise.tutortoise.presentation.main.learner.reservation
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.flexbox.FlexboxLayoutManager
+import com.tutortoise.tutortoise.data.repository.OrderRepository
 import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.ActivityReservationBinding
 import com.tutortoise.tutortoise.presentation.main.learner.reservation.adapter.DateAdapter
@@ -23,7 +25,8 @@ class ReservationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReservationBinding
     private val viewModel: ReservationViewModel by viewModels {
         ReservationViewModel.provideFactory(
-            TutoriesRepository(this)
+            TutoriesRepository(this),
+            OrderRepository(this)
         )
     }
 
@@ -33,6 +36,8 @@ class ReservationActivity : AppCompatActivity() {
     private var hourlyRate: Int = 0
 
     private var selectedDatetime = ""
+    private var selectedTotalHour = 0
+    private var selectedTypeLesson = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,11 +74,13 @@ class ReservationActivity : AppCompatActivity() {
         binding.btnOnline.setOnClickListener {
             binding.btnOnline.isSelected = true
             binding.btnOnsite.isSelected = false
+            selectedTypeLesson = "online"
         }
 
         binding.btnOnsite.setOnClickListener {
             binding.btnOnline.isSelected = false
             binding.btnOnsite.isSelected = true
+            selectedTypeLesson = "offline"
         }
 
         // Handle tutoring time selection
@@ -89,12 +96,25 @@ class ReservationActivity : AppCompatActivity() {
             button.setOnClickListener {
                 timeButtons.forEach { it.isSelected = false }
                 button.isSelected = true
+
+                val index = timeButtons.indexOf(button)
+                selectedTotalHour = index + 1
             }
         }
 
         // Handle save button
         binding.btnSave.setOnClickListener {
-            // TODO: Handle reservation submission
+            // TODO: validation
+            viewModel.reserveOrder(
+                tutoriesId,
+                selectedTypeLesson,
+                selectedDatetime,
+                selectedTotalHour,
+                binding.etNote.text.toString()
+            )
+
+            Toast.makeText(this, "Reservation submitted", Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 
@@ -113,7 +133,7 @@ class ReservationActivity : AppCompatActivity() {
                 LinearLayoutManager(this@ReservationActivity, LinearLayoutManager.HORIZONTAL, false)
             adapter = dateAdapter
         }
-        
+
         if (firstFourDates.isNotEmpty()) {
             val defaultPosition = 0
             dateAdapter.setDefaultSelectedDate(defaultPosition)

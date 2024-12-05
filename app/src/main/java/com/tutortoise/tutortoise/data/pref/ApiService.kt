@@ -19,6 +19,8 @@ import com.tutortoise.tutortoise.data.model.LoginRequest
 import com.tutortoise.tutortoise.data.model.MessageResponse
 import com.tutortoise.tutortoise.data.model.OAuthData
 import com.tutortoise.tutortoise.data.model.OAuthRequest
+import com.tutortoise.tutortoise.data.model.OrderRequest
+import com.tutortoise.tutortoise.data.model.OrderResponse
 import com.tutortoise.tutortoise.data.model.RegisterData
 import com.tutortoise.tutortoise.data.model.RegisterRequest
 import com.tutortoise.tutortoise.data.model.ReviewResponse
@@ -216,4 +218,8 @@ interface ApiService {
 
     @HTTP(method = "DELETE", path = "auth/fcm-token", hasBody = true)
     suspend fun removeFCMToken(@Body request: FCMTokenRequest): Response<MessageResponse>
+
+    // Orders
+    @POST("orders")
+    suspend fun order(@Body order: OrderRequest): Response<ApiResponse<OrderResponse>>
 }
