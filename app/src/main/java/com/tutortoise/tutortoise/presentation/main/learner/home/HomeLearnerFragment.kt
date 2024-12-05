@@ -16,12 +16,15 @@ import com.tutortoise.tutortoise.data.repository.CategoryRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerHomeBinding
 import com.tutortoise.tutortoise.presentation.main.MainActivity
 import com.tutortoise.tutortoise.presentation.main.learner.categories.adapter.CategoriesAdapter
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 class HomeLearnerFragment : Fragment() {
     private var _binding: FragmentLearnerHomeBinding? = null
     private val binding get() = _binding!!
     private val navController by lazy { findNavController() }
+
+    private var fetchJob: Job? = null
 
     private lateinit var categoryRepository: CategoryRepository
     private lateinit var categoriesAdapter: CategoriesAdapter
@@ -85,6 +88,7 @@ class HomeLearnerFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        fetchJob?.cancel()
         _binding = null
     }
 
@@ -95,24 +99,32 @@ class HomeLearnerFragment : Fragment() {
 
 
     private fun fetchCategories() {
-        lifecycleScope.launch {
+        fetchJob?.cancel()
+        fetchJob = lifecycleScope.launch {
             try {
-                binding.categoriesShimmerLayout.visibility = View.VISIBLE
-                binding.categoriesShimmerLayout.startShimmer()
-                binding.rvHomeCategories.visibility = View.GONE
+                _binding?.let { binding ->
+                    binding.categoriesShimmerLayout.visibility = View.VISIBLE
+                    binding.categoriesShimmerLayout.startShimmer()
+                    binding.rvHomeCategories.visibility = View.GONE
 
-                val categories = categoryRepository.fetchPopularCategories()
+                    val categories = categoryRepository.fetchPopularCategories()
 
-                binding.categoriesShimmerLayout.stopShimmer()
-                binding.categoriesShimmerLayout.visibility = View.GONE
-                binding.rvHomeCategories.visibility = View.VISIBLE
+                    // Recheck binding after async operation
+                    _binding?.let { binding ->
+                        binding.categoriesShimmerLayout.stopShimmer()
+                        binding.categoriesShimmerLayout.visibility = View.GONE
+                        binding.rvHomeCategories.visibility = View.VISIBLE
 
-                categories?.data?.let { categoryList ->
-                    categoriesAdapter.updateData(categoryList)
+                        categories?.data?.let { categoryList ->
+                            categoriesAdapter.updateData(categoryList)
+                        }
+                    }
                 }
             } catch (e: Exception) {
-                binding.categoriesShimmerLayout.stopShimmer()
-                binding.categoriesShimmerLayout.visibility = View.GONE
+                _binding?.let { binding ->
+                    binding.categoriesShimmerLayout.stopShimmer()
+                    binding.categoriesShimmerLayout.visibility = View.GONE
+                }
             }
         }
     }
