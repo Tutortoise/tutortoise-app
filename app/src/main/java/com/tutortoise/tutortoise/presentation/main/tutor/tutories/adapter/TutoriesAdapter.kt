@@ -43,7 +43,8 @@ class TutoriesAdapter(
 
         fun bind(tutories: GetMyTutoriesResponse) {
             binding.tvCategoryName.text = tutories.categoryName
-            binding.tvPrice.text = "${tutories.hourlyRate.formatWithThousandsSeparator()} per hour"
+            binding.tvPrice.text =
+                "Rp. ${tutories.hourlyRate.formatWithThousandsSeparator()} per hour"
 
             // Initially hide both type lessons
             binding.tvOnsite.visibility = View.GONE

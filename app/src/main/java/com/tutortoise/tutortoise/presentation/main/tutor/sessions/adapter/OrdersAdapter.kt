@@ -1,4 +1,4 @@
-package com.tutortoise.tutortoise.presentation.main.learner.session.adapter
+package com.tutortoise.tutortoise.presentation.main.tutor.sessions.adapter
 
 import android.os.Build
 import android.view.LayoutInflater
@@ -36,7 +36,7 @@ class OrdersAdapter(private val orders: List<OrderResponse>) :
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(order: OrderResponse) {
             binding.apply {
-                tvTutoriesName.text = order.tutorName
+                tvTutoriesName.text = order.learnerName
                 tvCategory.text = order.categoryName
                 tvTime.text =
                     "${isoToReadableTime(order.sessionTime)} - ${isoToReadableTime(order.estimatedEndTime)}"
@@ -44,9 +44,9 @@ class OrdersAdapter(private val orders: List<OrderResponse>) :
                 tvPrice.text = "Rp. ${order.price.formatWithThousandsSeparator()},-"
 
                 Glide.with(root)
-                    .load(
-                        Constants.getProfilePictureUrl(order.tutorId)
-                    )
+                    .load(Constants.getProfilePictureUrl(order.learnerId))
+                    .placeholder(R.drawable.default_profile_picture)
+                    .error(R.drawable.default_profile_picture)
                     .circleCrop()
                     .into(ivProfilePicture)
 
@@ -70,7 +70,5 @@ class OrdersAdapter(private val orders: List<OrderResponse>) :
         }
     }
 
-
     override fun getItemCount(): Int = orders.size
 }
-
