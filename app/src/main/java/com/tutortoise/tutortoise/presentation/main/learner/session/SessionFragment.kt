@@ -5,11 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.tutortoise.tutortoise.databinding.FragmentLearnerSessionBinding
+import com.tutortoise.tutortoise.presentation.main.learner.session.adapter.SessionPagerAdapter
 
 class SessionFragment : Fragment() {
     private lateinit var binding: FragmentLearnerSessionBinding
@@ -42,18 +42,5 @@ class SessionFragment : Fragment() {
                 else -> ""
             }
         }.attach()
-    }
-}
-
-class SessionPagerAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-    override fun getItemCount(): Int = 3
-
-    override fun createFragment(position: Int): Fragment {
-        return when (position) {
-            0 -> ScheduledLearnerSessionFragment()
-            1 -> PendingLearnerSessionFragment()
-            2 -> CompletedLearnerSessionFragment()
-            else -> throw IllegalStateException("Invalid position $position")
-        }
     }
 }

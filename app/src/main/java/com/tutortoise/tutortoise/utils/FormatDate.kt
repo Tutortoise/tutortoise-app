@@ -24,8 +24,7 @@ fun formatDate(dateStr: String): String {
 fun isoToReadableTime(isoDate: String): String {
     val zonedDateTime = ZonedDateTime.parse(isoDate)
         .withZoneSameInstant(ZoneId.systemDefault())
-    val formatter =
-        DateTimeFormatter.ofPattern("h:mm a", Locale.getDefault())
+    val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.getDefault())
     return zonedDateTime.format(formatter)
 }
 
@@ -34,8 +33,14 @@ fun isoToReadableDate(isoDate: String): String {
     val zonedDateTime = ZonedDateTime.parse(isoDate)
         .withZoneSameInstant(ZoneId.systemDefault())
     val formatter = DateTimeFormatter.ofPattern(
-        "d MMMM yyyy",
+        "EEE, d MMM yyyy",
         Locale.getDefault()
     )
-    return zonedDateTime.format(formatter)
+    return zonedDateTime.format(formatter).capitalizeFirst()
+}
+
+fun String.capitalizeFirst(): String {
+    return this.split(" ").joinToString(" ") { word ->
+        word.lowercase().replaceFirstChar { it.uppercase() }
+    }
 }

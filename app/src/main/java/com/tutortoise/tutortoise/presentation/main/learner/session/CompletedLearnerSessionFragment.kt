@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tutortoise.tutortoise.data.repository.OrderRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerCompletedSessionBinding
+import com.tutortoise.tutortoise.presentation.main.learner.session.adapter.OrdersAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

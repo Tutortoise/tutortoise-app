@@ -1,4 +1,4 @@
-package com.tutortoise.tutortoise.presentation.main.learner.session
+package com.tutortoise.tutortoise.presentation.main.learner.session.adapter
 
 import android.os.Build
 import android.view.LayoutInflater
@@ -10,6 +10,7 @@ import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.OrderResponse
 import com.tutortoise.tutortoise.databinding.ItemSessionBinding
 import com.tutortoise.tutortoise.utils.Constants
+import com.tutortoise.tutortoise.utils.formatWithThousandsSeparator
 import com.tutortoise.tutortoise.utils.isoToReadableDate
 import com.tutortoise.tutortoise.utils.isoToReadableTime
 
@@ -40,7 +41,7 @@ class OrdersAdapter(private val orders: List<OrderResponse>) :
                 tvTime.text =
                     "${isoToReadableTime(order.sessionTime)} - ${isoToReadableTime(order.estimatedEndTime)}"
                 tvDate.text = isoToReadableDate(order.sessionTime)
-                tvPrice.text = order.price.toString()
+                tvPrice.text = "Rp. ${order.price.formatWithThousandsSeparator()},-"
 
                 Glide.with(root)
                     .load(
