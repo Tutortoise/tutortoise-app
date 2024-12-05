@@ -8,7 +8,8 @@ data class ChatRoom(
     val createdAt: String,
     val learnerName: String,
     val tutorName: String,
-    val lastMessage: LastMessage? = null
+    val lastMessage: LastMessage? = null,
+    val unreadCount: Int = 0
 )
 
 data class LastMessage(

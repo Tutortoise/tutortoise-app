@@ -6,6 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Firebase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.database
 import com.tutortoise.tutortoise.data.model.ChatMessage
 import com.tutortoise.tutortoise.data.model.ChatRoom
 import com.tutortoise.tutortoise.data.repository.ChatRepository
@@ -39,6 +44,10 @@ class ChatViewModel(private val context: Context) : ViewModel() {
 
     private val _roomCreated = MutableLiveData<String>()
     val roomCreated: LiveData<String> = _roomCreated
+
+
+    private val database = Firebase.database.reference
+    private var messageListener: ValueEventListener? = null
 
     init {
         _isLoading.value = false
@@ -179,11 +188,25 @@ class ChatViewModel(private val context: Context) : ViewModel() {
         }
     }
 
+    fun listenForNewMessages(roomId: String) {
+        messageListener = database.child("messages").child(roomId)
+            .addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    loadMessages(roomId)
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    _error.value = "Failed to listen for new messages: ${error.message}"
+                }
+            })
+    }
+
     companion object {
         const val PAGE_SIZE = 20
     }
 
     override fun onCleared() {
         super.onCleared()
+        messageListener?.let { database.removeEventListener(it) }
     }
 }

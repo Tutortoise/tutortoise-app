@@ -1,6 +1,7 @@
 package com.tutortoise.tutortoise.presentation.chat.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -69,6 +70,10 @@ class ChatRoomAdapter(
                     .into(profileImage)
 
                 root.setOnClickListener { onRoomClick(room) }
+
+                // Show unread count if > 0
+                unreadCount.visibility = if (room.unreadCount > 0) View.VISIBLE else View.GONE
+                unreadCount.text = room.unreadCount.toString()
             }
         }
     }

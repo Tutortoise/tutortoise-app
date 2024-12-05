@@ -43,7 +43,7 @@ navigation-safe-args = "2.8.4"
 playServicesAuth = "20.7.0"
 firebaseMessaging = "24.1.0"
 shimmer = "0.5.0"
-
+firebaseDatabase = "21.0.0"
 
 
 [libraries]
@@ -87,6 +87,7 @@ flexbox = { group = "com.google.android.flexbox", name = "flexbox", version.ref 
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServicesAuth" }
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 shimmer-android = { group = "com.facebook.shimmer", name = "shimmer", version.ref = "shimmer" }
+firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

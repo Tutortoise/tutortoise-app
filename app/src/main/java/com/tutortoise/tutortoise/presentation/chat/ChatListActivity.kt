@@ -2,17 +2,28 @@ package com.tutortoise.tutortoise.presentation.chat
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.Firebase
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.database
 import com.tutortoise.tutortoise.databinding.ActivityChatListBinding
+import com.tutortoise.tutortoise.domain.AuthManager
 import com.tutortoise.tutortoise.presentation.chat.adapter.ChatRoomAdapter
 
 class ChatListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatListBinding
     private lateinit var viewModel: ChatViewModel
     private lateinit var adapter: ChatRoomAdapter
+
+    private lateinit var database: DatabaseReference
+    private var roomsListener: ValueEventListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +32,10 @@ class ChatListActivity : AppCompatActivity() {
 
         viewModel = ChatViewModel(this)
 
+        database = Firebase.database.reference
+
         setupUI()
+        setupRealtimeUpdates()
         observeViewModel()
         viewModel.loadRooms()
     }
@@ -46,6 +60,22 @@ class ChatListActivity : AppCompatActivity() {
         binding.btnBack.setOnClickListener { finish() }
     }
 
+
+    private fun setupRealtimeUpdates() {
+        AuthManager.getCurrentUserId()
+
+        roomsListener = database.child("rooms").addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                // New message/room update received
+                viewModel.loadRooms() // Refresh room list
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                Log.e("ChatList", "Failed to listen for updates", error.toException())
+            }
+        })
+    }
+
     private fun observeViewModel() {
         viewModel.rooms.observe(this) { rooms ->
             adapter.submitList(rooms)
@@ -66,5 +96,10 @@ class ChatListActivity : AppCompatActivity() {
         viewModel.error.observe(this) { error ->
             Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        roomsListener?.let { database.removeEventListener(it) }
     }
 }

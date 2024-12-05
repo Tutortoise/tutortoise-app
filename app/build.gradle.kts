@@ -103,6 +103,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.messaging)
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.database)
     implementation(libs.google.firebase.analytics)
     implementation(libs.firebase.firestore)
     implementation(libs.androidx.credentials)
