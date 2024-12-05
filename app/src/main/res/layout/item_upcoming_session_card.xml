@@ -61,7 +61,7 @@
             app:layout_constraintTop_toBottomOf="@id/tvTutoriesName" />
 
         <TextView
-            android:id="@+id/tvDate"
+            android:id="@+id/tvTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
@@ -85,7 +85,7 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivTutorImageCard"
-            app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTime" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"

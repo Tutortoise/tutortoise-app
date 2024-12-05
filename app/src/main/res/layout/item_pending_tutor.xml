@@ -27,7 +27,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvTutoriesName"
+            android:id="@+id/tvLearnerName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -35,7 +35,7 @@
             android:text="@string/username"
             android:textColor="@android:color/black"
             android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/tvStatus"
+            app:layout_constraintEnd_toStartOf="@+id/tvTypeLesson"
             app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -49,37 +49,9 @@
             android:text="@string/category"
             android:textColor="@android:color/black"
             android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/tvStatus"
+            app:layout_constraintEnd_toStartOf="@+id/tvTypeLesson"
             app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
-            app:layout_constraintTop_toBottomOf="@+id/tvTutoriesName" />
-
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="Tutoring Date"
-            android:textColor="@android:color/black"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/tvStatus"
-            app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
-            app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
-
-        <TextView
-            android:id="@+id/tvPrice"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="Tutoring Date"
-            android:textColor="@android:color/black"
-            android:textSize="14sp"
-            app:layout_constraintEnd_toStartOf="@+id/tvStatus"
-            app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
-            app:layout_constraintTop_toBottomOf="@+id/tvTime" />
+            app:layout_constraintTop_toBottomOf="@+id/tvLearnerName" />
 
         <TextView
             android:id="@+id/tvTime"
@@ -91,12 +63,41 @@
             android:text="@string/tutor_time"
             android:textColor="@android:color/black"
             android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/tvStatus"
+            app:layout_constraintEnd_toStartOf="@+id/tvTypeLesson"
+            app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
+            app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="@string/tutor_date"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/tvTypeLesson"
+            app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
+            app:layout_constraintTop_toBottomOf="@+id/tvTime" />
+
+
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/montserrat_medium"
+            android:text="Price"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/tvTypeLesson"
             app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
             app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
         <TextView
-            android:id="@+id/tvStatus"
+            android:id="@+id/tvTypeLesson"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:background="@drawable/bg_dark_blue"
