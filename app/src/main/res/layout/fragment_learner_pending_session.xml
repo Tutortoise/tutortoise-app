@@ -14,6 +14,6 @@
         android:clipChildren="false"
         android:overScrollMode="never"
         android:scrollbars="none"
-        tools:listitem="@layout/item_pending_learner" />
+        tools:listitem="@layout/item_session" />
 
 </FrameLayout>

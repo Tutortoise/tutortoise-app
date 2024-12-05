@@ -5,4 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".presentation.main.learner.session.CompletedLearnerSessionFragment">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvOrders"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        tools:listitem="@layout/item_session" />
+
 </FrameLayout>

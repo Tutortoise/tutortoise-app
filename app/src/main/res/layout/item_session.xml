@@ -4,16 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="8dp"
     android:layout_marginEnd="16dp"
-    android:layout_marginBottom="10dp"
-    app:cardCornerRadius="20dp"
+    android:layout_marginBottom="8dp"
+    app:cardCornerRadius="8dp"
     app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp">
 
         <ImageView
             android:id="@+id/ivProfilePicture"
@@ -54,20 +56,6 @@
             app:layout_constraintTop_toBottomOf="@+id/tvTutoriesName" />
 
         <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/montserrat_regular"
-            android:text="@string/tutor_date"
-            android:textColor="@android:color/black"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/tvStatus"
-            app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
-            app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
-
-        <TextView
             android:id="@+id/tvTime"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -79,16 +67,30 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@+id/tvStatus"
             app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
-            app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+            app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="@string/tutor_date"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/tvStatus"
+            app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
+            app:layout_constraintTop_toBottomOf="@+id/tvTime" />
 
         <TextView
             android:id="@+id/tvStatus"
-            android:layout_width="86dp"
-            android:layout_height="20dp"
-            android:background="@drawable/bg_green_status_complated"
+            android:layout_width="91dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_green"
             android:fontFamily="@font/montserrat_semi_bold"
             android:paddingStart="8dp"
-            android:paddingTop="2dp"
+            android:paddingTop="4dp"
             android:paddingEnd="8dp"
             android:paddingBottom="4dp"
             android:text="@string/completed"
