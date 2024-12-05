@@ -55,8 +55,8 @@
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnFilter"
         style="@style/Widget.MaterialComponents.Button.TextButton"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:layout_marginEnd="16dp"
         android:insetLeft="0dp"
         android:insetTop="0dp"
@@ -64,7 +64,7 @@
         android:insetBottom="0dp"
         app:icon="@drawable/ic_filter"
         app:iconGravity="textStart"
-        app:iconSize="35dp"
+        app:iconSize="24dp"
         app:layout_constraintBottom_toBottomOf="@+id/searchCardView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/searchCardView" />
