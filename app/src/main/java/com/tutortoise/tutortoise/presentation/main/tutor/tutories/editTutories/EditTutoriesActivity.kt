@@ -110,7 +110,7 @@ class EditTutoriesActivity : AppCompatActivity() {
 
     private fun populateData(tutories: DetailedTutoriesResponse) {
         with(binding) {
-
+            editTutoriesName.setText(tutories.name)
             tvCategoryName.text = tutories.categoryName
             editAbout.setText(tutories.aboutYou)
             editMethodology.setText(tutories.teachingMethodology)
