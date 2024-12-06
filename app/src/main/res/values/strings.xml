@@ -213,6 +213,8 @@
     <string name="cancel">Cancel</string>
     <string name="total">Total</string>
     <string name="duration">Duration</string>
+    <string name="cancel_scheduled_session">Cancel Scheduled Session</string>
+    <string name="cancle_scheduled_session_text">If you cancel this session, you won\'t be able to recover it, Do you want to cancel it?</string>
 
     <plurals name="total_reviews">
         <item quantity="one">(%d review)</item>
