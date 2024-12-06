@@ -31,6 +31,7 @@ navigationVersion = "2.7.6"
 playServicesAuthVersion = "20.3.0"
 retrofit = "2.9.0"
 securityCrypto = "1.1.0-alpha06"
+ucrop = "2.2.9-native"
 viewpager2 = "1.1.0"
 googleGmsGoogleServices = "4.4.2"
 firebaseAuth = "23.1.0"
@@ -88,6 +89,7 @@ play-services-auth = { group = "com.google.android.gms", name = "play-services-a
 firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 shimmer-android = { group = "com.facebook.shimmer", name = "shimmer", version.ref = "shimmer" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
+ucrop = { module = "com.github.yalantis:ucrop", version.ref = "ucrop" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

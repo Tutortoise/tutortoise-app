@@ -125,4 +125,6 @@ dependencies {
     implementation(libs.androidx.security.crypto)
     implementation(libs.glide)
     implementation(libs.shimmer.android)
+
+    implementation (libs.ucrop)
 }
