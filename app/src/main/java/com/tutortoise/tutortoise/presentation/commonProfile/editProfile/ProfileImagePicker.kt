@@ -1,6 +1,7 @@
 package com.tutortoise.tutortoise.presentation.commonProfile.editProfile
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.activity.result.contract.ActivityResultContracts
@@ -41,9 +42,19 @@ class ProfileImagePicker(
             File(activity.cacheDir, "cropped_profile_image.jpg")
         )
 
+        // Configure UCrop options
+        val options = UCrop.Options().apply {
+            setCircleDimmedLayer(true) // Makes the cropping area circular
+            setShowCropFrame(false)
+            setShowCropGrid(false)
+            setCompressionFormat(Bitmap.CompressFormat.JPEG) // Set output format
+            setCompressionQuality(90) // Set image quality
+        }
+
         val uCropIntent = UCrop.of(sourceUri, destinationUri)
-            .withAspectRatio(1f, 1f)  // Square crop
+            .withAspectRatio(1f, 1f)  // Ensure a square aspect ratio for the circle
             .withMaxResultSize(500, 500)
+            .withOptions(options)
             .getIntent(activity)
 
         cropLauncher.launch(uCropIntent)
