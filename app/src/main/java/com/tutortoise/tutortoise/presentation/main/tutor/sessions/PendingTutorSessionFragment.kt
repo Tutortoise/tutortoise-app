@@ -69,5 +69,10 @@ class PendingTutorSessionFragment : Fragment() {
         viewModel.fetchMyOrders("pending")
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchMyOrders("pending")
+    }
+
 
 }

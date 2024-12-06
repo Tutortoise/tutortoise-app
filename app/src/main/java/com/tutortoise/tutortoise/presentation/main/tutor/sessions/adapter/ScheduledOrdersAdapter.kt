@@ -9,34 +9,32 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.OrderResponse
-import com.tutortoise.tutortoise.databinding.ItemPendingTutorBinding
+import com.tutortoise.tutortoise.databinding.ItemScheduledTutorBinding
 import com.tutortoise.tutortoise.utils.Constants
 import com.tutortoise.tutortoise.utils.formatWithThousandsSeparator
-import com.tutortoise.tutortoise.utils.isoToReadableDate
 import com.tutortoise.tutortoise.utils.isoToReadableTime
 
-class PendingOrdersAdapter(
+class ScheduledOrdersAdapter(
     private val orders: List<OrderResponse>,
-    private val onAcceptClick: (String) -> Unit = {},
-    private val onRejectClick: (String) -> Unit = {}
-) :
-    RecyclerView.Adapter<PendingOrdersAdapter.PendingOrderViewHolder>() {
+    private val onCancelled: (String) -> Unit,
+) : RecyclerView.Adapter<ScheduledOrdersAdapter.ScheduledOrderViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PendingOrderViewHolder {
-        val binding = ItemPendingTutorBinding.inflate(
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduledOrderViewHolder {
+        val binding = ItemScheduledTutorBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return PendingOrderViewHolder(binding)
+        return ScheduledOrderViewHolder(binding)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onBindViewHolder(holder: PendingOrderViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ScheduledOrderViewHolder, position: Int) {
         holder.bind(orders[position])
     }
 
-    inner class PendingOrderViewHolder(private val binding: ItemPendingTutorBinding) :
+    inner class ScheduledOrderViewHolder(private val binding: ItemScheduledTutorBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(order: OrderResponse) {
@@ -45,8 +43,7 @@ class PendingOrdersAdapter(
                 tvCategory.text = order.categoryName
                 tvTime.text =
                     "${isoToReadableTime(order.sessionTime)} - ${isoToReadableTime(order.estimatedEndTime)}"
-                tvDate.text = isoToReadableDate(order.sessionTime)
-                tvPrice.text = "Rp. ${order.price.formatWithThousandsSeparator()},-"
+                tvTotal.text = "Rp. ${order.price.formatWithThousandsSeparator()},-"
                 tvNote.text = order.notes?.takeIf { it.isNotEmpty() } ?: "-"
 
                 Glide.with(root)
@@ -57,37 +54,32 @@ class PendingOrdersAdapter(
                     .into(ivProfilePicture)
 
                 when (order.typeLesson) {
-                    "offline" -> {
-                        tvTypeLesson.setBackgroundResource(R.drawable.bg_dark_blue)
-                        tvTypeLesson.text = "On-site"
-                    }
-
                     "online" -> {
                         tvTypeLesson.setBackgroundResource(R.drawable.bg_green)
                         tvTypeLesson.text = "Online"
                     }
 
+                    "offline" -> {
+                        tvTypeLesson.setBackgroundResource(R.drawable.bg_dark_blue)
+                        tvTypeLesson.text = "On-site"
+                    }
                 }
 
-                ivDropdown.setOnClickListener {
+                ivExpandCollapse.setOnClickListener {
                     if (expandableCardView.visibility == View.GONE) {
                         expandableCardView.visibility = View.VISIBLE
                         expandableContent.visibility = View.VISIBLE
                         // TODO: Change the icon to icon up
-                        ivDropdown.setImageResource(R.drawable.ic_back)
+                        ivExpandCollapse.setImageResource(R.drawable.ic_back)
                     } else {
                         expandableCardView.visibility = View.GONE
                         expandableContent.visibility = View.GONE
-                        ivDropdown.setImageResource(R.drawable.ic_dropdown)
+                        ivExpandCollapse.setImageResource(R.drawable.ic_dropdown)
                     }
                 }
 
-                btnAccept.setOnClickListener {
-                    onAcceptClick(order.id)
-                }
-
-                btnReject.setOnClickListener {
-                    onRejectClick(order.id)
+                btnCancel.setOnClickListener {
+                    onCancelled(order.id)
                 }
 
             }
@@ -95,4 +87,6 @@ class PendingOrdersAdapter(
     }
 
     override fun getItemCount(): Int = orders.size
+
+
 }

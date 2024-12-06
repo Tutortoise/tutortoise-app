@@ -61,4 +61,9 @@ class ScheduledLearnerSessionFragment : Fragment() {
         viewModel.fetchMyOrders("scheduled")
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchMyOrders("scheduled")
+    }
+
 }

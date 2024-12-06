@@ -40,7 +40,7 @@
                 app:layout_constraintEnd_toEndOf="@id/ivProfilePicture" />
 
             <TextView
-                android:id="@+id/tvTutorName"
+                android:id="@+id/tvLearnerName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
@@ -48,22 +48,22 @@
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/chipOnsite"
+                app:layout_constraintEnd_toStartOf="@+id/tvTypeLesson"
                 app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Dony Gacoan" />
 
             <TextView
-                android:id="@+id/tvSubject"
+                android:id="@+id/tvCategory"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:fontFamily="@font/montserrat_regular"
                 android:textColor="@android:color/black"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toStartOf="@+id/chipOnsite"
-                app:layout_constraintStart_toStartOf="@+id/tvTutorName"
-                app:layout_constraintTop_toBottomOf="@+id/tvTutorName"
+                app:layout_constraintEnd_toStartOf="@+id/tvTypeLesson"
+                app:layout_constraintStart_toStartOf="@+id/tvLearnerName"
+                app:layout_constraintTop_toBottomOf="@+id/tvLearnerName"
                 tools:text="Mathematics" />
 
             <TextView
@@ -74,23 +74,27 @@
                 android:fontFamily="@font/montserrat_regular"
                 android:textColor="@android:color/black"
                 android:textSize="14sp"
-                app:layout_constraintEnd_toStartOf="@+id/chipOnsite"
-                app:layout_constraintStart_toStartOf="@+id/tvTutorName"
-                app:layout_constraintTop_toBottomOf="@+id/tvSubject"
+                app:layout_constraintEnd_toStartOf="@+id/tvTypeLesson"
+                app:layout_constraintStart_toStartOf="@+id/tvLearnerName"
+                app:layout_constraintTop_toBottomOf="@+id/tvCategory"
                 tools:text="09:00 - 11:00" />
 
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chipOnsite"
+            <TextView
+                android:id="@+id/tvTypeLesson"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="On-site"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                app:chipBackgroundColor="#4B7BE5"
-                app:chipMinHeight="24dp"
-                app:layout_constraintBottom_toBottomOf="@id/tvTutorName"
+                android:layout_height="0dp"
+                android:background="@drawable/bg_green"
+                android:fontFamily="@font/montserrat_semi_bold"
+                android:paddingStart="27dp"
+                android:paddingTop="1dp"
+                android:paddingEnd="27dp"
+                android:paddingBottom="1dp"
+                android:text="@string/online"
+                android:textColor="@android:color/white"
+                android:textSize="10sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tvTutorName" />
+                app:layout_constraintTop_toTopOf="@id/tvLearnerName" />
+
 
             <ImageView
                 android:id="@+id/ivExpandCollapse"

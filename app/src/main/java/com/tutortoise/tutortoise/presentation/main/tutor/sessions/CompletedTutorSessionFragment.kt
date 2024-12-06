@@ -67,4 +67,9 @@ class CompletedTutorSessionFragment : Fragment() {
 
         viewModel.fetchMyOrders("completed")
     }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchMyOrders("completed")
+    }
 }
