@@ -22,6 +22,20 @@ class PendingTutorSessionViewModel(private val orderRepository: OrderRepository)
         }
     }
 
+    fun acceptOrder(orderId: String, status: String) {
+        viewModelScope.launch {
+            orderRepository.acceptOrder(orderId)
+            fetchMyOrders(status)
+        }
+    }
+
+    fun rejectOrder(orderId: String, status: String) {
+        viewModelScope.launch {
+            orderRepository.rejectOrder(orderId)
+            fetchMyOrders(status)
+        }
+    }
+
     companion object {
         fun provideFactory(
             orderRepository: OrderRepository

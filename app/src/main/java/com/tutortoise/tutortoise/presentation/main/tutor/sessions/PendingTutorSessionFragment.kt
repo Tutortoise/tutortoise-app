@@ -45,8 +45,16 @@ class PendingTutorSessionFragment : Fragment() {
                             LinearLayoutManager.VERTICAL,
                             false
                         )
+
                         binding.rvOrders.adapter =
-                            OrdersAdapter(orders ?: emptyList())
+                            OrdersAdapter(orders ?: emptyList(),
+                                onAcceptClick = { orderId ->
+                                    viewModel.acceptOrder(orderId, "pending")
+                                },
+                                onRejectClick = { orderId ->
+                                    viewModel.rejectOrder(orderId, "pending")
+                                }
+                            )
                     }
 
                     result.isFailure -> {

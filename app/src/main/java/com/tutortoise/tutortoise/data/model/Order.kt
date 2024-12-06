@@ -24,4 +24,5 @@ data class OrderResponse(
     val learnerName: String,
     val typeLesson: String,
     val price: Int,
+    val notes: String? = null,
 )

@@ -65,6 +65,11 @@ class OrdersAdapter(private val orders: List<OrderResponse>) :
                         tvStatus.setBackgroundResource(R.drawable.bg_dark_green)
                         tvStatus.text = order.typeLesson
                     }
+
+                    "declined" -> {
+                        tvStatus.setBackgroundResource(R.drawable.bg_red)
+                        tvStatus.text = "Rejected"
+                    }
                 }
             }
         }

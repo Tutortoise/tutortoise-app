@@ -226,4 +226,10 @@ interface ApiService {
 
     @GET("orders/me")
     suspend fun getMyOrders(@Query("status") status: String? = null): Response<ApiResponse<List<OrderResponse>>>
+
+    @POST("orders/{orderId}/accept")
+    suspend fun acceptOrder(@Path("orderId") orderId: String): Response<MessageResponse>
+
+    @POST("orders/{orderId}/decline")
+    suspend fun rejectOrder(@Path("orderId") orderId: String): Response<MessageResponse>
 }
