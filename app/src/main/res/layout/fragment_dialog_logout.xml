@@ -67,6 +67,7 @@
             android:textSize="14sp"
             android:textColor="@color/darkgreen"
             android:textAllCaps="false"
+            app:strokeColor="@color/darkgreen"
             app:cornerRadius="20dp"/>
 
         <com.google.android.material.button.MaterialButton

@@ -40,9 +40,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:fontFamily="@font/montserrat_medium"
+            android:fontFamily="@font/montserrat_semi_bold"
             android:text="@string/tutories_title"
-            android:textSize="14sp"
+            android:textSize="13sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivTutorImageCard"
             app:layout_constraintTop_toTopOf="parent" />
@@ -59,18 +59,31 @@
             app:layout_constraintStart_toEndOf="@id/ivTutorImageCard"
             app:layout_constraintTop_toBottomOf="@id/tvTutoriesName" />
 
-        <TextView
-            android:id="@+id/tvRating"
-            android:layout_width="0dp"
+
+        <LinearLayout
+            android:id="@+id/tvRatingText"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:fontFamily="@font/montserrat_medium"
-            android:text="@string/reviews"
-            android:textColor="#808080"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivTutorImageCard"
-            app:layout_constraintTop_toBottomOf="@id/tvCategoryName" />
+            app:layout_constraintTop_toBottomOf="@id/tvCategoryName">
+
+            <TextView
+                android:id="@+id/tvRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="@string/reviews"
+                android:textColor="#808080"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_marginTop="1dp"
+                android:src="@drawable/ic_star"/>
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvHourlyRate"
@@ -82,7 +95,7 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/ivTutorImageCard"
-            app:layout_constraintTop_toBottomOf="@+id/tvRating" />
+            app:layout_constraintTop_toBottomOf="@+id/tvRatingText" />
 
         <LinearLayout
             android:id="@+id/Location"
