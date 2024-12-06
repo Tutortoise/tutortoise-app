@@ -11,7 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tutortoise.tutortoise.data.repository.OrderRepository
 import com.tutortoise.tutortoise.databinding.FragmentTutorPendingSessionBinding
-import com.tutortoise.tutortoise.presentation.main.tutor.sessions.adapter.OrdersAdapter
+import com.tutortoise.tutortoise.presentation.main.tutor.sessions.adapter.PendingOrdersAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -47,7 +47,7 @@ class PendingTutorSessionFragment : Fragment() {
                         )
 
                         binding.rvOrders.adapter =
-                            OrdersAdapter(orders ?: emptyList(),
+                            PendingOrdersAdapter(orders ?: emptyList(),
                                 onAcceptClick = { orderId ->
                                     viewModel.acceptOrder(orderId, "pending")
                                 },

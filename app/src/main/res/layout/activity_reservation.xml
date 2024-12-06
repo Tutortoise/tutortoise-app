@@ -105,7 +105,6 @@
                 app:layout_constraintTop_toBottomOf="@id/btnLearningType"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <!--            TODO: fix the layout-->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSelectDate"
                 android:layout_width="wrap_content"

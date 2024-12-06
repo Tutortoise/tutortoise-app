@@ -15,28 +15,28 @@ import com.tutortoise.tutortoise.utils.formatWithThousandsSeparator
 import com.tutortoise.tutortoise.utils.isoToReadableDate
 import com.tutortoise.tutortoise.utils.isoToReadableTime
 
-class OrdersAdapter(
+class PendingOrdersAdapter(
     private val orders: List<OrderResponse>,
     private val onAcceptClick: (String) -> Unit = {},
     private val onRejectClick: (String) -> Unit = {}
 ) :
-    RecyclerView.Adapter<OrdersAdapter.OrderViewHolder>() {
+    RecyclerView.Adapter<PendingOrdersAdapter.PendingOrderViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PendingOrderViewHolder {
         val binding = ItemPendingTutorBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return OrderViewHolder(binding)
+        return PendingOrderViewHolder(binding)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: PendingOrderViewHolder, position: Int) {
         holder.bind(orders[position])
     }
 
-    inner class OrderViewHolder(private val binding: ItemPendingTutorBinding) :
+    inner class PendingOrderViewHolder(private val binding: ItemPendingTutorBinding) :
         RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(order: OrderResponse) {
@@ -55,6 +55,7 @@ class OrdersAdapter(
                     .circleCrop()
                     .into(ivProfilePicture)
 
+                tvNote.text = order.notes?.takeIf { it.isNotEmpty() } ?: "-"
                 when (order.typeLesson) {
                     "offline" -> {
                         tvTypeLesson.setBackgroundResource(R.drawable.bg_dark_blue)
@@ -68,7 +69,21 @@ class OrdersAdapter(
 
                 }
 
-                tvNote.text = order.notes?.takeIf { it.isNotEmpty() } ?: "-"
+//                if (status == "pending" || status == "scheduled") {
+//                } else if (status == "completed") {
+//                    when (order.status) {
+//                        "completed" -> {
+//                            tvStatus.setBackgroundResource(R.drawable.bg_green)
+//                            tvStatus.text = "Completed"
+//                        }
+//
+//                        "declined" -> {
+//                            tvStatus.setBackgroundResource(R.drawable.bg_red)
+//                            tvStatus.text = "Rejected"
+//                        }
+//                    }
+//                    ivDropdown.visibility = View.GONE
+//                }
 
                 ivDropdown.setOnClickListener {
                     if (expandableCardView.visibility == View.GONE) {
