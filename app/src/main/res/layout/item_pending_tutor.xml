@@ -9,9 +9,9 @@
         android:id="@id/mainCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="4dp"
+        android:layout_marginVertical="4dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="2dp"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,7 +50,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="4dp"
                 android:fontFamily="@font/montserrat_regular"
                 android:text="@string/category"
                 android:textColor="@android:color/black"
@@ -60,13 +59,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvLearnerName" />
 
             <TextView
-                android:id="@+id/tvTime"
+                android:id="@+id/tvDate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="4dp"
                 android:fontFamily="@font/montserrat_regular"
-                android:text="@string/tutor_time"
+                android:text="@string/tutor_date"
                 android:textColor="@android:color/black"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/tvTypeLesson"
@@ -74,33 +72,30 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvCategory" />
 
             <TextView
-                android:id="@+id/tvDate"
+                android:id="@+id/tvTime"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="4dp"
                 android:fontFamily="@font/montserrat_regular"
-                android:text="@string/tutor_date"
+                android:text="@string/tutor_time"
                 android:textColor="@android:color/black"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/tvTypeLesson"
                 app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
-                app:layout_constraintTop_toBottomOf="@+id/tvTime" />
-
+                app:layout_constraintTop_toBottomOf="@+id/tvDate" />
 
             <TextView
                 android:id="@+id/tvPrice"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="4dp"
                 android:fontFamily="@font/montserrat_medium"
-                android:text="Price"
+                android:text="@string/price"
                 android:textColor="@android:color/black"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@+id/tvTypeLesson"
                 app:layout_constraintStart_toEndOf="@+id/ivProfilePicture"
-                app:layout_constraintTop_toBottomOf="@+id/tvDate" />
+                app:layout_constraintTop_toBottomOf="@+id/tvTime" />
 
             <TextView
                 android:id="@+id/tvTypeLesson"
@@ -136,11 +131,10 @@
         android:id="@+id/expandableCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="-24dp"
         android:visibility="gone"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="2dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="1dp"
         app:layout_constraintTop_toBottomOf="@id/mainCardView"
         tools:visibility="visible">
 
@@ -161,10 +155,10 @@
                 android:id="@+id/tvNoteLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="4dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:paddingHorizontal="4dp"
-                android:text="Note"
+                android:text="@string/note"
                 android:textColor="@android:color/black"
                 android:textSize="14sp" />
 
@@ -172,7 +166,6 @@
                 android:id="@+id/tvNote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
                 android:layout_marginBottom="16dp"
                 android:fontFamily="@font/montserrat_regular"
                 android:paddingHorizontal="4dp"
@@ -183,37 +176,42 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal"
-                android:paddingHorizontal="4dp">
+                android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnReject"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_weight="1"
-                    android:backgroundTint="#E94242"
-                    android:text="Reject"
+                    android:backgroundTint="#D63B3E"
+                    android:text="@string/reject"
                     android:textAllCaps="false"
                     app:cornerRadius="12dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnAccept"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/green"
-                    android:text="Accept"
+                    android:backgroundTint="@color/accept_green_color"
+                    android:text="@string/accept"
                     android:textAllCaps="false"
                     app:cornerRadius="12dp"
                     app:iconGravity="textStart" />
 
-                <!-- TODO: add chat icon -->
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/ic_chat"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:layout_gravity="center"
+                    app:tint="@color/darkgreen" />
 
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

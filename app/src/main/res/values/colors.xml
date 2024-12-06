@@ -11,6 +11,7 @@
     <color name="green">#56C580</color>
     <color name="transparent">#00000000</color>
     <color name="Black_50">#50000000</color>
+    <color name="accept_green_color">#41A74F</color>
 
     <color name="colorActive">#000000</color>
     <color name="colorInactive">#888888</color>

@@ -67,7 +67,7 @@
             android:fontFamily="@font/montserrat_semi_bold"
             android:textSize="14sp"
             android:textColor="@color/black"
-            app:strokeColor="@color/strokeColor"
+            app:strokeColor="@color/black"
             android:textAllCaps="false"
             app:cornerRadius="20dp"/>
 

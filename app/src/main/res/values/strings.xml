@@ -208,6 +208,11 @@
     <string name="note_hint_text">Send note to your tutor</string>
     <string name="no_notifications">No Notifications</string>
     <string name="no_notification_text">Notification Inbox Empty</string>
+    <string name="reject">Reject</string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="total">Total</string>
+    <string name="duration">Duration</string>
 
     <plurals name="total_reviews">
         <item quantity="one">(%d review)</item>
