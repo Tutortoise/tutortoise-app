@@ -104,17 +104,18 @@ class ReservationActivity : AppCompatActivity() {
 
         // Handle save button
         binding.btnSave.setOnClickListener {
-            // TODO: validation
-            viewModel.reserveOrder(
-                tutoriesId,
-                selectedTypeLesson,
-                selectedDatetime,
-                selectedTotalHour,
-                binding.etNote.text.toString()
-            )
+            if (validateOrder()) {
+                viewModel.reserveOrder(
+                    tutoriesId,
+                    selectedTypeLesson,
+                    selectedDatetime,
+                    selectedTotalHour,
+                    binding.etNote.text.toString()
+                )
 
-            Toast.makeText(this, "Reservation submitted", Toast.LENGTH_SHORT).show()
-            finish()
+                Toast.makeText(this, "Reservation submitted", Toast.LENGTH_SHORT).show()
+                finish()
+            }
         }
     }
 
@@ -165,6 +166,24 @@ class ReservationActivity : AppCompatActivity() {
             layoutManager = FlexboxLayoutManager(this@ReservationActivity)
             adapter = timeAdapter
         }
+    }
+
+    private fun validateOrder(): Boolean {
+        if (selectedTypeLesson.isEmpty()) {
+            Toast.makeText(this, "Please select a lesson type", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        if (selectedDatetime.isEmpty()) {
+            Toast.makeText(this, "Please select a time", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (selectedTotalHour == 0) {
+            Toast.makeText(this, "Please select tutoring time", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        return true
     }
 
 }

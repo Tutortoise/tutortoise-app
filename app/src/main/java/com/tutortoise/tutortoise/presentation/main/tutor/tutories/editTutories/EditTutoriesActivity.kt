@@ -2,9 +2,13 @@ package com.tutortoise.tutortoise.presentation.main.tutor.tutories.editTutories
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.DetailedTutoriesResponse
 import com.tutortoise.tutortoise.data.model.EditTutoriesRequest
@@ -14,7 +18,10 @@ import com.tutortoise.tutortoise.databinding.ActivityEditTutoriesBinding
 import com.tutortoise.tutortoise.presentation.main.tutor.tutories.createTutories.CurrencyTextWatcher
 import com.tutortoise.tutortoise.presentation.main.tutor.tutories.createTutories.RateInfo
 import com.tutortoise.tutortoise.utils.parseFormattedNumber
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.util.Locale
 
 class EditTutoriesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditTutoriesBinding
@@ -76,9 +83,7 @@ class EditTutoriesActivity : AppCompatActivity() {
                 tvTutoriesStatus.setText(if (btnTutoriesStatus.isChecked) R.string.status_enabled else R.string.status_disabled)
             }
             tvDelete.setOnClickListener {
-                // TODO: Show confirmation dialog
-                deleteTutories()
-                finish()
+                showDeleteConfirmation()
             }
 
         }
@@ -128,7 +133,7 @@ class EditTutoriesActivity : AppCompatActivity() {
             tvCategoryName.text = tutories.categoryName
             editAbout.setText(tutories.aboutYou)
             editMethodology.setText(tutories.teachingMethodology)
-            editRate.setText(tutories.hourlyRate.toString())
+            editRate.setText(String.format(Locale.getDefault(), "%d", tutories.hourlyRate))
 
             // Set type lesson buttons
             when (tutories.typeLesson) {
@@ -240,6 +245,7 @@ class EditTutoriesActivity : AppCompatActivity() {
 
         throwable.errorResponse?.errors?.forEach { error ->
             when (error.field) {
+                "body.name" -> binding.editTutoriesName.error = error.message
                 "body.aboutYou" -> binding.editAbout.error = error.message
                 "body.teachingMethodology" -> binding.editMethodology.error = error.message
                 "body.hourlyRate" -> binding.editRate.error = error.message
@@ -250,6 +256,53 @@ class EditTutoriesActivity : AppCompatActivity() {
 
     private fun showError(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun showDeleteConfirmation() {
+        val dialogView = LayoutInflater.from(this@EditTutoriesActivity)
+            .inflate(R.layout.fragment_dialog_delete_confirmation, null)
+
+        val dialog = MaterialAlertDialogBuilder(this@EditTutoriesActivity)
+            .setView(dialogView)
+            .create()
+
+        // Make dialog rounded corners
+        dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_dialog_background)
+
+        // Set up click listeners for the buttons
+        dialogView.findViewById<MaterialButton>(R.id.btnCancel).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<MaterialButton>(R.id.btnDelete).setOnClickListener {
+            // Show loading state
+            val loadingView = dialogView.findViewById<View>(R.id.loadingView)
+            val buttonsLayout = dialogView.findViewById<View>(R.id.buttonsLayout)
+
+            loadingView.visibility = View.VISIBLE
+            buttonsLayout.visibility = View.GONE
+
+            lifecycleScope.launch {
+                try {
+                    deleteTutories()
+                    dialog.dismiss()
+                    finish()
+                } catch (e: Exception) {
+                    // Handle error
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(
+                            this@EditTutoriesActivity,
+                            "Failed to delete tutories. Please try again.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        loadingView.visibility = View.GONE
+                        buttonsLayout.visibility = View.VISIBLE
+                    }
+                }
+            }
+        }
+
+        dialog.show()
     }
 
     companion object {
