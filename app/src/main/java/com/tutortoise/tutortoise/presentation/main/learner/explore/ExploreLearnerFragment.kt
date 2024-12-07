@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.CategoryResponse
 import com.tutortoise.tutortoise.data.model.ExploreTutoriesResponse
@@ -46,6 +47,8 @@ class ExploreLearnerFragment : Fragment() {
 
     private var pendingSearchQuery: String? = null
     private var pendingCategoriesFilter: CategoryResponse? = null
+
+    private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onResume() {
         super.onResume()
@@ -80,6 +83,19 @@ class ExploreLearnerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Bind SwipeRefreshLayout
+        swipeRefreshLayout = binding.swipeRefreshLayout
+        // Set refresh listener
+        swipeRefreshLayout.setOnRefreshListener {
+            refreshTutories()
+        }
+        // For customizing swipe refresh indicator if needed
+        /*swipeRefreshLayout.setColorSchemeResources(
+            R.color.colorPrimary,
+            R.color.colorAccent,
+            R.color.colorPrimaryDark
+        )*/
         setupSearch()
         setupUI()
         observeViewModel()
@@ -198,6 +214,15 @@ class ExploreLearnerFragment : Fragment() {
             false
         }
     }
+
+    private fun refreshTutories() {
+        // Trigger fetching data
+        fetchTutories(currentSearchQuery)
+
+        // Stop the refreshing animation after completion
+        swipeRefreshLayout.isRefreshing = false
+    }
+
 
     private fun fetchTutories(query: String? = null) {
         // Prevent duplicate fetches if already loading
