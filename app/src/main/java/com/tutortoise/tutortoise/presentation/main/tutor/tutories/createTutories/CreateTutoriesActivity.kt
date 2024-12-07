@@ -148,7 +148,6 @@ class CreateTutoriesActivity : AppCompatActivity() {
         }
     }
 
-    // TODO: before submitting, go to availability page
     private fun createTutories() {
         val selectedCategory = binding.spinnerCategory.selectedItem as? CategoryResponse
         val categoryId = selectedCategory!!.id

@@ -106,7 +106,6 @@ class SetScheduleActivity : AppCompatActivity() {
             setOnClickListener {
                 if (validateSchedule()) {
                     val scheduleInfo = buildScheduleInfo()
-                    // TODO: Save schedule
                     lifecycleScope.launch {
                         tutorRepository.updateTutorProfile(
                             UpdateTutorProfileRequest(
