@@ -14,7 +14,15 @@ import kotlin.collections.component1
 import kotlin.collections.component2
 
 
-fun groupOrdersByDate(orders: List<OrderResponse>): List<SessionListItem> {
+enum class SortOrder {
+    ASCENDING,  // Oldest first
+    DESCENDING  // Newest first (default/current behavior)
+}
+
+fun groupOrdersByDate(
+    orders: List<OrderResponse>,
+    sortOrder: SortOrder = SortOrder.DESCENDING
+): List<SessionListItem> {
     val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
     inputFormat.timeZone = TimeZone.getTimeZone("UTC")
 
@@ -26,12 +34,15 @@ fun groupOrdersByDate(orders: List<OrderResponse>): List<SessionListItem> {
             val date = inputFormat.parse(order.sessionTime)
             outputFormat.format(date!!)
         }
-        .toSortedMap(reverseOrder()) // Keep dates in descending order (newest first)
+        .toSortedMap(if (sortOrder == SortOrder.DESCENDING) reverseOrder() else naturalOrder())
         .flatMap { (_, ordersForDate) ->
             val headerDate = isoToReadableDate(ordersForDate[0].sessionTime)
             listOf(SessionListItem.DateHeader(headerDate)) +
                     ordersForDate
-                        .sortedByDescending { it.sessionTime } // Sort times in descending order
+                        .sortedBy { it.sessionTime }
+                        .let { list ->
+                            if (sortOrder == SortOrder.DESCENDING) list.reversed() else list
+                        }
                         .map { SessionListItem.SessionItem(it) }
         }
 }

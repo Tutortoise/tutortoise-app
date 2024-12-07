@@ -9,22 +9,76 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.OrderResponse
+import com.tutortoise.tutortoise.databinding.ItemDateHeaderBinding
 import com.tutortoise.tutortoise.databinding.ItemHomeScheduledSessionBinding
+import com.tutortoise.tutortoise.presentation.item.SessionListItem
 import com.tutortoise.tutortoise.utils.Constants
 import com.tutortoise.tutortoise.utils.isoToReadableDate
 import com.tutortoise.tutortoise.utils.isoToReadableTime
 
 class HomeScheduledSessionsAdapter(
-    private var sessions: List<OrderResponse>,
+    private var items: List<SessionListItem>,
     private val onChatClick: (String) -> Unit
-) : RecyclerView.Adapter<HomeScheduledSessionsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    class ViewHolder(
+    companion object {
+        private const val TYPE_DATE = 0
+        private const val TYPE_SESSION = 1
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return when (items[position]) {
+            is SessionListItem.DateHeader -> TYPE_DATE
+            is SessionListItem.SessionItem -> TYPE_SESSION
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            TYPE_DATE -> {
+                DateViewHolder(
+                    ItemDateHeaderBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
+                )
+            }
+
+            TYPE_SESSION -> {
+                SessionViewHolder(
+                    ItemHomeScheduledSessionBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    ),
+                    parent.context
+                )
+            }
+
+            else -> throw IllegalArgumentException("Invalid view type")
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (val item = items[position]) {
+            is SessionListItem.DateHeader -> (holder as DateViewHolder).bind(item)
+            is SessionListItem.SessionItem -> (holder as SessionViewHolder).bind(item.order)
+        }
+    }
+
+    inner class DateViewHolder(private val binding: ItemDateHeaderBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: SessionListItem.DateHeader) {
+            binding.tvDate.text = item.date
+        }
+    }
+
+    inner class SessionViewHolder(
         private val binding: ItemHomeScheduledSessionBinding,
         private val context: Context
     ) : RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(order: OrderResponse, onChatClick: (String) -> Unit) {
+        fun bind(order: OrderResponse) {
             binding.apply {
                 tvLearnerName.text = order.learnerName
                 tvCategory.text = order.categoryName
@@ -59,25 +113,10 @@ class HomeScheduledSessionsAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            ItemHomeScheduledSessionBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            ),
-            parent.context
-        )
-    }
+    override fun getItemCount(): Int = items.size
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(sessions[position], onChatClick)
-    }
-
-    override fun getItemCount(): Int = sessions.size
-
-    fun updateSessions(newSessions: List<OrderResponse>) {
-        sessions = newSessions.sortedBy { it.sessionTime }
+    fun updateSessions(newItems: List<SessionListItem>) {
+        items = newItems
         notifyDataSetChanged()
         Handler(Looper.getMainLooper()).post {
             notifyDataSetChanged()

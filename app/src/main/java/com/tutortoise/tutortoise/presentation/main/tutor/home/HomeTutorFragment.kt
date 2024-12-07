@@ -85,15 +85,15 @@ class HomeTutorFragment : Fragment() {
             viewModel.scheduledOrders.collectLatest { result ->
                 when {
                     result.isSuccess -> {
-                        val orders = result.getOrNull()
-                        if (orders.isNullOrEmpty()) {
+                        val items = result.getOrNull()
+                        if (items.isNullOrEmpty()) {
                             binding.rvScheduledSessions.visibility = View.GONE
                             binding.noScheduleLayout.visibility = View.VISIBLE
                         } else {
                             binding.rvScheduledSessions.visibility = View.VISIBLE
                             binding.noScheduleLayout.visibility = View.GONE
                             (binding.rvScheduledSessions.adapter as HomeScheduledSessionsAdapter)
-                                .updateSessions(orders)
+                                .updateSessions(items)
                             binding.rvScheduledSessions.requestLayout()
                         }
                     }
