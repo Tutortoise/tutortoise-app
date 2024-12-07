@@ -69,8 +69,7 @@ class ScheduledOrdersAdapter(
                     if (expandableCardView.visibility == View.GONE) {
                         expandableCardView.visibility = View.VISIBLE
                         expandableContent.visibility = View.VISIBLE
-                        // TODO: Change the icon to icon up
-                        ivExpandCollapse.setImageResource(R.drawable.ic_back)
+                        ivExpandCollapse.setImageResource(R.drawable.ic_up)
                     } else {
                         expandableCardView.visibility = View.GONE
                         expandableContent.visibility = View.GONE
