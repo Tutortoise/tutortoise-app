@@ -97,6 +97,9 @@
         <action
             android:id="@+id/action_tutories_to_createTutories"
             app:destination="@id/createTutoriesActivity" />
+        <action
+            android:id="@+id/action_tutories_to_editProfile"
+            app:destination="@id/editProfileActivity" />
 
         <action
             android:id="@+id/action_tutories_to_editTutories"

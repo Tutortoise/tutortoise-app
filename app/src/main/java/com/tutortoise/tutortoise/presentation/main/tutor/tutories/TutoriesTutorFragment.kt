@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.TutorRepository
 import com.tutortoise.tutortoise.data.repository.TutoriesRepository
@@ -64,13 +66,8 @@ class TutoriesTutorFragment : Fragment() {
         binding.btnAddTutory.setOnClickListener {
             lifecycleScope.launch {
                 val isFilled = tutorRepository.isProfileFilled()
-                // TODO: use modal like in Figma
                 if (!isFilled) {
-                    Toast.makeText(
-                        requireContext(),
-                        "Please fill your profile first.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showFillProfileDialog()
                     return@launch
                 }
 
@@ -103,6 +100,33 @@ class TutoriesTutorFragment : Fragment() {
                 Toast.makeText(requireContext(), "Error: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+
+    private fun showFillProfileDialog() {
+        val dialogView = LayoutInflater.from(requireContext())
+            .inflate(R.layout.fragment_dialog_profile_completion, null)
+
+        val dialog = MaterialAlertDialogBuilder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        // Make dialog rounded corners
+        dialog.window?.setBackgroundDrawableResource(R.drawable.rounded_dialog_background)
+
+        // Set up click listeners for the buttons
+        dialogView.findViewById<MaterialButton>(R.id.btnCancel).setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<MaterialButton>(R.id.btnToProfile).setOnClickListener {
+            val buttonsLayout = dialogView.findViewById<View>(R.id.buttonsLayout)
+            buttonsLayout.visibility = View.GONE
+            dialog.dismiss()
+            findNavController().navigate(R.id.action_tutories_to_editProfile)
+        }
+
+        dialog.show()
     }
 
     override fun onResume() {
