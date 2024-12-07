@@ -1,44 +1,81 @@
 package com.tutortoise.tutortoise.presentation.main.tutor.sessions.adapter
 
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.OrderResponse
+import com.tutortoise.tutortoise.databinding.ItemDateHeaderBinding
 import com.tutortoise.tutortoise.databinding.ItemScheduledTutorBinding
+import com.tutortoise.tutortoise.presentation.item.SessionListItem
 import com.tutortoise.tutortoise.utils.Constants
 import com.tutortoise.tutortoise.utils.formatWithThousandsSeparator
 import com.tutortoise.tutortoise.utils.isoToReadableTime
 
 class ScheduledOrdersAdapter(
-    private val orders: List<OrderResponse>,
+    private val items: List<SessionListItem>,
     private val onCancelled: (String) -> Unit,
-) : RecyclerView.Adapter<ScheduledOrdersAdapter.ScheduledOrderViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduledOrderViewHolder {
-        val binding = ItemScheduledTutorBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return ScheduledOrderViewHolder(binding)
+    companion object {
+        private const val TYPE_DATE = 0
+        private const val TYPE_SESSION = 1
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onBindViewHolder(holder: ScheduledOrderViewHolder, position: Int) {
-        holder.bind(orders[position])
+    override fun getItemViewType(position: Int): Int {
+        return when (items[position]) {
+            is SessionListItem.DateHeader -> TYPE_DATE
+            is SessionListItem.SessionItem -> TYPE_SESSION
+            else -> {
+                throw IllegalArgumentException("Invalid type")
+            }
+        }
     }
 
-    inner class ScheduledOrderViewHolder(
-        private val binding: ItemScheduledTutorBinding,
-    ) :
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            TYPE_DATE -> {
+                DateViewHolder(
+                    ItemDateHeaderBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
+                )
+            }
+
+            TYPE_SESSION -> {
+                SessionViewHolder(
+                    ItemScheduledTutorBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
+                )
+            }
+
+            else -> throw IllegalArgumentException("Invalid view type")
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (val item = items[position]) {
+            is SessionListItem.DateHeader -> (holder as DateViewHolder).bind(item)
+            is SessionListItem.SessionItem -> (holder as SessionViewHolder).bind(item.order)
+        }
+    }
+
+    inner class DateViewHolder(private val binding: ItemDateHeaderBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        @RequiresApi(Build.VERSION_CODES.O)
+        fun bind(item: SessionListItem.DateHeader) {
+            binding.tvDate.text = item.date
+        }
+    }
+
+    inner class SessionViewHolder(private val binding: ItemScheduledTutorBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(order: OrderResponse) {
             val learnerName = order.learnerName
             val categoryName = order.categoryName
@@ -98,7 +135,7 @@ class ScheduledOrdersAdapter(
         }
     }
 
-    override fun getItemCount(): Int = orders.size
+    override fun getItemCount(): Int = items.size
 
 
 }

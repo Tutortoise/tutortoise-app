@@ -2,12 +2,39 @@ package com.tutortoise.tutortoise.utils
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.tutortoise.tutortoise.data.model.OrderResponse
+import com.tutortoise.tutortoise.presentation.item.SessionListItem
+import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.ZoneId
-import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
+import java.util.TimeZone
+import kotlin.collections.component1
+import kotlin.collections.component2
+
+
+fun groupOrdersByDate(orders: List<OrderResponse>): List<SessionListItem> {
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+    inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+    val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    outputFormat.timeZone = TimeZone.getDefault()
+
+    return orders
+        .groupBy { order ->
+            val date = inputFormat.parse(order.sessionTime)
+            outputFormat.format(date!!)
+        }
+        .toSortedMap(reverseOrder()) // Keep dates in descending order (newest first)
+        .flatMap { (_, ordersForDate) ->
+            val headerDate = isoToReadableDate(ordersForDate[0].sessionTime)
+            listOf(SessionListItem.DateHeader(headerDate)) +
+                    ordersForDate
+                        .sortedByDescending { it.sessionTime } // Sort times in descending order
+                        .map { SessionListItem.SessionItem(it) }
+        }
+}
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun formatDate(dateStr: String): String {
@@ -20,23 +47,26 @@ fun formatDate(dateStr: String): String {
     return "${dayName}\n${date.dayOfMonth} ${monthName}"
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun isoToReadableTime(isoDate: String): String {
-    val zonedDateTime = ZonedDateTime.parse(isoDate)
-        .withZoneSameInstant(ZoneId.systemDefault())
-    val formatter = DateTimeFormatter.ofPattern("HH:mm", Locale.getDefault())
-    return zonedDateTime.format(formatter)
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+    inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+    val outputFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+    outputFormat.timeZone = TimeZone.getDefault()
+
+    val date = inputFormat.parse(isoDate)
+    return outputFormat.format(date!!)
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun isoToReadableDate(isoDate: String): String {
-    val zonedDateTime = ZonedDateTime.parse(isoDate)
-        .withZoneSameInstant(ZoneId.systemDefault())
-    val formatter = DateTimeFormatter.ofPattern(
-        "EEE, d MMM yyyy",
-        Locale.getDefault()
-    )
-    return zonedDateTime.format(formatter).capitalizeFirst()
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+    inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+    val outputFormat = SimpleDateFormat("EEE, d MMM yyyy", Locale.getDefault())
+    outputFormat.timeZone = TimeZone.getDefault()
+
+    val date = inputFormat.parse(isoDate)
+    return outputFormat.format(date!!).capitalizeFirst()
 }
 
 fun String.capitalizeFirst(): String {

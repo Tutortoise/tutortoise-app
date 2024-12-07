@@ -3,22 +3,22 @@ package com.tutortoise.tutortoise.presentation.main.tutor.sessions
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.tutortoise.tutortoise.data.model.OrderResponse
 import com.tutortoise.tutortoise.data.repository.OrderRepository
+import com.tutortoise.tutortoise.presentation.item.SessionListItem
+import com.tutortoise.tutortoise.utils.groupOrdersByDate
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ScheduledTutorSessionViewModel(private val orderRepository: OrderRepository) : ViewModel() {
-
     private val _ordersState =
-        MutableStateFlow<Result<List<OrderResponse>>>(Result.success(emptyList()))
-    val ordersState: StateFlow<Result<List<OrderResponse>>> get() = _ordersState
+        MutableStateFlow<Result<List<SessionListItem>>>(Result.success(emptyList()))
+    val ordersState: StateFlow<Result<List<SessionListItem>>> get() = _ordersState
 
     fun fetchMyOrders(status: String) {
         viewModelScope.launch {
             val result = orderRepository.getMyOrders(status)
-            _ordersState.value = result
+            _ordersState.value = result.map { orders -> groupOrdersByDate(orders) }
         }
     }
 

@@ -45,8 +45,7 @@ class ScheduledLearnerSessionFragment : Fragment() {
                             LinearLayoutManager.VERTICAL,
                             false
                         )
-                        binding.rvOrders.adapter =
-                            OrdersAdapter(orders ?: emptyList())
+                        binding.rvOrders.adapter = OrdersAdapter(orders ?: emptyList())
                     }
 
                     result.isFailure -> {

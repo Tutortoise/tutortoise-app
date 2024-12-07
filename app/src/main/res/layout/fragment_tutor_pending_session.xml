@@ -9,11 +9,11 @@
         android:id="@+id/rvOrders"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:overScrollMode="never"
         android:paddingHorizontal="16dp"
         android:paddingVertical="10dp"
-        android:clipToPadding="false"
-        android:clipChildren="false"
-        android:overScrollMode="never"
         android:scrollbars="none"
         tools:listitem="@layout/item_pending_tutor" />
 
