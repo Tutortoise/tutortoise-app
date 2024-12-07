@@ -57,6 +57,10 @@ class HomeLearnerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.tvRetryCategories.setOnClickListener {
+            fetchCategories()
+        }
+
         binding.notification.setOnClickListener {
             navController.navigate(R.id.action_home_to_notification)
         }
@@ -106,6 +110,7 @@ class HomeLearnerFragment : Fragment() {
                     binding.categoriesShimmerLayout.visibility = View.VISIBLE
                     binding.categoriesShimmerLayout.startShimmer()
                     binding.rvHomeCategories.visibility = View.GONE
+                    binding.tvRetryCategories.visibility = View.GONE
 
                     val categories = categoryRepository.fetchPopularCategories()
 
@@ -114,9 +119,13 @@ class HomeLearnerFragment : Fragment() {
                         binding.categoriesShimmerLayout.stopShimmer()
                         binding.categoriesShimmerLayout.visibility = View.GONE
                         binding.rvHomeCategories.visibility = View.VISIBLE
+                        binding.tvRetryCategories.visibility = View.GONE
 
                         categories?.data?.let { categoryList ->
                             categoriesAdapter.updateData(categoryList)
+                        } ?: run {
+                            binding.rvHomeCategories.visibility = View.GONE
+                            binding.tvRetryCategories.visibility = View.VISIBLE
                         }
                     }
                 }
@@ -124,6 +133,8 @@ class HomeLearnerFragment : Fragment() {
                 _binding?.let { binding ->
                     binding.categoriesShimmerLayout.stopShimmer()
                     binding.categoriesShimmerLayout.visibility = View.GONE
+                    binding.rvHomeCategories.visibility = View.GONE
+                    binding.tvRetryCategories.visibility = View.VISIBLE
                 }
             }
         }
