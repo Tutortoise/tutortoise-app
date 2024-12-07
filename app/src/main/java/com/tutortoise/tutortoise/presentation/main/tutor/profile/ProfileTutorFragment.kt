@@ -82,7 +82,7 @@ class ProfileTutorFragment : Fragment() {
 
                 id?.let { userId ->
                     Glide.with(this@ProfileTutorFragment)
-                        .load(Constants.getProfilePictureUrl(userId))
+                        .load(Constants.getProfilePictureUrlNotCached(userId))
                         .placeholder(R.drawable.default_profile_picture) // Add a default placeholder image
                         .error(R.drawable.default_profile_picture) // Add an error placeholder image
                         .into(binding.ivProfile)

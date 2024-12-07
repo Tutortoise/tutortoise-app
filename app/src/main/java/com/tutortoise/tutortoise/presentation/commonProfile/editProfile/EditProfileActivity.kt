@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.ProfileData
 import com.tutortoise.tutortoise.data.model.UpdateLearnerProfileRequest
@@ -360,11 +359,9 @@ class EditProfileActivity : AppCompatActivity() {
 
     private fun loadProfileImage(userId: String?) {
         Glide.with(this)
-            .load(Constants.getProfilePictureUrl(userId.toString()))
+            .load(Constants.getProfilePictureUrlNotCached(userId.toString()))
             .placeholder(R.drawable.default_profile_picture)
             .error(R.drawable.default_profile_picture)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
-            .skipMemoryCache(true)
             .into(binding.profileImage)
     }
 

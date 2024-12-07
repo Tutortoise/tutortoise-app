@@ -82,7 +82,7 @@ class ProfileLearnerFragment : Fragment() {
 
                 id?.let { userId ->
                     Glide.with(this@ProfileLearnerFragment)
-                        .load(Constants.getProfilePictureUrl(userId))
+                        .load(Constants.getProfilePictureUrlNotCached(userId))
                         .placeholder(R.drawable.default_profile_picture)
                         .error(R.drawable.default_profile_picture)
                         .into(binding.ivProfile)
