@@ -40,14 +40,26 @@ class PendingOrdersAdapter(
         RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(order: OrderResponse) {
+            val learnerName = order.learnerName
+            val categoryName = order.categoryName
+            val sessionTime = isoToReadableTime(order.sessionTime)
+            val date = isoToReadableDate(order.sessionTime)
+            val estimatedEndTime = isoToReadableTime(order.estimatedEndTime)
+            val price = order.price.formatWithThousandsSeparator()
+            val notes = order.notes?.takeIf { it.isNotEmpty() } ?: "-"
+
             binding.apply {
-                tvLearnerName.text = order.learnerName
-                tvCategory.text = order.categoryName
+                tvLearnerName.text = learnerName
+                tvCategory.text = categoryName
                 tvTime.text =
-                    "${isoToReadableTime(order.sessionTime)} - ${isoToReadableTime(order.estimatedEndTime)}"
-                tvDate.text = isoToReadableDate(order.sessionTime)
-                tvPrice.text = "Rp. ${order.price.formatWithThousandsSeparator()},-"
-                tvNote.text = order.notes?.takeIf { it.isNotEmpty() } ?: "-"
+                    root.context.getString(
+                        R.string.session_time_range,
+                        sessionTime,
+                        estimatedEndTime
+                    )
+                tvDate.text = date
+                tvPrice.text = root.context.getString(R.string.formatted_price, price)
+                tvNote.text = notes
 
                 Glide.with(root)
                     .load(Constants.getProfilePictureUrl(order.learnerId))
@@ -57,19 +69,19 @@ class PendingOrdersAdapter(
                     .into(ivProfilePicture)
 
                 when (order.typeLesson) {
-                    "offline" -> {
-                        tvTypeLesson.setBackgroundResource(R.drawable.bg_dark_blue)
-                        tvTypeLesson.text = "On-site"
-                    }
-
                     "online" -> {
                         tvTypeLesson.setBackgroundResource(R.drawable.bg_green)
-                        tvTypeLesson.text = "Online"
+                        tvTypeLesson.text = root.context.getString(R.string.online)
+                    }
+
+                    "offline" -> {
+                        tvTypeLesson.setBackgroundResource(R.drawable.bg_dark_blue)
+                        tvTypeLesson.text = root.context.getString(R.string.onsite)
                     }
 
                 }
 
-                ivDropdown.setOnClickListener {
+                mainCardView.setOnClickListener {
                     if (expandableCardView.visibility == View.GONE) {
                         expandableCardView.visibility = View.VISIBLE
                         expandableContent.visibility = View.VISIBLE

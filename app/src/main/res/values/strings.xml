@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Tutortoise</string>
 
     <!--    Onboarding-->
@@ -23,12 +23,9 @@
     <string name="session">Sessions</string>
     <string name="profile">Profile</string>
     <string name="tutories">Tutories</string>
-    <string name="search_text">Search tutor, category and others...</string>
+    <string name="search_text">Search tutor, category and others…</string>
     <string name="popular">Popular Categories</string>
     <string name="view_all">View All</string>
-    <string name="top_1">Number1</string>
-    <string name="top_2">Number2</string>
-    <string name="top_3">Number3</string>
     <string name="recommended">Recommended Tutors</string>
 
     <string name="category_icon">Category Icon</string>
@@ -113,6 +110,7 @@
     <string name="notif_message">Notification Messages Received Goes Here</string>
     <string name="notif_date">Date/Time</string>
     <string name="tutor_rsvp">Tutor Reservation</string>
+    <string name="profile_picture">Profile Picture</string>
 
     <string name="my_tutories">My Tutories</string>
     <string name="which_category">Which category do you teach?</string>
@@ -153,12 +151,13 @@
     <string name="awaiting_confirm">Awaiting\nConfirmation</string>
     <string name="rejected">Rejected</string>
     <string name="completed">Completed</string>
+    <string name="show_info">Show more info</string>
 
     <string name="editpr">Edit Profile</string>
     <string name="gender">Gender</string>
     <string name="example_email">example@gmail.com</string>
     <string name="num">+62</string>
-    <string name="num_example">812-3456-7890</string>
+    <string name="num_example" tools:ignore="TypographyDashes">812-3456-7890</string>
 
     <string name="add_tutory">Add new tutory</string>
 
@@ -180,7 +179,7 @@
     <string name="select_day">Select Day</string>
     <string name="about">About</string>
     <string name="read_more">Read More</string>
-    <string name="cant_find_any_item">We cant’t find any item matching \nyour search</string>
+    <string name="cant_find_any_item">We can’t find any item matching \nyour search</string>
     <string name="text_reminder_before_reservation">Feel free to chat with the tutor before making your\nreservation!</string>
     <string name="no_chats_yet">No chats yet</string>
     <string name="message_type_photo">📷 Photo</string>

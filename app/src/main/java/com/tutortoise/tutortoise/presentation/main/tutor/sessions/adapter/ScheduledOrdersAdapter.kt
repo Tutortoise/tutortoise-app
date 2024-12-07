@@ -34,17 +34,30 @@ class ScheduledOrdersAdapter(
         holder.bind(orders[position])
     }
 
-    inner class ScheduledOrderViewHolder(private val binding: ItemScheduledTutorBinding) :
+    inner class ScheduledOrderViewHolder(
+        private val binding: ItemScheduledTutorBinding,
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         @RequiresApi(Build.VERSION_CODES.O)
         fun bind(order: OrderResponse) {
+            val learnerName = order.learnerName
+            val categoryName = order.categoryName
+            val sessionTime = isoToReadableTime(order.sessionTime)
+            val estimatedEndTime = isoToReadableTime(order.estimatedEndTime)
+            val price = order.price.formatWithThousandsSeparator()
+            val notes = order.notes?.takeIf { it.isNotEmpty() } ?: "-"
+
             binding.apply {
-                tvLearnerName.text = order.learnerName
-                tvCategory.text = order.categoryName
+                tvLearnerName.text = learnerName
+                tvCategory.text = categoryName
                 tvTime.text =
-                    "${isoToReadableTime(order.sessionTime)} - ${isoToReadableTime(order.estimatedEndTime)}"
-                tvTotal.text = "Rp. ${order.price.formatWithThousandsSeparator()},-"
-                tvNote.text = order.notes?.takeIf { it.isNotEmpty() } ?: "-"
+                    root.context.getString(
+                        R.string.session_time_range,
+                        sessionTime,
+                        estimatedEndTime
+                    )
+                tvTotal.text = root.context.getString(R.string.formatted_price, price)
+                tvNote.text = notes
 
                 Glide.with(root)
                     .load(Constants.getProfilePictureUrl(order.learnerId))
@@ -56,16 +69,16 @@ class ScheduledOrdersAdapter(
                 when (order.typeLesson) {
                     "online" -> {
                         tvTypeLesson.setBackgroundResource(R.drawable.bg_green)
-                        tvTypeLesson.text = "Online"
+                        tvTypeLesson.text = root.context.getString(R.string.online)
                     }
 
                     "offline" -> {
                         tvTypeLesson.setBackgroundResource(R.drawable.bg_dark_blue)
-                        tvTypeLesson.text = "On-site"
+                        tvTypeLesson.text = root.context.getString(R.string.onsite)
                     }
                 }
 
-                ivExpandCollapse.setOnClickListener {
+                mainCardView.setOnClickListener {
                     if (expandableCardView.visibility == View.GONE) {
                         expandableCardView.visibility = View.VISIBLE
                         expandableContent.visibility = View.VISIBLE
