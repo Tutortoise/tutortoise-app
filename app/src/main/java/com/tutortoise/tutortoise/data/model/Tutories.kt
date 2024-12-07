@@ -28,6 +28,7 @@ data class DetailedTutoriesResponse(
     val name: String,
     val tutorId: String,
     val categoryName: String,
+    val categoryId: String,
     val tutorName: String,
     val aboutYou: String,
     val teachingMethodology: String,

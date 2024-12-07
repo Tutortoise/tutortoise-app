@@ -166,6 +166,13 @@ interface ApiService {
         @Path("tutoriesId") tutoriesId: String,
     ): Response<ApiResponse<List<String>>>
 
+    @GET("tutors/services/avg-rate")
+    suspend fun getTutoriesAverageRate(
+        @Query("categoryId") categoryId: String,
+        @Query("city") city: String,
+        @Query("district") district: String? = null,
+    ): Response<ApiResponse<Float?>>
+
     // Review
     @GET("reviews/tutories/{tutoriesId}")
     suspend fun getReviews(

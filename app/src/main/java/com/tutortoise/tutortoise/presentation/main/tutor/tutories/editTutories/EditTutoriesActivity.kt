@@ -84,6 +84,20 @@ class EditTutoriesActivity : AppCompatActivity() {
         }
     }
 
+    private suspend fun getAverageRate(categoryId: String, city: String): Float? {
+        try {
+            val result = tutoriesRepository.fetchTutoriesAverageRate(
+                categoryId = categoryId,
+                city = city,
+            )
+
+            return result?.data
+        } catch (e: Exception) {
+            Log.e("EditTutoriesActivity", "Error fetching average rate", e)
+            return null
+        }
+    }
+
     private fun fetchTutoriesData() {
         lifecycleScope.launch {
             try {
@@ -130,12 +144,17 @@ class EditTutoriesActivity : AppCompatActivity() {
             tvTutoriesStatus.setText(if (btnTutoriesStatus.isChecked) R.string.status_enabled else R.string.status_disabled)
 
             // Update rate info
-            val rateInfo = RateInfo(
-                averageRate = 50000, // TODO: Fetch from API
-                location = tutories.city,
-                category = tutories.categoryName
-            )
-            textRateInfo.text = rateInfo.formatMessage(this@EditTutoriesActivity)
+            lifecycleScope.launch {
+                val rateInfo = RateInfo(
+                    averageRate = getAverageRate(
+                        tutories.categoryId,
+                        tutories.city,
+                    ),
+                    location = tutories.city,
+                    category = tutories.categoryName
+                )
+                textRateInfo.text = rateInfo.formatMessage(this@EditTutoriesActivity)
+            }
         }
     }
 

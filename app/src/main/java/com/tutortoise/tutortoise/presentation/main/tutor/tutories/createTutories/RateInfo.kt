@@ -9,17 +9,27 @@ import com.tutortoise.tutortoise.R
 import java.text.NumberFormat
 
 data class RateInfo(
-    val averageRate: Int,
+    val averageRate: Float?,
     val location: String,
     val category: String? = null
 ) {
     fun formatMessage(context: Context): SpannableString {
-        val message = context.getString(
-            R.string.rate_per_hour_info_template,
-            category ?: "",
-            location,
-            NumberFormat.getNumberInstance().format(averageRate)
-        )
+        if (averageRate == null) {
+            return SpannableString("")
+        }
+
+        val message: String
+        if (averageRate == 0f) {
+            message =
+                context.getString(R.string.rate_per_hour_first_in_city, location, category)
+        } else {
+            message = context.getString(
+                R.string.rate_per_hour_info_template,
+                category ?: "",
+                location,
+                NumberFormat.getNumberInstance().format(averageRate)
+            )
+        }
 
         return SpannableString(message).apply {
             // Make "Info:" bold

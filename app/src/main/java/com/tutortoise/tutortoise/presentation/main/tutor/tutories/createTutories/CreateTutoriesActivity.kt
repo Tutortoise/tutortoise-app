@@ -13,6 +13,7 @@ import com.tutortoise.tutortoise.data.model.CategoryResponse
 import com.tutortoise.tutortoise.data.model.CreateTutoriesRequest
 import com.tutortoise.tutortoise.data.pref.ApiException
 import com.tutortoise.tutortoise.data.repository.CategoryRepository
+import com.tutortoise.tutortoise.data.repository.TutorRepository
 import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.ActivityCreateTutoriesBinding
 import com.tutortoise.tutortoise.utils.parseFormattedNumber
@@ -22,6 +23,7 @@ class CreateTutoriesActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCreateTutoriesBinding
     private lateinit var tutoriesRepository: TutoriesRepository
     private lateinit var categoryRepository: CategoryRepository
+    private lateinit var tutorRepository: TutorRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +32,7 @@ class CreateTutoriesActivity : AppCompatActivity() {
 
         tutoriesRepository = TutoriesRepository(this)
         categoryRepository = CategoryRepository(this)
+        tutorRepository = TutorRepository(this)
         setupViews()
         setupListeners()
     }
@@ -47,6 +50,23 @@ class CreateTutoriesActivity : AppCompatActivity() {
             if (!categories.isNullOrEmpty()) {
                 setCategorySpinner(categories)
             }
+        }
+    }
+
+    private suspend fun getAverageRate(
+        categoryId: String,
+        city: String,
+    ): Float? {
+        try {
+            val result = tutoriesRepository.fetchTutoriesAverageRate(
+                categoryId = categoryId,
+                city = city,
+            )
+
+            return result?.data
+        } catch (e: Exception) {
+            Log.e("CreateTutoriesActivity", "Error fetching average rate", e)
+            return null
         }
     }
 
@@ -80,13 +100,17 @@ class CreateTutoriesActivity : AppCompatActivity() {
         }
 
     private fun updateRateInfo(category: CategoryResponse) {
-        // TODO: Fetch average rate, location from API
-        val rateInfo = RateInfo(
-            averageRate = 50000,
-            location = "Samarinda",
-            category = category.name
-        )
-        binding.textRateInfo.text = rateInfo.formatMessage(this)
+        lifecycleScope.launch {
+            // Tutor is forced to fill in their city name before creating tutories, so this should never be null
+            val city = tutorRepository.fetchTutorProfile()!!.data!!.city!!
+            val rateInfo = RateInfo(
+                averageRate = getAverageRate(category.id, city),
+                location = city,
+                category = category.name
+            )
+
+            binding.textRateInfo.text = rateInfo.formatMessage(this@CreateTutoriesActivity)
+        }
     }
 
     private fun setupListeners() {

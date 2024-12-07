@@ -123,6 +123,7 @@
     <string name="rate_per_hour">Rate per hour</string>
     <string name="rate_per_hour_info"><b>Info</b>: The average rate for mathematics lessons in Samarinda is <b>Rp.50000</b></string>
     <string name="rate_per_hour_info_template"><b>Info</b>: The average rate for %1$s lessons in %2$s is <b>Rp %3$s</b></string>
+    <string name="rate_per_hour_first_in_city"><b>Info</b>: You are the first tutor in %1$s for %2$s lessons!</string>
     <string name="rate_per_hour_nominal">50000</string>
     <string name="type_lessons">Type Lessons</string>
     <string name="online">Online</string>

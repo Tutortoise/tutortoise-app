@@ -176,4 +176,22 @@ class TutoriesRepository(context: Context) {
             null
         }
     }
+
+    suspend fun fetchTutoriesAverageRate(
+        categoryId: String,
+        city: String,
+        district: String? = null
+    ): ApiResponse<Float?>? {
+        return try {
+            val response = apiService.getTutoriesAverageRate(categoryId, city, district)
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("TutoriesRepository", "Failed to fetch tutories average rate", e)
+            null
+        }
+    }
 }
