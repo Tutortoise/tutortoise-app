@@ -129,6 +129,8 @@
     <string name="online">Online</string>
     <string name="onsite">On-site</string>
     <string name="confirm">Confirm</string>
+    <string name="session_time_range">%1$s - %2$s</string>
+    <string name="formatted_price">Rp. %1$s,-</string>
 
     <string name="set_schedule">Set Tutor Schedule</string>
     <string name="message_text">This is a message template</string>
