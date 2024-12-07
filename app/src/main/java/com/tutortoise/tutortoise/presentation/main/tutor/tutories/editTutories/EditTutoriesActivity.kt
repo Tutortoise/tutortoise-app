@@ -238,19 +238,28 @@ class EditTutoriesActivity : AppCompatActivity() {
         }
     }
 
-    private fun handleValidationErrors(throwable: ApiException) {
-        binding.editAbout.error = null
-        binding.editMethodology.error = null
-        binding.editRate.error = null
+    private fun handleValidationErrors(throwable: Throwable) {
+        if (throwable is ApiException) {
+            binding.editAbout.error = null
+            binding.editMethodology.error = null
+            binding.editRate.error = null
 
-        throwable.errorResponse?.errors?.forEach { error ->
-            when (error.field) {
-                "body.name" -> binding.editTutoriesName.error = error.message
-                "body.aboutYou" -> binding.editAbout.error = error.message
-                "body.teachingMethodology" -> binding.editMethodology.error = error.message
-                "body.hourlyRate" -> binding.editRate.error = error.message
-                "body.typeLesson" -> showError("Please select at least one type lesson")
+            if (throwable.message.contains("About you")) {
+                binding.editAbout.error = throwable.message
+            } else if (throwable.message.contains("Teaching methodology")) {
+                binding.editMethodology.error = throwable.message
             }
+
+            throwable.errorResponse?.errors?.forEach { error ->
+                when (error.field) {
+                    "body.name" -> binding.editTutoriesName.error = error.message
+                    "body.aboutYou" -> binding.editAbout.error = error.message
+                    "body.teachingMethodology" -> binding.editMethodology.error = error.message
+                    "body.hourlyRate" -> binding.editRate.error = error.message
+                    "body.typeLesson" -> showError("Please select at least one type lesson")
+                }
+            }
+
         }
     }
 
