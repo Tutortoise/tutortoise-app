@@ -29,7 +29,7 @@ class CategoriesActivity : AppCompatActivity() {
         fetchPopularCategories()
 
         binding.btnBack.setOnClickListener {
-            backToHome()
+            finish()
         }
     }
 
@@ -42,9 +42,10 @@ class CategoriesActivity : AppCompatActivity() {
             val popularCategories = categoryRepository.fetchPopularCategories()
 
             if (popularCategories?.data != null) {
-                recyclerView.adapter = CategoriesAdapter(popularCategories.data) { clickedCategory ->
-                    navigateToExploreWithCategory(clickedCategory)
-                }
+                recyclerView.adapter =
+                    CategoriesAdapter(popularCategories.data) { clickedCategory ->
+                        navigateToExploreWithCategory(clickedCategory)
+                    }
             } else {
                 val categories = categoryRepository.fetchCategories()
                 recyclerView.adapter = categories?.data?.let {
@@ -63,12 +64,5 @@ class CategoriesActivity : AppCompatActivity() {
         intent.putExtra("categoryId", category.id)
         intent.putExtra("categoryName", category.name)
         startActivity(intent)
-    }
-
-    private fun backToHome() {
-        val intent = Intent(this, MainActivity::class.java)
-        intent.putExtra("startFragment", "home")
-        startActivity(intent)
-        finish()
     }
 }
