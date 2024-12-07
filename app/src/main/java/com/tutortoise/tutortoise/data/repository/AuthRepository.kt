@@ -264,6 +264,10 @@ class AuthRepository(private val context: Context) {
         return sharedPreferences.getString("auth_token", null)
     }
 
+    fun getUserName(): String? {
+        return sharedPreferences.getString("user_name", null)
+    }
+
     fun getGoogleSignInOptions(): GoogleSignInOptions {
         return oauthConfig.getGoogleSignInOptions()
     }
