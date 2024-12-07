@@ -17,7 +17,6 @@ class ReservationViewModel(
     private val _availability = MutableStateFlow<List<String>?>(null)
     val availability: StateFlow<List<String>?> = _availability
 
-    // TODO: Add reservation business logic here
     fun fetchAvailability(tutoriesId: String) {
         viewModelScope.launch {
             val response = tutoriesRepository.fetchAvailability(tutoriesId)

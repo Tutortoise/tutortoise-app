@@ -77,7 +77,6 @@ class DetailTutorActivity : AppCompatActivity() {
     }
 
     // TODO: handle ui of no reviews
-    // TODO: fix the layout of the reviews
     private fun fetchReviews() {
         coroutineScope.launch {
             try {
