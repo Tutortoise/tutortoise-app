@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.data.repository.OrderRepository
@@ -16,15 +17,22 @@ import com.tutortoise.tutortoise.databinding.FragmentTutorHomeBinding
 import com.tutortoise.tutortoise.domain.AuthManager
 import com.tutortoise.tutortoise.presentation.chat.ChatListActivity
 import com.tutortoise.tutortoise.presentation.chat.ChatRoomActivity
+import com.tutortoise.tutortoise.presentation.main.tutor.home.adapter.CalendarAdapter
 import com.tutortoise.tutortoise.presentation.main.tutor.home.adapter.HomeScheduledSessionsAdapter
 import com.tutortoise.tutortoise.presentation.notification.NotificationActivity
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 class HomeTutorFragment : Fragment() {
     private var _binding: FragmentTutorHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var authRepository: AuthRepository
+
+    private lateinit var calendarAdapter: CalendarAdapter
+    private var currentMonth = Calendar.getInstance()
 
 
     private val viewModel: HomeTutorViewModel by viewModels {
@@ -109,11 +117,69 @@ class HomeTutorFragment : Fragment() {
             }
         }
 
+        setupCalendar()
+        updateCalendarDates()
 
-        binding.calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
+        binding.btnPreviousMonth.setOnClickListener {
+            currentMonth.add(Calendar.MONTH, -1)
+            updateCalendarDates()
+        }
+
+        binding.btnNextMonth.setOnClickListener {
+            currentMonth.add(Calendar.MONTH, 1)
+            updateCalendarDates()
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.scheduledDates.collectLatest { dates ->
+                updateCalendarDates(dates)
+            }
+        }
+
+    }
+
+    private fun setupCalendar() {
+        calendarAdapter = CalendarAdapter(emptyList()) { selectedDate ->
             viewModel.fetchScheduledOrders()
         }
 
+        binding.rvCalendar.apply {
+            layoutManager = GridLayoutManager(context, 7)
+            adapter = calendarAdapter
+            setHasFixedSize(true)
+        }
+
+        updateCalendarDates()
+
+        binding.btnPreviousMonth.setOnClickListener {
+            currentMonth.add(Calendar.MONTH, -1)
+            updateCalendarDates()
+        }
+
+        binding.btnNextMonth.setOnClickListener {
+            currentMonth.add(Calendar.MONTH, 1)
+            updateCalendarDates()
+        }
+    }
+
+    private fun updateCalendarDates(scheduledDates: Set<Calendar> = emptySet()) {
+        val dates = mutableListOf<Calendar>()
+
+        val calendar = currentMonth.clone() as Calendar
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+
+        val firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+        calendar.add(Calendar.DAY_OF_MONTH, -(firstDayOfWeek - 1))
+
+        repeat(42) {
+            dates.add(calendar.clone() as Calendar)
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
+        }
+
+        calendarAdapter.updateDates(dates, scheduledDates)
+
+        binding.tvMonthYear.text = SimpleDateFormat("MMMM yyyy", Locale.getDefault())
+            .format(currentMonth.time)
     }
 
     private fun displayUserName() {
