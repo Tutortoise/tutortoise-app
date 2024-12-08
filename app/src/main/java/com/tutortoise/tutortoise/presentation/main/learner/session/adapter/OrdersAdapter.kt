@@ -136,4 +136,3 @@ class OrdersAdapter(
 
     override fun getItemCount(): Int = items.size
 }
-

@@ -9,8 +9,10 @@
     app:cardElevation="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cardRating"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="20dp"
         android:paddingHorizontal="15dp"
         android:paddingTop="8dp">
 
@@ -27,7 +29,7 @@
             <ImageView
                 android:id="@+id/ivTutorImage"
                 android:layout_width="114dp"
-                android:layout_height="105dp"
+                android:layout_height="114dp"
                 android:contentDescription="@string/tutor_image"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_image_placeholder" />
@@ -97,7 +99,7 @@
             android:layoutDirection="ltr"
             android:numStars="5"
             android:progressTint="#fbb017"
-            android:rating="4.0"
+            android:rating="0.0"
             android:stepSize="1"
             android:scaleX="0.8"
             android:scaleY="0.8"

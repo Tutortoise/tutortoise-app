@@ -24,6 +24,7 @@ import com.tutortoise.tutortoise.data.model.OrderRequest
 import com.tutortoise.tutortoise.data.model.OrderResponse
 import com.tutortoise.tutortoise.data.model.RegisterData
 import com.tutortoise.tutortoise.data.model.RegisterRequest
+import com.tutortoise.tutortoise.data.model.ReviewRequest
 import com.tutortoise.tutortoise.data.model.ReviewResponse
 import com.tutortoise.tutortoise.data.model.SendMessageRequest
 import com.tutortoise.tutortoise.data.model.TutorData
@@ -179,6 +180,17 @@ interface ApiService {
         @Path("tutoriesId") tutoriesId: String
     ): Response<ApiResponse<List<ReviewResponse>>>
 
+    @POST("reviews/orders/{orderId}")
+    suspend fun reviewOrder(
+        @Path("orderId") orderId: String,
+        @Body request: ReviewRequest
+    ): Response<MessageResponse>
+
+    @POST("reviews/orders/{orderId}/dismiss")
+    suspend fun dismissOrderPrompt(
+        @Path("orderId") orderId: String
+    ): Response<MessageResponse>
+
     // Chat endpoints
     @POST("chat/rooms")
     suspend fun createRoom(
@@ -239,4 +251,7 @@ interface ApiService {
 
     @POST("orders/{orderId}/decline")
     suspend fun rejectOrder(@Path("orderId") orderId: String): Response<MessageResponse>
+
+    @GET("orders/unreviewed")
+    suspend fun getUnreviewedOrders(): Response<ApiResponse<List<OrderResponse>>>
 }

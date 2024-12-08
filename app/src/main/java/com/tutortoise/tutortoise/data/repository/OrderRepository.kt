@@ -82,4 +82,26 @@ class OrderRepository(context: Context) {
             Result.failure(e)
         }
     }
+
+    suspend fun getUnreviewedOrders(): Result<List<OrderResponse>> {
+        return try {
+            val response = api.getUnreviewedOrders()
+            if (response.isSuccessful) {
+                response.body()?.data?.let {
+                    Result.success(it)
+                } ?: Result.failure(Exception("Empty response body"))
+            } else {
+                val error = ApiConfig.parseError(response)
+                Result.failure(
+                    ApiException(
+                        error?.message ?: "Failed to get unreviewed orders",
+                        error
+                    )
+                )
+            }
+        } catch (e: Exception) {
+            Log.e("OrderRepository", "Failed to get unreviewed orders", e)
+            Result.failure(e)
+        }
+    }
 }

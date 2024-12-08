@@ -15,6 +15,7 @@
         android:gravity="center">
 
         <ImageButton
+            android:id="@+id/btnClose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="?attr/selectableItemBackgroundBorderless"
@@ -40,7 +41,7 @@
             android:layoutDirection="ltr"
             android:numStars="5"
             android:progressTint="#fbb017"
-            android:rating="4.0"
+            android:rating="0.0"
             android:stepSize="1" />
 
         <TextView
@@ -54,7 +55,7 @@
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/feedbackEditText"
+            android:id="@+id/etMessage"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_marginBottom="32dp"
@@ -66,7 +67,7 @@
             android:inputType="textMultiLine|textCapSentences" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSignIn"
+            android:id="@+id/btnSubmit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
@@ -74,6 +75,7 @@
             android:fontFamily="@font/montserrat_semi_bold"
             android:padding="12dp"
             android:text="@string/submit"
+            android:textColor="@color/purewhite"
             android:textAllCaps="false"
             app:cornerRadius="30dp" />
     </LinearLayout>
