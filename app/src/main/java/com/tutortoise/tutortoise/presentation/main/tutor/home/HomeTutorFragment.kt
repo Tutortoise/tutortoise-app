@@ -77,6 +77,17 @@ class HomeTutorFragment : Fragment() {
             }
         }
 
+        setupCalendar()
+
+        val today = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        calendarAdapter.setSelectedDate(today)
+        viewModel.setSelectedDate(today)
+
         // Set up click listeners
         binding.notification.setOnClickListener {
             startActivity(notificationIntent)
@@ -119,7 +130,6 @@ class HomeTutorFragment : Fragment() {
             }
         }
 
-        setupCalendar()
         updateCalendarDates()
 
         binding.btnPreviousMonth.setOnClickListener {
@@ -137,7 +147,6 @@ class HomeTutorFragment : Fragment() {
                 updateCalendarDates(dates)
             }
         }
-
     }
 
     private fun setupCalendar() {

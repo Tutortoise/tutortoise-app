@@ -23,10 +23,20 @@ class HomeTutorViewModel(private val orderRepository: OrderRepository) : ViewMod
     private val _scheduledDates = MutableStateFlow<Set<Calendar>>(emptySet())
     val scheduledDates: StateFlow<Set<Calendar>> = _scheduledDates
 
-    private val _selectedDate = MutableStateFlow<Calendar?>(null)
-    val selectedDate: StateFlow<Calendar?> = _selectedDate
-
+    private val _selectedDate = MutableStateFlow<Calendar?>(
+        Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+    )
+    
     private var allOrders: List<SessionListItem> = emptyList()
+
+    init {
+        fetchScheduledOrders()
+    }
 
     fun setSelectedDate(date: Calendar?) {
         _selectedDate.value = date
