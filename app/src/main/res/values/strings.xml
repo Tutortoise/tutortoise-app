@@ -35,6 +35,7 @@
     <string name="reviews">reviews</string>
     <string name="price">Price</string>
     <string name="location">Location</string>
+    <string name="total_student_orders">%1$d students | %2$d lessons</string>
 
     <string name="back">Back</string>
     <string name="filter">Filter</string>
@@ -178,6 +179,7 @@
     <string name="select_day">Select Day</string>
     <string name="about">About</string>
     <string name="read_more">Read More</string>
+    <string name="read_less">Read Less</string>
     <string name="cant_find_any_item">We can’t find any item matching \nyour search</string>
     <string name="text_reminder_before_reservation">Feel free to chat with the tutor before making your\nreservation!</string>
     <string name="no_chats_yet">No chats yet</string>

@@ -116,6 +116,11 @@ class DetailTutorActivity : AppCompatActivity() {
                         tutories.totalReviews,
                         tutories.totalReviews,
                     )
+                    binding.tvStudent.text = getString(
+                        R.string.total_student_orders,
+                        tutories.totalLearners,
+                        tutories.totalOrders
+                    )
                     binding.tvHourlyRate.text =
                         "Rp. ${tutories.hourlyRate.formatWithThousandsSeparator()} / Hour"
                     binding.tvCity.text = tutories.city
@@ -217,7 +222,7 @@ class DetailTutorActivity : AppCompatActivity() {
 
                 // Make read more button visible
                 readMoreButton.visibility = View.VISIBLE
-                readMoreButton.text = "Read More"
+                readMoreButton.text = getString(R.string.read_more)
 
                 // Set up toggle functionality
                 readMoreButton.setOnClickListener {
@@ -225,12 +230,12 @@ class DetailTutorActivity : AppCompatActivity() {
                         // Expand text
                         textView.maxLines = Integer.MAX_VALUE
                         textView.ellipsize = null
-                        readMoreButton.text = "Read Less"
+                        readMoreButton.text = getString(R.string.read_less)
                     } else {
                         // Collapse text
                         textView.maxLines = maxLines
                         textView.ellipsize = TextUtils.TruncateAt.END
-                        readMoreButton.text = "Read More"
+                        readMoreButton.text = getString(R.string.read_more)
                     }
                 }
             } else {
@@ -246,11 +251,11 @@ class DetailTutorActivity : AppCompatActivity() {
         if (isAboutExpanded) {
             binding.tvAboutText.maxLines = Int.MAX_VALUE
             binding.tvAboutText.ellipsize = null
-            binding.tvReadMore1.text = "Read Less"
+            binding.tvReadMore1.text = getString(R.string.read_less)
         } else {
             binding.tvAboutText.maxLines = 2
             binding.tvAboutText.ellipsize = TextUtils.TruncateAt.END
-            binding.tvReadMore1.text = "Read More"
+            binding.tvReadMore1.text = getString(R.string.read_more)
         }
     }
 
@@ -258,11 +263,11 @@ class DetailTutorActivity : AppCompatActivity() {
         if (isMethodologyExpanded) {
             binding.tvTeachingMethodologyText.maxLines = Int.MAX_VALUE
             binding.tvTeachingMethodologyText.ellipsize = null
-            binding.tvReadMore2.text = "Read Less"
+            binding.tvReadMore2.text = getString(R.string.read_less)
         } else {
             binding.tvTeachingMethodologyText.maxLines = 2
             binding.tvTeachingMethodologyText.ellipsize = TextUtils.TruncateAt.END
-            binding.tvReadMore2.text = "Read More"
+            binding.tvReadMore2.text = getString(R.string.read_more)
         }
     }
 

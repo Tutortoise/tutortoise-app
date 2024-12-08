@@ -39,7 +39,9 @@ data class DetailedTutoriesResponse(
     val isEnabled: Boolean,
     val alsoTeaches: List<AlsoTeachesResponse>,
     val avgRating: Float,
-    val totalReviews: Int
+    val totalReviews: Int,
+    val totalOrders: Int,
+    val totalLearners: Int
 )
 
 data class AlsoTeachesResponse(
