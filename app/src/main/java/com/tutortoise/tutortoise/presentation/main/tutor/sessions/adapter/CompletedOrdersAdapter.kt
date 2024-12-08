@@ -91,12 +91,17 @@ class CompletedOrdersAdapter(
                 when (order.status) {
                     "completed" -> {
                         tvStatus.setBackgroundResource(R.drawable.bg_green)
-                        tvStatus.text = "Completed"
+                        tvStatus.text = root.context.getString(R.string.completed)
                     }
 
                     "declined" -> {
                         tvStatus.setBackgroundResource(R.drawable.bg_red)
-                        tvStatus.text = "Rejected"
+                        tvStatus.text = root.context.getString(R.string.rejected)
+                    }
+
+                    "canceled" -> {
+                        tvStatus.setBackgroundResource(R.drawable.bg_grey)
+                        tvStatus.text = root.context.getString(R.string.canceled)
                     }
                 }
             }

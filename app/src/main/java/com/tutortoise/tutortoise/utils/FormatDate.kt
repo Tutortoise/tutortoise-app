@@ -19,11 +19,13 @@ enum class SortOrder {
     DESCENDING  // Newest first (default/current behavior)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 fun groupOrdersByDate(
     orders: List<OrderResponse>,
     sortOrder: SortOrder = SortOrder.DESCENDING
 ): List<SessionListItem> {
     val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+    val today = LocalDate.now()
     inputFormat.timeZone = TimeZone.getTimeZone("UTC")
 
     val outputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
@@ -36,7 +38,19 @@ fun groupOrdersByDate(
         }
         .toSortedMap(if (sortOrder == SortOrder.DESCENDING) reverseOrder() else naturalOrder())
         .flatMap { (_, ordersForDate) ->
-            val headerDate = isoToReadableDate(ordersForDate[0].sessionTime)
+            val sessionTimeDate = inputFormat.parse(ordersForDate[0].sessionTime)
+
+            // Check if the session time is today
+            val headerDate = if (LocalDate.parse(
+                    outputFormat.format(sessionTimeDate!!),
+                    DateTimeFormatter.ISO_DATE
+                ) == today
+            ) {
+                "Today"  // Change the header to "Today" if the session is today
+            } else {
+                isoToReadableDate(ordersForDate[0].sessionTime)  // Use the original date if not today
+            }
+
             listOf(SessionListItem.DateHeader(headerDate)) +
                     ordersForDate
                         .sortedBy { it.sessionTime }
@@ -55,7 +69,7 @@ fun formatDate(dateStr: String): String {
     val dayName = date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
     val monthName = date.month.getDisplayName(TextStyle.SHORT, Locale.ENGLISH)
 
-    return "${dayName}\n${date.dayOfMonth} ${monthName}"
+    return "${dayName}\n${date.dayOfMonth} $monthName"
 }
 
 fun isoToReadableTime(isoDate: String): String {

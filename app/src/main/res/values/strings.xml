@@ -154,6 +154,7 @@
     <string name="tutor_date">Tutoring Date</string>
     <string name="awaiting_confirm">Awaiting\nConfirmation</string>
     <string name="rejected">Rejected</string>
+    <string name="canceled">Cancelled</string>
     <string name="completed">Completed</string>
     <string name="show_info">Show more info</string>
 

@@ -252,6 +252,9 @@ interface ApiService {
     @POST("orders/{orderId}/decline")
     suspend fun rejectOrder(@Path("orderId") orderId: String): Response<MessageResponse>
 
+    @POST("orders/{orderId}/cancel")
+    suspend fun cancelOrder(@Path("orderId") orderId: String): Response<MessageResponse>
+
     @GET("orders/unreviewed")
     suspend fun getUnreviewedOrders(): Response<ApiResponse<List<OrderResponse>>>
 }

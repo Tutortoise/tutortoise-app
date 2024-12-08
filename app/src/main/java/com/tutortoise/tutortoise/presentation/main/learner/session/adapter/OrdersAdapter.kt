@@ -128,6 +128,11 @@ class OrdersAdapter(
                         tvStatus.setBackgroundResource(R.drawable.bg_red)
                         tvStatus.text = context.getString(R.string.rejected)
                     }
+
+                    "canceled" -> {
+                        tvStatus.setBackgroundResource(R.drawable.bg_grey)
+                        tvStatus.text = root.context.getString(R.string.canceled)
+                    }
                 }
             }
         }

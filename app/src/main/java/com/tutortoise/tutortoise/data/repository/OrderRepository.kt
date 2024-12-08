@@ -83,6 +83,23 @@ class OrderRepository(context: Context) {
         }
     }
 
+    suspend fun cancelOrder(orderId: String): Result<MessageResponse> {
+        return try {
+            val response = api.cancelOrder(orderId)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Result.success(it)
+                } ?: Result.failure(Exception("Empty response body"))
+            } else {
+                val error = ApiConfig.parseError(response)
+                Result.failure(ApiException(error?.message ?: "Failed to cancel order", error))
+            }
+        } catch (e: Exception) {
+            Log.e("OrderRepository", "Failed to cancel order", e)
+            Result.failure(e)
+        }
+    }
+
     suspend fun getUnreviewedOrders(): Result<List<OrderResponse>> {
         return try {
             val response = api.getUnreviewedOrders()
