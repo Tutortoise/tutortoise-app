@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -49,6 +50,7 @@ class ChatRoomActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         roomId = intent.getStringExtra("ROOM_ID")
+        Log.d("ChatRoomActivity", "Received Room ID: $roomId")
         viewModel = ChatViewModel(this)
 
         setupUI()
