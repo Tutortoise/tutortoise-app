@@ -13,6 +13,7 @@ import com.tutortoise.tutortoise.data.repository.TutorRepository
 import com.tutortoise.tutortoise.databinding.ActivitySetScheduleBinding
 import com.tutortoise.tutortoise.presentation.main.tutor.tutories.dialog.TimePickerDialog
 import com.tutortoise.tutortoise.utils.generateTimeSlots
+import com.tutortoise.tutortoise.utils.utcAvailabilityToLocal
 import kotlinx.coroutines.launch
 
 class SetScheduleActivity : AppCompatActivity() {
@@ -24,6 +25,17 @@ class SetScheduleActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySetScheduleBinding
     private lateinit var tutorRepository: TutorRepository
 
+    private val daysOfWeek = mapOf(
+        "Sun" to 0,
+        "Mon" to 1,
+        "Tue" to 2,
+        "Wed" to 3,
+        "Thu" to 4,
+        "Fri" to 5,
+        "Sat" to 6
+    )
+    private val daysOfWeekReverse = daysOfWeek.entries.associateBy({ it.value }) { it.key }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySetScheduleBinding.inflate(layoutInflater)
@@ -31,15 +43,36 @@ class SetScheduleActivity : AppCompatActivity() {
 
         tutorRepository = TutorRepository(this)
 
+        populateSchedule()
         initializeDayButtons()
         setupTimeButtons()
         setupConfirmButton()
         setupBackButton()
     }
 
-    private fun fetchAvailability() {
-        TODO()
-//        tutorRepository.
+    private fun populateSchedule() {
+        lifecycleScope.launch {
+            val profile = tutorRepository.fetchTutorProfile()
+            profile?.data?.availability?.let { availability ->
+                val schedule = utcAvailabilityToLocal(availability)
+
+                schedule.forEach { (dayIdx, timeRange) ->
+                    val day = daysOfWeekReverse[dayIdx]!!
+                    selectedDays.add(day)
+                    dayButtons.forEach { (button, dayName) ->
+                        if (dayName == day) {
+                            button.isSelected = true
+                        }
+                    }
+                    selectedFromTime = timeRange.first()
+                    selectedToTime = timeRange.last()
+                    binding.btnSelectFromTime.text = getString(R.string.from_time, selectedFromTime)
+                    binding.btnSelectToTime.text = getString(R.string.to_time, selectedToTime)
+                }
+
+
+            }
+        }
     }
 
     private fun setupTimeButtons() {
@@ -55,7 +88,7 @@ class SetScheduleActivity : AppCompatActivity() {
                         return@TimePickerDialog
                     }
                     selectedFromTime = time
-                    binding.btnSelectFromTime.text = "From: $time"
+                    binding.btnSelectFromTime.text = getString(R.string.from_time, time)
                     updateConfirmButtonState()
                 },
                 onError = { error ->
@@ -76,7 +109,7 @@ class SetScheduleActivity : AppCompatActivity() {
                         return@TimePickerDialog
                     }
                     selectedToTime = time
-                    binding.btnSelectToTime.text = "To: $time"
+                    binding.btnSelectToTime.text = getString(R.string.to_time, time)
                     updateConfirmButtonState()
                 },
                 onError = { error ->
@@ -126,7 +159,7 @@ class SetScheduleActivity : AppCompatActivity() {
         var isValid = true
 
         if (selectedDays.isEmpty()) {
-            showError("Please select at least one day")
+            Toast.makeText(this, "Please select at least one day", Toast.LENGTH_SHORT).show()
             isValid = false
         }
 
@@ -145,15 +178,6 @@ class SetScheduleActivity : AppCompatActivity() {
 
     @SuppressLint("NewApi")
     private fun buildScheduleInfo(): Map<Int, List<String>> {
-        val daysOfWeek = mapOf(
-            "Sun" to 0,
-            "Mon" to 1,
-            "Tue" to 2,
-            "Wed" to 3,
-            "Thu" to 4,
-            "Fri" to 5,
-            "Sat" to 6
-        )
 
         val availability = generateTimeSlots(
             selectedDays.map { daysOfWeek[it]!! },
@@ -166,9 +190,6 @@ class SetScheduleActivity : AppCompatActivity() {
         return availability
     }
 
-    private fun showError(message: String) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
 
     private fun isValidTimeRange(startTime: String, endTime: String): Boolean {
         val (startHour, startMinute) = startTime.split(":").map { it.toInt() }

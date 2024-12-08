@@ -58,6 +58,8 @@
     <string name="my_schedule">My Schedule</string>
     <string name="my_activity_text">Check your previous activity</string>
     <string name="my_schedule_text">Set your tutoring schedule</string>
+    <string name="from_time">From %1$s</string>
+    <string name="to_time">To %1$s</string>
     <string name="preferences">Preferences</string>
     <string name="logout">Logout</string>
     <string name="logout_text">Securely log out of Account</string>

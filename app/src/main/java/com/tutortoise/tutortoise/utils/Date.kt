@@ -1,6 +1,7 @@
 package com.tutortoise.tutortoise.utils
 
 import android.annotation.SuppressLint
+import android.util.Log
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalTime
@@ -72,4 +73,28 @@ fun generateTimeSlots(
     }
 
     return availability
+}
+
+@SuppressLint("NewApi")
+fun utcAvailabilityToLocal(availability: Map<Int, List<String>>): Map<Int, List<String>> {
+    val result = mutableMapOf<Int, List<String>>()
+
+    availability.forEach { (index, times) ->
+        // January 1, 2023 is a Sunday
+        val referenceDate = LocalDate.of(2023, Month.JANUARY, 1).plusDays(index.toLong())
+        for (time in times) {
+            val utcTime = LocalTime.parse(time, DateTimeFormatter.ofPattern("HH:mm"))
+            val localTime = referenceDate.atTime(utcTime).atZone(ZoneId.of("UTC"))
+                .withZoneSameInstant(ZoneId.systemDefault())
+
+            val dayIndex = localTime.dayOfWeek.value % 7
+            result[dayIndex] = result.getOrDefault(
+                dayIndex,
+                listOf()
+            ) + localTime.format(DateTimeFormatter.ofPattern("HH:mm"))
+        }
+    }
+
+    Log.d("utcAvailabilityToLocal", "Result: $result")
+    return result
 }
