@@ -1,8 +1,6 @@
 package com.tutortoise.tutortoise.presentation.main.tutor.home.adapter
 
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +18,9 @@ class HomeScheduledSessionsAdapter(
     private var items: List<SessionListItem>,
     private val onChatClick: (String) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private var lastAnimatedPosition = -1
+    private val animationDelay = 50L
 
     companion object {
         private const val TYPE_DATE = 0
@@ -61,7 +62,20 @@ class HomeScheduledSessionsAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (val item = items[position]) {
+        val adapterPosition = holder.adapterPosition
+        if (adapterPosition == RecyclerView.NO_POSITION) return
+
+        if (adapterPosition > lastAnimatedPosition) {
+            val animation = android.view.animation.AnimationUtils.loadAnimation(
+                holder.itemView.context,
+                R.anim.item_fade_in
+            )
+            animation.startOffset = adapterPosition * animationDelay
+            holder.itemView.startAnimation(animation)
+            lastAnimatedPosition = adapterPosition
+        }
+
+        when (val item = items[adapterPosition]) {
             is SessionListItem.DateHeader -> (holder as DateViewHolder).bind(item)
             is SessionListItem.SessionItem -> (holder as SessionViewHolder).bind(item.order)
         }
@@ -117,9 +131,7 @@ class HomeScheduledSessionsAdapter(
 
     fun updateSessions(newItems: List<SessionListItem>) {
         items = newItems
+        lastAnimatedPosition = -1
         notifyDataSetChanged()
-        Handler(Looper.getMainLooper()).post {
-            notifyDataSetChanged()
-        }
     }
 }
