@@ -202,7 +202,7 @@ class SetScheduleActivity : AppCompatActivity() {
     }
 
     private fun initializeDayButtons() {
-        val days = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
+        val days = listOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
         val buttonIds = listOf(
             R.id.btnMonday,
             R.id.btnTuesday,
@@ -210,6 +210,7 @@ class SetScheduleActivity : AppCompatActivity() {
             R.id.btnThursday,
             R.id.btnFriday,
             R.id.btnSaturday,
+            R.id.btnSunday
         )
         buttonIds.forEachIndexed { index, id ->
             val button = findViewById<MaterialButton>(id)

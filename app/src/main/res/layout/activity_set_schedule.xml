@@ -126,6 +126,17 @@
                     android:textSize="14sp"
                     app:cornerRadius="10dp" />
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSunday"
+                    style="@style/DayButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Sun"
+                    android:textSize="14sp"
+                    app:cornerRadius="10dp" />
+
             </LinearLayout>
         </HorizontalScrollView>
 
