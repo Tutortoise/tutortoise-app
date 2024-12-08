@@ -17,6 +17,7 @@ import com.tutortoise.tutortoise.databinding.FragmentTutorHomeBinding
 import com.tutortoise.tutortoise.domain.AuthManager
 import com.tutortoise.tutortoise.presentation.chat.ChatListActivity
 import com.tutortoise.tutortoise.presentation.chat.ChatRoomActivity
+import com.tutortoise.tutortoise.presentation.item.SessionListItem
 import com.tutortoise.tutortoise.presentation.main.tutor.home.adapter.CalendarAdapter
 import com.tutortoise.tutortoise.presentation.main.tutor.home.adapter.HomeScheduledSessionsAdapter
 import com.tutortoise.tutortoise.presentation.notification.NotificationActivity
@@ -88,7 +89,6 @@ class HomeTutorFragment : Fragment() {
         // Display user name
         displayUserName()
 
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.scheduledOrders.collectLatest { result ->
                 when {
@@ -97,12 +97,14 @@ class HomeTutorFragment : Fragment() {
                         if (items.isNullOrEmpty()) {
                             binding.rvScheduledSessions.visibility = View.GONE
                             binding.noScheduleLayout.visibility = View.VISIBLE
+                        } else if (items.size == 1 && items[0] is SessionListItem.DateHeader) {
+                            binding.rvScheduledSessions.visibility = View.GONE
+                            binding.noScheduleLayout.visibility = View.VISIBLE
                         } else {
                             binding.rvScheduledSessions.visibility = View.VISIBLE
                             binding.noScheduleLayout.visibility = View.GONE
                             (binding.rvScheduledSessions.adapter as HomeScheduledSessionsAdapter)
                                 .updateSessions(items)
-                            binding.rvScheduledSessions.requestLayout()
                         }
                     }
 
@@ -139,9 +141,10 @@ class HomeTutorFragment : Fragment() {
     }
 
     private fun setupCalendar() {
-        calendarAdapter = CalendarAdapter(emptyList()) { selectedDate ->
-            viewModel.fetchScheduledOrders()
-        }
+        calendarAdapter = CalendarAdapter(onDateSelected = { selectedDate ->
+            calendarAdapter.setSelectedDate(selectedDate)
+            viewModel.setSelectedDate(selectedDate)
+        })
 
         binding.rvCalendar.apply {
             layoutManager = GridLayoutManager(context, 7)
