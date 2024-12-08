@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.tutortoise.tutortoise.data.repository.OrderRepository
 import com.tutortoise.tutortoise.presentation.item.SessionListItem
+import com.tutortoise.tutortoise.utils.SortOrder
 import com.tutortoise.tutortoise.utils.groupOrdersByDate
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +19,8 @@ class ScheduledTutorSessionViewModel(private val orderRepository: OrderRepositor
     fun fetchMyOrders(status: String) {
         viewModelScope.launch {
             val result = orderRepository.getMyOrders(status)
-            _ordersState.value = result.map { orders -> groupOrdersByDate(orders) }
+            _ordersState.value =
+                result.map { orders -> groupOrdersByDate(orders, SortOrder.ASCENDING) }
         }
     }
 
