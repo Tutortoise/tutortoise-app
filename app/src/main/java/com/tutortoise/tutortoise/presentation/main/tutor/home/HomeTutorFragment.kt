@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.AuthRepository
 import com.tutortoise.tutortoise.data.repository.OrderRepository
 import com.tutortoise.tutortoise.databinding.FragmentTutorHomeBinding
@@ -34,6 +36,7 @@ class HomeTutorFragment : Fragment() {
 
     private lateinit var calendarAdapter: CalendarAdapter
     private var currentMonth = Calendar.getInstance()
+    private var currentScheduledDates: Set<Calendar> = emptySet()
 
 
     private val viewModel: HomeTutorViewModel by viewModels {
@@ -133,17 +136,16 @@ class HomeTutorFragment : Fragment() {
         updateCalendarDates()
 
         binding.btnPreviousMonth.setOnClickListener {
-            currentMonth.add(Calendar.MONTH, -1)
-            updateCalendarDates()
+            animateCalendarTransition(false)
         }
 
         binding.btnNextMonth.setOnClickListener {
-            currentMonth.add(Calendar.MONTH, 1)
-            updateCalendarDates()
+            animateCalendarTransition(true)
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.scheduledDates.collectLatest { dates ->
+                currentScheduledDates = dates
                 updateCalendarDates(dates)
             }
         }
@@ -174,7 +176,38 @@ class HomeTutorFragment : Fragment() {
         }
     }
 
+    private fun animateCalendarTransition(isNext: Boolean) {
+        binding.rvCalendar.apply {
+            val slideOut = android.view.animation.AnimationUtils.loadAnimation(
+                context,
+                if (isNext) R.anim.slide_out_left else R.anim.slide_out_right
+            )
+            val slideIn = android.view.animation.AnimationUtils.loadAnimation(
+                context,
+                if (isNext) R.anim.slide_in_right else R.anim.slide_in_left
+            )
+
+            startAnimation(slideOut)
+            slideOut.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(animation: Animation?) {}
+                override fun onAnimationEnd(animation: Animation?) {
+                    if (isNext) {
+                        currentMonth.add(Calendar.MONTH, 1)
+                    } else {
+                        currentMonth.add(Calendar.MONTH, -1)
+                    }
+                    updateCalendarDates(currentScheduledDates)
+                    startAnimation(slideIn)
+                }
+
+                override fun onAnimationRepeat(animation: Animation?) {}
+            })
+        }
+    }
+
+
     private fun updateCalendarDates(scheduledDates: Set<Calendar> = emptySet()) {
+        currentScheduledDates = scheduledDates
         val dates = mutableListOf<Calendar>()
 
         val calendar = currentMonth.clone() as Calendar

@@ -3,6 +3,7 @@ package com.tutortoise.tutortoise.presentation.main.tutor.home.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.tutortoise.tutortoise.R
@@ -29,6 +30,7 @@ class CalendarAdapter(
     }
 
     private var selectedDate: Calendar? = null
+    private var previousSelectedView: View? = null
     private val today: Calendar = Calendar.getInstance().apply {
         set(Calendar.HOUR_OF_DAY, 0)
         set(Calendar.MINUTE, 0)
@@ -40,6 +42,48 @@ class CalendarAdapter(
     inner class CalendarViewHolder(
         private val binding: ItemCalendarDayBinding
     ) : RecyclerView.ViewHolder(binding.root) {
+        private fun animateSelection(view: View) {
+            val selectAnim = android.view.animation.AnimationUtils.loadAnimation(
+                view.context,
+                R.anim.calendar_item_select
+            )
+            view.startAnimation(selectAnim)
+        }
+
+        private fun animateDeselection(view: View) {
+            val deselectAnim = android.view.animation.AnimationUtils.loadAnimation(
+                view.context,
+                R.anim.calendar_item_deselect
+            )
+            view.startAnimation(deselectAnim)
+        }
+
+        private fun animateBackgroundChange(view: View, newBackground: Int?) {
+            val fadeOut = android.view.animation.AnimationUtils.loadAnimation(
+                view.context,
+                R.anim.bg_fade_out
+            )
+
+            fadeOut.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationStart(animation: Animation?) {}
+                override fun onAnimationRepeat(animation: Animation?) {}
+                override fun onAnimationEnd(animation: Animation?) {
+                    if (newBackground != null) {
+                        view.setBackgroundResource(newBackground)
+                        val fadeIn = android.view.animation.AnimationUtils.loadAnimation(
+                            view.context,
+                            R.anim.bg_fade_in
+                        )
+                        view.startAnimation(fadeIn)
+                    } else {
+                        view.background = null
+                    }
+                }
+            })
+
+            view.startAnimation(fadeOut)
+        }
+
         fun bind(date: CalendarDate) {
             binding.apply {
                 tvDate.text = date.calendar.get(Calendar.DAY_OF_MONTH).toString()
@@ -71,22 +115,45 @@ class CalendarAdapter(
                         View.GONE
                     }
 
-                when {
-                    isDateSelected && isToday -> {
-                        root.setBackgroundResource(R.drawable.bg_current_date)
-                    }
+                root.isClickable = date.isCurrentMonth
+                root.setOnClickListener {
+                    if (date.isCurrentMonth) {
+                        previousSelectedView?.let { prevView ->
+                            if (prevView != root) {
+                                animateDeselection(prevView)
+                            }
+                        }
 
-                    isDateSelected -> {
-                        root.setBackgroundResource(R.drawable.bg_selected_date)
-                    }
+                        animateSelection(root)
+                        previousSelectedView = root
 
-                    isToday && selectedDate == null -> {
-                        root.setBackgroundResource(R.drawable.bg_current_date)
+                        setSelectedDate(date.calendar)
+                        onDateSelected(date.calendar)
                     }
+                }
 
-                    else -> {
-                        root.background = null
-                    }
+                if (isDateSelected) {
+                    previousSelectedView = root
+                }
+
+                val newBackground = when {
+                    isDateSelected && isToday -> R.drawable.bg_current_date
+                    isDateSelected -> R.drawable.bg_selected_date
+                    isToday && selectedDate == null -> R.drawable.bg_current_date
+                    else -> null
+                }
+
+                if (root.background == null && newBackground != null) {
+                    root.setBackgroundResource(newBackground)
+                    val fadeIn = android.view.animation.AnimationUtils.loadAnimation(
+                        root.context,
+                        R.anim.bg_fade_in
+                    )
+                    root.startAnimation(fadeIn)
+                } else if (root.background != null && newBackground == null) {
+                    animateBackgroundChange(root, null)
+                } else if (root.background != null && newBackground != null) {
+                    animateBackgroundChange(root, newBackground)
                 }
 
                 root.isClickable = date.isCurrentMonth
