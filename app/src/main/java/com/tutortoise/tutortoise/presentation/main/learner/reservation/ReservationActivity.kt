@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.tutortoise.tutortoise.data.repository.OrderRepository
-import com.tutortoise.tutortoise.data.repository.TutoriesRepository
+import com.tutortoise.tutortoise.data.repository.TutorRepository
 import com.tutortoise.tutortoise.databinding.ActivityReservationBinding
 import com.tutortoise.tutortoise.presentation.main.learner.reservation.adapter.DateAdapter
 import com.tutortoise.tutortoise.presentation.main.learner.reservation.adapter.TimeAdapter
@@ -25,7 +25,7 @@ class ReservationActivity : AppCompatActivity() {
     private lateinit var binding: ActivityReservationBinding
     private val viewModel: ReservationViewModel by viewModels {
         ReservationViewModel.provideFactory(
-            TutoriesRepository(this),
+            TutorRepository(this),
             OrderRepository(this)
         )
     }
@@ -52,7 +52,7 @@ class ReservationActivity : AppCompatActivity() {
         setupUI()
 
         observeViewModel()
-        viewModel.fetchAvailability(tutoriesId)
+        viewModel.fetchAvailability(tutorId)
     }
 
     private fun observeViewModel() {

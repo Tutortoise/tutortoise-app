@@ -156,7 +156,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/montserrat_medium"
-                        android:text="100 Student | 200 lessons"
+                        android:text="@string/total_student_orders"
                         android:textColor="#50000000"
                         android:textSize="12sp"
                         app:layout_constraintEnd_toEndOf="parent"

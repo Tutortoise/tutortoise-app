@@ -6,7 +6,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.navArgs
 import com.google.android.material.button.MaterialButton
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.UpdateTutorProfileRequest
@@ -17,7 +16,6 @@ import com.tutortoise.tutortoise.utils.generateTimeSlots
 import kotlinx.coroutines.launch
 
 class SetScheduleActivity : AppCompatActivity() {
-    private val args: SetScheduleActivityArgs by navArgs()
     private var selectedFromTime: String? = null
     private var selectedToTime: String? = null
     private val selectedDays = mutableSetOf<String>()
@@ -37,6 +35,11 @@ class SetScheduleActivity : AppCompatActivity() {
         setupTimeButtons()
         setupConfirmButton()
         setupBackButton()
+    }
+
+    private fun fetchAvailability() {
+        TODO()
+//        tutorRepository.
     }
 
     private fun setupTimeButtons() {

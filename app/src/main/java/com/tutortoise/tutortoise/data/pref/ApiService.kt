@@ -112,6 +112,11 @@ interface ApiService {
         @Body request: UpdateTutorProfileRequest
     ): Response<MessageResponse>
 
+    @GET("tutors/{tutorId}/availability")
+    suspend fun getTutorAvailability(
+        @Path("tutorId") tutorId: String,
+    ): Response<ApiResponse<List<String>>>
+
     @Multipart
     @PUT("tutors/profile/picture")
     suspend fun updateTutorProfilePicture(
@@ -160,11 +165,6 @@ interface ApiService {
     suspend fun deleteTutories(
         @Path("tutoriesId") tutoriesId: String,
     ): MessageResponse
-
-    @GET("tutors/services/{tutoriesId}/availability")
-    suspend fun getTutorAvailability(
-        @Path("tutoriesId") tutoriesId: String,
-    ): Response<ApiResponse<List<String>>>
 
     @GET("tutors/services/avg-rate")
     suspend fun getTutoriesAverageRate(
