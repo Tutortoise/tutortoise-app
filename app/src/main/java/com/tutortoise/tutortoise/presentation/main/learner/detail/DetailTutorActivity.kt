@@ -76,7 +76,6 @@ class DetailTutorActivity : AppCompatActivity() {
 
     }
 
-    // TODO: handle ui of no reviews
     private fun fetchReviews() {
         coroutineScope.launch {
             try {
@@ -228,7 +227,7 @@ class DetailTutorActivity : AppCompatActivity() {
     ) {
         textView.post {
             val layout = textView.layout
-            val isTextLong = layout != null && layout.lineCount > maxLines
+            val isTextLong = layout != null && layout.lineCount >= maxLines
 
             if (isTextLong) {
                 // Limit the text to maxLines
