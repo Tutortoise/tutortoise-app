@@ -24,7 +24,8 @@ enum class SortOrder {
 @RequiresApi(Build.VERSION_CODES.O)
 fun groupOrdersByDate(
     orders: List<OrderResponse>,
-    sortOrder: SortOrder = SortOrder.DESCENDING
+    sortOrder: SortOrder = SortOrder.DESCENDING,
+    groupByField: (OrderResponse) -> String = { it.sessionTime } // Default to sessionTime
 ): List<SessionListItem> {
     val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
     val today = LocalDate.now()
@@ -35,27 +36,27 @@ fun groupOrdersByDate(
 
     return orders
         .groupBy { order ->
-            val date = inputFormat.parse(order.sessionTime)
+            val date = inputFormat.parse(groupByField(order))
             outputFormat.format(date!!)
         }
         .toSortedMap(if (sortOrder == SortOrder.DESCENDING) reverseOrder() else naturalOrder())
         .flatMap { (_, ordersForDate) ->
-            val sessionTimeDate = inputFormat.parse(ordersForDate[0].sessionTime)
+            val firstDate = inputFormat.parse(groupByField(ordersForDate[0]))
 
-            // Check if the session time is today
+            // Check if the date is today
             val headerDate = if (LocalDate.parse(
-                    outputFormat.format(sessionTimeDate!!),
+                    outputFormat.format(firstDate!!),
                     DateTimeFormatter.ISO_DATE
                 ) == today
             ) {
-                "Today"  // Change the header to "Today" if the session is today
+                "Today"  // Change the header to "Today" if the date is today
             } else {
-                isoToReadableDate(ordersForDate[0].sessionTime)  // Use the original date if not today
+                isoToReadableDate(groupByField(ordersForDate[0]))  // Use the original date if not today
             }
 
             listOf(SessionListItem.DateHeader(headerDate)) +
                     ordersForDate
-                        .sortedBy { it.sessionTime }
+                        .sortedBy { groupByField(it) }
                         .let { list ->
                             if (sortOrder == SortOrder.DESCENDING) list.reversed() else list
                         }
