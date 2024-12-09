@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -22,6 +23,7 @@ class ExploreAdapter(
     inner class ExploreViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val tvTutoriesName: TextView = view.findViewById(R.id.tvTutoriesName)
         private val tvCategoryName: TextView = view.findViewById(R.id.tvCategoryName)
+        private val ratingBar: RatingBar = view.findViewById(R.id.ratingBar)
         private val tvRating: TextView = view.findViewById(R.id.tvRating)
         private val tvHourlyRate: TextView = view.findViewById(R.id.tvHourlyRate)
         private val tvCity: TextView = view.findViewById(R.id.tvCity)
@@ -32,7 +34,17 @@ class ExploreAdapter(
         fun bind(tutoriesItem: ExploreTutoriesResponse) {
             tvTutoriesName.text = tutoriesItem.name
             tvCategoryName.text = tutoriesItem.categoryName
-            tvRating.text = tutoriesItem.avgRating.toString()
+
+            // Handle if rating is 0
+            if (tutoriesItem.avgRating == 0f) {
+                ratingBar.visibility = View.GONE
+                tvRating.text = "No rating"
+            } else {
+                ratingBar.visibility = View.VISIBLE
+                ratingBar.rating = tutoriesItem.avgRating
+                tvRating.text = tutoriesItem.avgRating.toString()
+            }
+
             tvHourlyRate.text =
                 "Rp. ${tutoriesItem.hourlyRate.formatWithThousandsSeparator()} / Hour"
             tvCity.text = tutoriesItem.city
