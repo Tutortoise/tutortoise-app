@@ -8,12 +8,37 @@ import com.tutortoise.tutortoise.data.model.TutorData
 import com.tutortoise.tutortoise.data.model.UpdateTutorProfileRequest
 import com.tutortoise.tutortoise.data.pref.ApiConfig
 import com.tutortoise.tutortoise.data.pref.ApiException
+import com.tutortoise.tutortoise.utils.Constants.getProfilePictureUrl
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import retrofit2.HttpException
 
 
 class TutorRepository(context: Context) {
     private val apiService = ApiConfig.getApiService(context)
+
+    private suspend fun isProfilePictureSet(tutorId: String): Boolean {
+        val client = OkHttpClient()
+        return withContext(Dispatchers.IO) {
+            try {
+                val url = getProfilePictureUrl(tutorId)
+                val request = Request.Builder()
+                    .url(url)
+                    .head()
+                    .build()
+
+                val response = client.newCall(request).execute()
+                response.use {
+                    it.isSuccessful
+                }
+            } catch (e: Exception) {
+                false
+            }
+        }
+    }
 
     // Tutor need to fill their profile before creating tutories
     suspend fun isProfileFilled(): Boolean {
@@ -21,7 +46,9 @@ class TutorRepository(context: Context) {
             val response = apiService.getTutorProfile()
             val tutorData = response.body()
             tutorData?.data.let {
-                return it?.name != null && it.gender != null && it.city != null && it.district != null
+                return it?.name != null && it.gender != null && it.city != null && it.district != null && isProfilePictureSet(
+                    it.id
+                )
             }
         } catch (e: Exception) {
             Log.e("TutorRepository", "Failed to check if profile is filled", e)
