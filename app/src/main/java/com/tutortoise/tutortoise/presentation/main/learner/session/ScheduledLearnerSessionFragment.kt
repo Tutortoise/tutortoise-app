@@ -40,12 +40,24 @@ class ScheduledLearnerSessionFragment : Fragment() {
                 when {
                     result.isSuccess -> {
                         val orders = result.getOrNull()
-                        binding.rvOrders.layoutManager = LinearLayoutManager(
-                            requireContext(),
-                            LinearLayoutManager.VERTICAL,
-                            false
-                        )
-                        binding.rvOrders.adapter = OrdersAdapter(orders ?: emptyList())
+                        if (orders.isNullOrEmpty()) {
+                            // Show the "No booked sessions" view
+                            binding.rvOrders.visibility = View.GONE
+                            binding.noBookedSessionsView.root.visibility = View.VISIBLE
+                            binding.noBookedSessionsView.btnFindTutor.setOnClickListener {
+
+                            }
+                        } else {
+                            // Show the recycler view
+                            binding.rvOrders.visibility = View.VISIBLE
+                            binding.noBookedSessionsView.root.visibility = View.GONE
+                            binding.rvOrders.layoutManager = LinearLayoutManager(
+                                requireContext(),
+                                LinearLayoutManager.VERTICAL,
+                                false
+                            )
+                            binding.rvOrders.adapter = OrdersAdapter(orders)
+                        }
                     }
 
                     result.isFailure -> {

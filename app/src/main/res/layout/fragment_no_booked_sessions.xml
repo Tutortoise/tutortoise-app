@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:src="@drawable/ic_image_placeholder" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="No booked sessions"
+        android:textColor="@color/darkgreen"
+        android:fontFamily="@font/montserrat_medium"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/montserrat_medium"
+        android:gravity="center"
+        android:text="Find out your lesson plan by requesting a tutor"
+        android:textColor="@color/darkgreen"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btnFindTutor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Find a tutor"
+        android:fontFamily="@font/montserrat_medium"/>
+
+</LinearLayout>

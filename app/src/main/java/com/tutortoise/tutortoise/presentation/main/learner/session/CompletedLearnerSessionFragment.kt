@@ -40,14 +40,22 @@ class CompletedLearnerSessionFragment : Fragment() {
                 when {
                     result.isSuccess -> {
                         val orders = result.getOrNull()
-                        binding.rvOrders.layoutManager =
-                            LinearLayoutManager(
+                        if (orders.isNullOrEmpty()) {
+                            binding.rvOrders.visibility = View.GONE
+                            binding.noBookedSessionsView.root.visibility = View.VISIBLE
+                            binding.noBookedSessionsView.btnFindTutor.setOnClickListener {
+
+                            }
+                        } else {
+                            binding.rvOrders.visibility = View.VISIBLE
+                            binding.noBookedSessionsView.root.visibility = View.GONE
+                            binding.rvOrders.layoutManager = LinearLayoutManager(
                                 requireContext(),
                                 LinearLayoutManager.VERTICAL,
                                 false
                             )
-                        binding.rvOrders.adapter =
-                            OrdersAdapter(orders ?: emptyList())
+                            binding.rvOrders.adapter = OrdersAdapter(orders)
+                        }
                     }
 
                     result.isFailure -> {

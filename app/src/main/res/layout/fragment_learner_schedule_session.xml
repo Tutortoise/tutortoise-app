@@ -17,4 +17,11 @@
         android:scrollbars="none"
         tools:listitem="@layout/item_scheduled_learner" />
 
+    <include
+        android:id="@+id/noBookedSessionsView"
+        layout="@layout/fragment_no_booked_sessions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
 </FrameLayout>
