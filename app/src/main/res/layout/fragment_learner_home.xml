@@ -179,20 +179,20 @@
             android:layout_marginStart="12dp"
             android:layout_marginEnd="12dp"
             android:clipToPadding="false"
-            android:visibility="visible"
             android:orientation="horizontal"
+            android:visibility="visible"
+            app:flow_horizontalGap="20dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_category"
-            app:flow_horizontalGap="20dp" />
+            tools:listitem="@layout/item_category" />
 
 
         <LinearLayout
             android:id="@+id/groupRateTutoring"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:layout_marginBottom="15dp"
             android:orientation="vertical"
-            android:layout_marginBottom="15dp">
+            android:visibility="gone">
 
 
             <LinearLayout
@@ -213,11 +213,12 @@
                 android:id="@+id/rvUnreviewed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:clipToPadding="false"
                 android:orientation="horizontal"
+                android:paddingStart="40dp"
+                android:paddingEnd="40dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_rating_tutor_card" />
         </LinearLayout>
 

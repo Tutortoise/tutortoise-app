@@ -1,6 +1,8 @@
 package com.tutortoise.tutortoise.presentation.main.learner.home
 
+import android.graphics.Rect
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +12,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.CategoryRepository
@@ -59,6 +63,81 @@ class HomeLearnerFragment : Fragment() {
                 (activity as? MainActivity)?.navigateToExploreWithCategory(clickedCategory)
             }
             adapter = categoriesAdapter
+        }
+    }
+
+    private fun setupUnreviewedRecyclerView() {
+        val snapHelper = LinearSnapHelper()
+        snapHelper.attachToRecyclerView(binding.rvUnreviewed)
+
+        val layoutManager = object : LinearLayoutManager(requireContext(), HORIZONTAL, false) {
+            override fun checkLayoutParams(lp: RecyclerView.LayoutParams): Boolean {
+                lp.width = (width * 0.85).toInt()
+                return true
+            }
+
+            override fun smoothScrollToPosition(
+                recyclerView: RecyclerView,
+                state: RecyclerView.State,
+                position: Int
+            ) {
+                val smoothScroller = object : LinearSmoothScroller(requireContext()) {
+                    override fun calculateDxToMakeVisible(view: View, snapPreference: Int): Int {
+                        val out = super.calculateDxToMakeVisible(view, snapPreference)
+                        return out + (recyclerView.width - view.width) / 2
+                    }
+
+                    override fun calculateSpeedPerPixel(displayMetrics: DisplayMetrics): Float {
+                        return 100f / displayMetrics.densityDpi
+                    }
+                }
+                smoothScroller.targetPosition = position
+                startSmoothScroll(smoothScroller)
+            }
+        }
+
+        binding.rvUnreviewed.apply {
+            this.layoutManager = layoutManager
+            setPadding(
+                (resources.displayMetrics.widthPixels * 0.075).toInt(), // 15% of screen width
+                paddingTop,
+                (resources.displayMetrics.widthPixels * 0.075).toInt(),
+                paddingBottom
+            )
+            clipToPadding = false // Allow items to enter padding area
+
+            addItemDecoration(object : RecyclerView.ItemDecoration() {
+                override fun getItemOffsets(
+                    outRect: Rect,
+                    view: View,
+                    parent: RecyclerView,
+                    state: RecyclerView.State
+                ) {
+                    val position = parent.getChildAdapterPosition(view)
+                    if (position != state.itemCount - 1) {
+                        outRect.right = resources.getDimensionPixelSize(R.dimen.rating_item_spacing)
+                    }
+                }
+            })
+
+            // Post a delayed center scroll
+            post {
+                val targetPosition = 0
+                layoutManager?.scrollToPosition(targetPosition)
+                postDelayed({
+                    snapHelper.findSnapView(layoutManager)?.let { snapView ->
+                        val snapDistance = snapHelper.calculateDistanceToFinalSnap(
+                            layoutManager,
+                            snapView
+                        )
+                        snapDistance?.let { (x, y) ->
+                            if (x != 0 || y != 0) {
+                                smoothScrollBy(x, y)
+                            }
+                        }
+                    }
+                }, 100)
+            }
         }
     }
 
@@ -155,10 +234,9 @@ class HomeLearnerFragment : Fragment() {
                 onSuccess = { orders ->
                     if (orders.isNotEmpty()) {
                         binding.groupRateTutoring.visibility = View.VISIBLE
-                    }
+                        setupUnreviewedRecyclerView()
 
-                    binding.rvUnreviewed.adapter =
-                        UnreviewedOrderAdapter(
+                        binding.rvUnreviewed.adapter = UnreviewedOrderAdapter(
                             onClosed = { orderId, size ->
                                 lifecycleScope.launch {
                                     reviewRepository.dismissOrderPrompt(orderId)
@@ -175,11 +253,11 @@ class HomeLearnerFragment : Fragment() {
                                 showRatingDialog(orderId, rating)
                             }
                         )
-                    (binding.rvUnreviewed.adapter as UnreviewedOrderAdapter).submitList(orders)
+                        (binding.rvUnreviewed.adapter as UnreviewedOrderAdapter).submitList(orders)
+                    }
                 },
                 onFailure = { }
             )
-
         }
     }
 

@@ -3,4 +3,5 @@
     <dimen name="indicator_width_active">20dp</dimen>
     <dimen name="indicator_width_inactive">3dp</dimen>
     <dimen name="indicator_height">12dp</dimen>
+    <dimen name="rating_item_spacing">0dp</dimen>
 </resources>
