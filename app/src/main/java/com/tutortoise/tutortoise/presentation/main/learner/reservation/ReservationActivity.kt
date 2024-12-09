@@ -3,6 +3,7 @@ package com.tutortoise.tutortoise.presentation.main.learner.reservation
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -34,6 +35,7 @@ class ReservationActivity : AppCompatActivity() {
     private var tutorId: String = ""
     private var tutorName: String = ""
     private var hourlyRate: Int = 0
+    private var typeLesson: String = ""
 
     private var selectedDatetime = ""
     private var selectedTotalHour = 0
@@ -48,6 +50,7 @@ class ReservationActivity : AppCompatActivity() {
         tutorId = intent.getStringExtra("TUTOR_ID") ?: ""
         tutorName = intent.getStringExtra("TUTOR_NAME") ?: ""
         hourlyRate = intent.getIntExtra("HOURLY_RATE", 0)
+        typeLesson = intent.getStringExtra("TYPE_LESSON") ?: ""
 
         setupUI()
 
@@ -68,6 +71,16 @@ class ReservationActivity : AppCompatActivity() {
     private fun setupUI() {
         binding.btnBack.setOnClickListener {
             finish()
+        }
+
+        if (typeLesson == "online") {
+            binding.btnOnsite.visibility = View.GONE
+            binding.btnOnline.isSelected = true
+            selectedTypeLesson = "online"
+        } else if (typeLesson == "offline") {
+            binding.btnOnline.visibility = View.GONE
+            binding.btnOnsite.isSelected = true
+            selectedTypeLesson = "offline"
         }
 
         // Handle online/onsite button selection

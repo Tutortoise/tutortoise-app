@@ -215,6 +215,7 @@ class DetailTutorActivity : AppCompatActivity() {
                 putExtra("TUTORIES_ID", currentTutoriesId)
                 putExtra("TUTOR_NAME", currentTutorName)
                 putExtra("HOURLY_RATE", tutories.hourlyRate)
+                putExtra("TYPE_LESSON", tutories.typeLesson)
             }
             startActivity(intent)
         }
