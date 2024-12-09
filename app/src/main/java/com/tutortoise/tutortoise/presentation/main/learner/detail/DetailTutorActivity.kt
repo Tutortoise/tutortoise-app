@@ -114,23 +114,21 @@ class DetailTutorActivity : AppCompatActivity() {
                     if (tutories.avgRating == 0f) {
                         binding.ratingBar.visibility = View.GONE
                         binding.tvRating.text = getString(R.string.no_rating)
-
-                        binding.ivStar.visibility = View.GONE
-                        binding.tvTotalReviews.visibility = View.GONE
-                        binding.tvAvgRating.text = getString(R.string.no_rating)
                     } else {
                         binding.ratingBar.visibility = View.VISIBLE
                         binding.ratingBar.rating = tutories.avgRating
                         binding.tvRating.text = tutories.avgRating.toString()
 
-                        binding.tvAvgRating.text = tutories.avgRating.toString()
-                        binding.tvTotalReviews.text = resources.getQuantityString(
-                            R.plurals.total_reviews,
-                            tutories.totalReviews,
-                            tutories.totalReviews,
-                        )
-
                     }
+
+                    // Review at the bottom
+                    binding.tvAvgRating.text = tutories.avgRating.toString()
+                    binding.tvTotalReviews.text = resources.getQuantityString(
+                        R.plurals.total_reviews,
+                        tutories.totalReviews,
+                        tutories.totalReviews,
+                    )
+
 
                     binding.tvStudent.text = getString(
                         R.string.total_student_orders,

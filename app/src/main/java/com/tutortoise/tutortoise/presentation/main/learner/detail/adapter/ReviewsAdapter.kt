@@ -1,15 +1,19 @@
 package com.tutortoise.tutortoise.presentation.main.learner.detail.adapter
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.ReviewResponse
 import com.tutortoise.tutortoise.utils.Constants
+import com.tutortoise.tutortoise.utils.isoToRelativeDate
 
 class ReviewsAdapter(
     private val reviews: List<ReviewResponse>,
@@ -18,7 +22,8 @@ class ReviewsAdapter(
     inner class ReviewsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val profileImage: ImageView = view.findViewById(R.id.ivLearnerImage)
         val tvLearnerName: TextView = view.findViewById(R.id.tvLearnerName)
-        val tvRating: TextView = view.findViewById(R.id.tvRating)
+        val tvTutoringTime: TextView = view.findViewById(R.id.tvTutoringTime)
+        val ratingBar: RatingBar = view.findViewById(R.id.ratingBar)
         val tvLearnerReview: TextView = view.findViewById(R.id.tvLearnerReview)
     }
 
@@ -28,6 +33,7 @@ class ReviewsAdapter(
         return ReviewsViewHolder(view)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ReviewsViewHolder, position: Int) {
         val review = reviews[position]
 
@@ -39,8 +45,9 @@ class ReviewsAdapter(
                 .circleCrop()
                 .into(profileImage)
 
+            ratingBar.rating = review.rating
+            tvTutoringTime.text = isoToRelativeDate(review.createdAt)
             tvLearnerName.text = review.learnerName
-            tvRating.text = review.rating.toString()
             tvLearnerReview.text = review.message
         }
     }

@@ -5,6 +5,8 @@ import androidx.annotation.RequiresApi
 import com.tutortoise.tutortoise.data.model.OrderResponse
 import com.tutortoise.tutortoise.presentation.item.SessionListItem
 import java.text.SimpleDateFormat
+import java.time.Duration
+import java.time.Instant
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
@@ -92,6 +94,29 @@ fun isoToReadableDate(isoDate: String): String {
 
     val date = inputFormat.parse(isoDate)
     return outputFormat.format(date!!).capitalizeFirst()
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun isoToRelativeDate(isoDate: String): String {
+    val instant = Instant.parse(isoDate)
+    val now = Instant.now()
+    val duration = Duration.between(instant, now)
+
+    return when {
+        duration.toMinutes() < 1 -> "Just now"
+        duration.toHours() < 1 -> "${duration.toMinutes()} minutes ago"
+        duration.toDays() < 1 -> "${duration.toHours()} hours ago"
+        duration.toDays() < 30 -> "${duration.toDays()} days ago"
+        duration.toDays() < 365 -> {
+            val months = duration.toDays() / 30
+            "$months month${if (months > 1) "s" else ""} ago"
+        }
+
+        else -> {
+            val years = duration.toDays() / 365
+            "$years year${if (years > 1) "s" else ""} ago"
+        }
+    }
 }
 
 fun String.capitalizeFirst(): String {
