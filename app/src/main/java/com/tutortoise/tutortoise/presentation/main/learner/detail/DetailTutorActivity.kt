@@ -1,17 +1,23 @@
 package com.tutortoise.tutortoise.presentation.main.learner.detail
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.data.model.AlsoTeachesResponse
 import com.tutortoise.tutortoise.data.model.DetailedTutoriesResponse
 import com.tutortoise.tutortoise.data.model.LessonType
 import com.tutortoise.tutortoise.data.pref.ApiConfig
@@ -135,7 +141,7 @@ class DetailTutorActivity : AppCompatActivity() {
                         tutories.totalOrders
                     )
                     binding.tvHourlyRate.text =
-                        "Rp. ${tutories.hourlyRate.formatWithThousandsSeparator()} / Hour"
+                        "Rp. ${tutories.hourlyRate.formatWithThousandsSeparator()}"
                     binding.tvCity.text = tutories.city
 
                     Glide.with(this@DetailTutorActivity)
@@ -149,36 +155,8 @@ class DetailTutorActivity : AppCompatActivity() {
                     binding.tvTeachingMethodologyText.text = tutories.teachingMethodology
                     setupTextWithReadMore(binding.tvTeachingMethodologyText, binding.tvReadMore2)
 
-                    // Manage visibility of lesson type views
-                    binding.tvOnlineStatus.visibility = View.GONE
-                    binding.tvOnsiteStatus.visibility = View.GONE
-                    when (tutories.typeLesson) {
-                        LessonType.ONLINE -> {
-                            binding.tvOnlineStatus.visibility = View.VISIBLE
-                            binding.tvOnsiteStatus.visibility = View.GONE
-                        }
-
-                        LessonType.OFFLINE -> {
-                            binding.tvOnsiteStatus.visibility = View.VISIBLE
-                            binding.tvOnlineStatus.visibility = View.GONE
-                        }
-
-                        LessonType.BOTH -> {
-                            binding.tvOnlineStatus.visibility = View.VISIBLE
-                            binding.tvOnsiteStatus.visibility = View.VISIBLE
-                        }
-                    }
-
-                    // Handle also teaches section
-                    if (tutories.alsoTeaches.isEmpty()) {
-                        binding.tvAlsoTeach.visibility = View.GONE
-                    }
-                    binding.rvAlsoTeach.layoutManager =
-                        GridLayoutManager(this@DetailTutorActivity, 2)
-                    binding.rvAlsoTeach.adapter = AlsoTeachAdapter(
-                        tutories.alsoTeaches,
-                    )
-
+                    setupModeIndicators(LessonType.fromString(tutories.typeLesson))
+                    setupAlsoTeachSection(tutories.alsoTeaches)
                 } else {
                     // Handle error case
                     Toast.makeText(
@@ -193,6 +171,98 @@ class DetailTutorActivity : AppCompatActivity() {
                     .show()
                 Log.e("DetailTutorActivity", "Error fetching tutor details", e)
             }
+        }
+    }
+
+    private fun setupModeIndicators(mode: LessonType) {
+        when (mode) {
+            LessonType.ONLINE -> {
+                binding.tvOnlineStatus.apply {
+                    background =
+                        ContextCompat.getDrawable(context, R.drawable.ic_indicator_active_online)
+                    findViewById<TextView>(R.id.tvOnline).setTextColor(Color.WHITE)
+                    findViewById<ImageView>(R.id.ivOnline).setColorFilter(Color.WHITE)
+                }
+                binding.tvOnsiteStatus.apply {
+                    background =
+                        ContextCompat.getDrawable(context, R.drawable.ic_indicator_inactive)
+                    findViewById<TextView>(R.id.tvOnsite).setTextColor(Color.parseColor("#757575"))
+                    findViewById<ImageView>(R.id.ivOnsite).setColorFilter(Color.parseColor("#757575"))
+                }
+            }
+
+            LessonType.OFFLINE -> {
+                binding.tvOnlineStatus.apply {
+                    background =
+                        ContextCompat.getDrawable(context, R.drawable.ic_indicator_inactive)
+                    findViewById<TextView>(R.id.tvOnline).setTextColor(Color.parseColor("#757575"))
+                    findViewById<ImageView>(R.id.ivOnline).setColorFilter(Color.parseColor("#757575"))
+                }
+                binding.tvOnsiteStatus.apply {
+                    background =
+                        ContextCompat.getDrawable(context, R.drawable.ic_indicator_active_onsite)
+                    findViewById<TextView>(R.id.tvOnsite).setTextColor(Color.WHITE)
+                    findViewById<ImageView>(R.id.ivOnsite).setColorFilter(Color.WHITE)
+                }
+            }
+
+            LessonType.BOTH -> {
+                binding.tvOnlineStatus.apply {
+                    background =
+                        ContextCompat.getDrawable(context, R.drawable.ic_indicator_active_online)
+                    findViewById<TextView>(R.id.tvOnline).setTextColor(Color.WHITE)
+                    findViewById<ImageView>(R.id.ivOnline).setColorFilter(Color.WHITE)
+                }
+                binding.tvOnsiteStatus.apply {
+                    background =
+                        ContextCompat.getDrawable(context, R.drawable.ic_indicator_active_onsite)
+                    findViewById<TextView>(R.id.tvOnsite).setTextColor(Color.WHITE)
+                    findViewById<ImageView>(R.id.ivOnsite).setColorFilter(Color.WHITE)
+                }
+            }
+        }
+    }
+
+    private fun setupAlsoTeachSection(alsoTeaches: List<AlsoTeachesResponse>) {
+        if (alsoTeaches.isEmpty()) {
+            binding.alsoTeachCard.visibility = View.GONE
+            return
+        }
+
+        binding.alsoTeachCard.visibility = View.VISIBLE
+        binding.rvAlsoTeach.apply {
+            layoutManager = GridLayoutManager(this@DetailTutorActivity, 2)
+            adapter = AlsoTeachAdapter(alsoTeaches)
+            addItemDecoration(
+                GridSpacingItemDecoration(
+                    2,
+                    16
+                )
+            )
+        }
+    }
+
+    private class GridSpacingItemDecoration(
+        private val spanCount: Int,
+        private val spacing: Int
+    ) : RecyclerView.ItemDecoration() {
+
+        override fun getItemOffsets(
+            outRect: Rect,
+            view: View,
+            parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            val position = parent.getChildAdapterPosition(view)
+            val column = position % spanCount
+
+            outRect.left = spacing - column * spacing / spanCount
+            outRect.right = (column + 1) * spacing / spanCount
+
+            if (position < spanCount) {
+                outRect.top = spacing
+            }
+            outRect.bottom = spacing
         }
     }
 
@@ -225,38 +295,42 @@ class DetailTutorActivity : AppCompatActivity() {
         readMoreButton: TextView,
         maxLines: Int = 4
     ) {
+        // Initially hide the read more button
+        readMoreButton.visibility = View.GONE
+
+        // Wait for layout to be ready
         textView.post {
             val layout = textView.layout
-            val isTextLong = layout != null && layout.lineCount >= maxLines
+            if (layout != null) {
+                // Check if text spans more than maxLines
+                val isTextLong = layout.lineCount > maxLines
 
-            if (isTextLong) {
-                // Limit the text to maxLines
-                textView.maxLines = maxLines
-                textView.ellipsize = TextUtils.TruncateAt.END
+                if (isTextLong) {
+                    // Text is long enough to need read more button
+                    textView.maxLines = maxLines
+                    textView.ellipsize = TextUtils.TruncateAt.END
+                    readMoreButton.visibility = View.VISIBLE
+                    readMoreButton.text = getString(R.string.read_more)
 
-                // Make read more button visible
-                readMoreButton.visibility = View.VISIBLE
-                readMoreButton.text = getString(R.string.read_more)
-
-                // Set up toggle functionality
-                readMoreButton.setOnClickListener {
-                    if (textView.maxLines == maxLines) {
-                        // Expand text
-                        textView.maxLines = Integer.MAX_VALUE
-                        textView.ellipsize = null
-                        readMoreButton.text = getString(R.string.read_less)
-                    } else {
-                        // Collapse text
-                        textView.maxLines = maxLines
-                        textView.ellipsize = TextUtils.TruncateAt.END
-                        readMoreButton.text = getString(R.string.read_more)
+                    readMoreButton.setOnClickListener {
+                        if (textView.maxLines == maxLines) {
+                            // Expand text
+                            textView.maxLines = Integer.MAX_VALUE
+                            textView.ellipsize = null
+                            readMoreButton.text = getString(R.string.read_less)
+                        } else {
+                            // Collapse text
+                            textView.maxLines = maxLines
+                            textView.ellipsize = TextUtils.TruncateAt.END
+                            readMoreButton.text = getString(R.string.read_more)
+                        }
                     }
+                } else {
+                    // Text is short, show full text and hide read more button
+                    textView.maxLines = Integer.MAX_VALUE
+                    textView.ellipsize = null
+                    readMoreButton.visibility = View.GONE
                 }
-            } else {
-                // If text is not long, hide read more button
-                textView.maxLines = Integer.MAX_VALUE
-                textView.ellipsize = null
-                readMoreButton.visibility = View.GONE
             }
         }
     }

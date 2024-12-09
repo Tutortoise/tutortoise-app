@@ -1,13 +1,14 @@
 package com.tutortoise.tutortoise.presentation.main.learner.explore
 
 import com.tutortoise.tutortoise.data.model.CategoryResponse
+import com.tutortoise.tutortoise.data.model.LessonType
 
 data class FilterState(
     val categories: Set<CategoryResponse> = emptySet(),
     val locations: Set<String> = emptySet(),
     val priceRange: PriceRange? = null,
     val rating: Float? = null,
-    val lessonType: String? = null
+    val lessonType: LessonType? = null
 )
 
 data class PriceRange(

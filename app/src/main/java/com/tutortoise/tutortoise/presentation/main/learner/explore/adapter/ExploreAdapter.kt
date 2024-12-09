@@ -51,7 +51,7 @@ class ExploreAdapter(
 
             tvOnsite.visibility = View.GONE
             tvOnline.visibility = View.GONE
-            when (tutoriesItem.typeLesson) {
+            when (LessonType.fromString(tutoriesItem.typeLesson)) {
                 LessonType.BOTH -> {
                     tvOnsite.visibility = View.VISIBLE
                     tvOnline.visibility = View.VISIBLE

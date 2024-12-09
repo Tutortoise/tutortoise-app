@@ -23,11 +23,9 @@ class AlsoTeachAdapter(
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val context = itemView.context
-
                     val intent = Intent(context, DetailTutorActivity::class.java).apply {
                         putExtra("TUTORIES_ID", alsoTeachList[position].id)
                     }
-
                     context.startActivity(intent)
                     (context as Activity).finish()
                 }
@@ -36,8 +34,8 @@ class AlsoTeachAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlsoTeachViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_also_teach, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_also_teach, parent, false)
         return AlsoTeachViewHolder(view)
     }
 

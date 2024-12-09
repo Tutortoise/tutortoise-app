@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?attr/selectableItemBackground"
+    android:layout_margin="4dp"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="1dp"
+    app:strokeColor="#E0E0E0"
+    app:strokeWidth="1dp">
 
     <TextView
         android:id="@+id/tvCategoryName"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_weight="1"
-        android:background="@drawable/button_outline"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
         android:fontFamily="@font/montserrat_semi_bold"
-        android:text="@string/category"
-        android:textColor="@color/darkgreen"
         android:gravity="center"
-        android:textSize="14sp"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:maxLines="1"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp"
+        android:textColor="@color/black"
+        android:textSize="12sp"
+        tools:text="Mathematics" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

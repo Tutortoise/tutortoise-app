@@ -52,7 +52,7 @@
         android:id="@+id/svTutorData"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="140dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -63,443 +63,647 @@
                 android:id="@+id/cardViewTutor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="25dp"
-                app:cardElevation="3dp"
+                android:layout_margin="16dp"
+                android:background="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="15dp">
+                    android:background="@drawable/bg_profile_gradient"
+                    android:padding="16dp">
 
+                    <!-- Profile Image -->
                     <androidx.cardview.widget.CardView
                         android:id="@+id/ivTutorImageCard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="15dp"
-                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_width="90dp"
+                        android:layout_height="90dp"
+                        app:cardCornerRadius="12dp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
                             android:id="@+id/ivTutorImage"
-                            android:layout_width="118dp"
-                            android:layout_height="118dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:contentDescription="@string/tutor_image"
                             android:scaleType="centerCrop"
                             android:src="@drawable/rounded_image" />
-
                     </androidx.cardview.widget.CardView>
 
-                    <TextView
-                        android:id="@+id/tvTutoriesName"
+                    <!-- Tutor Info Section -->
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:fontFamily="@font/montserrat_semi_bold"
-                        android:text="@string/tutor_name"
-                        android:textSize="18sp"
+                        android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/ivTutorImageCard"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent">
 
-                    <LinearLayout
-                        android:id="@+id/tvRatingText"
-                        android:layout_marginStart="15dp"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        app:layout_constraintStart_toEndOf="@+id/ivTutorImageCard"
-                        app:layout_constraintTop_toBottomOf="@+id/tvTutoriesName">
-
+                        <!-- Name -->
                         <TextView
-                            android:id="@+id/tvRating"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/montserrat_medium"
-                            android:text="@string/reviews"
-                            android:textColor="#50000000"
-                            android:textSize="12sp" />
-
-                        <RatingBar
-                            android:id="@+id/ratingBar"
-                            style="?android:attr/ratingBarStyleSmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layoutDirection="ltr"
-                            android:layout_marginStart="5dp"
-                            android:numStars="5"
-                            android:progressTint="#fbb017"
-                            android:rating="0.0"
-                            android:scaleX="0.7"
-                            android:scaleY="0.7"
-                            android:stepSize="1"
-                            android:transformPivotX="0dp"
-                            android:transformPivotY="5dp"
-                            app:layout_constraintStart_toEndOf="@+id/tvRating" />
-
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:id="@+id/Location"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="4dp"
-                        android:orientation="horizontal"
-                        app:layout_constraintStart_toEndOf="@+id/ivTutorImageCard"
-                        app:layout_constraintTop_toBottomOf="@+id/tvRatingText">
-
-                        <ImageView
-                            android:id="@+id/ivLocation"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@drawable/ic_location_tutor_detail"
-                            app:layout_constraintStart_toEndOf="@+id/ivTutorImage"
-                            app:layout_constraintTop_toBottomOf="@+id/tvRating" />
-
-                        <TextView
-                            android:id="@+id/tvCity"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="4dp"
-                            android:text="@string/location"
-                            android:textSize="12sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/ivLocation"
-                            app:layout_constraintTop_toBottomOf="@id/tvRating" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/tvStudent"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="@font/montserrat_medium"
-                        android:text="@string/total_student_orders"
-                        android:textColor="#50000000"
-                        android:textSize="12sp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/ivTutorImageCard"
-                        app:layout_constraintTop_toBottomOf="@id/Location" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        app:layout_constraintStart_toStartOf="@+id/tvStudent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvStudent">
-
-                        <TextView
-                            android:id="@+id/tvLessonType"
+                            android:id="@+id/tvTutoriesName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="15dp"
-                            android:layout_marginTop="0dp"
-                            android:paddingHorizontal="0dp"
-                            android:text=""
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
-                        <TextView
-                            android:id="@+id/tvOnsiteStatus"
-                            android:layout_width="100dp"
-                            android:layout_height="20dp"
-                            android:layout_marginEnd="2dp"
-                            android:background="@drawable/bg_dark_blue"
                             android:fontFamily="@font/montserrat_semi_bold"
-                            android:gravity="center"
-                            android:paddingHorizontal="0dp"
-                            android:paddingVertical="0dp"
-                            android:text="@string/onsite"
-                            android:textColor="@android:color/white"
-                            android:textSize="12sp"
-                            app:layout_constraintEnd_toStartOf="@+id/tvOnlineStatus"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            android:letterSpacing="0.02"
+                            android:text="@string/tutor_name"
+                            android:textColor="@color/black"
+                            android:textSize="16sp" />
 
-                        <TextView
-                            android:id="@+id/tvOnlineStatus"
-                            android:layout_width="100dp"
-                            android:layout_height="20dp"
-                            android:layout_marginStart="0dp"
-                            android:background="@drawable/bg_green"
-                            android:fontFamily="@font/montserrat_semi_bold"
-                            android:gravity="center"
-                            android:paddingHorizontal="0dp"
-                            android:paddingVertical="0dp"
-                            android:text="@string/online"
-                            android:textColor="@android:color/white"
-                            android:textSize="12sp"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/tvOnsiteStatus"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintWidth_percent="0.5" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                        <!-- Rating -->
+                        <LinearLayout
+                            android:id="@+id/tvRatingText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                android:id="@+id/tvRating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/montserrat_medium"
+                                android:text="@string/reviews"
+                                android:textColor="#50000000"
+                                android:textSize="12sp" />
+
+                            <RatingBar
+                                android:id="@+id/ratingBar"
+                                style="?android:attr/ratingBarStyleSmall"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:numStars="5"
+                                android:progressTint="#fbb017"
+                                android:rating="0.0"
+                                android:stepSize="1" />
+                        </LinearLayout>
+
+                        <!-- Location -->
+                        <LinearLayout
+                            android:id="@+id/Location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center_vertical">
+
+                            <ImageView
+                                android:id="@+id/ivLocation"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:src="@drawable/ic_location_tutor_detail" />
+
+                            <TextView
+                                android:id="@+id/tvCity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:fontFamily="@font/montserrat_medium"
+                                android:text="@string/location"
+                                android:textColor="#757575"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </LinearLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <LinearLayout
-                android:id="@+id/tutoriesCategory"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/contentCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
-                android:gravity="start|end"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/cardViewTutor">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserrat_semi_bold"
-                    android:text="@string/category"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tvCategoryName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:text="@string/category"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/hourlyRate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:gravity="start|end"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/tutoriesCategory">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserrat_semi_bold"
-                    android:text="Hourly Rate"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:id="@+id/tvHourlyRate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:fontFamily="@font/montserrat_medium"
-                    android:text="@string/price"
-                    android:textColor="@color/black"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:background="#20000000"
-                app:layout_constraintTop_toBottomOf="@id/hourlyRate" />
-
-            <TextView
-                android:id="@+id/tvAbout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="@string/about"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/divider" />
-
-            <TextView
-                android:id="@+id/tvAboutText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/montserrat_regular"
-                android:maxLines="4"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@id/tvAbout" />
-
-            <TextView
-                android:id="@+id/tvReadMore1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="0dp"
-                android:fontFamily="@font/montserrat_semi_bold"
-                android:text="Read More"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvAboutText" />
-
-
-            <TextView
-                android:id="@+id/tvAlsoTeach"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Also Teach"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/tvReadMore1" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvAlsoTeach"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp"
-                android:orientation="vertical"
-                android:paddingHorizontal="16dp"
-                app:layout_constraintTop_toBottomOf="@id/tvAlsoTeach"
-                tools:listitem="@layout/item_also_teach"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="2" />
-
-            <TextView
-                android:id="@+id/tvTeachingMethodology"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="@string/method"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                app:layout_constraintTop_toBottomOf="@id/rvAlsoTeach" />
-
-            <TextView
-                android:id="@+id/tvTeachingMethodologyText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:ellipsize="end"
-                android:fontFamily="@font/montserrat_regular"
-                android:maxLines="4"
-                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit..."
-                android:textColor="@color/black"
-                android:textSize="14sp"
-                app:layout_constraintTop_toBottomOf="@id/tvTeachingMethodology" />
-
-            <TextView
-                android:id="@+id/tvReadMore2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="0dp"
-                android:fontFamily="@font/montserrat_semi_bold"
-                android:text="Read More"
-                android:textColor="@color/black"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTeachingMethodologyText" />
-
-            <LinearLayout
-                android:id="@+id/tvReview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="16dp"
-                android:gravity="start|end"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/tvReadMore2">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:text="Reviews"
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="5dp"
-                    android:paddingVertical="2dp"
-                    android:background="@drawable/bg_dark_green"
-                    android:gravity="center"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:id="@+id/ivStar"
-                        android:layout_width="14dp"
-                        android:layout_height="14dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginTop="-1dp"
-                        android:src="@drawable/ic_star" />
-
-                    <TextView
-                        android:id="@+id/tvAvgRating"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:text="4.5"
-                        android:textColor="@color/purewhite"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/tvTotalReviews"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginEnd="16dp"
-                        android:fontFamily="@font/montserrat_regular"
-                        android:text="(150 reviews)"
-                        android:textColor="@color/purewhite"
-                        android:textSize="12sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvReview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="14dp"
-                android:layout_marginTop="14dp"
-                android:layout_marginEnd="14dp"
-                android:layout_marginBottom="60dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginHorizontal="5dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvReview"
-                tools:listitem="@layout/item_review_card" />
+                app:layout_constraintTop_toBottomOf="@+id/cardViewTutor"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <!-- Category Section -->
+                    <TextView
+                        android:id="@+id/tvCategoryLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_semi_bold"
+                        android:text="@string/category"
+                        android:textColor="#757575"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvCategoryName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/montserrat_semi_bold"
+                        android:text="@string/category"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="@id/tvCategoryLabel"
+                        app:layout_constraintTop_toBottomOf="@id/tvCategoryLabel" />
+
+                    <ImageView
+                        android:id="@+id/ivCategoryArrow"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_chevron_right"
+                        app:layout_constraintBottom_toBottomOf="@id/tvCategoryName"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvCategoryLabel"
+                        app:tint="#757575" />
+
+                    <View
+                        android:id="@+id/dividerCategory"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="16dp"
+                        android:background="#F0F0F0"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvCategoryName" />
+
+                    <!-- Student Info and Mode Section -->
+                    <LinearLayout
+                        android:id="@+id/studentAndModeContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical"
+                        app:layout_constraintTop_toBottomOf="@id/dividerCategory">
+
+                        <!-- Student Info Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:src="@drawable/ic_nav_profile"
+                                app:tint="#757575" />
+
+                            <TextView
+                                android:id="@+id/tvStudent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:fontFamily="@font/montserrat_medium"
+                                android:text="@string/total_student_orders"
+                                android:textColor="#757575"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:fontFamily="@font/montserrat_semi_bold"
+                            android:text="Available Mode"
+                            android:textColor="#757575"
+                            android:textSize="12sp" />
+
+                        <!-- Mode Indicators Container -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:gravity="start"
+                            android:orientation="horizontal">
+
+                            <!-- Onsite Mode -->
+                            <LinearLayout
+                                android:id="@+id/tvOnsiteStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="28dp"
+                                android:background="@drawable/ic_indicator_inactive"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:paddingHorizontal="12dp">
+
+                                <ImageView
+                                    android:id="@+id/ivOnsite"
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:src="@drawable/ic_location_tutor_detail"
+                                    app:tint="#757575" />
+
+                                <TextView
+                                    android:id="@+id/tvOnsite"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="4dp"
+                                    android:fontFamily="@font/montserrat_semi_bold"
+                                    android:text="@string/onsite"
+                                    android:textColor="#757575"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
+                            <!-- Online Mode -->
+                            <LinearLayout
+                                android:id="@+id/tvOnlineStatus"
+                                android:layout_width="wrap_content"
+                                android:layout_height="28dp"
+                                android:layout_marginStart="8dp"
+                                android:background="@drawable/ic_indicator_inactive"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:paddingHorizontal="12dp">
+
+                                <ImageView
+                                    android:id="@+id/ivOnline"
+                                    android:layout_width="14dp"
+                                    android:layout_height="14dp"
+                                    android:src="@drawable/ic_computer"
+                                    app:tint="#757575" />
+
+                                <TextView
+                                    android:id="@+id/tvOnline"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="4dp"
+                                    android:fontFamily="@font/montserrat_semi_bold"
+                                    android:text="@string/online"
+                                    android:textColor="#757575"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/dividerMode"
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="16dp"
+                        android:background="#F0F0F0"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/studentAndModeContainer" />
+
+                    <!-- Hourly Rate -->
+                    <TextView
+                        android:id="@+id/tvHourlyRateLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="@font/montserrat_semi_bold"
+                        android:text="Hourly Rate"
+                        android:textColor="#757575"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/dividerMode" />
+
+                    <TextView
+                        android:id="@+id/tvHourlyRate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="@string/price"
+                        android:textColor="@color/darkgreen"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="@id/tvHourlyRateLabel"
+                        app:layout_constraintTop_toBottomOf="@id/tvHourlyRateLabel" />
+
+                    <TextView
+                        android:id="@+id/tvPerHour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:text="/ hour"
+                        android:textColor="#757575"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="@id/tvHourlyRate"
+                        app:layout_constraintStart_toEndOf="@id/tvHourlyRate" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- About Section -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/aboutCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="8dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contentCard"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <View
+                        android:id="@+id/aboutIndicator"
+                        android:layout_width="4dp"
+                        android:layout_height="20dp"
+                        android:background="@color/darkgreen"
+                        app:layout_constraintBottom_toBottomOf="@id/tvAbout"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvAbout" />
+
+                    <TextView
+                        android:id="@+id/tvAbout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="@string/about"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@id/aboutIndicator"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvAboutText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:lineSpacingExtra="4dp"
+                        android:maxLines="4"
+                        android:text="Lorem ipsum dolor sit amet..."
+                        android:textColor="#757575"
+                        android:textSize="13sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvAbout" />
+
+                    <TextView
+                        android:id="@+id/tvReadMore1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/montserrat_semi_bold"
+                        android:text="Read More"
+                        android:textColor="@color/darkgreen"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvAboutText" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/alsoTeachCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="8dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/aboutCard"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <View
+                        android:id="@+id/alsoTeachIndicator"
+                        android:layout_width="4dp"
+                        android:layout_height="20dp"
+                        android:background="@color/darkgreen"
+                        app:layout_constraintBottom_toBottomOf="@id/tvAlsoTeach"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvAlsoTeach" />
+
+                    <TextView
+                        android:id="@+id/tvAlsoTeach"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Also Teach"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@id/alsoTeachIndicator"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvAlsoTeach"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:clipToPadding="false"
+                        android:orientation="vertical"
+                        android:overScrollMode="never"
+                        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvAlsoTeach"
+                        app:spanCount="2"
+                        tools:itemCount="4"
+                        tools:listitem="@layout/item_also_teach" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/methodologyCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="8dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/alsoTeachCard"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <View
+                        android:id="@+id/methodologyIndicator"
+                        android:layout_width="4dp"
+                        android:layout_height="20dp"
+                        android:background="@color/darkgreen"
+                        app:layout_constraintBottom_toBottomOf="@id/tvTeachingMethodology"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvTeachingMethodology" />
+
+                    <TextView
+                        android:id="@+id/tvTeachingMethodology"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="@string/method"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@id/methodologyIndicator"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvTeachingMethodologyText"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/montserrat_medium"
+                        android:lineSpacingExtra="4dp"
+                        android:maxLines="4"
+                        android:text="Lorem ipsum dolor sit amet..."
+                        android:textColor="#757575"
+                        android:textSize="13sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvTeachingMethodology" />
+
+                    <TextView
+                        android:id="@+id/tvReadMore2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/montserrat_semi_bold"
+                        android:text="Read More"
+                        android:textColor="@color/darkgreen"
+                        android:textSize="13sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvTeachingMethodologyText" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Reviews Section -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/reviewsCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/methodologyCard"
+                app:strokeColor="#E0E0E0"
+                app:strokeWidth="1dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp">
+
+                    <View
+                        android:id="@+id/reviewsIndicator"
+                        android:layout_width="4dp"
+                        android:layout_height="20dp"
+                        android:background="@color/darkgreen"
+                        app:layout_constraintBottom_toBottomOf="@id/tvReviewsTitle"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvReviewsTitle" />
+
+                    <TextView
+                        android:id="@+id/tvReviewsTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:text="Reviews"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toEndOf="@id/reviewsIndicator"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/ratingCard"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:cardBackgroundColor="@color/darkgreen"
+                        app:cardCornerRadius="8dp"
+                        app:cardElevation="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/tvReviewsTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tvReviewsTitle">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="6dp">
+
+                            <ImageView
+                                android:id="@+id/ivStar"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:src="@drawable/ic_star" />
+
+                            <TextView
+                                android:id="@+id/tvAvgRating"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:fontFamily="@font/montserrat_semi_bold"
+                                android:text="4.5"
+                                android:textColor="@color/purewhite"
+                                android:textSize="12sp" />
+
+                            <TextView
+                                android:id="@+id/tvTotalReviews"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="4dp"
+                                android:fontFamily="@font/montserrat_medium"
+                                android:text="(150 reviews)"
+                                android:textColor="@color/purewhite"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvReview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:clipToPadding="false"
+                        android:orientation="vertical"
+                        android:overScrollMode="never"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintTop_toBottomOf="@id/tvReviewsTitle"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/item_review_card" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -520,12 +724,12 @@
                 android:id="@+id/tvReminderReservation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_regular"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="16dp"
+                android:fontFamily="@font/montserrat_medium"
                 android:text="@string/text_reminder_before_reservation"
                 android:textColor="#90000000"
-                android:textSize="13sp" />
+                android:textSize="12sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -536,14 +740,14 @@
                     android:id="@+id/btnChat"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_gravity="center"
+                    android:layout_marginEnd="8dp"
                     android:layout_weight="1"
-                    android:text="Chat"
-                    android:textSize="14sp"
-                    android:fontFamily="@font/montserrat_semi_bold"
                     android:background="@drawable/button_outline"
-                    android:textColor="@color/darkgreen" />
+                    android:fontFamily="@font/montserrat_semi_bold"
+                    android:text="Chat"
+                    android:textColor="@color/darkgreen"
+                    android:textSize="14sp" />
 
                 <Button
                     android:id="@+id/btnReservation"
@@ -551,11 +755,11 @@
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
+                    android:background="@drawable/button_filled"
                     android:fontFamily="@font/montserrat_semi_bold"
                     android:text="Reservation"
-                    android:textSize="14sp"
-                    android:background="@drawable/button_filled"
-                    android:textColor="@color/purewhite" />
+                    android:textColor="@color/purewhite"
+                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>

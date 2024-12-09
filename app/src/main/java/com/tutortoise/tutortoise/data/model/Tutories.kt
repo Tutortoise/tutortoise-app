@@ -1,9 +1,16 @@
 package com.tutortoise.tutortoise.data.model
 
-object LessonType {
-    const val BOTH = "both"
-    const val ONLINE = "online"
-    const val OFFLINE = "offline"
+enum class LessonType(val value: String) {
+    ONLINE("online"),
+    OFFLINE("offline"),
+    BOTH("both");
+
+    companion object {
+        fun fromString(value: String): LessonType {
+            return LessonType.entries.find { it.value == value.lowercase() }
+                ?: throw IllegalArgumentException("Unknown lesson type: $value")
+        }
+    }
 }
 
 data class CreateTutoriesRequest(

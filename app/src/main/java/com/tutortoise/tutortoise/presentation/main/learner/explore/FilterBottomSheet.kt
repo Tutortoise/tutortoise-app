@@ -152,7 +152,7 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
             }
             // Restore lesson type selection
             currentFilterState.lessonType?.let { type ->
-                val chipId = when (type) {
+                val chipId = when (type as LessonType) {
                     LessonType.ONLINE -> R.id.chipOnline
                     LessonType.OFFLINE -> R.id.chipOffline
                     LessonType.BOTH -> R.id.chipBoth
@@ -264,9 +264,8 @@ class FilterBottomSheet : BottomSheetDialogFragment() {
         return null
     }
 
-    private fun getSelectedLessonType(): String? {
-        val checkedChipId = binding.chipGroupLessonType?.checkedChipId
-        return when (checkedChipId) {
+    private fun getSelectedLessonType(): LessonType? {
+        return when (binding.chipGroupLessonType?.checkedChipId) {
             R.id.chipOnline -> LessonType.ONLINE
             R.id.chipOffline -> LessonType.OFFLINE
             R.id.chipBoth -> LessonType.BOTH

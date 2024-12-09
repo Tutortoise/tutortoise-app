@@ -248,7 +248,7 @@ class ExploreLearnerFragment : Fragment() {
                     minPrice = currentFilterState?.priceRange?.min,
                     maxPrice = currentFilterState?.priceRange?.max,
                     minRating = currentFilterState?.rating,
-                    lessonType = currentFilterState?.lessonType
+                    lessonType = currentFilterState?.lessonType?.value
                 )
 
                 if (!isActive) return@launch
