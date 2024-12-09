@@ -225,7 +225,7 @@ class DetailTutorActivity : AppCompatActivity() {
     private fun setupTextWithReadMore(
         textView: TextView,
         readMoreButton: TextView,
-        maxLines: Int = 2
+        maxLines: Int = 4
     ) {
         textView.post {
             val layout = textView.layout
@@ -269,7 +269,7 @@ class DetailTutorActivity : AppCompatActivity() {
             binding.tvAboutText.ellipsize = null
             binding.tvReadMore1.text = getString(R.string.read_less)
         } else {
-            binding.tvAboutText.maxLines = 2
+            binding.tvAboutText.maxLines = 4
             binding.tvAboutText.ellipsize = TextUtils.TruncateAt.END
             binding.tvReadMore1.text = getString(R.string.read_more)
         }
@@ -281,7 +281,7 @@ class DetailTutorActivity : AppCompatActivity() {
             binding.tvTeachingMethodologyText.ellipsize = null
             binding.tvReadMore2.text = getString(R.string.read_less)
         } else {
-            binding.tvTeachingMethodologyText.maxLines = 2
+            binding.tvTeachingMethodologyText.maxLines = 4
             binding.tvTeachingMethodologyText.ellipsize = TextUtils.TruncateAt.END
             binding.tvReadMore2.text = getString(R.string.read_more)
         }
