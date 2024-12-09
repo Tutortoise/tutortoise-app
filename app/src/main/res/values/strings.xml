@@ -227,4 +227,9 @@
         <item quantity="one">(%d review)</item>
         <item quantity="other">(%d reviews)</item>
     </plurals>
+
+    <plurals name="total_hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
 </resources>

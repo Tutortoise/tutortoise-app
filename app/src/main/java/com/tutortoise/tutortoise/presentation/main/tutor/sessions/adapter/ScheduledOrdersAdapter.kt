@@ -34,9 +34,6 @@ class ScheduledOrdersAdapter(
         return when (items[position]) {
             is SessionListItem.DateHeader -> TYPE_DATE
             is SessionListItem.SessionItem -> TYPE_SESSION
-            else -> {
-                throw IllegalArgumentException("Invalid type")
-            }
         }
     }
 
@@ -85,6 +82,7 @@ class ScheduledOrdersAdapter(
         fun bind(order: OrderResponse) {
             val learnerName = order.learnerName
             val categoryName = order.categoryName
+            val totalHours = order.totalHours
             val sessionTime = isoToReadableTime(order.sessionTime)
             val estimatedEndTime = isoToReadableTime(order.estimatedEndTime)
             val price = order.price.formatWithThousandsSeparator()
@@ -99,6 +97,11 @@ class ScheduledOrdersAdapter(
                         sessionTime,
                         estimatedEndTime
                     )
+                tvDuration.text = root.context.resources.getQuantityString(
+                    R.plurals.total_hours,
+                    totalHours,
+                    totalHours
+                )
                 tvTotal.text = root.context.getString(R.string.formatted_price, price)
                 tvNote.text = notes
 
@@ -128,12 +131,17 @@ class ScheduledOrdersAdapter(
                             context.startActivity(intent)
                         } else {
                             // Handle the case where the room does not exist
-                            Toast.makeText(context, "Chat room does not exist!", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, "Chat room does not exist!", Toast.LENGTH_SHORT)
+                                .show()
                             Log.e("ScheduledOrdersAdapter", "Room not found for ID: $roomId")
                         }
                     }.addOnFailureListener { exception ->
                         // Handle any errors while fetching data
-                        Toast.makeText(context, "Failed to check chat room: ${exception.message}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            "Failed to check chat room: ${exception.message}",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         Log.e("ScheduledOrdersAdapter", "Error checking room existence", exception)
                     }
                 }
