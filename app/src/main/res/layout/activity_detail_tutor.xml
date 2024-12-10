@@ -101,20 +101,20 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="10dp"
                         android:orientation="vertical"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@id/ivTutorImageCard"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <!-- Name -->
+                        <!-- Tutor Name -->
                         <TextView
-                            android:id="@+id/tvTutoriesName"
+                            android:id="@+id/tvTutorName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_semi_bold"
                             android:letterSpacing="0.02"
-                            android:text="@string/tutor_name"
+                            android:text="Dony Gacoan"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
@@ -145,6 +145,30 @@
                                 android:progressTint="#fbb017"
                                 android:rating="0.0"
                                 android:stepSize="1" />
+                        </LinearLayout>
+
+                        <!-- Student Info Row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:src="@drawable/ic_nav_profile"
+                                app:tint="#757575" />
+
+                            <TextView
+                                android:id="@+id/tvStudent"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="6dp"
+                                android:fontFamily="@font/montserrat_medium"
+                                android:text="@string/total_student_orders"
+                                android:textColor="#757575"
+                                android:textSize="12sp" />
                         </LinearLayout>
 
                         <!-- Location -->
@@ -195,17 +219,43 @@
                     android:layout_height="wrap_content"
                     android:padding="10dp">
 
+                    <!-- Course Section -->
+                    <TextView
+                        android:id="@+id/tvTutoriesNameLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_semi_bold"
+                        android:text="Course Name"
+                        android:textColor="#757575"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/tvTutoriesName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/montserrat_semi_bold"
+                        android:letterSpacing="0.02"
+                        android:text="@string/tutories_title"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvTutoriesNameLabel" />
+
                     <!-- Category Section -->
                     <TextView
                         android:id="@+id/tvCategoryLabel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
                         android:fontFamily="@font/montserrat_semi_bold"
                         android:text="@string/category"
                         android:textColor="#757575"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/tvTutoriesName" />
 
                     <TextView
                         android:id="@+id/tvCategoryName"
@@ -233,7 +283,7 @@
                         android:id="@+id/dividerCategory"
                         android:layout_width="0dp"
                         android:layout_height="1dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="8dp"
                         android:background="#F0F0F0"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -248,34 +298,9 @@
                         android:orientation="vertical"
                         app:layout_constraintTop_toBottomOf="@id/dividerCategory">
 
-                        <!-- Student Info Row -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="14dp"
-                                android:layout_height="14dp"
-                                android:src="@drawable/ic_nav_profile"
-                                app:tint="#757575" />
-
-                            <TextView
-                                android:id="@+id/tvStudent"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="6dp"
-                                android:fontFamily="@font/montserrat_medium"
-                                android:text="@string/total_student_orders"
-                                android:textColor="#757575"
-                                android:textSize="12sp" />
-                        </LinearLayout>
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
                             android:fontFamily="@font/montserrat_semi_bold"
                             android:text="Available Mode"
                             android:textColor="#757575"
@@ -352,7 +377,7 @@
                         android:id="@+id/dividerMode"
                         android:layout_width="0dp"
                         android:layout_height="1dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="12dp"
                         android:background="#F0F0F0"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -621,7 +646,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp">
+                    android:paddingHorizontal="10dp">
 
                     <View
                         android:id="@+id/reviewsIndicator"
@@ -637,6 +662,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
+                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/montserrat_bold"
                         android:text="Reviews"
                         android:textColor="@color/black"
