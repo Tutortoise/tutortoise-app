@@ -112,6 +112,7 @@ class DetailTutorActivity : AppCompatActivity() {
 
                     setupButtons(tutories)
 
+                    binding.tvTutorName.text = tutories.tutorName
                     binding.tvTutoriesName.text = tutories.name
                     binding.tvCategoryName.text = tutories.categoryName
 
