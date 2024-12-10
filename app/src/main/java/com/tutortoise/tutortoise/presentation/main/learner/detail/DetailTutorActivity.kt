@@ -185,7 +185,7 @@ class DetailTutorActivity : AppCompatActivity() {
                 }
                 binding.tvOnsiteStatus.apply {
                     background =
-                        ContextCompat.getDrawable(context, R.drawable.ic_indicator_inactive)
+                        ContextCompat.getDrawable(context, R.drawable.ic_indicator_inactive_mode)
                     findViewById<TextView>(R.id.tvOnsite).setTextColor(Color.parseColor("#757575"))
                     findViewById<ImageView>(R.id.ivOnsite).setColorFilter(Color.parseColor("#757575"))
                 }
@@ -194,7 +194,7 @@ class DetailTutorActivity : AppCompatActivity() {
             LessonType.OFFLINE -> {
                 binding.tvOnlineStatus.apply {
                     background =
-                        ContextCompat.getDrawable(context, R.drawable.ic_indicator_inactive)
+                        ContextCompat.getDrawable(context, R.drawable.ic_indicator_inactive_mode)
                     findViewById<TextView>(R.id.tvOnline).setTextColor(Color.parseColor("#757575"))
                     findViewById<ImageView>(R.id.ivOnline).setColorFilter(Color.parseColor("#757575"))
                 }
