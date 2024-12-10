@@ -31,6 +31,10 @@ class ScheduledLearnerSessionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLearnerScheduleSessionBinding.inflate(inflater, container, false)
+
+        binding.rvOrders.visibility = View.VISIBLE
+        binding.noBookedSessionsView.root.visibility = View.GONE
+
         return binding.root
     }
 
@@ -44,14 +48,9 @@ class ScheduledLearnerSessionFragment : Fragment() {
                     result.isSuccess -> {
                         val orders = result.getOrNull()
                         if (orders.isNullOrEmpty()) {
-                            // Show the "No booked sessions" view
                             binding.rvOrders.visibility = View.GONE
                             binding.noBookedSessionsView.root.visibility = View.VISIBLE
-                            binding.noBookedSessionsView.btnFindTutor.setOnClickListener {
-
-                            }
                         } else {
-                            // Show the recycler view
                             binding.rvOrders.visibility = View.VISIBLE
                             binding.noBookedSessionsView.root.visibility = View.GONE
                             binding.rvOrders.layoutManager = LinearLayoutManager(
@@ -64,15 +63,19 @@ class ScheduledLearnerSessionFragment : Fragment() {
                     }
 
                     result.isFailure -> {
-                        val error =
-                            result.exceptionOrNull()?.message ?: "Failed to get scheduled sessions"
-                        Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            result.exceptionOrNull()?.message ?: "Error loading sessions",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
         }
 
-        viewModel.fetchMyOrders("scheduled")
+        if (savedInstanceState == null) {
+            viewModel.fetchMyOrders("scheduled")
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

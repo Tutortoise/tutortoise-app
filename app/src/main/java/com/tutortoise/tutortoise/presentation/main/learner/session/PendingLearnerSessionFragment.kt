@@ -1,10 +1,12 @@
 package com.tutortoise.tutortoise.presentation.main.learner.session
 
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.tutortoise.tutortoise.data.repository.OrderRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerPendingSessionBinding
 import com.tutortoise.tutortoise.presentation.main.learner.session.adapter.OrdersAdapter
+import com.tutortoise.tutortoise.utils.LoadState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -32,19 +35,25 @@ class PendingLearnerSessionFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Add progress indicator to your layout
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.ordersState.collectLatest { result ->
-                when {
-                    result.isSuccess -> {
-                        val orders = result.getOrNull()
-                        if (orders.isNullOrEmpty()) {
+            viewModel.ordersState.collectLatest { state ->
+                when (state) {
+                    is LoadState.Loading -> {
+                        binding.rvOrders.visibility = View.GONE
+                        binding.noBookedSessionsView.root.visibility = View.GONE
+                    }
+
+                    is LoadState.Success -> {
+                        if (state.data.isEmpty()) {
                             binding.rvOrders.visibility = View.GONE
                             binding.noBookedSessionsView.root.visibility = View.VISIBLE
                             binding.noBookedSessionsView.btnFindTutor.setOnClickListener {
-
+                                // TODO: Navigate to explore fragment
                             }
                         } else {
                             binding.rvOrders.visibility = View.VISIBLE
@@ -54,14 +63,16 @@ class PendingLearnerSessionFragment : Fragment() {
                                 LinearLayoutManager.VERTICAL,
                                 false
                             )
-                            binding.rvOrders.adapter = OrdersAdapter(orders)
+                            binding.rvOrders.adapter = OrdersAdapter(state.data)
                         }
                     }
 
-                    result.isFailure -> {
-                        val error =
-                            result.exceptionOrNull()?.message ?: "Failed to get pending sessions"
-                        Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+                    is LoadState.Error -> {
+                        Toast.makeText(
+                            requireContext(),
+                            state.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }

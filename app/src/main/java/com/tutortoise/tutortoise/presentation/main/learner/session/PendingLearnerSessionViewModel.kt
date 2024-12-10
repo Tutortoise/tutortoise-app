@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.tutortoise.tutortoise.data.repository.OrderRepository
 import com.tutortoise.tutortoise.presentation.item.SessionListItem
+import com.tutortoise.tutortoise.utils.LoadState
 import com.tutortoise.tutortoise.utils.SortOrder
 import com.tutortoise.tutortoise.utils.groupOrdersByDate
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,20 +15,31 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class PendingLearnerSessionViewModel(private val orderRepository: OrderRepository) : ViewModel() {
-    private val _ordersState =
-        MutableStateFlow<Result<List<SessionListItem>>>(Result.success(emptyList()))
-    val ordersState: StateFlow<Result<List<SessionListItem>>> get() = _ordersState
+    private val _ordersState = MutableStateFlow<LoadState<List<SessionListItem>>>(LoadState.Loading)
+    val ordersState: StateFlow<LoadState<List<SessionListItem>>> = _ordersState
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun fetchMyOrders(status: String) {
         viewModelScope.launch {
-            val result = orderRepository.getMyOrders(status)
-            _ordersState.value =
-                result.map { orders ->
-                    groupOrdersByDate(orders, SortOrder.ASCENDING, groupByField = {
-                        it.createdAt
-                    })
-                }
+            _ordersState.value = LoadState.Loading
+            try {
+                val result = orderRepository.getMyOrders(status)
+                result.fold(
+                    onSuccess = { orders ->
+                        val groupedOrders = groupOrdersByDate(
+                            orders,
+                            SortOrder.ASCENDING,
+                            groupByField = { it.createdAt }
+                        )
+                        _ordersState.value = LoadState.Success(groupedOrders)
+                    },
+                    onFailure = { error ->
+                        _ordersState.value = LoadState.Error(error.message ?: "Unknown error")
+                    }
+                )
+            } catch (e: Exception) {
+                _ordersState.value = LoadState.Error(e.message ?: "Unknown error")
+            }
         }
     }
 

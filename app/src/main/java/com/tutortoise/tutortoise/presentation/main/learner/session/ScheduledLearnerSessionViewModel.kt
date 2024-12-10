@@ -16,14 +16,25 @@ import kotlinx.coroutines.launch
 class ScheduledLearnerSessionViewModel(private val orderRepository: OrderRepository) : ViewModel() {
     private val _ordersState =
         MutableStateFlow<Result<List<SessionListItem>>>(Result.success(emptyList()))
-    val ordersState: StateFlow<Result<List<SessionListItem>>> get() = _ordersState
+    val ordersState: StateFlow<Result<List<SessionListItem>>> = _ordersState
+
+    private var isInitialized = false
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun fetchMyOrders(status: String) {
+        if (isInitialized) return
+
         viewModelScope.launch {
-            val result = orderRepository.getMyOrders(status)
-            _ordersState.value =
-                result.map { orders -> groupOrdersByDate(orders, SortOrder.ASCENDING) }
+            try {
+                val result = orderRepository.getMyOrders(status)
+                _ordersState.value = result.map { orders ->
+                    groupOrdersByDate(orders, SortOrder.ASCENDING)
+                }
+                isInitialized = true
+            } catch (e: Exception) {
+                _ordersState.value = Result.failure(e)
+            }
         }
     }
 

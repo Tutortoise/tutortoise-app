@@ -31,6 +31,8 @@ class SessionFragment : Fragment() {
         viewPager = binding.viewPager
         tabLayout = binding.tabLayout
 
+        viewPager.offscreenPageLimit = 2
+
         val adapter = SessionPagerAdapter(this)
         viewPager.adapter = adapter
 
