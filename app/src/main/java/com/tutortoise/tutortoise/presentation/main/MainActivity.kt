@@ -5,11 +5,14 @@ import android.animation.ObjectAnimator
 import android.app.ActivityOptions
 import android.content.Intent
 import android.os.Bundle
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -114,6 +117,16 @@ class MainActivity : AppCompatActivity() {
 
         binding.bottomNav.setupWithNavController(navController)
 
+        binding.bottomNav.apply {
+            TransitionManager.beginDelayedTransition(
+                this,
+                AutoTransition().apply {
+                    duration = 200
+                    interpolator = FastOutSlowInInterpolator()
+                }
+            )
+        }
+
         // Handle deep linking or specific fragment start
         val startFragment = intent.getStringExtra("startFragment")
         when (startFragment) {
@@ -179,7 +192,7 @@ class MainActivity : AppCompatActivity() {
 
         return profile?.data?.let { learner ->
             learner.learningStyle == null || learner.interests.isNullOrEmpty()
-        } ?: false
+        } == true
     }
 
     private fun startQuestionnaire() {
