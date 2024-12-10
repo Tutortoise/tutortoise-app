@@ -17,4 +17,11 @@
         android:scrollbars="none"
         tools:listitem="@layout/item_session" />
 
+    <include
+        android:id="@+id/noSessionsView"
+        layout="@layout/fragment_no_sessions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
 </FrameLayout>

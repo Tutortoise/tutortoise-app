@@ -34,20 +34,26 @@ class PendingTutorSessionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.noSessionsView.tvNoSessionTitle.text = "No Pending Session"
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.ordersState.collectLatest { result ->
                 when {
                     result.isSuccess -> {
                         val orders = result.getOrNull()
-                        binding.rvOrders.layoutManager = LinearLayoutManager(
-                            requireContext(),
-                            LinearLayoutManager.VERTICAL,
-                            false
-                        )
-
-                        binding.rvOrders.adapter =
-                            PendingOrdersAdapter(orders ?: emptyList(),
+                        if (orders.isNullOrEmpty()) {
+                            binding.rvOrders.visibility = View.GONE
+                            binding.noSessionsView.root.visibility = View.VISIBLE
+                            binding.noSessionsView.tvNoSessionTitle.text = "No Pending Session"
+                        } else {
+                            binding.rvOrders.visibility = View.VISIBLE
+                            binding.noSessionsView.root.visibility = View.GONE
+                            binding.rvOrders.layoutManager = LinearLayoutManager(
+                                requireContext(),
+                                LinearLayoutManager.VERTICAL,
+                                false
+                            )
+                            binding.rvOrders.adapter = PendingOrdersAdapter(
+                                orders,
                                 onAcceptClick = { orderId ->
                                     viewModel.acceptOrder(orderId, "pending")
                                 },
@@ -55,6 +61,7 @@ class PendingTutorSessionFragment : Fragment() {
                                     viewModel.rejectOrder(orderId, "pending")
                                 }
                             )
+                        }
                     }
 
                     result.isFailure -> {

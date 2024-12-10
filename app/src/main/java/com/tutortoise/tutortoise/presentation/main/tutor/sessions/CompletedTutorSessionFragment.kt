@@ -36,20 +36,27 @@ class CompletedTutorSessionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.noSessionsView.tvNoSessionTitle.text = "No Completed Session"
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.ordersState.collectLatest { result ->
                 when {
                     result.isSuccess -> {
                         val orders = result.getOrNull()
-                        binding.rvOrders.layoutManager =
-                            LinearLayoutManager(
-                                requireContext(),
-                                LinearLayoutManager.VERTICAL,
-                                false
-                            )
-                        binding.rvOrders.adapter =
-                            CompletedOrdersAdapter(orders ?: emptyList())
+                        if (orders.isNullOrEmpty()) {
+                            binding.rvOrders.visibility = View.GONE
+                            binding.noSessionsView.root.visibility = View.VISIBLE
+                            binding.noSessionsView.tvNoSessionTitle.text = "No Completed Session"
+                        } else {
+                            binding.rvOrders.visibility = View.VISIBLE
+                            binding.noSessionsView.root.visibility = View.GONE
+                            binding.rvOrders.layoutManager =
+                                LinearLayoutManager(
+                                    requireContext(),
+                                    LinearLayoutManager.VERTICAL,
+                                    false
+                                )
+                            binding.rvOrders.adapter = CompletedOrdersAdapter(orders)
+                        }
                     }
 
                     result.isFailure -> {

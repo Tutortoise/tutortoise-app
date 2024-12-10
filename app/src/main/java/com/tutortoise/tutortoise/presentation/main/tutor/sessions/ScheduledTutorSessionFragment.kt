@@ -34,6 +34,10 @@ class ScheduledTutorSessionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTutorScheduledSessionBinding.inflate(inflater, container, false)
+
+        binding.rvOrders.visibility = View.VISIBLE
+        binding.noSessionsView.root.visibility = View.GONE
+
         return binding.root
     }
 
@@ -45,15 +49,22 @@ class ScheduledTutorSessionFragment : Fragment() {
                 when {
                     result.isSuccess -> {
                         val orders = result.getOrNull()
-                        binding.rvOrders.layoutManager = LinearLayoutManager(
-                            requireContext(),
-                            LinearLayoutManager.VERTICAL,
-                            false
-                        )
-                        binding.rvOrders.adapter =
-                            ScheduledOrdersAdapter(orders ?: emptyList()) {
+                        if (orders.isNullOrEmpty()) {
+                            binding.rvOrders.visibility = View.GONE
+                            binding.noSessionsView.root.visibility = View.VISIBLE
+                            binding.noSessionsView.tvNoSessionTitle.text = "No Scheduled Session"
+                        } else {
+                            binding.rvOrders.visibility = View.VISIBLE
+                            binding.noSessionsView.root.visibility = View.GONE
+                            binding.rvOrders.layoutManager = LinearLayoutManager(
+                                requireContext(),
+                                LinearLayoutManager.VERTICAL,
+                                false
+                            )
+                            binding.rvOrders.adapter = ScheduledOrdersAdapter(orders) {
                                 showCancelConfirmation(it)
                             }
+                        }
                     }
 
                     result.isFailure -> {
