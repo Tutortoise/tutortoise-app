@@ -48,7 +48,13 @@ class ReviewsAdapter(
             ratingBar.rating = review.rating
             tvTutoringTime.text = isoToRelativeDate(review.createdAt)
             tvLearnerName.text = review.learnerName
-            tvLearnerReview.text = review.message
+
+            if (!review.message.isNullOrBlank()) {
+                tvLearnerReview.visibility = View.VISIBLE
+                tvLearnerReview.text = review.message
+            } else {
+                tvLearnerReview.visibility = View.GONE
+            }
         }
     }
 
