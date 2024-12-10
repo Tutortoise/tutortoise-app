@@ -10,6 +10,7 @@ import com.tutortoise.tutortoise.data.model.ExploreTutoriesResponse
 import com.tutortoise.tutortoise.data.model.GetMyTutoriesResponse
 import com.tutortoise.tutortoise.data.model.GetTutoriesLocationResponse
 import com.tutortoise.tutortoise.data.model.MessageResponse
+import com.tutortoise.tutortoise.data.model.RecommendationResponse
 import com.tutortoise.tutortoise.data.pref.ApiConfig
 import com.tutortoise.tutortoise.data.pref.ApiException
 import kotlinx.coroutines.Dispatchers
@@ -178,6 +179,20 @@ class TutoriesRepository(context: Context) {
             }
         } catch (e: Exception) {
             Log.e("TutoriesRepository", "Failed to fetch tutories average rate", e)
+            null
+        }
+    }
+
+    suspend fun getTutoriesRecommendation(): ApiResponse<RecommendationResponse>? {
+        return try {
+            val response = apiService.getTutoriesRecommendation()
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("TutoriesRepository", "Failed to fetch tutories recommendation", e)
             null
         }
     }

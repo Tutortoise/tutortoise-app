@@ -23,6 +23,7 @@ import com.tutortoise.tutortoise.data.model.OAuthData
 import com.tutortoise.tutortoise.data.model.OAuthRequest
 import com.tutortoise.tutortoise.data.model.OrderRequest
 import com.tutortoise.tutortoise.data.model.OrderResponse
+import com.tutortoise.tutortoise.data.model.RecommendationResponse
 import com.tutortoise.tutortoise.data.model.RegisterData
 import com.tutortoise.tutortoise.data.model.RegisterRequest
 import com.tutortoise.tutortoise.data.model.ReviewRequest
@@ -174,6 +175,9 @@ interface ApiService {
         @Query("city") city: String,
         @Query("district") district: String? = null,
     ): Response<ApiResponse<Float?>>
+
+    @GET("tutors/services/recommendations")
+    suspend fun getTutoriesRecommendation(): Response<ApiResponse<RecommendationResponse>>
 
     // Review
     @GET("reviews/tutories/{tutoriesId}")

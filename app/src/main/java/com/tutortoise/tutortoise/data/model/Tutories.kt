@@ -86,3 +86,28 @@ data class ExploreTutoriesResponse(
     val avgRating: Float,
     val totalReviews: Int
 )
+
+data class TutoriesRecommendation(
+    val tutor_id: String,
+    val tutories_id: String,
+    val name: String,
+    val email: String,
+    val city: String?,
+    val district: String?,
+    val category: String,
+    val tutory_name: String,
+    val about: String,
+    val methodology: String,
+    val hourly_rate: Int,
+    val type_lesson: String,
+    val completed_orders: Int,
+    val total_orders: Int,
+    val match_reasons: List<String>?,
+    val location_match: Int,
+)
+
+data class RecommendationResponse(
+    val recommendations: List<TutoriesRecommendation>,
+    val total_found: Int,
+    val requested: Int,
+)

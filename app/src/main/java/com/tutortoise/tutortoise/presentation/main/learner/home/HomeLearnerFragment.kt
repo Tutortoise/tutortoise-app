@@ -3,6 +3,7 @@ package com.tutortoise.tutortoise.presentation.main.learner.home
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -19,9 +20,11 @@ import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.CategoryRepository
 import com.tutortoise.tutortoise.data.repository.OrderRepository
 import com.tutortoise.tutortoise.data.repository.ReviewRepository
+import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerHomeBinding
 import com.tutortoise.tutortoise.presentation.main.MainActivity
 import com.tutortoise.tutortoise.presentation.main.learner.categories.adapter.CategoriesAdapter
+import com.tutortoise.tutortoise.presentation.main.learner.home.adapter.RecommendationAdapter
 import com.tutortoise.tutortoise.presentation.main.learner.home.adapter.UnreviewedOrderAdapter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -37,6 +40,7 @@ class HomeLearnerFragment : Fragment() {
     private lateinit var categoriesAdapter: CategoriesAdapter
     private lateinit var orderRepository: OrderRepository
     private lateinit var reviewRepository: ReviewRepository
+    private lateinit var tutoriesRepository: TutoriesRepository
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,10 +52,12 @@ class HomeLearnerFragment : Fragment() {
         categoryRepository = CategoryRepository(requireContext())
         orderRepository = OrderRepository(requireContext())
         reviewRepository = ReviewRepository(requireContext())
+        tutoriesRepository = TutoriesRepository(requireContext())
 
         setupRecyclerView()
         fetchCategories()
         fetchUnreviewedOrders()
+        fetchTutoriesRecommendation()
 
         return binding.root
     }
@@ -272,5 +278,23 @@ class HomeLearnerFragment : Fragment() {
                 binding.groupRateTutoring.visibility = View.GONE
             }
         }.show(childFragmentManager, "RatingBottomSheet")
+    }
+
+    private fun fetchTutoriesRecommendation() {
+        lifecycleScope.launch {
+            val tutories = tutoriesRepository.getTutoriesRecommendation()
+
+            Log.d("HomeLearnerFragment", tutories?.data.toString())
+            tutories?.data?.recommendations?.let {
+                binding.rvRecommendedTutors.layoutManager = LinearLayoutManager(
+                    requireContext(),
+                    RecyclerView.VERTICAL,
+                    false
+                )
+                binding.rvRecommendedTutors.adapter = RecommendationAdapter(
+                    it
+                )
+            }
+        }
     }
 }
