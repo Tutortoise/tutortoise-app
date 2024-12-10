@@ -37,6 +37,11 @@ class RecommendationAdapter(private val recommendations: List<TutoriesRecommenda
                         tvOnsite.visibility = View.VISIBLE
                         tvOnline.visibility = View.GONE
                     }
+
+                    "both" -> {
+                        tvOnsite.visibility = View.VISIBLE
+                        tvOnline.visibility = View.VISIBLE
+                    }
                 }
 
                 Glide.with(ivTutorImage.context)
