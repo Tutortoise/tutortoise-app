@@ -81,7 +81,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -110,11 +109,9 @@ dependencies {
     implementation(libs.androidx.credentials.play.services.auth)
     implementation(libs.play.services.auth)
     implementation(libs.googleid)
-
     implementation(libs.material.icons.extended)
     implementation(libs.play.services.location)
     implementation(libs.androidx.swiperefreshlayout)
-
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
@@ -125,6 +122,5 @@ dependencies {
     implementation(libs.androidx.security.crypto)
     implementation(libs.glide)
     implementation(libs.shimmer.android)
-
     implementation (libs.ucrop)
 }

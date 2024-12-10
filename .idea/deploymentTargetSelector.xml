@@ -4,10 +4,10 @@
     <selectionStates>
       <SelectionState runConfigName="Tutortoise">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-12-03T16:15:20.256447700Z">
+        <DropdownSelection timestamp="2024-12-10T11:11:32.265698900Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\IKKI\.android\avd\Pixel_7_Pro_API_35.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\IKKI\.android\avd\Pixel_6a_API_35_2.avd" />
             </handle>
           </Target>
         </DropdownSelection>

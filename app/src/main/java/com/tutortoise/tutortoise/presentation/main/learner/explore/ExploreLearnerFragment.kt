@@ -91,11 +91,10 @@ class ExploreLearnerFragment : Fragment() {
             refreshTutories()
         }
         // For customizing swipe refresh indicator if needed
-        /*swipeRefreshLayout.setColorSchemeResources(
-            R.color.colorPrimary,
-            R.color.colorAccent,
-            R.color.colorPrimaryDark
-        )*/
+        swipeRefreshLayout.setColorSchemeResources(
+            R.color.darkgreen,
+            R.color.darkblue,
+        )
         setupSearch()
         setupUI()
         observeViewModel()
