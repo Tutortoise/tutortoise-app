@@ -34,7 +34,7 @@ class CompletedLearnerSessionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.noBookedSessionsView.tvNoSessionTitle.text = "No Completed Session"
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.ordersState.collectLatest { result ->
                 when {
@@ -43,6 +43,7 @@ class CompletedLearnerSessionFragment : Fragment() {
                         if (orders.isNullOrEmpty()) {
                             binding.rvOrders.visibility = View.GONE
                             binding.noBookedSessionsView.root.visibility = View.VISIBLE
+                            binding.noBookedSessionsView.tvNoSessionTitle.text = "No Completed Session"
                             binding.noBookedSessionsView.btnFindTutor.setOnClickListener {
 
                             }

@@ -42,6 +42,7 @@ class ScheduledLearnerSessionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.noBookedSessionsView.tvNoSessionTitle.text = "No Scheduled Session"
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.ordersState.collectLatest { result ->
                 when {
@@ -50,6 +51,7 @@ class ScheduledLearnerSessionFragment : Fragment() {
                         if (orders.isNullOrEmpty()) {
                             binding.rvOrders.visibility = View.GONE
                             binding.noBookedSessionsView.root.visibility = View.VISIBLE
+                            binding.noBookedSessionsView.tvNoSessionTitle.text = "No Scheduled Session"
                         } else {
                             binding.rvOrders.visibility = View.VISIBLE
                             binding.noBookedSessionsView.root.visibility = View.GONE

@@ -7,20 +7,23 @@
     android:padding="16dp">
 
     <ImageView
+        android:id="@+id/ivNoSessionImage"
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:src="@drawable/no_booked_session" />
 
     <TextView
+        android:id="@+id/tvNoSessionTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="No booked sessions"
+        android:text="No Sessions"
         android:textColor="@color/darkgreen"
         android:textSize="18sp" />
 
     <TextView
+        android:id="@+id/tvNoSessionSubtitle"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
