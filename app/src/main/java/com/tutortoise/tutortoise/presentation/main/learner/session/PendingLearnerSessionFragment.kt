@@ -38,7 +38,7 @@ class PendingLearnerSessionFragment : Fragment() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.noBookedSessionsView.tvNoSessionTitle.text = "No Pending Session"
         // Add progress indicator to your layout
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.ordersState.collectLatest { state ->
@@ -52,6 +52,7 @@ class PendingLearnerSessionFragment : Fragment() {
                         if (state.data.isEmpty()) {
                             binding.rvOrders.visibility = View.GONE
                             binding.noBookedSessionsView.root.visibility = View.VISIBLE
+                            binding.noBookedSessionsView.tvNoSessionTitle.text = "No Pending Session"
                             binding.noBookedSessionsView.btnFindTutor.setOnClickListener {
                                 // TODO: Navigate to explore fragment
                             }
