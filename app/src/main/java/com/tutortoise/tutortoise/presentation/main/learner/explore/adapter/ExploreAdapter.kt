@@ -25,6 +25,7 @@ class ExploreAdapter(
         private val tvCategoryName: TextView = view.findViewById(R.id.tvCategoryName)
         private val ratingBar: RatingBar = view.findViewById(R.id.ratingBar)
         private val tvRating: TextView = view.findViewById(R.id.tvRating)
+        private val tvTotalReviews: TextView = view.findViewById(R.id.tvTotalReviews)
         private val tvHourlyRate: TextView = view.findViewById(R.id.tvHourlyRate)
         private val tvCity: TextView = view.findViewById(R.id.tvCity)
         private val tvOnsite: TextView = view.findViewById(R.id.tvOnsite)
@@ -39,10 +40,17 @@ class ExploreAdapter(
             if (tutoriesItem.avgRating == 0f) {
                 ratingBar.visibility = View.GONE
                 tvRating.text = "No rating"
+                tvTotalReviews.visibility = View.GONE
             } else {
                 ratingBar.visibility = View.VISIBLE
                 ratingBar.rating = tutoriesItem.avgRating
                 tvRating.text = tutoriesItem.avgRating.toString()
+                tvTotalReviews.text =
+                    itemView.context.resources.getQuantityString(
+                        R.plurals.total_reviews,
+                        tutoriesItem.totalReviews,
+                        tutoriesItem.totalReviews
+                    )
             }
 
             tvHourlyRate.text =

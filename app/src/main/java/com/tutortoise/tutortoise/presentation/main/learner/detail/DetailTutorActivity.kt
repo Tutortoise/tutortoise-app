@@ -130,7 +130,7 @@ class DetailTutorActivity : AppCompatActivity() {
                     // Review at the bottom
                     binding.tvAvgRating.text = tutories.avgRating.toString()
                     binding.tvTotalReviews.text = resources.getQuantityString(
-                        R.plurals.total_reviews,
+                        R.plurals.total_reviews_bracket,
                         tutories.totalReviews,
                         tutories.totalReviews,
                     )

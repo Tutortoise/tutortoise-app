@@ -224,6 +224,11 @@
     <string name="no_rating">No rating</string>
 
     <plurals name="total_reviews">
+        <item quantity="one">| %d review</item>
+        <item quantity="other">| %d reviews</item>
+    </plurals>
+
+    <plurals name="total_reviews_bracket">
         <item quantity="one">(%d review)</item>
         <item quantity="other">(%d reviews)</item>
     </plurals>

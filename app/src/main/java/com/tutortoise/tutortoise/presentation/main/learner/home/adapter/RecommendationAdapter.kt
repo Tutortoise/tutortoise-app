@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.TutoriesRecommendation
 import com.tutortoise.tutortoise.databinding.ItemTutorCardBinding
 import com.tutortoise.tutortoise.utils.Constants
@@ -48,7 +49,13 @@ class RecommendationAdapter(private val recommendations: List<TutoriesRecommenda
                     .load(Constants.getProfilePictureUrl(recommendation.tutor_id))
                     .into(ivTutorImage)
 
-                // TODO: rating
+                tvRating.text = String.format("%.1f", recommendation.rating.average)
+                ratingBar.rating = recommendation.rating.average
+                tvTotalReviews.text = root.context.resources.getQuantityString(
+                    R.plurals.total_reviews,
+                    recommendation.rating.total_reviews,
+                    recommendation.rating.total_reviews,
+                )
             }
         }
     }

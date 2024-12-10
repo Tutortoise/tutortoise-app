@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/montserrat_medium"
-                android:text="@string/reviews"
+                android:text="4.5"
                 android:textColor="#808080"
                 android:textSize="12sp" />
 
@@ -88,11 +88,24 @@
                 android:layout_marginStart="5dp"
                 android:progressTint="#fbb017"
                 android:rating="0.0"
-                android:stepSize="1"
+                android:stepSize="0.1"
                 android:transformPivotX="0dp"
+                android:isIndicator="true"
+                android:padding="0dp"
                 android:transformPivotY="5dp"
                 android:scaleX="0.7"
                 android:scaleY="0.7" />
+
+            <TextView
+                android:id="@+id/tvTotalReviews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-20dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="| 1 review"
+                android:textColor="#808080"
+                android:textSize="12sp" />
+
 
         </LinearLayout>
 
