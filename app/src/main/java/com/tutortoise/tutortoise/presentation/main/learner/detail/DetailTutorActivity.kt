@@ -232,7 +232,7 @@ class DetailTutorActivity : AppCompatActivity() {
         binding.alsoTeachCard.visibility = View.VISIBLE
         binding.rvAlsoTeach.apply {
             layoutManager = GridLayoutManager(this@DetailTutorActivity, 2)
-            adapter = AlsoTeachAdapter(alsoTeaches)
+            adapter = AlsoTeachAdapter(currentTutorId, alsoTeaches)
             addItemDecoration(
                 GridSpacingItemDecoration(
                     2,
