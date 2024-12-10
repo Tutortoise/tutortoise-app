@@ -1,52 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
     android:paddingHorizontal="16dp"
     android:paddingVertical="12dp">
 
     <View
-        android:id="@+id/dividerLine"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#E0E0E0"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/indicatorIcon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/ic_image_placeholder"
-        android:contentDescription="Notification indicator"
+        android:id="@+id/unreadIndicator"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/ic_check_circle"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/tvTitle"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dividerLine" />
+        app:layout_constraintTop_toTopOf="@id/tvTitle"
+        tools:visibility="visible" />
 
     <TextView
-        android:id="@+id/notificationText"
+        android:id="@+id/tvTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="8dp"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/notif_message"
+        android:fontFamily="@font/montserrat_semi_bold"
         android:textColor="@color/black"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/indicatorIcon"
-        app:layout_constraintTop_toTopOf="@id/indicatorIcon" />
+        app:layout_constraintEnd_toStartOf="@id/tvTime"
+        app:layout_constraintStart_toEndOf="@id/unreadIndicator"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Order Accepted" />
 
     <TextView
-        android:id="@+id/dateTimeText"
+        android:id="@+id/tvTime"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_regular"
+        android:textColor="@color/colorInactive"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvTitle"
+        tools:text="2h ago" />
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/montserrat_regular"
-        android:text="@string/notif_date"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="@id/notificationText"
-        app:layout_constraintTop_toBottomOf="@id/notificationText" />
+        android:textColor="@color/colorInactive"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/tvTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        tools:text="Your order has been accepted by the tutor" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

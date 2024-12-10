@@ -18,6 +18,7 @@ import com.tutortoise.tutortoise.data.model.LearnerData
 import com.tutortoise.tutortoise.data.model.LoginData
 import com.tutortoise.tutortoise.data.model.LoginRequest
 import com.tutortoise.tutortoise.data.model.MessageResponse
+import com.tutortoise.tutortoise.data.model.NotificationResponse
 import com.tutortoise.tutortoise.data.model.OAuthData
 import com.tutortoise.tutortoise.data.model.OAuthRequest
 import com.tutortoise.tutortoise.data.model.OrderRequest
@@ -230,6 +231,22 @@ interface ApiService {
     suspend fun getRoomPresence(
         @Path("roomId") roomId: String
     ): Response<ApiResponse<Map<String, TypingStatus>>>
+
+
+    // Notifications
+    @GET("notification")
+    suspend fun getNotifications(
+        @Query("limit") limit: Int? = null,
+        @Query("before") before: String? = null
+    ): Response<ApiResponse<List<NotificationResponse>>>
+
+    @POST("notification/{notificationId}/read")
+    suspend fun markNotificationAsRead(
+        @Path("notificationId") notificationId: String
+    ): Response<MessageResponse>
+
+    @POST("notification/read-all")
+    suspend fun markAllNotificationsAsRead(): Response<MessageResponse>
 
 
     // Firebase Cloud Messaging Token
