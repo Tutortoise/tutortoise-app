@@ -70,7 +70,7 @@ class ChatMessageAdapter :
                         // Load image
                         Glide.with(itemView.context)
                             .load(message.content)
-                            .placeholder(R.drawable.ic_image_placeholder) // Add a placeholder
+                            .placeholder(R.color.shimmer_color) // Add a placeholder
                             .error(R.drawable.ic_image_placeholder) // Add an error image
                             .into(imageMessage)
 
