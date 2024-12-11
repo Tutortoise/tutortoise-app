@@ -68,6 +68,10 @@ class DetailTutorActivity : AppCompatActivity() {
             finish()
         }
 
+        binding.groupCategory.setOnClickListener {
+            // On-click
+        }
+
         // Toggle About Section
         binding.tvReadMore1.setOnClickListener {
             isAboutExpanded = !isAboutExpanded
