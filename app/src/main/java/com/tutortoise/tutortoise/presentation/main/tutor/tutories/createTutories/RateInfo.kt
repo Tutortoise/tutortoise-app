@@ -6,6 +6,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.StyleSpan
 import com.tutortoise.tutortoise.R
+import com.tutortoise.tutortoise.utils.formatWithThousandsSeparator
 import java.text.NumberFormat
 
 data class RateInfo(
@@ -27,7 +28,7 @@ data class RateInfo(
                 R.string.rate_per_hour_info_template,
                 category ?: "",
                 location,
-                NumberFormat.getNumberInstance().format(averageRate)
+                averageRate.toInt().formatWithThousandsSeparator()
             )
         }
 
