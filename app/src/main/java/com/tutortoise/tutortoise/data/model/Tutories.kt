@@ -107,8 +107,8 @@ data class TutoriesRecommendation(
     val type_lesson: String,
     val completed_orders: Int,
     val total_orders: Int,
-    val match_reasons: List<String>?,
-    val location_match: Int,
+//    val match_reasons: List<String>?,
+//    val location_match: Int,
     val rating: RatingData
 )
 
