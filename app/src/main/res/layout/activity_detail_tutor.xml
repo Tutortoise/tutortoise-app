@@ -272,27 +272,28 @@
                         android:id="@+id/groupCategory"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toStartOf="@id/tvCategoryLabel"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvCategoryLabel">
 
                         <TextView
                             android:id="@+id/tvCategoryName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
                             android:fontFamily="@font/montserrat_semi_bold"
                             android:text="@string/category"
                             android:textColor="@color/black"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
                             android:id="@+id/ivCategoryArrow"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_chevron_right"
+                            app:layout_constraintBottom_toBottomOf="@id/tvCategoryName"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/tvCategoryName"
-                            app:layout_constraintBottom_toBottomOf="@id/tvCategoryName"
                             app:tint="#757575" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>

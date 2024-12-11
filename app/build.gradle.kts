@@ -2,6 +2,7 @@ import java.io.FileInputStream
 import java.util.Properties
 
 val localProperties = Properties()
+
 localProperties.load(FileInputStream(rootProject.file("local.properties")))
 
 plugins {
@@ -16,6 +17,13 @@ keystoreProperties.load(FileInputStream(rootProject.file("keystore.properties"))
 
 android {
     signingConfigs {
+        create("release") {
+            storeFile = file(keystoreProperties.getProperty("store.file"))
+            storePassword = keystoreProperties.getProperty("store.password")
+            keyAlias = keystoreProperties.getProperty("key.alias")
+            keyPassword = keystoreProperties.getProperty("key.password")
+        }
+
         getByName("debug") {
             storeFile = file(keystoreProperties.getProperty("store.file"))
             storePassword = keystoreProperties.getProperty("store.password")
@@ -35,30 +43,42 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
+        val baseUrl = localProperties.getProperty(
+            "base.url",
+            System.getenv("BASE_URL") ?: "https://default-url.com/"
+        )
+        val googleOauthClientId = localProperties.getProperty(
+            "google.oauth.client.id",
+            System.getenv("GOOGLE_OAUTH_CLIENT_ID") ?: ""
+        )
+
         buildConfigField(
             "String",
             "BASE_URL",
-            "\"${localProperties.getProperty("base.url", "https://default-url.com/")}\""
+            "\"$baseUrl\""
         )
 
         buildConfigField(
             "String",
             "GOOGLE_OAUTH_CLIENT_ID",
-            "\"${localProperties.getProperty("google.oauth.client.id", "")}\""
+            "\"$googleOauthClientId\""
         )
-        signingConfig = signingConfigs.getByName("debug")
+
         multiDexEnabled = true
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
+
+        debug { signingConfig = signingConfigs.getByName("debug") }
     }
 
     buildFeatures {
@@ -71,15 +91,9 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-    buildFeatures {
-        viewBinding = true
-    }
-    viewBinding {
-        enable = true
-    }
+    kotlinOptions { jvmTarget = "1.8" }
+    buildFeatures { viewBinding = true }
+    viewBinding { enable = true }
 }
 
 dependencies {
