@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tutortoise.tutortoise.data.repository.OrderRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerCompletedSessionBinding
+import com.tutortoise.tutortoise.presentation.main.MainActivity
 import com.tutortoise.tutortoise.presentation.main.learner.session.adapter.OrdersAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -29,12 +30,15 @@ class CompletedLearnerSessionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLearnerCompletedSessionBinding.inflate(inflater, container, false)
+
+        setupClickFindTutor()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.noBookedSessionsView.tvNoSessionTitle.text = "No Completed Session"
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.ordersState.collectLatest { result ->
                 when {
@@ -43,10 +47,8 @@ class CompletedLearnerSessionFragment : Fragment() {
                         if (orders.isNullOrEmpty()) {
                             binding.rvOrders.visibility = View.GONE
                             binding.noBookedSessionsView.root.visibility = View.VISIBLE
-                            binding.noBookedSessionsView.tvNoSessionTitle.text = "No Completed Session"
-                            binding.noBookedSessionsView.btnFindTutor.setOnClickListener {
-
-                            }
+                            binding.noBookedSessionsView.tvNoSessionTitle.text =
+                                "No Completed Session"
                         } else {
                             binding.rvOrders.visibility = View.VISIBLE
                             binding.noBookedSessionsView.root.visibility = View.GONE
@@ -73,6 +75,17 @@ class CompletedLearnerSessionFragment : Fragment() {
         }
 
         viewModel.fetchMyOrders("completed")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchMyOrders("completed")
+    }
+
+    private fun setupClickFindTutor() {
+        binding.noBookedSessionsView.btnFindTutor.setOnClickListener {
+            (activity as? MainActivity)?.navigateToExploreFromSession()
+        }
     }
 
 }

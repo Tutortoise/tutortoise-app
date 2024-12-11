@@ -110,6 +110,10 @@ class ExploreLearnerFragment : Fragment() {
             }
         }
 
+        if (exploreViewModel.isNavigatingFromSession()) {
+            fetchTutories()
+        }
+
         exploreViewModel.searchQuery.observe(viewLifecycleOwner) { query ->
             if (!query.isNullOrEmpty()) {
                 binding.etSearch.setText(query)

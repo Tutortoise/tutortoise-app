@@ -3,7 +3,6 @@ package com.tutortoise.tutortoise.presentation.main.learner.home
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -284,16 +283,18 @@ class HomeLearnerFragment : Fragment() {
         lifecycleScope.launch {
             val tutories = tutoriesRepository.getTutoriesRecommendation()
 
-            Log.d("HomeLearnerFragment", tutories?.data.toString())
             tutories?.data?.recommendations?.let {
-                binding.rvRecommendedTutors.layoutManager = LinearLayoutManager(
-                    requireContext(),
-                    RecyclerView.VERTICAL,
-                    false
-                )
-                binding.rvRecommendedTutors.adapter = RecommendationAdapter(
-                    it
-                )
+                binding.apply {
+                    rvRecommendedTutors.layoutManager = LinearLayoutManager(
+                        requireContext(),
+                        RecyclerView.VERTICAL,
+                        false
+                    )
+                    rvRecommendedTutors.adapter = RecommendationAdapter(
+                        it
+                    )
+
+                }
             }
         }
     }

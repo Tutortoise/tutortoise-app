@@ -219,6 +219,12 @@ class MainActivity : AppCompatActivity() {
         finish()
     }
 
+    fun navigateToExploreFromSession() {
+        exploreViewModel.setNavigatingFromSession()
+        binding.bottomNav.selectedItemId = R.id.exploreLearnerFragment
+        navController.navigate(R.id.exploreLearnerFragment)
+    }
+
     fun navigateToExploreWithSearch(query: String) {
         // Set the query in ViewModel
         exploreViewModel.setSearchQuery(query)

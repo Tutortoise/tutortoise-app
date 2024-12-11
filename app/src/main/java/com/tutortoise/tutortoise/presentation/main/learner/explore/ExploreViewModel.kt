@@ -29,6 +29,7 @@ class ExploreViewModel : ViewModel() {
     private var hasHandledCategory = false
     private var isNavigatingFromCategory = false
     private var isNavigatingFromSearch = false
+    private var isNavigatingFromSession = false
 
     private val _initialLoadTrigger = MutableLiveData<Event<Unit>>()
     val initialLoadTrigger: LiveData<Event<Unit>> = _initialLoadTrigger
@@ -50,14 +51,20 @@ class ExploreViewModel : ViewModel() {
         _searchQuery.value = query
     }
 
+    fun setNavigatingFromSession() {
+        isNavigatingFromSession = true
+    }
+
     fun clearData() {
         _searchQuery.value = ""
         _selectedCategory.value = null
         hasHandledCategory = false
         isNavigatingFromCategory = false
         isNavigatingFromSearch = false
+        isNavigatingFromSession = false
     }
 
     fun isNavigatingFromCategory(): Boolean = isNavigatingFromCategory
     fun isNavigatingFromSearch(): Boolean = isNavigatingFromSearch
+    fun isNavigatingFromSession(): Boolean = isNavigatingFromSession
 }

@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tutortoise.tutortoise.data.repository.OrderRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerScheduleSessionBinding
+import com.tutortoise.tutortoise.presentation.main.MainActivity
 import com.tutortoise.tutortoise.presentation.main.learner.session.adapter.OrdersAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -30,8 +31,7 @@ class ScheduledLearnerSessionFragment : Fragment() {
     ): View {
         _binding = FragmentLearnerScheduleSessionBinding.inflate(inflater, container, false)
 
-        binding.rvOrders.visibility = View.VISIBLE
-        binding.noBookedSessionsView.root.visibility = View.GONE
+        setupClickFindTutor()
 
         return binding.root
     }
@@ -39,7 +39,6 @@ class ScheduledLearnerSessionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.noBookedSessionsView.tvNoSessionTitle.text = "No Scheduled Session"
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.ordersState.collectLatest { result ->
                 when {
@@ -83,4 +82,9 @@ class ScheduledLearnerSessionFragment : Fragment() {
         viewModel.fetchMyOrders("scheduled")
     }
 
+    private fun setupClickFindTutor() {
+        binding.noBookedSessionsView.btnFindTutor.setOnClickListener {
+            (activity as? MainActivity)?.navigateToExploreFromSession()
+        }
+    }
 }

@@ -80,6 +80,4 @@ class PendingTutorSessionFragment : Fragment() {
         super.onResume()
         viewModel.fetchMyOrders("pending")
     }
-
-
 }

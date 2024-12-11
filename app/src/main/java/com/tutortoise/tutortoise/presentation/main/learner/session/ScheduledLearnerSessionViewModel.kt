@@ -16,19 +16,13 @@ class ScheduledLearnerSessionViewModel(private val orderRepository: OrderReposit
         MutableStateFlow<Result<List<SessionListItem>>>(Result.success(emptyList()))
     val ordersState: StateFlow<Result<List<SessionListItem>>> = _ordersState
 
-    private var isInitialized = false
-
-
     fun fetchMyOrders(status: String) {
-        if (isInitialized) return
-
         viewModelScope.launch {
             try {
                 val result = orderRepository.getMyOrders(status)
                 _ordersState.value = result.map { orders ->
                     groupOrdersByDate(orders, SortOrder.ASCENDING)
                 }
-                isInitialized = true
             } catch (e: Exception) {
                 _ordersState.value = Result.failure(e)
             }

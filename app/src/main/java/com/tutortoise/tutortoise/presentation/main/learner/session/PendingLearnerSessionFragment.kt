@@ -11,8 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tutortoise.tutortoise.data.repository.OrderRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerPendingSessionBinding
+import com.tutortoise.tutortoise.presentation.main.MainActivity
 import com.tutortoise.tutortoise.presentation.main.learner.session.adapter.OrdersAdapter
-import com.tutortoise.tutortoise.utils.LoadState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -30,30 +30,26 @@ class PendingLearnerSessionFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentLearnerPendingSessionBinding.inflate(inflater, container, false)
+
+        binding.noBookedSessionsView.root.visibility = View.GONE
+        setupClickFindTutor()
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.noBookedSessionsView.tvNoSessionTitle.text = "No Pending Session"
-        // Add progress indicator to your layout
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.ordersState.collectLatest { state ->
-                when (state) {
-                    is LoadState.Loading -> {
-                        binding.rvOrders.visibility = View.GONE
-                        binding.noBookedSessionsView.root.visibility = View.GONE
-                    }
 
-                    is LoadState.Success -> {
-                        if (state.data.isEmpty()) {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.ordersState.collectLatest { result ->
+                when {
+                    result.isSuccess -> {
+                        val orders = result.getOrNull()
+                        if (orders.isNullOrEmpty()) {
                             binding.rvOrders.visibility = View.GONE
                             binding.noBookedSessionsView.root.visibility = View.VISIBLE
                             binding.noBookedSessionsView.tvNoSessionTitle.text =
-                                "No Pending Session"
-                            binding.noBookedSessionsView.btnFindTutor.setOnClickListener {
-                                // TODO: Navigate to explore fragment
-                            }
+                                "No pending Session"
                         } else {
                             binding.rvOrders.visibility = View.VISIBLE
                             binding.noBookedSessionsView.root.visibility = View.GONE
@@ -62,14 +58,14 @@ class PendingLearnerSessionFragment : Fragment() {
                                 LinearLayoutManager.VERTICAL,
                                 false
                             )
-                            binding.rvOrders.adapter = OrdersAdapter(state.data)
+                            binding.rvOrders.adapter = OrdersAdapter(orders)
                         }
                     }
 
-                    is LoadState.Error -> {
+                    result.isFailure -> {
                         Toast.makeText(
                             requireContext(),
-                            state.message,
+                            result.exceptionOrNull()?.message ?: "Error loading sessions",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -78,6 +74,17 @@ class PendingLearnerSessionFragment : Fragment() {
         }
 
         viewModel.fetchMyOrders("pending")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.fetchMyOrders("pending")
+    }
+
+    private fun setupClickFindTutor() {
+        binding.noBookedSessionsView.btnFindTutor.setOnClickListener {
+            (activity as? MainActivity)?.navigateToExploreFromSession()
+        }
     }
 
 }
