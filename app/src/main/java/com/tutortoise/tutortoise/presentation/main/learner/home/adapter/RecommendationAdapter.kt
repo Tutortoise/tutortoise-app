@@ -11,7 +11,8 @@ import com.tutortoise.tutortoise.databinding.ItemTutorCardBinding
 import com.tutortoise.tutortoise.utils.Constants
 import com.tutortoise.tutortoise.utils.formatWithThousandsSeparator
 
-class RecommendationAdapter(private val recommendations: List<TutoriesRecommendation>, private val onItemClicked
+class RecommendationAdapter(
+    private val recommendations: List<TutoriesRecommendation>, private val onItemClicked
     : (TutoriesRecommendation) -> Unit
 ) :
     RecyclerView.Adapter<RecommendationAdapter.RecommendationViewHolder>() {
@@ -22,7 +23,7 @@ class RecommendationAdapter(private val recommendations: List<TutoriesRecommenda
 
         fun bind(recommendation: TutoriesRecommendation) {
             binding.apply {
-                tvTutoriesName.text = recommendation.name
+                tvTutoriesName.text = recommendation.tutory_name
                 tvCategoryName.text = recommendation.category
                 tvHourlyRate.text =
                     root.context.resources.getString(
