@@ -6,12 +6,12 @@ The Tutortoise Android Application is developed using Kotlin Programming Languag
 
 Tutortoise App is design to look simple, easy to use and understand, fitting with most modern apps.
 
-<center>
-<img src=".github/splash.png" width="200" height="400" />
-<img src=".github/login.png" width="200" height="400" />
-<img src=".github/tutor.png" width="200" height="400" />
-<img src=".github/learner.png" width="200" height="400" />
-</center>
+<p float="left">
+   <img src=".github/splash.png" width="200" height="400" />
+   <img src=".github/login.png" width="200" height="400" />
+   <img src=".github/tutor.png" width="200" height="400" />
+   <img src=".github/learner.png" width="200" height="400" />
+</p>
 
 ## Features
 
