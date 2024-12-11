@@ -142,7 +142,10 @@ class DetailTutorActivity : AppCompatActivity() {
                         tutories.totalOrders
                     )
                     binding.tvHourlyRate.text =
-                        "Rp. ${tutories.hourlyRate.formatWithThousandsSeparator()}"
+                        getString(
+                            R.string.formatted_price,
+                            tutories.hourlyRate.formatWithThousandsSeparator()
+                        )
                     binding.tvCity.text = tutories.city
 
                     Glide.with(this@DetailTutorActivity)

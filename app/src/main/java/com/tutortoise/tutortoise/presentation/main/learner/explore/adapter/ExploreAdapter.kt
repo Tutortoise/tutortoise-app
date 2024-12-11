@@ -54,7 +54,10 @@ class ExploreAdapter(
             }
 
             tvHourlyRate.text =
-                "Rp. ${tutoriesItem.hourlyRate.formatWithThousandsSeparator()} / Hour"
+                itemView.context.resources.getString(
+                    R.string.hourly_rate,
+                    tutoriesItem.hourlyRate.formatWithThousandsSeparator()
+                )
             tvCity.text = tutoriesItem.city
 
             tvOnsite.visibility = View.GONE

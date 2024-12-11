@@ -23,7 +23,10 @@ class RecommendationAdapter(private val recommendations: List<TutoriesRecommenda
                 tvTutoriesName.text = recommendation.name
                 tvCategoryName.text = recommendation.category
                 tvHourlyRate.text =
-                    "Rp. ${recommendation.hourly_rate.formatWithThousandsSeparator()} / Hour"
+                    root.context.resources.getString(
+                        R.string.hourly_rate,
+                        recommendation.hourly_rate.formatWithThousandsSeparator()
+                    )
                 tvCity.text = recommendation.city
 
                 tvOnsite.visibility = View.GONE

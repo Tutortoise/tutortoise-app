@@ -123,7 +123,7 @@
     <string name="method">Teaching Methodology</string>
     <string name="method_text">Now it\'s your chance to convince students to take your course by explaining your teaching methods and the resources you offer as a tutor!</string>
     <string name="rate_per_hour">Rate per hour</string>
-    <string name="rate_per_hour_info"><b>Info</b>: The average rate for mathematics lessons in Samarinda is <b>Rp.50000</b></string>
+    <string name="rate_per_hour_info"><b>Info</b>: The average rate for mathematics lessons in Samarinda is <b>Rp50.000</b></string>
     <string name="rate_per_hour_info_template"><b>Info</b>: The average rate for %1$s lessons in %2$s is <b>Rp %3$s</b></string>
     <string name="rate_per_hour_first_in_city"><b>Info</b>: You are the first tutor in %1$s for %2$s lessons!</string>
     <string name="rate_per_hour_nominal">50000</string>
@@ -132,7 +132,8 @@
     <string name="onsite">On-site</string>
     <string name="confirm">Confirm</string>
     <string name="session_time_range">%1$s - %2$s</string>
-    <string name="formatted_price">Rp. %1$s,-</string>
+    <string name="formatted_price">Rp%1$s</string>
+    <string name="hourly_rate">Rp%1$s</string>
 
     <string name="set_schedule">Set Tutor Schedule</string>
     <string name="message_text">This is a message template</string>

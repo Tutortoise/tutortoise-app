@@ -79,7 +79,10 @@ class CompletedOrdersAdapter(
                 tvTime.text =
                     "${isoToReadableTime(order.sessionTime)} - ${isoToReadableTime(order.estimatedEndTime)}"
                 tvDate.text = isoToReadableDate(order.sessionTime)
-                tvPrice.text = "Rp. ${order.price.formatWithThousandsSeparator()},-"
+                tvPrice.text = root.context.getString(
+                    R.string.hourly_rate,
+                    order.price.formatWithThousandsSeparator()
+                )
 
                 Glide.with(root)
                     .load(Constants.getProfilePictureUrl(order.learnerId))
