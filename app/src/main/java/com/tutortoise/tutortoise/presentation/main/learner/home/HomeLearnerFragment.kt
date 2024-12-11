@@ -33,7 +33,8 @@ class HomeLearnerFragment : Fragment() {
     private val binding get() = _binding!!
     private val navController by lazy { findNavController() }
 
-    private var fetchJob: Job? = null
+    private var fetchCategoriesJob: Job? = null  // Changed to separate job
+    private var fetchTutoriesJob: Job? = null  // Changed to separate job
 
     private lateinit var categoryRepository: CategoryRepository
     private lateinit var categoriesAdapter: CategoriesAdapter
@@ -184,7 +185,8 @@ class HomeLearnerFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        fetchJob?.cancel()
+        fetchTutoriesJob?.cancel()
+        fetchCategoriesJob?.cancel()
         _binding = null
     }
 
@@ -194,8 +196,8 @@ class HomeLearnerFragment : Fragment() {
     }
 
     private fun fetchCategories() {
-        fetchJob?.cancel()
-        fetchJob = lifecycleScope.launch {
+        fetchCategoriesJob?.cancel() // Cancel the existing job for categories
+        fetchCategoriesJob = lifecycleScope.launch {
             try {
                 _binding?.let { binding ->
                     binding.categoriesShimmerLayout.visibility = View.VISIBLE
@@ -280,20 +282,34 @@ class HomeLearnerFragment : Fragment() {
     }
 
     private fun fetchTutoriesRecommendation() {
-        lifecycleScope.launch {
-            val tutories = tutoriesRepository.getTutoriesRecommendation()
+        fetchTutoriesJob?.cancel() // Cancel the existing job for tutories recommendation
+        fetchTutoriesJob = lifecycleScope.launch {
+            try {
+                _binding?.let { binding ->
+                    binding.rvRecommendedTutors.visibility = View.GONE
 
-            tutories?.data?.recommendations?.let {
-                binding.apply {
-                    rvRecommendedTutors.layoutManager = LinearLayoutManager(
-                        requireContext(),
-                        RecyclerView.VERTICAL,
-                        false
-                    )
-                    rvRecommendedTutors.adapter = RecommendationAdapter(
-                        it
-                    )
+                    val tutories = tutoriesRepository.getTutoriesRecommendation()
 
+                    // Recheck binding after async operation
+                    _binding?.let { binding ->
+                        binding.rvRecommendedTutors.visibility = View.VISIBLE
+
+                        tutories?.data?.recommendations?.let { recommendations ->
+                            binding.rvRecommendedTutors.adapter =
+                                RecommendationAdapter(recommendations)
+                            binding.rvRecommendedTutors.layoutManager = LinearLayoutManager(
+                                requireContext(),
+                                RecyclerView.VERTICAL,
+                                false
+                            )
+                        } ?: run {
+                            binding.rvRecommendedTutors.visibility = View.GONE
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                _binding?.let { binding ->
+                    binding.rvRecommendedTutors.visibility = View.GONE
                 }
             }
         }
