@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Set up JDK 17
         uses: actions/setup-java@v2
@@ -25,7 +25,7 @@ jobs:
           java-version: "17"
 
       - name: Cache Gradle packages
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             ~/.gradle/caches
@@ -43,7 +43,7 @@ jobs:
 
       - name: Setup keystore.properties
         run: |
-          echo "store.file=keystore.jks" >> keystore.properties
+          echo "store.file=../keystore.jks" >> keystore.properties
           echo "store.password=${{ secrets.KEYSTORE_PASSWORD }}" >> keystore.properties
           echo "key.alias=tutortoise" >> keystore.properties
           echo "key.password=${{ secrets.KEY_PASSWORD }}" >> keystore.properties
