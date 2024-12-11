@@ -33,6 +33,10 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: ${{ runner.os }}-gradle-
 
+      - name: Decode and Set Up google-services.json
+        run: |
+          echo "${{ secrets.GOOGLE_SERVICE_BASE64_ENCODED }}" | base64 -d > app/google-services.json
+
       - name: Decode and Set Up Keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64_ENCODED }}" | base64 -d > keystore.jks
