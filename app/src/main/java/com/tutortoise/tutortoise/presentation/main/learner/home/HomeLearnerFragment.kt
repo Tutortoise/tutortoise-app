@@ -1,5 +1,6 @@
 package com.tutortoise.tutortoise.presentation.main.learner.home
 
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -23,6 +24,7 @@ import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerHomeBinding
 import com.tutortoise.tutortoise.presentation.main.MainActivity
 import com.tutortoise.tutortoise.presentation.main.learner.categories.adapter.CategoriesAdapter
+import com.tutortoise.tutortoise.presentation.main.learner.detail.DetailTutorActivity
 import com.tutortoise.tutortoise.presentation.main.learner.home.adapter.RecommendationAdapter
 import com.tutortoise.tutortoise.presentation.main.learner.home.adapter.UnreviewedOrderAdapter
 import kotlinx.coroutines.Job
@@ -296,7 +298,17 @@ class HomeLearnerFragment : Fragment() {
 
                         tutories?.data?.recommendations?.let { recommendations ->
                             binding.rvRecommendedTutors.adapter =
-                                RecommendationAdapter(recommendations)
+                                RecommendationAdapter(recommendations) {
+                                    val intent = Intent(
+                                        requireContext(),
+                                        DetailTutorActivity::class.java
+                                    ).apply {
+                                        putExtra("TUTOR_ID", it.tutor_id)
+                                        putExtra("TUTORIES_ID", it.tutories_id)
+                                    }
+                                    startActivity(intent)
+
+                                }
                             binding.rvRecommendedTutors.layoutManager = LinearLayoutManager(
                                 requireContext(),
                                 RecyclerView.VERTICAL,

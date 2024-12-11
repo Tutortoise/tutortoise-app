@@ -11,7 +11,9 @@ import com.tutortoise.tutortoise.databinding.ItemTutorCardBinding
 import com.tutortoise.tutortoise.utils.Constants
 import com.tutortoise.tutortoise.utils.formatWithThousandsSeparator
 
-class RecommendationAdapter(private val recommendations: List<TutoriesRecommendation>) :
+class RecommendationAdapter(private val recommendations: List<TutoriesRecommendation>, private val onItemClicked
+    : (TutoriesRecommendation) -> Unit
+) :
     RecyclerView.Adapter<RecommendationAdapter.RecommendationViewHolder>() {
 
     // ViewHolder with View Binding
@@ -59,6 +61,8 @@ class RecommendationAdapter(private val recommendations: List<TutoriesRecommenda
                     recommendation.rating.total_reviews,
                     recommendation.rating.total_reviews,
                 )
+
+                itemView.setOnClickListener { onItemClicked(recommendation) }
             }
         }
     }
