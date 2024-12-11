@@ -58,19 +58,11 @@ class ChangePasswordActivity : AppCompatActivity() {
         var isValid = true
 
         // Reset errors
-        binding.tilCurrentPassword.error = null
         binding.tilNewPassword.error = null
         binding.tilConfirmPassword.error = null
 
-        val currentPassword = binding.etCurrentPassword.text.toString()
         val newPassword = binding.etNewPassword.text.toString()
         val confirmPassword = binding.etConfirmPassword.text.toString()
-
-        // Validate current password
-        if (currentPassword.isEmpty()) {
-            binding.tilCurrentPassword.error = getString(R.string.error_current_password_required)
-            isValid = false
-        }
 
         // Validate new password
         if (newPassword.isEmpty()) {
