@@ -61,11 +61,9 @@ jobs:
       - name: Determine Version Name
         id: determine_version
         run: |
-          if [ -n "${{ github.event.head_commit.message }}" ]; then
-            VERSION_NAME=$(echo "${{ github.event.head_commit.message }}" | grep -oP '(?<=\[version: ).*?(?=\])')
-          fi
           if [ -z "$VERSION_NAME" ]; then
-            VERSION_NAME="v0.0.$(date +'%y%m%d')"
+            # Fetch the latest tag
+            VERSION_NAME=$(git describe --tags --abbrev=0 || echo "v1.0.$(date +'%y%m%d')")
           fi
           echo "::set-output name=version_name::$VERSION_NAME"
 
