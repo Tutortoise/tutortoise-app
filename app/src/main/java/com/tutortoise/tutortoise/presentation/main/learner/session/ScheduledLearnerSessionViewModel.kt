@@ -1,7 +1,5 @@
 package com.tutortoise.tutortoise.presentation.main.learner.session
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -21,7 +19,6 @@ class ScheduledLearnerSessionViewModel(private val orderRepository: OrderReposit
     private var isInitialized = false
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun fetchMyOrders(status: String) {
         if (isInitialized) return
 

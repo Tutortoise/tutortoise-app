@@ -1,12 +1,10 @@
 package com.tutortoise.tutortoise.presentation.main.learner.session
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -38,7 +36,6 @@ class ScheduledLearnerSessionFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -51,7 +48,8 @@ class ScheduledLearnerSessionFragment : Fragment() {
                         if (orders.isNullOrEmpty()) {
                             binding.rvOrders.visibility = View.GONE
                             binding.noBookedSessionsView.root.visibility = View.VISIBLE
-                            binding.noBookedSessionsView.tvNoSessionTitle.text = "No Scheduled Session"
+                            binding.noBookedSessionsView.tvNoSessionTitle.text =
+                                "No Scheduled Session"
                         } else {
                             binding.rvOrders.visibility = View.VISIBLE
                             binding.noBookedSessionsView.root.visibility = View.GONE
@@ -80,7 +78,6 @@ class ScheduledLearnerSessionFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
         viewModel.fetchMyOrders("scheduled")

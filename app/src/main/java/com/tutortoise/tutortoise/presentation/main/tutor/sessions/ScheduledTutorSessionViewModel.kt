@@ -1,7 +1,5 @@
 package com.tutortoise.tutortoise.presentation.main.tutor.sessions
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -18,7 +16,6 @@ class ScheduledTutorSessionViewModel(private val orderRepository: OrderRepositor
         MutableStateFlow<Result<List<SessionListItem>>>(Result.success(emptyList()))
     val ordersState: StateFlow<Result<List<SessionListItem>>> get() = _ordersState
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun fetchMyOrders(status: String) {
         viewModelScope.launch {
             val result = orderRepository.getMyOrders(status)
@@ -27,7 +24,6 @@ class ScheduledTutorSessionViewModel(private val orderRepository: OrderRepositor
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun cancelOrder(orderId: String, status: String) {
         viewModelScope.launch {
             orderRepository.cancelOrder(orderId)

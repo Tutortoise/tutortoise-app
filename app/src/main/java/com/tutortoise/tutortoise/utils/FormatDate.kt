@@ -1,7 +1,5 @@
 package com.tutortoise.tutortoise.utils
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.tutortoise.tutortoise.data.model.OrderResponse
 import com.tutortoise.tutortoise.presentation.item.SessionListItem
 import java.text.SimpleDateFormat
@@ -21,7 +19,6 @@ enum class SortOrder {
     DESCENDING  // Newest first (default/current behavior)
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun groupOrdersByDate(
     orders: List<OrderResponse>,
     sortOrder: SortOrder = SortOrder.DESCENDING,
@@ -64,7 +61,6 @@ fun groupOrdersByDate(
         }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun formatDate(dateStr: String): String {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
     val date = LocalDate.parse(dateStr, formatter)
@@ -97,7 +93,6 @@ fun isoToReadableDate(isoDate: String): String {
     return outputFormat.format(date!!).capitalizeFirst()
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 fun isoToRelativeDate(isoDate: String): String {
     val instant = Instant.parse(isoDate)
     val now = Instant.now()

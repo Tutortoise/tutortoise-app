@@ -1,6 +1,5 @@
 package com.tutortoise.tutortoise.presentation.main.tutor.sessions
 
-import android.annotation.SuppressLint
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -18,7 +17,6 @@ class PendingTutorSessionViewModel(private val orderRepository: OrderRepository)
         MutableStateFlow<Result<List<SessionListItem>>>(Result.success(emptyList()))
     val ordersState: StateFlow<Result<List<SessionListItem>>> get() = _ordersState
 
-    @SuppressLint("NewApi")
     fun fetchMyOrders(status: String) {
         viewModelScope.launch {
             val result = orderRepository.getMyOrders(status)

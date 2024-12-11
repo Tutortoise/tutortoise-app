@@ -1,6 +1,5 @@
 package com.tutortoise.tutortoise.presentation.main.learner.reservation
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -155,7 +154,6 @@ class ReservationActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("NewApi")
     private fun updateTimesForSelectedDate(
         date: String,
         groupedAvailability: Map<String, List<String>>

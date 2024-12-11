@@ -1,10 +1,8 @@
 package com.tutortoise.tutortoise.presentation.main.learner.reservation.adapter
 
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.tutortoise.tutortoise.R
@@ -28,7 +26,6 @@ class DateAdapter(
         return DateViewHolder(view)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: DateViewHolder, position: Int) {
         val position = holder.bindingAdapterPosition
         val date = dates[position]

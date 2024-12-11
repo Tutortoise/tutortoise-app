@@ -1,6 +1,5 @@
 package com.tutortoise.tutortoise.utils
 
-import android.annotation.SuppressLint
 import android.util.Log
 import java.time.Duration
 import java.time.LocalDate
@@ -11,7 +10,6 @@ import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.TimeZone
 
-@SuppressLint("NewApi")
 fun groupAvailabilityByDate(availability: List<String>): Map<String, List<String>> {
     // Define the formatter for input and output
     val inputFormatter = DateTimeFormatter.ISO_DATE_TIME
@@ -34,7 +32,6 @@ fun groupAvailabilityByDate(availability: List<String>): Map<String, List<String
 }
 
 // Not sure if this handle all edge cases
-@SuppressLint("NewApi")
 fun generateTimeSlots(
     dayIndex: List<Int>,
     startTime: String,
@@ -75,7 +72,6 @@ fun generateTimeSlots(
     return availability
 }
 
-@SuppressLint("NewApi")
 fun utcAvailabilityToLocal(availability: Map<Int, List<String>>): Map<Int, List<String>> {
     val result = mutableMapOf<Int, List<String>>()
 

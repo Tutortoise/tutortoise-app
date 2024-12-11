@@ -1,7 +1,5 @@
 package com.tutortoise.tutortoise.presentation.main.learner.session
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -18,7 +16,6 @@ class PendingLearnerSessionViewModel(private val orderRepository: OrderRepositor
     private val _ordersState = MutableStateFlow<LoadState<List<SessionListItem>>>(LoadState.Loading)
     val ordersState: StateFlow<LoadState<List<SessionListItem>>> = _ordersState
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun fetchMyOrders(status: String) {
         viewModelScope.launch {
             _ordersState.value = LoadState.Loading

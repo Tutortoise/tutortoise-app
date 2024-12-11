@@ -47,6 +47,7 @@ android {
             "\"${localProperties.getProperty("google.oauth.client.id", "")}\""
         )
         signingConfig = signingConfigs.getByName("debug")
+        multiDexEnabled = true
     }
 
     buildTypes {
@@ -66,6 +67,7 @@ android {
     }
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -81,6 +83,7 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -122,5 +125,5 @@ dependencies {
     implementation(libs.androidx.security.crypto)
     implementation(libs.glide)
     implementation(libs.shimmer.android)
-    implementation (libs.ucrop)
+    implementation(libs.ucrop)
 }

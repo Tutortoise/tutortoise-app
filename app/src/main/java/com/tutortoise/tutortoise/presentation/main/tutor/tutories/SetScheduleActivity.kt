@@ -1,6 +1,5 @@
 package com.tutortoise.tutortoise.presentation.main.tutor.tutories
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -176,7 +175,6 @@ class SetScheduleActivity : AppCompatActivity() {
         return isValid
     }
 
-    @SuppressLint("NewApi")
     private fun buildScheduleInfo(): Map<Int, List<String>> {
 
         val availability = generateTimeSlots(

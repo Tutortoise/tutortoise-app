@@ -1,12 +1,10 @@
 package com.tutortoise.tutortoise.presentation.main.learner.session
 
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -35,7 +33,6 @@ class PendingLearnerSessionFragment : Fragment() {
         return binding.root
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.noBookedSessionsView.tvNoSessionTitle.text = "No Pending Session"
@@ -52,7 +49,8 @@ class PendingLearnerSessionFragment : Fragment() {
                         if (state.data.isEmpty()) {
                             binding.rvOrders.visibility = View.GONE
                             binding.noBookedSessionsView.root.visibility = View.VISIBLE
-                            binding.noBookedSessionsView.tvNoSessionTitle.text = "No Pending Session"
+                            binding.noBookedSessionsView.tvNoSessionTitle.text =
+                                "No Pending Session"
                             binding.noBookedSessionsView.btnFindTutor.setOnClickListener {
                                 // TODO: Navigate to explore fragment
                             }
