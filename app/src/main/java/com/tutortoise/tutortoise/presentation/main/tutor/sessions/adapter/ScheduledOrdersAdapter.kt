@@ -1,20 +1,15 @@
 package com.tutortoise.tutortoise.presentation.main.tutor.sessions.adapter
 
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.OrderResponse
 import com.tutortoise.tutortoise.databinding.ItemDateHeaderBinding
 import com.tutortoise.tutortoise.databinding.ItemScheduledTutorBinding
-import com.tutortoise.tutortoise.presentation.chat.ChatRoomActivity
+import com.tutortoise.tutortoise.domain.ChatManager
 import com.tutortoise.tutortoise.presentation.item.SessionListItem
 import com.tutortoise.tutortoise.utils.Constants
 import com.tutortoise.tutortoise.utils.formatWithThousandsSeparator
@@ -112,38 +107,12 @@ class ScheduledOrdersAdapter(
                     .circleCrop()
                     .into(ivProfilePicture)
 
-//              TODO: Fix Fetching the correct Room ID
                 btnChat.setOnClickListener {
-                    val context = root.context
-                    val roomId = order.id // Get the room ID from the order
-                    val roomRef = Firebase.database.reference.child("rooms").child(roomId)
-
-                    roomRef.get().addOnSuccessListener { snapshot ->
-                        if (snapshot.exists()) {
-                            // Room exists, proceed to ChatRoomActivity
-                            val intent = Intent(context, ChatRoomActivity::class.java).apply {
-                                putExtra("ROOM_ID", roomId)
-                                putExtra("LEARNER_ID", order.learnerId)
-                                putExtra("TUTOR_ID", order.tutorId)
-                                putExtra("LEARNER_NAME", order.learnerName)
-                                putExtra("TUTOR_NAME", order.tutorName)
-                            }
-                            context.startActivity(intent)
-                        } else {
-                            // Handle the case where the room does not exist
-                            Toast.makeText(context, "Chat room does not exist!", Toast.LENGTH_SHORT)
-                                .show()
-                            Log.e("ScheduledOrdersAdapter", "Room not found for ID: $roomId")
-                        }
-                    }.addOnFailureListener { exception ->
-                        // Handle any errors while fetching data
-                        Toast.makeText(
-                            context,
-                            "Failed to check chat room: ${exception.message}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        Log.e("ScheduledOrdersAdapter", "Error checking room existence", exception)
-                    }
+                    ChatManager.navigateToChat(
+                        context = root.context,
+                        tutorId = order.tutorId,
+                        tutorName = order.tutorName
+                    )
                 }
 
                 when (order.typeLesson) {
