@@ -186,7 +186,6 @@ class LoginActivity : AppCompatActivity() {
                     showError("Login successful!")
                     handleSuccessfulLogin()
                 } else {
-                    binding.tilEmail.error = "Invalid email or password"
                     binding.tilPassword.error = "Invalid email or password"
                 }
             } catch (e: Exception) {
