@@ -36,7 +36,7 @@ class OnboardingFragment1 : BaseOnboardingFragment() {
         animateContentArea(true)
 
         val indicators = binding.pageIndicator.let {
-            listOf<ImageView>(
+            listOf(
                 it.getChildAt(0) as ImageView,
                 it.getChildAt(1) as ImageView,
                 it.getChildAt(2) as ImageView,
@@ -65,8 +65,9 @@ class OnboardingFragment1 : BaseOnboardingFragment() {
 
             // Start animations but navigate immediately
             indicators[0].animateIndicatorWidth(activeWidth, inactiveWidth)
-            animateContentArea(false)
-            findNavController().navigate(R.id.action_onboardingFragment1_to_onboardingFragment2)
+            animateContentArea(false) {
+                findNavController().navigate(R.id.action_onboardingFragment1_to_onboardingFragment2)
+            }
         }
     }
 
@@ -99,7 +100,10 @@ class OnboardingFragment1 : BaseOnboardingFragment() {
             }
             addListener(object : AnimatorListener {
                 override fun onAnimationStart(animation: Animator) {}
-                override fun onAnimationEnd(animation: Animator) { onEnd() }
+                override fun onAnimationEnd(animation: Animator) {
+                    onEnd()
+                }
+
                 override fun onAnimationCancel(animation: Animator) {}
                 override fun onAnimationRepeat(animation: Animator) {}
             })
