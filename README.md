@@ -6,13 +6,18 @@ The Tutortoise Android Application is developed using Kotlin Programming Languag
 
 Tutortoise App is design to look simple, easy to use and understand, fitting with most modern apps.
 
-[Images Here]
+<center>
+<img src=".github/splash.png" width="200" height="400" />
+<img src=".github/login.png" width="200" height="400" />
+<img src=".github/tutor.png" width="200" height="400" />
+<img src=".github/learner.png" width="200" height="400" />
+</center>
 
 ## Features
 
 In Tutortoise, we focus on delivering tools and functionalities designed to enhance learning and teaching experiences. This section outlines the core aspects that make the app effective and user-friendly.
 
-### 1. Explore and Find the Perfect Tutors 
+### 1. Explore and Find the Perfect Tutors
 
 Easily search for tutors based on various criteria such as category, location, hourly rate, rating, and lesson type (online/offline). This feature allows learners to quickly narrow down the options and find a tutor that fits their specific needs.
 
@@ -42,19 +47,19 @@ Tutors can manage their schedules effectively. Tutors who accept a learner's res
 
 ## Dependencies
 
-* [Android Material](https://github.com/material-components/material-components-android/blob/master/docs/getting-started.md)
-* [CircleImageView](https://github.com/hdodenhof/CircleImageView)
-* [Firebase](https://firebase.google.com/docs/android/android-play-services)
-* [Flexbox](https://github.com/google/flexbox-layout)
-* [Glide](https://github.com/bumptech/glide)
-* [Gson](https://github.com/google/gson)
-* [Kotlin Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
-* [Lifecycle & LiveData](https://developer.android.com/jetpack/androidx/releases/lifecycle)
-* [Logging Interceptor](https://square.github.io/okhttp/)
-* [Play Services](https://developers.google.com/android/guides/setup)
-* [Retrofit](https://github.com/square/retrofit)
-* [Shimmer](https://github.com/facebookarchive/shimmer-android)
-* [Ucrop](https://github.com/Yalantis/uCrop)
+- [Android Material](https://github.com/material-components/material-components-android/blob/master/docs/getting-started.md)
+- [CircleImageView](https://github.com/hdodenhof/CircleImageView)
+- [Firebase](https://firebase.google.com/docs/android/android-play-services)
+- [Flexbox](https://github.com/google/flexbox-layout)
+- [Glide](https://github.com/bumptech/glide)
+- [Gson](https://github.com/google/gson)
+- [Kotlin Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
+- [Lifecycle & LiveData](https://developer.android.com/jetpack/androidx/releases/lifecycle)
+- [Logging Interceptor](https://square.github.io/okhttp/)
+- [Play Services](https://developers.google.com/android/guides/setup)
+- [Retrofit](https://github.com/square/retrofit)
+- [Shimmer](https://github.com/facebookarchive/shimmer-android)
+- [Ucrop](https://github.com/Yalantis/uCrop)
 
 # Tutortoise (Local Setup)
 
