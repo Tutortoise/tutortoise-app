@@ -58,8 +58,35 @@ jobs:
         env:
           CI: true
 
-      - name: List APK Directory Contents
-        run: ls -alh app/build/outputs/apk/release/
+      - name: Determine Version Name
+        id: determine_version
+        run: |
+          if [ -n "${{ github.event.head_commit.message }}" ]; then
+            VERSION_NAME=$(echo "${{ github.event.head_commit.message }}" | grep -oP '(?<=\[version: ).*?(?=\])')
+          fi
+          if [ -z "$VERSION_NAME" ]; then
+            VERSION_NAME="v0.0.$(date +'%y%m%d')"
+          fi
+          echo "::set-output name=version_name::$VERSION_NAME"
+
+      - name: Delete Existing Release
+        if: always()
+        run: |
+          gh release delete ${{ steps.determine_version.outputs.version_name }} -y || true
+          gh release delete-tag ${{ steps.determine_version.outputs.version_name }} || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.determine_version.outputs.version_name }}
+          release_name: ${{ steps.determine_version.outputs.version_name }}.${{ github.run_id }}
+          draft: false
+          prerelease: false
 
       - name: Upload APK as Artifact
         uses: actions/upload-artifact@v3
