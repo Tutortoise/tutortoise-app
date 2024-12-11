@@ -1,5 +1,9 @@
 package com.tutortoise.tutortoise.data.model
 
+import java.time.Instant
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+
 data class ChatRoom(
     val id: String,
     val learnerId: String,
@@ -46,11 +50,9 @@ data class FirebaseMessage(
             senderRole = senderRole,
             content = content,
             type = type,
-            sentAt = java.text.SimpleDateFormat(
-                "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",
-                java.util.Locale.getDefault()
-            )
-                .format(java.util.Date(sentAt)),
+            sentAt = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+                .withZone(ZoneOffset.UTC)
+                .format(Instant.ofEpochMilli(sentAt)),
             isRead = isRead
         )
     }
