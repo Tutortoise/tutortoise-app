@@ -9,6 +9,7 @@ import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.credentials.exceptions.GetCredentialCancellationException
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -96,7 +97,11 @@ class LoginActivity : AppCompatActivity() {
                                 }
 
                                 is ApiException -> showError("Your Google account is not registered with us")
-                                else -> showError("Failed to authenticate with Google")
+                                is GetCredentialCancellationException -> {
+                                    // Do nothing
+                                }
+
+                                else -> showError(throwable.toString())
                             }
                         }
                     )

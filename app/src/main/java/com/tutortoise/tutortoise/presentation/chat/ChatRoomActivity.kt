@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -22,6 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 
 class ChatRoomActivity : AppCompatActivity() {
@@ -59,33 +61,30 @@ class ChatRoomActivity : AppCompatActivity() {
 
         if (roomId != null) {
             // Existing room
-            val room = ChatRoom(
-                id = roomId!!,
-                learnerId = learnerId,
-                tutorId = tutorId,
-                lastMessageAt = "",
-                createdAt = "",
-                learnerName = intent.getStringExtra("LEARNER_NAME") ?: "",
-                tutorName = intent.getStringExtra("TUTOR_NAME") ?: "",
-                lastMessage = null
-            )
-            viewModel.setChatPartner(isLearner, room)
-            viewModel.listenForNewMessages(roomId!!)
-            viewModel.loadMessages(roomId!!)
+            setupChatRoom(roomId!!)
         } else {
             // New room - set basic info
-            val room = ChatRoom(
-                id = "",  // Empty for new room
-                learnerId = learnerId,
-                tutorId = tutorId,
-                lastMessageAt = "",
-                createdAt = "",
-                learnerName = "",  // We might not have this yet
-                tutorName = tutorName,  // We should have this from navigation
-                lastMessage = null
-            )
-            viewModel.setChatPartner(isLearner, room)
+            lifecycleScope.launch {
+                roomId = viewModel.createRoom(learnerId, tutorId)
+                setupChatRoom(roomId!!)
+            }
         }
+    }
+
+    private fun setupChatRoom(roomId: String) {
+        val room = ChatRoom(
+            id = roomId,
+            learnerId = learnerId,
+            tutorId = tutorId,
+            lastMessageAt = "",
+            createdAt = "",
+            learnerName = intent.getStringExtra("LEARNER_NAME") ?: "",
+            tutorName = intent.getStringExtra("TUTOR_NAME") ?: "",
+            lastMessage = null
+        )
+        viewModel.setChatPartner(isLearner, room)
+        viewModel.listenForNewMessages(roomId)
+        viewModel.loadMessages(roomId)
     }
 
     private fun setupToolbar() {
@@ -177,11 +176,7 @@ class ChatRoomActivity : AppCompatActivity() {
             val message = binding.editMessage.text.toString().trim()
             if (message.isNotEmpty()) {
                 shouldScrollToBottom = true
-                if (roomId == null) {
-                    viewModel.createRoomAndSendMessage(learnerId, tutorId, message)
-                } else {
-                    viewModel.sendMessage(roomId!!, message)
-                }
+                viewModel.sendMessage(roomId!!, message)
                 binding.editMessage.text.clear()
             }
         }

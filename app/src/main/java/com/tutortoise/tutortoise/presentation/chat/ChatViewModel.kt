@@ -157,25 +157,40 @@ class ChatViewModel(private val context: Context) : ViewModel() {
         }
     }
 
-    fun createRoomAndSendMessage(learnerId: String, tutorId: String, message: String) {
+
+    suspend fun createRoom(learnerId: String, tutorId: String): String? {
+        return try {
+            _isLoading.value = true
+            val result = withContext(Dispatchers.IO) {
+                ChatManager.findOrCreateChatRoom(context, tutorId)
+            }
+
+            result.fold(
+                onSuccess = { room ->
+                    _roomCreated.value = room.id
+                    listenForNewMessages(room.id)
+                    room.id // Return room ID
+                },
+                onFailure = {
+                    _error.value = it.message
+                    null // Return null if creation fails
+                }
+            )
+        } catch (e: Exception) {
+            _error.value = "Failed to create chat room"
+            null
+        } finally {
+            _isLoading.value = false
+        }
+    }
+
+    fun sendMessageToRoom(roomId: String, message: String) {
         viewModelScope.launch {
             try {
                 _isLoading.value = true
-                val result = withContext(Dispatchers.IO) {
-                    ChatManager.findOrCreateChatRoom(context, tutorId)
-                }
-
-                result.fold(
-                    onSuccess = { room ->
-                        _roomCreated.value = room.id
-                        sendMessage(room.id, message)
-                    },
-                    onFailure = {
-                        _error.value = it.message
-                    }
-                )
+                sendMessage(roomId, message)
             } catch (e: Exception) {
-                _error.value = "Failed to create chat room"
+                _error.value = "Failed to send message"
             } finally {
                 _isLoading.value = false
             }
