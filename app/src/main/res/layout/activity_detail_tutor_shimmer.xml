@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- Tutor Profile Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="1dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <!-- Profile Image -->
+                <View
+                    android:id="@+id/shimmerProfileImage"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:background="@color/shimmer_color"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/shimmerProfileImage"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <!-- Name -->
+                    <View
+                        android:layout_width="200dp"
+                        android:layout_height="20dp"
+                        android:background="@color/shimmer_color" />
+
+                    <!-- Rating -->
+                    <View
+                        android:layout_width="120dp"
+                        android:layout_height="15dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/shimmer_color" />
+
+                    <!-- Student Info -->
+                    <View
+                        android:layout_width="180dp"
+                        android:layout_height="15dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/shimmer_color" />
+
+                    <!-- Location -->
+                    <View
+                        android:layout_width="150dp"
+                        android:layout_height="15dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@color/shimmer_color" />
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Course Info Card -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <!-- Course Name -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:background="@color/shimmer_color" />
+
+                <!-- Category -->
+                <View
+                    android:layout_width="150dp"
+                    android:layout_height="15dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/shimmer_color" />
+
+                <!-- Mode Indicators -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="100dp"
+                        android:layout_height="28dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@color/shimmer_color" />
+
+                    <View
+                        android:layout_width="100dp"
+                        android:layout_height="28dp"
+                        android:background="@color/shimmer_color" />
+                </LinearLayout>
+
+                <!-- Price -->
+                <View
+                    android:layout_width="120dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@color/shimmer_color" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- About Section -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:background="@color/shimmer_color" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/shimmer_color" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Also Teaches Section -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <View
+                    android:layout_width="120dp"
+                    android:layout_height="20dp"
+                    android:background="@color/shimmer_color" />
+
+                <GridLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:columnCount="2">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="4dp"
+                        android:background="@color/shimmer_color" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_columnWeight="1"
+                        android:layout_margin="4dp"
+                        android:background="@color/shimmer_color" />
+                </GridLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Teaching Methodology Section -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <View
+                    android:layout_width="150dp"
+                    android:layout_height="20dp"
+                    android:background="@color/shimmer_color" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="12dp"
+                    android:background="@color/shimmer_color" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Reviews Section -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <View
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:background="@color/shimmer_color" />
+
+                <!-- Review Items -->
+                <include
+                    layout="@layout/item_review_card_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp" />
+
+                <include
+                    layout="@layout/item_review_card_shimmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

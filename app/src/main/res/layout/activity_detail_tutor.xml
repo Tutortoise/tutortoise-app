@@ -48,8 +48,19 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerFrameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:visibility="gone">
+
+        <include layout="@layout/activity_detail_tutor_shimmer" />
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
     <androidx.core.widget.NestedScrollView
-        android:id="@+id/svTutorData"
+        android:id="@+id/contentLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="140dp"
@@ -291,10 +302,10 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@drawable/ic_chevron_right"
+                            android:visibility="invisible"
                             app:layout_constraintBottom_toBottomOf="@id/tvCategoryName"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/tvCategoryName"
-                            android:visibility="invisible"
                             app:tint="#757575" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>

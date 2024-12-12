@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.facebook.shimmer.ShimmerFrameLayout
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.model.AlsoTeachesResponse
 import com.tutortoise.tutortoise.data.model.DetailedTutoriesResponse
@@ -42,6 +43,7 @@ import kotlinx.coroutines.withContext
 class DetailTutorActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailTutorBinding
+    private lateinit var shimmerFrameLayout: ShimmerFrameLayout
     private val apiService: ApiService = ApiConfig.getApiService(this)
     private val coroutineScope = CoroutineScope(Dispatchers.Main + Job())
     private var isAboutExpanded = false
@@ -59,11 +61,15 @@ class DetailTutorActivity : AppCompatActivity() {
         binding = ActivityDetailTutorBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        shimmerFrameLayout = binding.shimmerFrameLayout
+
         currentTutoriesId = intent.getStringExtra("TUTORIES_ID") ?: ""
         currentTutorId = intent.getStringExtra("TUTOR_ID") ?: ""
 
         reviewRepository = ReviewRepository(this)
         tutoriesRepository = TutoriesRepository(this)
+
+        showLoading(true)
 
         fetchTutoriesDetails()
         fetchReviews()
@@ -92,6 +98,18 @@ class DetailTutorActivity : AppCompatActivity() {
             updateTeachingMethodologyText()
         }
 
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            shimmerFrameLayout.visibility = View.VISIBLE
+            shimmerFrameLayout.startShimmer()
+            binding.contentLayout.visibility = View.GONE // Hide the main content
+        } else {
+            shimmerFrameLayout.stopShimmer()
+            shimmerFrameLayout.visibility = View.GONE
+            binding.contentLayout.visibility = View.VISIBLE // Show the main content
+        }
     }
 
     private fun fetchReviews() {
@@ -173,7 +191,11 @@ class DetailTutorActivity : AppCompatActivity() {
 
                     setupModeIndicators(LessonType.fromString(tutories.typeLesson))
                     setupAlsoTeachSection(tutories.alsoTeaches)
+
+                    showLoading(false)
                 } else {
+                    showLoading(false)
+
                     // Handle error case
                     Toast.makeText(
                         this@DetailTutorActivity,
@@ -182,6 +204,8 @@ class DetailTutorActivity : AppCompatActivity() {
                     ).show()
                 }
             } catch (e: Exception) {
+                showLoading(false)
+
                 // Handle network or other errors
                 Toast.makeText(this@DetailTutorActivity, "Error: ${e.message}", Toast.LENGTH_SHORT)
                     .show()
