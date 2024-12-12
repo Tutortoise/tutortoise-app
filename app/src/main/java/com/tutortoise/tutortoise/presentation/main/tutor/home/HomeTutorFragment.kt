@@ -70,9 +70,10 @@ class HomeTutorFragment : Fragment() {
             }
             adapter = HomeScheduledSessionsAdapter(
                 emptyList()
-            ) { learnerId ->
+            ) { learnerId, learnerName ->
                 val intent = Intent(requireContext(), ChatRoomActivity::class.java).apply {
                     putExtra("LEARNER_ID", learnerId)
+                    putExtra("LEARNER_NAME", learnerName)
                     putExtra("TUTOR_ID", AuthManager.getCurrentUserId())
                     putExtra("TUTOR_NAME", AuthManager.getInstance()?.getUserName())
                 }
