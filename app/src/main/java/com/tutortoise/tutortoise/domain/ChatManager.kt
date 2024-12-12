@@ -72,25 +72,81 @@ object ChatManager {
         }
     }
 
-    suspend fun findOrCreateChatRoom(context: Context, tutorId: String): Result<ChatRoom> =
+    fun navigateToChatFromTutor(context: Context, learnerId: String, learnerName: String? = null) {
+        scope.launch {
+            try {
+                Log.d(TAG, "Starting navigation to chat with learner: $learnerId")
+                val tutorId = AuthManager.getCurrentUserId() ?: run {
+                    Toast.makeText(context, "User not authenticated", Toast.LENGTH_SHORT).show()
+                    return@launch
+                }
+
+                // Check for existing room first
+                val chatRepository = ChatRepository(context)
+                val roomsResult = chatRepository.getRooms()
+
+                roomsResult.fold(
+                    onSuccess = { rooms ->
+                        // Try to find existing room
+                        val existingRoom = rooms.find { it.learnerId == learnerId }
+
+                        val intent = Intent(context, ChatRoomActivity::class.java).apply {
+                            if (existingRoom != null) {
+                                // If room exists, pass all room info
+                                putExtra("ROOM_ID", existingRoom.id)
+                                putExtra("LEARNER_ID", existingRoom.learnerId)
+                                putExtra("TUTOR_ID", existingRoom.tutorId)
+                                putExtra("LEARNER_NAME", existingRoom.learnerName)
+                                putExtra("TUTOR_NAME", existingRoom.tutorName)
+                            } else {
+                                // For new room, pass what we know
+                                putExtra("LEARNER_ID", learnerId)
+                                putExtra("TUTOR_ID", tutorId)
+                                putExtra("LEARNER_NAME", learnerName)
+                            }
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                        context.startActivity(intent)
+                    },
+                    onFailure = { error ->
+                        // If we fail to get rooms, still allow navigation but with basic info
+                        val intent = Intent(context, ChatRoomActivity::class.java).apply {
+                            putExtra("LEARNER_ID", learnerId)
+                            putExtra("TUTOR_ID", tutorId)
+                            putExtra("LEARNER_NAME", learnerName)
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                        }
+                        context.startActivity(intent)
+                        Log.e(TAG, "Failed to check existing rooms", error)
+                    }
+                )
+            } catch (e: Exception) {
+                Log.e(TAG, "Exception in navigateToChat", e)
+                Toast.makeText(context, "Failed to start chat", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    suspend fun findOrCreateChatRoom(
+        context: Context,
+        learnerId: String,
+        tutorId: String
+    ): Result<ChatRoom> =
         withContext(Dispatchers.IO) {
             try {
                 val chatRepository = ChatRepository(context)
-                val learnerId = AuthManager.getCurrentUserId()
-                if (learnerId == null) {
-                    Log.e(TAG, "User not authenticated")
-                    return@withContext Result.failure(Exception("User not authenticated"))
-                }
 
                 // First try to find existing room
                 val roomsResult = chatRepository.getRooms()
                 roomsResult.fold(
                     onSuccess = { rooms ->
                         Log.d(TAG, "Found ${rooms.size} chat rooms")
-                        rooms.find { it.tutorId == tutorId }?.let {
+
+                        rooms.find { it.learnerId == learnerId && it.tutorId == tutorId }?.let {
                             Log.d(TAG, "Found existing chat room: ${it.id}")
                             return@withContext Result.success(it)
                         }
+
                     },
                     onFailure = {
                         Log.e(TAG, "Failed to get rooms", it)

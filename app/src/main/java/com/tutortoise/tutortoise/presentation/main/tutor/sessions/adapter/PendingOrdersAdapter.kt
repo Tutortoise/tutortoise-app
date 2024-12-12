@@ -106,10 +106,10 @@ class PendingOrdersAdapter(
                     .into(ivProfilePicture)
 
                 btnChat.setOnClickListener {
-                    ChatManager.navigateToChat(
+                    ChatManager.navigateToChatFromTutor(
                         context = root.context,
-                        tutorId = order.tutorId,
-                        tutorName = order.tutorName
+                        learnerId = order.learnerId,
+                        learnerName = order.learnerName
                     )
                 }
 

@@ -162,7 +162,7 @@ class ChatViewModel(private val context: Context) : ViewModel() {
         return try {
             _isLoading.value = true
             val result = withContext(Dispatchers.IO) {
-                ChatManager.findOrCreateChatRoom(context, tutorId)
+                ChatManager.findOrCreateChatRoom(context, learnerId, tutorId)
             }
 
             result.fold(
