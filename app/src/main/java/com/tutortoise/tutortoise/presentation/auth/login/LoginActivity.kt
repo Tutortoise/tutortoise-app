@@ -52,6 +52,18 @@ class LoginActivity : AppCompatActivity() {
         setupListeners()
     }
 
+    private fun navigateToRegister() {
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            data = Uri.parse("tutortoise://onboarding/register")
+            setClassName(
+                this@LoginActivity,
+                "com.tutortoise.tutortoise.presentation.onboarding.OnboardingActivity"
+            )
+        }
+        startActivity(intent)
+
+    }
+
     private fun setupListeners() {
         binding.btnSignIn.setOnClickListener {
             val email = binding.tilEmail.editText?.text.toString().trim()
@@ -63,14 +75,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnSignUp.setOnClickListener {
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                data = Uri.parse("tutortoise://onboarding/register")
-                setClassName(
-                    this@LoginActivity,
-                    "com.tutortoise.tutortoise.presentation.onboarding.OnboardingActivity"
-                )
-            }
-            startActivity(intent)
+            navigateToRegister()
         }
 
         binding.btnGoogleSignIn.setOnClickListener {
@@ -101,7 +106,10 @@ class LoginActivity : AppCompatActivity() {
                                     // Do nothing
                                 }
 
-                                else -> showError(throwable.toString())
+                                else -> {
+                                    showError("You are not registered with us yet!")
+                                    navigateToRegister()
+                                }
                             }
                         }
                     )
