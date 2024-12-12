@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.tutortoise.tutortoise.data.repository.OrderRepository
 import com.tutortoise.tutortoise.databinding.FragmentLearnerScheduleSessionBinding
 import com.tutortoise.tutortoise.presentation.main.MainActivity
-import com.tutortoise.tutortoise.presentation.main.learner.session.adapter.OrdersAdapter
+import com.tutortoise.tutortoise.presentation.main.learner.session.adapter.ScheduledOrdersAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -57,7 +57,7 @@ class ScheduledLearnerSessionFragment : Fragment() {
                                 LinearLayoutManager.VERTICAL,
                                 false
                             )
-                            binding.rvOrders.adapter = OrdersAdapter(orders)
+                            binding.rvOrders.adapter = ScheduledOrdersAdapter(orders)
                         }
                     }
 
