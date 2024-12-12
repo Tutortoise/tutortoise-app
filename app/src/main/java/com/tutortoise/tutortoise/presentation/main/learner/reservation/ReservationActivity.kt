@@ -38,6 +38,7 @@ class ReservationActivity : AppCompatActivity() {
     private var tutorName: String = ""
     private var hourlyRate: Int = 0
     private var typeLesson: String = ""
+    private var categoryName: String = ""
 
     private var selectedDatetime = ""
     private var selectedTotalHour = 0
@@ -54,6 +55,7 @@ class ReservationActivity : AppCompatActivity() {
         tutorName = intent.getStringExtra("TUTOR_NAME") ?: ""
         hourlyRate = intent.getIntExtra("HOURLY_RATE", 0)
         typeLesson = intent.getStringExtra("TYPE_LESSON") ?: ""
+        categoryName = intent.getStringExtra("CATEGORY_NAME") ?: ""
 
         setupUI()
 
@@ -131,6 +133,7 @@ class ReservationActivity : AppCompatActivity() {
                     putExtra("TOTAL_HOURS", selectedTotalHour)
                     putExtra("DATETIME", selectedDatetime)
                     putExtra("NOTE", binding.etNote.text.toString())
+                    putExtra("CATEGORY_NAME", categoryName)
                 }
 
                 startActivity(intent)
