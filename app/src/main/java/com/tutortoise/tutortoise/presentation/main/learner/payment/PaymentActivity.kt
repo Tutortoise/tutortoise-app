@@ -1,9 +1,14 @@
 package com.tutortoise.tutortoise.presentation.main.learner.payment
 
+import android.graphics.Color
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.tutortoise.tutortoise.R
 import com.tutortoise.tutortoise.data.repository.OrderRepository
@@ -89,6 +94,39 @@ class PaymentActivity : AppCompatActivity() {
                 R.string.formatted_price,
                 (hourlyRate.times(totalHours) + 5000).formatWithThousandsSeparator()
             )
+
+            tvOnlineStatus.visibility = View.GONE
+            tvOnsiteStatus.visibility = View.GONE
+
+            when (typeLesson) {
+                "online" -> {
+                    tvOnlineStatus.apply {
+                        background =
+                            ContextCompat.getDrawable(
+                                context,
+                                R.drawable.ic_indicator_active_online
+                            )
+                        findViewById<TextView>(R.id.tvOnline).setTextColor(Color.WHITE)
+                        findViewById<ImageView>(R.id.ivOnline).setColorFilter(Color.WHITE)
+                        visibility = View.VISIBLE
+                    }
+                }
+
+                "offline" -> {
+                    tvOnsiteStatus.apply {
+                        background =
+                            ContextCompat.getDrawable(
+                                context,
+                                R.drawable.ic_indicator_active_onsite
+                            )
+                        findViewById<TextView>(R.id.tvOnsite).setTextColor(Color.WHITE)
+                        findViewById<ImageView>(R.id.ivOnsite).setColorFilter(Color.WHITE)
+                        visibility = View.VISIBLE
+                    }
+                }
+            }
+
+            tvNote.text = note.takeIf { it.isNotEmpty() } ?: "-"
 
             Glide.with(this@PaymentActivity)
                 .load(Constants.getProfilePictureUrl(tutorId))
