@@ -80,6 +80,11 @@ class PaymentActivity : AppCompatActivity() {
                 totalHours
             ) + " lesson"
 
+            tvTutoringPrice.text = resources.getString(
+                R.string.formatted_price,
+                (hourlyRate.times(totalHours)).formatWithThousandsSeparator()
+            )
+
             tvTotalPrice.text = resources.getString(
                 R.string.formatted_price,
                 (hourlyRate.times(totalHours) + 5000).formatWithThousandsSeparator()
