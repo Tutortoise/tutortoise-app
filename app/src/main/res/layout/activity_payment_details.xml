@@ -37,7 +37,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginHorizontal="16dp"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
@@ -59,26 +59,94 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:fontFamily="@font/montserrat_bold"
+                    android:fontFamily="@font/montserrat_semi_bold"
                     android:text="Tutories Name"
-                    android:textSize="20dp"
+                    android:textSize="15dp"
                     android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tvTutorName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_semi_bold"
+                    android:fontFamily="@font/montserrat_medium"
                     android:text="Tutor Name"
-                    android:textSize="18dp"
+                    android:textSize="14dp"
                     android:textColor="@color/black" />
+
+                <!-- Mode Indicators Container -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="start"
+                    android:orientation="horizontal">
+
+                    <!-- Onsite Mode -->
+                    <LinearLayout
+                        android:id="@+id/tvOnsiteStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="28dp"
+                        android:background="@drawable/ic_indicator_inactive"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="12dp">
+
+                        <ImageView
+                            android:id="@+id/ivOnsite"
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/ic_location_tutor_detail"
+                            app:tint="#757575" />
+
+                        <TextView
+                            android:id="@+id/tvOnsite"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/montserrat_semi_bold"
+                            android:text="@string/onsite"
+                            android:textColor="#757575"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <!-- Online Mode -->
+                    <LinearLayout
+                        android:id="@+id/tvOnlineStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="28dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/ic_indicator_inactive"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="12dp">
+
+                        <ImageView
+                            android:id="@+id/ivOnline"
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/ic_computer"
+                            app:tint="#757575" />
+
+                        <TextView
+                            android:id="@+id/tvOnline"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="@font/montserrat_semi_bold"
+                            android:text="@string/online"
+                            android:textColor="#757575"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
+
+
 
             <!-- Profile Image -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/ivTutorImageCard"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 app:cardCornerRadius="15dp">
 
                 <ImageView
@@ -179,6 +247,33 @@
                 android:layout_gravity="end"
                 android:fontFamily="@font/montserrat_medium"
                 android:text="09:00 - 10:00"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/cardViewTutor">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="Note"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tvNote"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/montserrat_medium"
+                android:text="Text Note"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
