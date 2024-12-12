@@ -95,4 +95,4 @@ jobs:
         uses: 'google-github-actions/upload-cloud-storage@v2'
         with:
           path: 'app/build/outputs/apk/release/app-release.apk'
-          destination: '${{ secrets.GCS_APK_URI }}'
+          destination: '${{ secrets.GCS_DESTINATION }}'
