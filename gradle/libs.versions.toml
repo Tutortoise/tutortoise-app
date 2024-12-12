@@ -46,6 +46,7 @@ playServicesAuth = "20.7.0"
 firebaseMessaging = "24.1.0"
 shimmer = "0.5.0"
 firebaseDatabase = "21.0.0"
+core = "1.15.0"
 
 
 [libraries]
@@ -92,6 +93,7 @@ firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging
 shimmer-android = { group = "com.facebook.shimmer", name = "shimmer", version.ref = "shimmer" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 ucrop = { module = "com.github.yalantis:ucrop", version.ref = "ucrop" }
+androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
