@@ -179,6 +179,9 @@ interface ApiService {
     @GET("tutors/services/recommendations")
     suspend fun getTutoriesRecommendation(): Response<ApiResponse<RecommendationResponse>>
 
+    @GET("tutors/services/interaction/{tutoriesId}")
+    suspend fun trackInteraction(@Path("tutoriesId") tutoriesId: String): Response<ApiResponse<Int>>
+
     // Review
     @GET("reviews/tutories/{tutoriesId}")
     suspend fun getReviews(

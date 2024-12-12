@@ -196,4 +196,12 @@ class TutoriesRepository(context: Context) {
             null
         }
     }
+
+    suspend fun trackInteraction(tutoriesId: String) {
+        try {
+            apiService.trackInteraction(tutoriesId)
+        } catch (e: Exception) {
+            Log.e("TutoriesRepository", "Failed to track interaction", e)
+        }
+    }
 }

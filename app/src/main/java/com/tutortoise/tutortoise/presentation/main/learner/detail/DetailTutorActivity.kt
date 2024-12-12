@@ -12,6 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +24,7 @@ import com.tutortoise.tutortoise.data.model.LessonType
 import com.tutortoise.tutortoise.data.pref.ApiConfig
 import com.tutortoise.tutortoise.data.pref.ApiService
 import com.tutortoise.tutortoise.data.repository.ReviewRepository
+import com.tutortoise.tutortoise.data.repository.TutoriesRepository
 import com.tutortoise.tutortoise.databinding.ActivityDetailTutorBinding
 import com.tutortoise.tutortoise.domain.ChatManager
 import com.tutortoise.tutortoise.presentation.main.learner.detail.adapter.AlsoTeachAdapter
@@ -50,6 +52,7 @@ class DetailTutorActivity : AppCompatActivity() {
     private var currentTutorName: String = ""
 
     private lateinit var reviewRepository: ReviewRepository
+    private lateinit var tutoriesRepository: TutoriesRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,9 +63,14 @@ class DetailTutorActivity : AppCompatActivity() {
         currentTutorId = intent.getStringExtra("TUTOR_ID") ?: ""
 
         reviewRepository = ReviewRepository(this)
+        tutoriesRepository = TutoriesRepository(this)
 
         fetchTutoriesDetails()
         fetchReviews()
+        lifecycleScope.launch {
+            tutoriesRepository.trackInteraction(currentTutoriesId)
+        }
+
 
         binding.btnBack.setOnClickListener {
             finish()
