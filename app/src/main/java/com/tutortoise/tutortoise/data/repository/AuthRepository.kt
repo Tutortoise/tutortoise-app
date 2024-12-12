@@ -65,6 +65,9 @@ class AuthRepository(private val context: Context) {
                     role = role
                 )
             )
+
+            login(email, password)
+
             Result.success(response)
         } catch (e: HttpException) {
             val errorBody = ApiConfig.parseError(e.response()!!)
