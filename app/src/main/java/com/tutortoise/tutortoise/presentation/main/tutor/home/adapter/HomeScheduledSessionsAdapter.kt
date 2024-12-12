@@ -16,7 +16,7 @@ import com.tutortoise.tutortoise.utils.isoToReadableTime
 
 class HomeScheduledSessionsAdapter(
     private var items: List<SessionListItem>,
-    private val onChatClick: (String) -> Unit
+    private val onChatClick: (String, String) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var lastAnimatedPosition = -1
@@ -122,7 +122,7 @@ class HomeScheduledSessionsAdapter(
                     .circleCrop()
                     .into(ivProfilePicture)
 
-                btnChat.setOnClickListener { onChatClick(order.learnerId) }
+                btnChat.setOnClickListener { onChatClick(order.learnerId, order.learnerName) }
             }
         }
     }
