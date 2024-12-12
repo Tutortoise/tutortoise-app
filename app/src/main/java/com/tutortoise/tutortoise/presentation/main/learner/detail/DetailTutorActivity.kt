@@ -290,6 +290,7 @@ class DetailTutorActivity : AppCompatActivity() {
             val intent = Intent(this, ReservationActivity::class.java).apply {
                 putExtra("TUTOR_ID", currentTutorId)
                 putExtra("TUTORIES_ID", currentTutoriesId)
+                putExtra("TUTORIES_NAME", tutories.name)
                 putExtra("TUTOR_NAME", currentTutorName)
                 putExtra("HOURLY_RATE", tutories.hourlyRate)
                 putExtra("TYPE_LESSON", tutories.typeLesson)

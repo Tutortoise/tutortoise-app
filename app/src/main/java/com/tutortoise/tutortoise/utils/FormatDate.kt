@@ -8,6 +8,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
+import java.util.Calendar
 import java.util.Locale
 import java.util.TimeZone
 import kotlin.collections.component1
@@ -80,6 +81,28 @@ fun isoToReadableTime(isoDate: String): String {
 
     val date = inputFormat.parse(isoDate)
     return outputFormat.format(date!!)
+}
+
+fun isoToReadableTimeRange(isoDate: String, totalHours: Int): String {
+    val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+    inputFormat.timeZone = TimeZone.getTimeZone("UTC")
+
+    val outputFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+    outputFormat.timeZone = TimeZone.getDefault()
+
+    val date = inputFormat.parse(isoDate) ?: throw IllegalArgumentException("Invalid date format")
+
+    val startTime = outputFormat.format(date)
+
+    // Calculate the end time
+    val calendar = Calendar.getInstance().apply {
+        time = date
+        add(Calendar.HOUR_OF_DAY, totalHours)
+    }
+    val endTime = outputFormat.format(calendar.time)
+
+    // Return the formatted time range
+    return "$startTime - $endTime"
 }
 
 fun isoToReadableDate(isoDate: String): String {

@@ -1,5 +1,6 @@
 package com.tutortoise.tutortoise.presentation.main.learner.reservation
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -12,6 +13,7 @@ import com.google.android.flexbox.FlexboxLayoutManager
 import com.tutortoise.tutortoise.data.repository.OrderRepository
 import com.tutortoise.tutortoise.data.repository.TutorRepository
 import com.tutortoise.tutortoise.databinding.ActivityReservationBinding
+import com.tutortoise.tutortoise.presentation.main.learner.payment.PaymentActivity
 import com.tutortoise.tutortoise.presentation.main.learner.reservation.adapter.DateAdapter
 import com.tutortoise.tutortoise.presentation.main.learner.reservation.adapter.TimeAdapter
 import com.tutortoise.tutortoise.utils.groupAvailabilityByDate
@@ -31,6 +33,7 @@ class ReservationActivity : AppCompatActivity() {
     }
 
     private var tutoriesId: String = ""
+    private var tutoriesName: String = ""
     private var tutorId: String = ""
     private var tutorName: String = ""
     private var hourlyRate: Int = 0
@@ -46,6 +49,7 @@ class ReservationActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         tutoriesId = intent.getStringExtra("TUTORIES_ID") ?: ""
+        tutoriesName = intent.getStringExtra("TUTORIES_NAME") ?: ""
         tutorId = intent.getStringExtra("TUTOR_ID") ?: ""
         tutorName = intent.getStringExtra("TUTOR_NAME") ?: ""
         hourlyRate = intent.getIntExtra("HOURLY_RATE", 0)
@@ -117,15 +121,19 @@ class ReservationActivity : AppCompatActivity() {
         // Handle save button
         binding.btnSave.setOnClickListener {
             if (validateOrder()) {
-                viewModel.reserveOrder(
-                    tutoriesId,
-                    selectedTypeLesson,
-                    selectedDatetime,
-                    selectedTotalHour,
-                    binding.etNote.text.toString()
-                )
+                val intent = Intent(this, PaymentActivity::class.java).apply {
+                    putExtra("TUTORIES_ID", tutoriesId)
+                    putExtra("TUTORIES_NAME", tutoriesName)
+                    putExtra("TUTOR_ID", tutorId)
+                    putExtra("TUTOR_NAME", tutorName)
+                    putExtra("HOURLY_RATE", hourlyRate)
+                    putExtra("TYPE_LESSON", selectedTypeLesson)
+                    putExtra("TOTAL_HOURS", selectedTotalHour)
+                    putExtra("DATETIME", selectedDatetime)
+                    putExtra("NOTE", binding.etNote.text.toString())
+                }
 
-                Toast.makeText(this, "Reservation submitted", Toast.LENGTH_SHORT).show()
+                startActivity(intent)
                 finish()
             }
         }

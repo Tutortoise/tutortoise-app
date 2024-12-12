@@ -36,6 +36,10 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".presentation.main.learner.payment.PaymentActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".presentation.chat.ChatRoomActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -115,7 +119,8 @@
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
         <service
             android:name="com.tutortoise.tutortoise.data.pref.MessagingService"
             android:exported="false">

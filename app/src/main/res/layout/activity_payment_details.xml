@@ -62,7 +62,7 @@
                     android:fontFamily="@font/montserrat_bold"
                     android:text="Tutories Name"
                     android:textSize="20dp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tvTutorName"
@@ -71,7 +71,7 @@
                     android:fontFamily="@font/montserrat_semi_bold"
                     android:text="Tutor Name"
                     android:textSize="18dp"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black" />
             </LinearLayout>
 
             <!-- Profile Image -->
@@ -96,7 +96,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="16dp"
-            android:background="@color/strokeColor"/>
+            android:background="@color/strokeColor" />
 
         <LinearLayout
             android:id="@+id/tutoriesCategory"
@@ -187,7 +187,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="16dp"
-            android:background="@color/strokeColor"/>
+            android:background="@color/strokeColor" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -198,6 +198,7 @@
             app:layout_constraintTop_toBottomOf="@+id/cardViewTutor">
 
             <TextView
+                android:id="@+id/tvTotalHours"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -249,7 +250,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="16dp"
-            android:background="@color/strokeColor"/>
+            android:background="@color/strokeColor" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -279,6 +280,7 @@
                 android:textSize="18sp" />
         </LinearLayout>
     </LinearLayout>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnConfirm"
         android:layout_width="match_parent"
@@ -292,5 +294,5 @@
         android:textSize="14sp"
         app:backgroundTint="@color/darkgreen"
         app:cornerRadius="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
