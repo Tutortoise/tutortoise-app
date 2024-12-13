@@ -125,7 +125,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_semi_bold"
                             android:letterSpacing="0.02"
-                            android:text="Dony Gacoan"
+                            android:text="@string/tutor_name"
                             android:textColor="@color/black"
                             android:textSize="16sp" />
 
